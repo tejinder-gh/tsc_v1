@@ -1,0 +1,193 @@
+/*
+ * What: Global styles - Tailwind v4 theme tokens, base typography, focus styles,
+ *       the hero reveal animation, and custom range-slider styling for the ROI calculator.
+ * Why: Tailwind v4 is configured in CSS (no tailwind.config); the design system's named
+ *      palette and font pairing live here as the single source of truth.
+ * How: @theme defines color/container tokens; @theme inline maps font utilities to the
+ *      next/font CSS variables. prefers-reduced-motion disables the only animation.
+ * From Where: Design plan - "approachable precision" direction, 2026-06.
+ * When: 2026-06.
+ */
+
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #14242e;
+  --color-slate: #4a5c66;
+  --color-paper: #fbfbfa;
+  --color-mist: #ecf1ef;
+  --color-ledger: #0c7e54;
+  --color-ledger-dark: #0a6b47;
+  --container-site: 72rem;
+}
+
+@theme inline {
+  --font-display: var(--font-bricolage);
+  --font-body: var(--font-public-sans);
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-slate);
+  font-family: var(--font-public-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ledger);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Hero reveal - the one orchestrated animation on the site. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-reveal {
+  animation: rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Scroll reveal - hidden state only applies when JS is running (.js on <html>),
+   so no-JS visitors and crawlers always see full content. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Entrance micro-animations for overlays and bars. */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-pop {
+  animation: pop-in 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade {
+  animation: fade-in 0.25s ease-out both;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal {
+    animation: none;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ROI calculator sliders - signature element, ledger-green thumbs on the ink card. */
+input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-ledger);
+  border: 3px solid #ffffff;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-ledger);
+  border: 3px solid #ffffff;
+}
+
+input[type="range"]:focus-visible {
+  outline-offset: 6px;
+}
+
+/* FAQ accordion marker */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .faq-chevron {
+  transform: rotate(180deg);
+}
+details[open] .faq-body {
+  animation: pop-in 0.25s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}

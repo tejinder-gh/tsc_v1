@@ -1,0 +1,94 @@
+/**
+ * What: Industry index - all industries grouped into the two segments, with anchors
+ *       (#local-businesses, #practices) that the home segment router links to.
+ * Why: The router needs a destination per segment, and the index internally links every
+ *      industry funnel page for SEO.
+ * How: Server component grouping content/industries.ts by segment.
+ * From Where: TheSkillCorner marketing site build brief, 2026-06.
+ * When: 2026-06.
+ */
+
+import type { Metadata } from "next";
+import Link from "next/link";
+import { FinalCta } from "@/components/FinalCta";
+import { industriesBySegment } from "@/content/industries";
+
+export const metadata: Metadata = {
+  title: "Industries we automate",
+  description:
+    "AI automation for convenience stores, restaurants, salons, medical clinics, dental offices, and law firms. Find your industry and see exactly what we automate.",
+};
+
+function IndustryGroup({
+  id,
+  title,
+  intro,
+  segment,
+}: {
+  id: string;
+  title: string;
+  intro: string;
+  segment: "local" | "practice";
+}) {
+  const items = industriesBySegment(segment);
+  return (
+    <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-20">
+      <h2 id={`${id}-heading`} className="font-display text-2xl font-bold sm:text-3xl">
+        {title}
+      </h2>
+      <p className="mt-2 max-w-2xl">{intro}</p>
+      <div className="mt-6 grid gap-5 md:grid-cols-3">
+        {items.map((industry) => (
+          <Link
+            key={industry.slug}
+            href={`/for/${industry.slug}`}
+            className="group flex flex-col rounded-xl border-2 border-ink/10 bg-white p-6 transition-colors hover:border-ledger"
+          >
+            <h3 className="font-display text-xl font-bold">{industry.name}</h3>
+            <p className="mt-2 flex-1 leading-relaxed">{industry.cardLine}</p>
+            <p className="mt-4 text-sm font-semibold text-ledger">
+              See what we automate
+              <span
+                aria-hidden="true"
+                className="ml-2 inline-block transition-transform group-hover:translate-x-1"
+              >
+                &rarr;
+              </span>
+            </p>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default function ForIndexPage() {
+  return (
+    <>
+      <div className="mx-auto max-w-site px-4 py-16 sm:px-6">
+        <h1 className="max-w-3xl font-display text-4xl font-bold sm:text-5xl">
+          Built for how your industry actually works
+        </h1>
+        <p className="mt-4 max-w-2xl text-lg">
+          Same engineering, different vocabulary. Pick your industry and see the exact automations,
+          the hours they save, and what they cost.
+        </p>
+        <div className="mt-12 space-y-14">
+          <IndustryGroup
+            id="local-businesses"
+            title="Local businesses"
+            intro="Fixed prices, plain talk, fast setup. Automations that start paying for themselves in weeks."
+            segment="local"
+          />
+          <IndustryGroup
+            id="practices"
+            title="Practices and firms"
+            intro="Privacy-first builds that fit how your office already works. PIPEDA/PHIPA-aware by design."
+            segment="practice"
+          />
+        </div>
+      </div>
+      <FinalCta location="for_index" />
+    </>
+  );
+}
