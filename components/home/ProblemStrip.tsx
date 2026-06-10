@@ -13,6 +13,7 @@
 import { problems } from "@/content/home";
 import { useSegment } from "@/lib/segment-context";
 
+import { Reveal } from "@/components/Reveal";
 export function ProblemStrip() {
   const { segment } = useSegment();
   const items = problems[segment ?? "neutral"];

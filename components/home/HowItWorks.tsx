@@ -9,6 +9,7 @@
 
 import { howItWorks } from "@/content/home";
 
+import { Reveal } from "@/components/Reveal";
 export function HowItWorks() {
   return (
     <section aria-label="How it works" className="bg-mist">
