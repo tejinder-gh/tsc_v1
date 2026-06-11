@@ -55,7 +55,7 @@ export default function ChecklistPage() {
             ))}
           </ul>
         </div>
-        <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-ink/5 sm:p-8">
+        <div className="rounded-xl bg-white p-7 shadow-sm border-2 border-ink/10 sm:p-8">
           <h2 className="font-display text-xl font-bold tracking-[-0.02em] text-ink">
             Where should we send it?
           </h2>

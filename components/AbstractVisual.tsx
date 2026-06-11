@@ -53,19 +53,19 @@ function HomeVisual() {
         />
       </svg>
 
-      <div className="absolute top-[10%] left-[10%] flex h-16 w-16 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[10%] left-[10%] flex h-16 w-16 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-4 w-4 rounded-full bg-ledger/80" />
       </div>
-      <div className="absolute top-[15%] right-[10%] flex h-14 w-14 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[15%] right-[10%] flex h-14 w-14 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-3 w-3 rounded-full bg-slate-300" />
       </div>
       <div className="absolute top-[45%] left-[40%] flex h-20 w-20 items-center justify-center rounded-3xl border border-white/50 bg-white/80 shadow-xl backdrop-blur-md">
         <div className="h-6 w-6 animate-pulse rounded-full bg-accent" />
       </div>
-      <div className="absolute bottom-[10%] left-[15%] flex h-14 w-14 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute bottom-[10%] left-[15%] flex h-14 w-14 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-3 w-3 rounded-full bg-slate-300" />
       </div>
-      <div className="absolute bottom-[15%] right-[15%] flex h-16 w-16 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute bottom-[15%] right-[15%] flex h-16 w-16 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-4 w-4 rounded-full bg-ledger/80" />
       </div>
 
@@ -115,13 +115,13 @@ function ServicesVisual() {
       <div className="absolute top-[50%] left-[50%] flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl border border-white/50 bg-white/80 shadow-xl backdrop-blur-md">
         <div className="h-8 w-8 animate-pulse rounded-full bg-accent" />
       </div>
-      <div className="absolute top-[20%] left-[50%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[20%] left-[50%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-3 w-3 rounded-full bg-ledger" />
       </div>
-      <div className="absolute top-[65%] left-[76%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[65%] left-[76%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-3 w-3 rounded-full bg-ledger" />
       </div>
-      <div className="absolute top-[65%] left-[24%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[65%] left-[24%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-3 w-3 rounded-full bg-slate-300" />
       </div>
 
@@ -163,13 +163,13 @@ function IndustriesVisual() {
       <div className="absolute top-[50%] left-[12.5%] flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl border border-white/50 bg-white/80 shadow-xl backdrop-blur-md">
         <div className="h-6 w-6 animate-pulse rounded-full bg-accent" />
       </div>
-      <div className="absolute top-[20%] left-[62.5%] flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[20%] left-[62.5%] flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-4 w-4 rounded-full bg-ledger" />
       </div>
-      <div className="absolute top-[50%] left-[62.5%] flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[50%] left-[62.5%] flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-4 w-4 rounded-full bg-ledger" />
       </div>
-      <div className="absolute top-[80%] left-[62.5%] flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[80%] left-[62.5%] flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-4 w-4 rounded-full bg-slate-300" />
       </div>
 
@@ -206,13 +206,13 @@ function AboutVisual() {
         />
       </svg>
 
-      <div className="absolute top-[10%] left-[50%] flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[10%] left-[50%] flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-2 w-2 rounded-full bg-ledger" />
       </div>
       <div className="absolute top-[50%] left-[10%] flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-2 w-2 rounded-full bg-slate-400" />
       </div>
-      <div className="absolute top-[90%] left-[50%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute top-[90%] left-[50%] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-3 w-3 rounded-full bg-ledger" />
       </div>
       <div className="absolute top-[50%] left-[50%] flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/80 shadow-2xl backdrop-blur-md">
@@ -242,13 +242,13 @@ function PipelineVisual() {
         />
       </svg>
 
-      <div className="absolute left-[12.5%] flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute left-[12.5%] flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-4 w-4 rounded-full bg-slate-300" />
       </div>
       <div className="absolute left-[50%] flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-3xl border border-white/50 bg-white/80 shadow-xl backdrop-blur-md">
         <div className="h-6 w-6 animate-pulse rounded-full bg-accent" />
       </div>
-      <div className="absolute left-[87.5%] flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
+      <div className="absolute left-[87.5%] flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-xl border border-white/40 bg-white/60 shadow-lg backdrop-blur-md">
         <div className="h-4 w-4 rounded-full bg-ledger" />
       </div>
 
@@ -261,15 +261,15 @@ function PipelineVisual() {
 function ChecklistVisual() {
   return (
     <div className="relative w-full max-w-sm aspect-square">
-      <div className="absolute top-[20%] left-[20%] flex h-24 w-48 -translate-x-1/2 -translate-y-1/2 items-center rounded-2xl border border-white/40 bg-white/40 shadow-sm backdrop-blur-md p-4 -rotate-12">
+      <div className="absolute top-[20%] left-[20%] flex h-24 w-48 -translate-x-1/2 -translate-y-1/2 items-center rounded-xl border border-white/40 bg-white/40 shadow-sm backdrop-blur-md p-4 -rotate-12">
         <div className="h-4 w-4 rounded-sm bg-ledger/40 mr-3" />
         <div className="h-2 w-20 rounded-full bg-slate-300/60" />
       </div>
-      <div className="absolute top-[50%] left-[50%] flex h-24 w-48 -translate-x-1/2 -translate-y-1/2 items-center rounded-2xl border border-white/50 bg-white/60 shadow-md backdrop-blur-md p-4 rotate-[5deg]">
+      <div className="absolute top-[50%] left-[50%] flex h-24 w-48 -translate-x-1/2 -translate-y-1/2 items-center rounded-xl border border-white/50 bg-white/60 shadow-md backdrop-blur-md p-4 rotate-[5deg]">
         <div className="h-4 w-4 rounded-sm bg-accent/80 mr-3 animate-pulse" />
         <div className="h-2 w-24 rounded-full bg-slate-400/80" />
       </div>
-      <div className="absolute top-[80%] left-[80%] flex h-24 w-48 -translate-x-1/2 -translate-y-1/2 items-center rounded-2xl border border-white/40 bg-white/40 shadow-sm backdrop-blur-md p-4 rotate-15">
+      <div className="absolute top-[80%] left-[80%] flex h-24 w-48 -translate-x-1/2 -translate-y-1/2 items-center rounded-xl border border-white/40 bg-white/40 shadow-sm backdrop-blur-md p-4 rotate-15">
         <div className="h-4 w-4 rounded-sm bg-slate-300/40 mr-3" />
         <div className="h-2 w-16 rounded-full bg-slate-300/60" />
       </div>

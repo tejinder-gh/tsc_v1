@@ -74,7 +74,7 @@ export function ExitIntentModal() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="exit-modal-heading"
-        className="w-full max-w-md rounded-2xl bg-white p-7 shadow-2xl"
+        className="w-full max-w-md rounded-xl bg-white p-7 shadow-2xl"
       >
         <div className="flex items-start justify-between gap-4">
           <h2 id="exit-modal-heading" className="font-display text-2xl font-bold">

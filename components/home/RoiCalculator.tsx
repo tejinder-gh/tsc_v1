@@ -60,7 +60,7 @@ export function RoiCalculator() {
 
   return (
     <section aria-labelledby="roi-heading" className="mx-auto max-w-site px-4 py-16 sm:px-6">
-      <div className="rounded-2xl bg-ink p-6 sm:p-10 md:p-12">
+      <div className="rounded-xl bg-ink p-6 sm:p-10 md:p-12">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <h2

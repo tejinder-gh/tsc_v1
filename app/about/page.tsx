@@ -42,7 +42,7 @@ export default function AboutPage() {
             </div>
           </div>
           <aside>
-            <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-ink/5">
+            <div className="relative overflow-hidden rounded-xl bg-white shadow-sm border-2 border-ink/10">
               <AbstractVisual variant="about" />
               <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white/90 to-transparent pt-12 pb-4 text-center">
                 <p className="max-w-[14rem] mx-auto px-4 text-sm font-medium text-slate">
@@ -50,7 +50,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="mt-6 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5">
+            <div className="mt-6 rounded-xl bg-white p-6 shadow-sm border-2 border-ink/10">
               <h2 className="font-display text-lg font-bold">Why owners trust the work</h2>
               <ul className="mt-3 space-y-2.5">
                 {about.credibility.map((item) => (

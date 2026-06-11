@@ -45,10 +45,10 @@ export function SegmentRouter() {
                 });
               }}
               aria-current={selected ? "true" : undefined}
-              className={`group flex flex-col justify-between rounded-2xl bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
+              className={`group flex flex-col justify-between rounded-xl bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
                 selected
-                  ? "ring-2 ring-ledger ring-offset-2 ring-offset-paper"
-                  : "ring-1 ring-ink/5 hover:ring-ink/15"
+                  ? "border-2 border-ledger"
+                  : "border-2 border-ink/10 hover:border-ledger"
               }`}
             >
               <div>

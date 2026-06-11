@@ -11,7 +11,7 @@
  */
 
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Public_Sans, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { ExitIntentModal } from "@/components/capture/ExitIntentModal";
@@ -24,9 +24,15 @@ import { SegmentProvider } from "@/lib/segment-context";
 import { BUSINESS_ID } from "@/lib/structured-data";
 import "./globals.css";
 
-const displayFont = Inter({
+const displayFont = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-bricolage",
+  display: "swap",
+});
+
+const bodyFont = Public_Sans({
+  subsets: ["latin"],
+  variable: "--font-public-sans",
   display: "swap",
 });
 
@@ -96,7 +102,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
   return (
-    <html lang="en" className={`${displayFont.variable} ${monoFont.variable}`}>
+    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`}>
       <body className="font-body antialiased">
         {/* Flags JS availability before first paint so scroll-reveal hidden states
             never apply for no-JS visitors or crawlers. */}

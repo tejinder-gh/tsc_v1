@@ -43,7 +43,7 @@ export default function ContactPage() {
           <ContactForm />
         </div>
         <aside className="space-y-5">
-          <div className="rounded-2xl bg-mist p-6 shadow-sm ring-1 ring-ink/5">
+          <div className="rounded-xl bg-mist p-6 shadow-sm border-2 border-ink/10">
             <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">
               The faster path
             </h2>
@@ -57,7 +57,7 @@ export default function ContactPage() {
               </CtaLink>
             </div>
           </div>
-          <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5">
+          <div className="rounded-xl bg-white p-6 shadow-sm border-2 border-ink/10">
             <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">
               Just browsing?
             </h2>

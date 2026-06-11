@@ -33,7 +33,7 @@ export function ServicesGrid({ id }: { id?: string }) {
           <RevealItem key={service.slug} className="h-full">
             <Link
               href={`/services/${service.slug}`}
-              className="group flex h-full flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-2 hover:ring-ledger"
+              className="group flex h-full flex-col rounded-xl bg-white p-6 shadow-sm border-2 border-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-ledger"
             >
               <p className="text-xs font-semibold uppercase tracking-wide text-slate">
                 {service.name}

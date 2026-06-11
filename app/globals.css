@@ -16,12 +16,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #0F172A; /* slate-900 */
-  --color-slate: #475569; /* slate-600 */
-  --color-paper: #F8FAFC; /* slate-50 */
-  --color-mist: #F1F5F9; /* slate-100 */
-  --color-ledger: #115E59; /* teal-800 */
-  --color-ledger-dark: #134E4A; /* teal-900 */
+  --color-ink: #14242E; /* custom ink */
+  --color-slate: #4A5C66; /* custom slate */
+  --color-paper: #FBFBFA; /* custom paper */
+  --color-mist: #ECF1EF; /* custom mist */
+  --color-ledger: #0C7E54; /* custom ledger */
+  --color-ledger-dark: #0A6B47; /* custom ledger dark */
   --color-accent: #10B981; /* emerald-500, for hover states */
   --container-site: 72rem;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -31,8 +31,8 @@
 }
 
 @theme inline {
-  --font-display: var(--font-inter);
-  --font-body: var(--font-inter);
+  --font-display: var(--font-bricolage);
+  --font-body: var(--font-public-sans);
   --font-mono: var(--font-jetbrains-mono);
 }
 
