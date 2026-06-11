@@ -3,10 +3,10 @@
 /**
  * What: Email-gated lead-magnet form for the Automation Opportunities Checklist,
  *       used on /checklist and inside the exit-intent modal.
- * Why: The checklist is the low-intent rung of the ladder; the gate trades a PDF for an
- *      email plus business type (which maps to a segment for lead routing).
+ * Why: The checklist is the low-intent rung of the ladder; the gate trades the checklist
+ *      for an email plus business type (which maps to a segment for lead routing).
  * How: RHF + zod; derives segment from the chosen business type, stores it in context,
- *      posts to the webhook, and shows the hosted-PDF link on success.
+ *      posts to the webhook, and confirms email delivery on success.
  * From Where: TheSkillCorner marketing site build brief (lead magnet spec), 2026-06.
  * When: 2026-06.
  */
@@ -14,7 +14,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
-import { businessTypes, checklist, segmentForBusinessType } from "@/content/site";
+import { businessTypes, segmentForBusinessType } from "@/content/site";
 import { submitLead } from "@/lib/leads";
 import { type ChecklistFormValues, checklistFormSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
@@ -58,13 +58,8 @@ export function ChecklistForm({
       <div className="rounded-xl bg-mist p-5" role="status">
         <p className="font-display text-lg font-bold text-ink">It&apos;s on its way.</p>
         <p className="mt-2 leading-relaxed">
-          Check your inbox in the next few minutes. Want it right now?{" "}
-          <a
-            href={checklist.pdfUrl}
-            className="font-semibold text-ledger underline underline-offset-4 hover:text-ledger-dark"
-          >
-            Download the checklist
-          </a>
+          Check your inbox in the next few minutes - the checklist will arrive by email. If you
+          don&apos;t see it, check your spam folder.
         </p>
       </div>
     );

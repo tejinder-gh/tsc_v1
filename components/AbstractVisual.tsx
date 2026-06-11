@@ -257,7 +257,7 @@ function PipelineVisual() {
   );
 }
 
-/** Scattered checklist rows, one ticking - the downloadable audit list. */
+/** Scattered checklist rows, one ticking - the emailed audit list. */
 function ChecklistVisual() {
   return (
     <div className="relative w-full max-w-sm aspect-square">

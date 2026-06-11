@@ -25,18 +25,17 @@ webhook is set.
 - [ ] Build the ROI-report email step: when `lead_source = roi_calculator`, send a
       templated email using `roi_hours_per_week`, `roi_hourly_cost`, `roi_annual_cost`
 - [ ] Build the checklist delivery step: when `lead_source` is `checklist_page` or
-      `exit_intent`, email the PDF
+      `exit_intent`, send the checklist email
 - [ ] Submit one test lead per form: contact, checklist, exit-intent modal, quick
       widget, ROI capture - confirm all five arrive with correct `segment`
 
-## 4. Checklist PDF
+## 4. Checklist email
 
-- [ ] Write and export the Automation Opportunities Checklist PDF (25 items - the page
-      promises phone/inquiry, booking/reminder, paperwork/intake, review/social tasks,
-      plus a payback-scoring column)
-- [ ] Host it (e.g. drop into `/public/automation-opportunities-checklist.pdf` or a CDN)
-- [ ] Set `NEXT_PUBLIC_CHECKLIST_PDF_URL`
-- [ ] Verify the post-submit "Download the checklist" link works
+- [x] Write the Automation Opportunities Checklist content (25 items) - see
+      `docs/automation-opportunities-checklist.md`
+- [ ] Add it to the webhook's checklist delivery step (section 3) as the email body or
+      template
+- [ ] Submit a test lead on `/checklist` and confirm the checklist email arrives
 
 ## 5. Analytics
 

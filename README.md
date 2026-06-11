@@ -40,7 +40,6 @@ Deploys to Vercel with zero config - import the repo, set the env vars, done.
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | One of these | Plausible site domain. Takes precedence over GA4. |
 | `NEXT_PUBLIC_GA_ID` | One of these | GA4 measurement ID (`G-XXXX`). |
 | `NEXT_PUBLIC_SITE_URL` | Yes (prod) | Canonical URL for metadata, sitemap, JSON-LD. |
-| `NEXT_PUBLIC_CHECKLIST_PDF_URL` | Yes (prod) | Hosted checklist PDF shown after the email gate. |
 
 ## Webhook payload
 

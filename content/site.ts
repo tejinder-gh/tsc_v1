@@ -106,7 +106,6 @@ export const checklist = {
     "Review, reputation, and social tasks you can stop dreading",
     "A scoring column to rank which one pays back fastest for you",
   ],
-  pdfUrl: process.env.NEXT_PUBLIC_CHECKLIST_PDF_URL ?? "/automation-opportunities-checklist.pdf",
 } as const;
 
 export const booking = {

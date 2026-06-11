@@ -29,7 +29,7 @@ export default function ChecklistPage() {
             <AbstractVisual variant="checklist" />
           </div>
           <p className="font-mono text-sm font-semibold uppercase tracking-widest text-ledger">
-            Free download
+            Free checklist
           </p>
           <h1 className="mt-3 font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-ink sm:text-5xl">
             {checklist.title}

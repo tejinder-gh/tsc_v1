@@ -1,0 +1,26 @@
+
+  What shipped
+
+  AI indexing / LLM recommendations
+  - /llms.txt (new route, app/llms.txt/route.ts) — a markdown digest following the llmstxt.org convention: who the business is, pricing for both segments, compliance posture, the booking offer, all six
+  services and eleven industries with links, and the home FAQ. It's generated from the typed content/*.ts arrays, so it can never drift from the visible site.
+  - robots.txt now names the major AI crawlers explicitly (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended,
+  meta-externalagent, Amazonbot, CCBot) with allow-all, and blocks /api/ for everyone.
+  - Structured data graph — new lib/structured-data.ts + components/JsonLd.tsx:
+    - FAQPage schema emitted automatically by the Faq component, so home, all 6 service pages, and all 11 industry pages get extractable Q&A.
+    - Service schema on every service and industry page (industry ones carry a BusinessAudience), all linked via provider to the LocalBusiness node, which now has an @id, slogan, and knowsAbout topics.
+    - BreadcrumbList on all detail pages.
+    - Verified in the prerendered HTML: a service page now carries LocalBusiness + Service + FAQPage + BreadcrumbList, all referencing https://theskillcorner.com/#business.
+
+  Classic SEO
+  - Canonical URLs on every page (home, the 6 static pages, and both dynamic routes) — previously none existed.
+  - Open Graph image (app/opengraph-image.tsx) — branded 1200×630 card generated at build time; og:image and the Twitter large card now resolve on every page (previously there was no image at all).
+  - Earlier in this session: the no-JS/crawler fix (content was shipping as opacity:0 in static HTML), which matters as much for AI crawlers — most don't execute JavaScript.
+
+  Everything verified against the production build output: canonicals present, JSON-LD types counted per page, robots.txt rules rendered, llms.txt content correct, PNG valid. Biome, tsc, and all tests pass.
+
+  Off-site levers (can't be coded, worth doing)
+
+  These move LLM recommendations more than anything on-page: the phone number in content/site.ts is a 555 placeholder — LLMs cross-check facts, so replace it before launch; create a Google Business Profile
+  and Bing Places listing; add real social/directory profiles and then wire them into the LocalBusiness sameAs field; register the site with Google Search Console and Bing Webmaster Tools and submit the
+  sitemap; and get listed in a couple of vendor directories (Clutch, local Toronto business directories) since LLMs lean heavily on third-party corroboration when recommending vendors.
