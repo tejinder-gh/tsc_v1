@@ -10,11 +10,11 @@
  * When: 2026-06.
  */
 
-import Link from "next/link";
 import { RevealBlock, RevealContainer, RevealItem } from "@/components/RevealCascade";
 import { services } from "@/content/services";
+import Link from "next/link";
 
-export function ServicesGrid({ id }: { id?: string }) {
+export function ServicesGrid({ id, count }: { id?: string, count?: number }) {
   return (
     <section
       id={id}
@@ -24,12 +24,12 @@ export function ServicesGrid({ id }: { id?: string }) {
       <RevealBlock>
         <h2 className="font-display text-3xl font-bold sm:text-4xl">What we automate</h2>
         <p className="mt-3 max-w-2xl">
-          Nine builds cover most of what eats an owner's week. Every one connects to the tools you
+          Some builds cover most of what eats an owner's week. Every one connects to the tools you
           already use.
         </p>
       </RevealBlock>
       <RevealContainer className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((service) => (
+        {services.slice(0, count || -1).map((service) => (
           <RevealItem key={service.slug} className="h-full">
             <Link
               href={`/services/${service.slug}`}
@@ -53,6 +53,16 @@ export function ServicesGrid({ id }: { id?: string }) {
           </RevealItem>
         ))}
       </RevealContainer>
+      {count && services.length > count && (
+        <div className="flex justify-center mt-8">
+          <Link
+            href="/services"
+            className="inline-block rounded-full bg-ledger px-6 py-3 text-white font-bold hover:bg-ledger/90 transition-colors"
+          >
+            See all services
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

@@ -41,9 +41,9 @@ export interface Industry {
 
 export const industries: readonly Industry[] = [
   {
-    slug: "convenience-stores",
+    slug: "retail-stores",
     segment: "local",
-    name: "Convenience stores",
+    name: "Retail stores",
     cardLine: "Supplier orders, missed calls, and reviews - handled while you run the floor.",
     headline: "Run the store without being chained to it.",
     subhead:

@@ -9,7 +9,6 @@
  * When: 2026-06.
  */
 
-import type { Metadata } from "next";
 import { Faq } from "@/components/Faq";
 import { FinalCta } from "@/components/FinalCta";
 import { Hero } from "@/components/home/Hero";
@@ -17,10 +16,10 @@ import { HowItWorks } from "@/components/home/HowItWorks";
 import { ProblemStrip } from "@/components/home/ProblemStrip";
 import { ProofSection } from "@/components/home/ProofSection";
 import { RoiCalculator } from "@/components/home/RoiCalculator";
-import { SegmentRouter } from "@/components/home/SegmentRouter";
 import { PricingAnchor } from "@/components/PricingAnchor";
 import { ServicesGrid } from "@/components/ServicesGrid";
 import { homeFaq } from "@/content/faq";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -30,11 +29,11 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <SegmentRouter />
+      {/* <SegmentRouter /> */}
       <ProblemStrip />
-      <ServicesGrid id="what-we-automate" />
-      <ProofSection />
       <RoiCalculator />
+      <ProofSection />
+      <ServicesGrid id="what-we-automate" count={3} />
       <HowItWorks />
       <PricingAnchor location="home" />
       <Faq items={homeFaq} />

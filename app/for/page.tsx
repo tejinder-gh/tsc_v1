@@ -8,11 +8,11 @@
  * When: 2026-06.
  */
 
-import type { Metadata } from "next";
-import Link from "next/link";
 import { AbstractVisual } from "@/components/AbstractVisual";
 import { FinalCta } from "@/components/FinalCta";
 import { industriesBySegment } from "@/content/industries";
+import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Industries we automate",
