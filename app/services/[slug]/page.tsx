@@ -135,10 +135,8 @@ export default async function ServicePage({ params }: PageProps) {
         </div>
       </section>
 
-      <Faq items={service.faq} title="Common questions about this build" />
-
       {related.length > 0 ? (
-        <section aria-label="Related industries" className="mx-auto max-w-site px-4 pb-16 sm:px-6">
+        <section aria-label="Related industries" className="mx-auto max-w-site px-4 py-16 sm:px-6">
           <h2 className="font-display text-2xl font-bold">Who uses this most</h2>
           <div className="mt-5 flex flex-wrap gap-3">
             {related.map((industry) => (
@@ -153,6 +151,8 @@ export default async function ServicePage({ params }: PageProps) {
           </div>
         </section>
       ) : null}
+
+      <Faq items={service.faq} title="Common questions about this build" />
 
       <FinalCta location={`service_${service.slug}`} />
     </>

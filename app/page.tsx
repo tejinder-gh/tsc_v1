@@ -33,9 +33,9 @@ export default function HomePage() {
       <SegmentRouter />
       <ProblemStrip />
       <ServicesGrid id="what-we-automate" />
-      <HowItWorks />
-      <RoiCalculator />
       <ProofSection />
+      <RoiCalculator />
+      <HowItWorks />
       <PricingAnchor location="home" />
       <Faq items={homeFaq} />
       <FinalCta location="home" />
