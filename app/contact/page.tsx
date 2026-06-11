@@ -11,6 +11,7 @@
 import type { Metadata } from "next";
 import { CtaLink } from "@/components/CtaLink";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -22,20 +23,27 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
-      <h1 className="max-w-3xl font-display text-4xl font-bold sm:text-5xl">
-        Tell us what&apos;s eating your time
-      </h1>
-      <p className="mt-4 max-w-2xl text-lg">
-        Two sentences is plenty. We reply within one business day with a straight answer: what can
-        be automated, roughly what it saves, and what it costs.
-      </p>
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div>
+          <h1 className="max-w-3xl font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+            Tell us what&apos;s eating your time
+          </h1>
+          <p className="mt-4 text-lg text-slate">
+            Two sentences is plenty. We reply within one business day with a straight answer: what can
+            be automated, roughly what it saves, and what it costs.
+          </p>
+        </div>
+        <div className="hidden lg:flex justify-end">
+          <AbstractVisual variant="contact" />
+        </div>
+      </div>
       <div className="mt-10 grid gap-10 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <ContactForm />
         </div>
         <aside className="space-y-5">
-          <div className="rounded-xl bg-mist p-6">
-            <h2 className="font-display text-lg font-bold">The faster path</h2>
+          <div className="rounded-2xl bg-mist p-6 shadow-sm ring-1 ring-ink/5">
+            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">The faster path</h2>
             <p className="mt-2 leading-relaxed">
               The free 30-minute audit usually answers in one call what email takes a week to cover
               - and you leave with three automation ideas either way.
@@ -46,8 +54,8 @@ export default function ContactPage() {
               </CtaLink>
             </div>
           </div>
-          <div className="rounded-xl border-2 border-ink/10 p-6">
-            <h2 className="font-display text-lg font-bold">Just browsing?</h2>
+          <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5">
+            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">Just browsing?</h2>
             <p className="mt-2 leading-relaxed">
               The Automation Opportunities Checklist lists 25 tasks businesses stop doing by hand.
             </p>

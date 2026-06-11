@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FinalCta } from "@/components/FinalCta";
 import { industriesBySegment } from "@/content/industries";
+import { AbstractVisual } from "@/components/AbstractVisual";
 
 export const metadata: Metadata = {
   title: "Industries we automate",
@@ -33,7 +34,7 @@ function IndustryGroup({
   const items = industriesBySegment(segment);
   return (
     <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-20">
-      <h2 id={`${id}-heading`} className="font-display text-2xl font-bold sm:text-3xl">
+      <h2 id={`${id}-heading`} className="font-display text-2xl font-bold tracking-[-0.02em] text-ink sm:text-3xl">
         {title}
       </h2>
       <p className="mt-2 max-w-2xl">{intro}</p>
@@ -42,7 +43,7 @@ function IndustryGroup({
           <Link
             key={industry.slug}
             href={`/for/${industry.slug}`}
-            className="group flex flex-col rounded-xl border-2 border-ink/10 bg-white p-6 transition-colors hover:border-ledger"
+            className="group flex flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-2 hover:ring-ledger"
           >
             <h3 className="font-display text-xl font-bold">{industry.name}</h3>
             <p className="mt-2 flex-1 leading-relaxed">{industry.cardLine}</p>
@@ -65,15 +66,22 @@ function IndustryGroup({
 export default function ForIndexPage() {
   return (
     <>
-      <div className="mx-auto max-w-site px-4 py-16 sm:px-6">
-        <h1 className="max-w-3xl font-display text-4xl font-bold sm:text-5xl">
-          Built for how your industry actually works
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg">
-          Same engineering, different vocabulary. Pick your industry and see the exact automations,
-          the hours they save, and what they cost.
-        </p>
-        <div className="mt-12 space-y-14">
+      <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-24">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div className="max-w-3xl">
+            <h1 className="font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+              Built for how your industry actually works
+            </h1>
+            <p className="mt-4 text-lg text-slate">
+              Same engineering, different vocabulary. Pick your industry and see the exact automations,
+              the hours they save, and what they cost.
+            </p>
+          </div>
+          <div className="hidden lg:block h-full">
+            <AbstractVisual variant="for" />
+          </div>
+        </div>
+        <div className="mt-12 space-y-14 lg:mt-24">
           <IndustryGroup
             id="local-businesses"
             title="Local businesses"

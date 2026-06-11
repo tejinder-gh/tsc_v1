@@ -11,6 +11,7 @@
 import type { Metadata } from "next";
 import { BookingEmbed } from "@/components/BookingEmbed";
 import { CtaLink } from "@/components/CtaLink";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { booking } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -22,10 +23,17 @@ export const metadata: Metadata = {
 export default function BookPage() {
   return (
     <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
-      <h1 className="max-w-3xl font-display text-4xl font-bold sm:text-5xl">
-        Book your free automation audit
-      </h1>
-      <p className="mt-4 max-w-2xl text-lg">{booking.promise}</p>
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div>
+          <h1 className="max-w-3xl font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+            Book your free automation audit
+          </h1>
+          <p className="mt-4 text-lg text-slate">{booking.promise}</p>
+        </div>
+        <div className="hidden lg:flex justify-end">
+          <AbstractVisual variant="book" />
+        </div>
+      </div>
       <div className="mt-9">
         <BookingEmbed />
       </div>

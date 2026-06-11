@@ -10,6 +10,7 @@
 import type { Metadata } from "next";
 import { FinalCta } from "@/components/FinalCta";
 import { ServicesGrid } from "@/components/ServicesGrid";
+import { AbstractVisual } from "@/components/AbstractVisual";
 
 export const metadata: Metadata = {
   title: "What we automate",
@@ -20,14 +21,21 @@ export const metadata: Metadata = {
 export default function ServicesIndexPage() {
   return (
     <>
-      <div className="mx-auto max-w-site px-4 pt-16 sm:px-6">
-        <h1 className="max-w-3xl font-display text-4xl font-bold sm:text-5xl">
-          Six automations that give you your week back
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg">
-          Every build connects to the tools you already use, goes live in days to weeks, and is
-          monitored so it keeps working after launch.
-        </p>
+      <div className="mx-auto max-w-site px-4 pt-16 sm:px-6 lg:pt-24">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div className="max-w-3xl">
+            <h1 className="font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+              Six automations that give you your week back
+            </h1>
+            <p className="mt-4 text-lg text-slate">
+              Every build connects to the tools you already use, goes live in days to weeks, and is
+              monitored so it keeps working after launch.
+            </p>
+          </div>
+          <div className="hidden lg:block h-full">
+            <AbstractVisual variant="services" />
+          </div>
+        </div>
       </div>
       <ServicesGrid />
       <FinalCta location="services_index" />

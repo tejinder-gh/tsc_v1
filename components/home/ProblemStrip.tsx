@@ -10,10 +10,9 @@
  * When: 2026-06.
  */
 
+import { RevealContainer, RevealHeader, RevealItem } from "@/components/RevealCascade";
 import { problems } from "@/content/home";
 import { useSegment } from "@/lib/segment-context";
-
-import { Reveal } from "@/components/Reveal";
 export function ProblemStrip() {
   const { segment } = useSegment();
   const items = problems[segment ?? "neutral"];
@@ -21,19 +20,19 @@ export function ProblemStrip() {
   return (
     <section aria-label="The problems we solve" className="bg-mist">
       <div className="mx-auto max-w-site px-4 py-16 sm:px-6">
-        <Reveal>
-          <h2 className="font-display text-3xl font-bold sm:text-4xl">Sound familiar?</h2>
-        </Reveal>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {items.map((p, index) => (
-            <Reveal key={p.title} delay={index * 80} className="h-full">
-              <div className="h-full rounded-xl bg-white p-6 transition-shadow duration-200 hover:shadow-md hover:shadow-ink/5">
+        <RevealHeader className="font-display text-3xl font-bold sm:text-4xl">
+          Sound familiar?
+        </RevealHeader>
+        <RevealContainer className="mt-8 grid gap-6 md:grid-cols-3">
+          {items.map((p) => (
+            <RevealItem key={p.title} className="h-full">
+              <div className="h-full rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-elevated hover:-translate-y-0.5">
                 <h3 className="font-display text-lg font-bold">{p.title}</h3>
                 <p className="mt-2 leading-relaxed">{p.body}</p>
               </div>
-            </Reveal>
+            </RevealItem>
           ))}
-        </div>
+        </RevealContainer>
       </div>
     </section>
   );

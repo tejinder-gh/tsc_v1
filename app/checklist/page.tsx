@@ -11,6 +11,7 @@
 import type { Metadata } from "next";
 import { CtaLink } from "@/components/CtaLink";
 import { ChecklistForm } from "@/components/forms/ChecklistForm";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { checklist } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -22,11 +23,14 @@ export default function ChecklistPage() {
   return (
     <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
       <div className="grid items-start gap-10 lg:grid-cols-2">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-ledger">
+        <div className="relative">
+          <div className="absolute -inset-10 -z-10 hidden lg:block opacity-40">
+            <AbstractVisual variant="checklist" />
+          </div>
+          <p className="font-mono text-sm font-semibold uppercase tracking-widest text-ledger">
             Free download
           </p>
-          <h1 className="mt-3 font-display text-4xl font-bold leading-tight sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-ink sm:text-5xl">
             {checklist.title}
           </h1>
           <p className="mt-3 font-display text-xl font-semibold text-ink">{checklist.subtitle}</p>
@@ -50,8 +54,8 @@ export default function ChecklistPage() {
             ))}
           </ul>
         </div>
-        <div className="rounded-2xl border-2 border-ink/10 bg-white p-7 sm:p-8">
-          <h2 className="font-display text-xl font-bold">Where should we send it?</h2>
+        <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-ink/5 sm:p-8">
+          <h2 className="font-display text-xl font-bold tracking-[-0.02em] text-ink">Where should we send it?</h2>
           <div className="mt-5">
             <ChecklistForm />
           </div>

@@ -16,6 +16,7 @@ import Link from "next/link";
 import { segmentCards } from "@/content/home";
 import { track } from "@/lib/analytics";
 import { useSegment } from "@/lib/segment-context";
+import { Store, Briefcase } from "lucide-react";
 
 export function SegmentRouter() {
   const { segment, setSegment } = useSegment();
@@ -25,9 +26,12 @@ export function SegmentRouter() {
       aria-label="Choose your business type"
       className="mx-auto max-w-site px-4 pb-16 sm:px-6"
     >
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
         {segmentCards.map((card) => {
           const selected = segment === card.segment;
+          const Icon = card.segment === "local" ? Store : Briefcase;
+          const exampleTags = card.examples.split(",").map(s => s.trim());
+          
           return (
             <Link
               key={card.segment}
@@ -41,23 +45,41 @@ export function SegmentRouter() {
                 });
               }}
               aria-current={selected ? "true" : undefined}
-              className={`group rounded-xl border-2 bg-white p-7 transition-colors ${
-                selected ? "border-ledger" : "border-ink/10 hover:border-ledger"
+              className={`group flex flex-col justify-between rounded-2xl bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
+                selected ? "ring-2 ring-ledger ring-offset-2 ring-offset-paper" : "ring-1 ring-ink/5 hover:ring-ink/15"
               }`}
             >
-              <h2 className="font-display text-xl font-bold sm:text-2xl">
-                {card.title}
-                <span
-                  aria-hidden="true"
-                  className="ml-2 inline-block text-ledger transition-transform group-hover:translate-x-1"
-                >
-                  &rarr;
-                </span>
-              </h2>
-              <p className="mt-2 leading-relaxed">{card.body}</p>
-              <p className="mt-4 text-sm font-medium text-slate">
-                <span className="text-ledger">We handle:</span> {card.examples}
-              </p>
+              <div>
+                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-mist text-ledger">
+                  <Icon className="h-6 w-6" strokeWidth={2} />
+                </div>
+                <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                  {card.title}
+                  <span
+                    aria-hidden="true"
+                    className="ml-2 inline-block text-ledger transition-transform duration-300 group-hover:translate-x-1"
+                  >
+                    &rarr;
+                  </span>
+                </h2>
+                <p className="mt-3 text-lg leading-relaxed text-slate">{card.body}</p>
+              </div>
+              
+              <div className="mt-8">
+                <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate/80">
+                  We handle:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {exampleTags.map((tag) => (
+                    <span 
+                      key={tag} 
+                      className="inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm font-medium text-slate transition-colors group-hover:bg-ledger/10 group-hover:text-ledger-dark"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </Link>
           );
         })}

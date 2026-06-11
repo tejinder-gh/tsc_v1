@@ -20,14 +20,14 @@ type Variant = "primary" | "secondary" | "primaryOnDark" | "secondaryOnDark" | "
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "inline-block rounded-lg bg-ledger px-6 py-3.5 font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-ledger-dark hover:shadow-lg hover:shadow-ledger/25 active:translate-y-0 active:scale-[0.98]",
+    "inline-block rounded-lg bg-ledger px-6 py-3.5 font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-ledger-dark hover:shadow-md active:translate-y-0 active:scale-[0.98]",
   secondary:
-    "inline-block rounded-lg border-2 border-ink px-6 py-3 font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-ink hover:text-white hover:shadow-lg hover:shadow-ink/15 active:translate-y-0 active:scale-[0.98]",
+    "inline-block rounded-lg border border-ink bg-transparent px-6 py-3.5 font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-mist hover:shadow-sm active:translate-y-0 active:scale-[0.98]",
   primaryOnDark:
-    "inline-block rounded-lg bg-ledger px-6 py-3.5 font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-ledger-dark hover:shadow-lg hover:shadow-black/30 active:translate-y-0 active:scale-[0.98]",
+    "inline-block rounded-lg bg-ledger px-6 py-3.5 font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-ledger-dark hover:shadow-md active:translate-y-0 active:scale-[0.98]",
   secondaryOnDark:
-    "inline-block rounded-lg border-2 border-white/70 px-6 py-3 font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white hover:text-ink active:translate-y-0 active:scale-[0.98]",
-  text: "font-semibold text-ledger underline underline-offset-4 transition-colors hover:text-ledger-dark",
+    "inline-block rounded-lg border border-white/70 bg-transparent px-6 py-3.5 font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-sm active:translate-y-0 active:scale-[0.98]",
+  text: "font-semibold text-ledger underline underline-offset-4 transition-colors hover:text-accent",
 };
 
 interface CtaLinkProps {
