@@ -1,3 +1,14 @@
+/**
+ * What: Shared Framer Motion transition tokens - entry/exit easings, micro-interactions,
+ *       and a click spring.
+ * Why: Every animated component pulling from one vocabulary keeps motion consistent and
+ *      makes timing tweaks a one-file change.
+ * How: Plain const transitions consumed by RevealCascade and any future motion component.
+ *      Entry uses an ease-out-quint-style curve; exit is the steeper inverse.
+ * From Where: Framer Motion migration of the marketing-site reveals, 2026-06.
+ * When: 2026-06.
+ */
+
 import type { Transition } from "framer-motion";
 
 export const TRANSITIONS = {

@@ -9,15 +9,16 @@
  */
 
 import type { Metadata } from "next";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { BookingEmbed } from "@/components/BookingEmbed";
 import { CtaLink } from "@/components/CtaLink";
-import { AbstractVisual } from "@/components/AbstractVisual";
 import { booking } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Book a free automation audit",
   description:
     "30 minutes, no pitch deck. You leave with 3 automation ideas for your business whether you hire us or not.",
+  alternates: { canonical: "/book" },
 };
 
 export default function BookPage() {

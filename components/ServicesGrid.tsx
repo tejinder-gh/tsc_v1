@@ -4,14 +4,15 @@
  * Why: "What we automate" is the secondary-CTA destination; cards must sell the outcome,
  *      not the technology.
  * How: Server component mapping content/services.ts; each card links to its detail page.
- *      Cards scroll-reveal with a stagger and lift on hover.
+ *      Cards scroll-reveal with a RevealCascade stagger and lift on hover, matching the
+ *      shadow/ring card style of the segment and industry cards.
  * From Where: TheSkillCorner marketing site build brief (services overview), 2026-06.
  * When: 2026-06.
  */
 
 import Link from "next/link";
+import { RevealBlock, RevealContainer, RevealItem } from "@/components/RevealCascade";
 import { services } from "@/content/services";
-import { Reveal } from "./Reveal";
 
 export function ServicesGrid({ id }: { id?: string }) {
   return (
@@ -20,19 +21,19 @@ export function ServicesGrid({ id }: { id?: string }) {
       aria-label="Services"
       className="mx-auto max-w-site scroll-mt-20 px-4 py-16 sm:px-6"
     >
-      <Reveal>
+      <RevealBlock>
         <h2 className="font-display text-3xl font-bold sm:text-4xl">What we automate</h2>
         <p className="mt-3 max-w-2xl">
           Six builds cover most of what eats an owner's week. Every one connects to the tools you
           already use.
         </p>
-      </Reveal>
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((service, index) => (
-          <Reveal key={service.slug} delay={(index % 3) * 80} className="h-full">
+      </RevealBlock>
+      <RevealContainer className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((service) => (
+          <RevealItem key={service.slug} className="h-full">
             <Link
               href={`/services/${service.slug}`}
-              className="group flex h-full flex-col rounded-xl border-2 border-ink/10 bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:border-ledger hover:shadow-lg hover:shadow-ink/5"
+              className="group flex h-full flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-2 hover:ring-ledger"
             >
               <p className="text-xs font-semibold uppercase tracking-wide text-slate">
                 {service.name}
@@ -49,9 +50,9 @@ export function ServicesGrid({ id }: { id?: string }) {
                 </span>
               </p>
             </Link>
-          </Reveal>
+          </RevealItem>
         ))}
-      </div>
+      </RevealContainer>
     </section>
   );
 }

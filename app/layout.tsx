@@ -4,8 +4,8 @@
  *       (floating widget, exit-intent modal, mobile sticky bar).
  * Why: Capture surfaces and segment state must exist on every page so each page surfaces
  *      at least two rungs of the conversion ladder.
- * How: next/font loads Bricolage Grotesque + Public Sans as CSS variables consumed by the
- *      Tailwind theme; Plausible or GA4 loads only when its env var is set.
+ * How: next/font loads Inter + JetBrains Mono as CSS variables consumed by the Tailwind
+ *      theme; Plausible or GA4 loads only when its env var is set.
  * From Where: TheSkillCorner marketing site build brief, 2026-06.
  * When: 2026-06.
  */
@@ -21,6 +21,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { site } from "@/content/site";
 import { SegmentProvider } from "@/lib/segment-context";
+import { BUSINESS_ID } from "@/lib/structured-data";
 import "./globals.css";
 
 const displayFont = Inter({
@@ -29,9 +30,11 @@ const displayFont = Inter({
   display: "swap",
 });
 
+// Variable name must differ from Tailwind's --font-mono token; @theme inline maps
+// --font-mono to this, and identical names would self-reference on <html>.
 const monoFont = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
@@ -57,13 +60,23 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FBFBFA",
+  themeColor: "#F8FAFC",
 };
 
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
+  "@id": BUSINESS_ID,
   name: site.name,
+  slogan: site.tagline,
+  knowsAbout: [
+    "AI automation",
+    "AI receptionists",
+    "Appointment booking and reminders",
+    "Document and intake processing",
+    "Review and reputation management",
+    "Lead follow-up automation",
+  ],
   legalName: site.legalName,
   description: site.description,
   url: site.url,

@@ -15,8 +15,10 @@ import { notFound } from "next/navigation";
 import { CtaLink } from "@/components/CtaLink";
 import { Faq } from "@/components/Faq";
 import { FinalCta } from "@/components/FinalCta";
+import { JsonLd } from "@/components/JsonLd";
 import { industryBySlug } from "@/content/industries";
 import { serviceBySlug, services } from "@/content/services";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/structured-data";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -33,6 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: service.title,
     description: service.excerpt,
+    alternates: { canonical: `/services/${service.slug}` },
   };
 }
 
@@ -47,6 +50,14 @@ export default async function ServicePage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={serviceJsonLd(service)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "What we automate", path: "/services" },
+          { name: service.name, path: `/services/${service.slug}` },
+        ])}
+      />
       <section className="mx-auto max-w-site px-4 pb-12 pt-16 sm:px-6 sm:pt-20">
         <p className="text-sm font-semibold uppercase tracking-widest text-ledger">
           {service.name}

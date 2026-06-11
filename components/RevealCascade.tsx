@@ -1,8 +1,25 @@
 "use client";
 
-import { motion } from "framer-motion";
+/**
+ * What: Framer Motion scroll-reveal primitives - staggered container/item pairs plus
+ *       single-element header and block reveals.
+ * Why: Replaces the hand-rolled IntersectionObserver Reveal so every scroll animation
+ *      shares one motion vocabulary (lib/motion.ts) with orchestrated staggers.
+ * How: whileInView variants fire once at a -50px viewport margin. MotionConfig
+ *      reducedMotion="user" drops transforms for prefers-reduced-motion users (the global
+ *      CSS override cannot reach framer-motion's inline styles). Framer Motion serializes
+ *      the hidden state (opacity:0) into SSR HTML, so every animated element carries
+ *      data-reveal and globals.css forces it visible when the .js flag never lands
+ *      (no-JS visitors and crawlers).
+ * From Where: Framer Motion migration of the marketing-site reveals, 2026-06.
+ * When: 2026-06.
+ */
+
+import { MotionConfig, motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { TRANSITIONS } from "@/lib/motion";
+
+const VIEWPORT = { once: true, margin: "-50px" } as const;
 
 export const staggerContainer = {
   hidden: { opacity: 0 },
@@ -23,10 +40,21 @@ export const staggerItem = {
   },
 };
 
+const containerTags = {
+  div: motion.div,
+  ol: motion.ol,
+  ul: motion.ul,
+} as const;
+
+const itemTags = {
+  div: motion.div,
+  li: motion.li,
+} as const;
+
 interface RevealContainerProps {
   children: ReactNode;
   className?: string;
-  elementType?: "div" | "ol" | "ul";
+  elementType?: keyof typeof containerTags;
 }
 
 export function RevealContainer({
@@ -34,51 +62,75 @@ export function RevealContainer({
   className = "",
   elementType = "div",
 }: RevealContainerProps) {
-  const MotionComponent = motion[elementType as "div"] || motion.div;
+  const MotionComponent = containerTags[elementType];
   return (
-    <MotionComponent
-      variants={staggerContainer}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-50px" }}
-      className={className}
-    >
-      {children}
-    </MotionComponent>
+    <MotionConfig reducedMotion="user">
+      <MotionComponent
+        data-reveal
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={VIEWPORT}
+        className={className}
+      >
+        {children}
+      </MotionComponent>
+    </MotionConfig>
   );
 }
 
 interface RevealItemProps {
   children: ReactNode;
   className?: string;
-  elementType?: "div" | "li";
+  elementType?: keyof typeof itemTags;
 }
 
+/** Must be rendered inside a RevealContainer; variants propagate from the parent. */
 export function RevealItem({ children, className = "", elementType = "div" }: RevealItemProps) {
-  const MotionComponent = motion[elementType as "div"] || motion.div;
+  const MotionComponent = itemTags[elementType];
   return (
-    <MotionComponent variants={staggerItem} className={className}>
+    <MotionComponent data-reveal variants={staggerItem} className={className}>
       {children}
     </MotionComponent>
   );
 }
 
-export function RevealHeader({
-  children,
-  className = "",
-}: {
+interface RevealChildProps {
   children: ReactNode;
   className?: string;
-}) {
+}
+
+export function RevealHeader({ children, className = "" }: RevealChildProps) {
   return (
-    <motion.h2
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={TRANSITIONS.entry}
-      className={className}
-    >
-      {children}
-    </motion.h2>
+    <MotionConfig reducedMotion="user">
+      <motion.h2
+        data-reveal
+        initial={{ opacity: 0, y: 14 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={VIEWPORT}
+        transition={TRANSITIONS.entry}
+        className={className}
+      >
+        {children}
+      </motion.h2>
+    </MotionConfig>
+  );
+}
+
+/** Single fade-up block for intro copy that is more than a lone heading. */
+export function RevealBlock({ children, className = "" }: RevealChildProps) {
+  return (
+    <MotionConfig reducedMotion="user">
+      <motion.div
+        data-reveal
+        initial={{ opacity: 0, y: 14 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={VIEWPORT}
+        transition={TRANSITIONS.entry}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    </MotionConfig>
   );
 }

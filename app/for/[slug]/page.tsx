@@ -14,9 +14,11 @@ import { notFound } from "next/navigation";
 import { CtaLink } from "@/components/CtaLink";
 import { Faq } from "@/components/Faq";
 import { FinalCta } from "@/components/FinalCta";
+import { JsonLd } from "@/components/JsonLd";
 import { PricingAnchor } from "@/components/PricingAnchor";
 import { SetSegment } from "@/components/SetSegment";
 import { industries, industryBySlug } from "@/content/industries";
+import { breadcrumbJsonLd, industryServiceJsonLd } from "@/lib/structured-data";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -33,6 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `AI automation for ${industry.name.toLowerCase()}`,
     description: industry.metaDescription,
+    alternates: { canonical: `/for/${industry.slug}` },
   };
 }
 
@@ -45,6 +48,14 @@ export default async function IndustryPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={industryServiceJsonLd(industry)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Industries", path: "/for" },
+          { name: industry.name, path: `/for/${industry.slug}` },
+        ])}
+      />
       <SetSegment segment={industry.segment} />
 
       <section className="mx-auto max-w-site px-4 pb-12 pt-16 sm:px-6 sm:pt-20">

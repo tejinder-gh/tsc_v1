@@ -1,13 +1,18 @@
 /**
- * What: Reusable FAQ accordion built on native details/summary.
+ * What: Reusable FAQ accordion built on native details/summary, with FAQPage JSON-LD.
  * Why: FAQ appears on home, industry, and service pages; native disclosure elements give
- *      keyboard and screen-reader support with zero JavaScript.
+ *      keyboard and screen-reader support with zero JavaScript, and the schema makes
+ *      every Q&A extractable by search engines and LLM crawlers.
  * How: Maps FaqItem[]; chevron rotation handled in globals.css via details[open].
- * From Where: TheSkillCorner marketing site build brief, 2026-06.
+ *      Emitting the JSON-LD here guarantees schema and visible copy never drift.
+ * From Where: TheSkillCorner marketing site build brief, 2026-06; schema added in the
+ *             SEO + AI-indexing pass, 2026-06.
  * When: 2026-06.
  */
 
+import { JsonLd } from "@/components/JsonLd";
 import type { FaqItem } from "@/content/faq";
+import { faqPageJsonLd } from "@/lib/structured-data";
 
 interface FaqProps {
   items: readonly FaqItem[];
@@ -17,6 +22,7 @@ interface FaqProps {
 export function Faq({ items, title = "Questions owners actually ask" }: FaqProps) {
   return (
     <section aria-labelledby="faq-heading" className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+      <JsonLd data={faqPageJsonLd(items)} />
       <h2 id="faq-heading" className="font-display text-3xl font-bold sm:text-4xl">
         {title}
       </h2>

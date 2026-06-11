@@ -12,11 +12,11 @@
  * When: 2026-06.
  */
 
+import { Briefcase, Store } from "lucide-react";
 import Link from "next/link";
 import { segmentCards } from "@/content/home";
 import { track } from "@/lib/analytics";
 import { useSegment } from "@/lib/segment-context";
-import { Store, Briefcase } from "lucide-react";
 
 export function SegmentRouter() {
   const { segment, setSegment } = useSegment();
@@ -30,8 +30,8 @@ export function SegmentRouter() {
         {segmentCards.map((card) => {
           const selected = segment === card.segment;
           const Icon = card.segment === "local" ? Store : Briefcase;
-          const exampleTags = card.examples.split(",").map(s => s.trim());
-          
+          const exampleTags = card.examples.split(",").map((s) => s.trim());
+
           return (
             <Link
               key={card.segment}
@@ -46,7 +46,9 @@ export function SegmentRouter() {
               }}
               aria-current={selected ? "true" : undefined}
               className={`group flex flex-col justify-between rounded-2xl bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                selected ? "ring-2 ring-ledger ring-offset-2 ring-offset-paper" : "ring-1 ring-ink/5 hover:ring-ink/15"
+                selected
+                  ? "ring-2 ring-ledger ring-offset-2 ring-offset-paper"
+                  : "ring-1 ring-ink/5 hover:ring-ink/15"
               }`}
             >
               <div>
@@ -64,15 +66,15 @@ export function SegmentRouter() {
                 </h2>
                 <p className="mt-3 text-lg leading-relaxed text-slate">{card.body}</p>
               </div>
-              
+
               <div className="mt-8">
                 <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate/80">
                   We handle:
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {exampleTags.map((tag) => (
-                    <span 
-                      key={tag} 
+                    <span
+                      key={tag}
                       className="inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm font-medium text-slate transition-colors group-hover:bg-ledger/10 group-hover:text-ledger-dark"
                     >
                       {tag}

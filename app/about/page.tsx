@@ -9,15 +9,16 @@
  */
 
 import type { Metadata } from "next";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { CtaLink } from "@/components/CtaLink";
 import { FinalCta } from "@/components/FinalCta";
-import { AbstractVisual } from "@/components/AbstractVisual";
 import { about } from "@/content/about";
 
 export const metadata: Metadata = {
   title: "About",
   description:
     "The Skill Corner is a founder-led AI automation agency: 15+ years of production software engineering, applied to the businesses big software flies over.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
@@ -44,7 +45,9 @@ export default function AboutPage() {
             <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-ink/5">
               <AbstractVisual variant="about" />
               <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white/90 to-transparent pt-12 pb-4 text-center">
-                <p className="max-w-[14rem] mx-auto px-4 text-sm font-medium text-slate">{about.photoCaption}</p>
+                <p className="max-w-[14rem] mx-auto px-4 text-sm font-medium text-slate">
+                  {about.photoCaption}
+                </p>
               </div>
             </div>
             <div className="mt-6 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5">

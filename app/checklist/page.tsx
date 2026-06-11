@@ -9,14 +9,15 @@
  */
 
 import type { Metadata } from "next";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { CtaLink } from "@/components/CtaLink";
 import { ChecklistForm } from "@/components/forms/ChecklistForm";
-import { AbstractVisual } from "@/components/AbstractVisual";
 import { checklist } from "@/content/site";
 
 export const metadata: Metadata = {
   title: checklist.title,
   description: `${checklist.subtitle}. ${checklist.description}`,
+  alternates: { canonical: "/checklist" },
 };
 
 export default function ChecklistPage() {
@@ -55,7 +56,9 @@ export default function ChecklistPage() {
           </ul>
         </div>
         <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-ink/5 sm:p-8">
-          <h2 className="font-display text-xl font-bold tracking-[-0.02em] text-ink">Where should we send it?</h2>
+          <h2 className="font-display text-xl font-bold tracking-[-0.02em] text-ink">
+            Where should we send it?
+          </h2>
           <div className="mt-5">
             <ChecklistForm />
           </div>

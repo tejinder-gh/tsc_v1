@@ -10,14 +10,15 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { FinalCta } from "@/components/FinalCta";
 import { industriesBySegment } from "@/content/industries";
-import { AbstractVisual } from "@/components/AbstractVisual";
 
 export const metadata: Metadata = {
   title: "Industries we automate",
   description:
     "AI automation for convenience stores, restaurants, salons, medical clinics, dental offices, and law firms. Find your industry and see exactly what we automate.",
+  alternates: { canonical: "/for" },
 };
 
 function IndustryGroup({
@@ -34,7 +35,10 @@ function IndustryGroup({
   const items = industriesBySegment(segment);
   return (
     <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-20">
-      <h2 id={`${id}-heading`} className="font-display text-2xl font-bold tracking-[-0.02em] text-ink sm:text-3xl">
+      <h2
+        id={`${id}-heading`}
+        className="font-display text-2xl font-bold tracking-[-0.02em] text-ink sm:text-3xl"
+      >
         {title}
       </h2>
       <p className="mt-2 max-w-2xl">{intro}</p>
@@ -73,8 +77,8 @@ export default function ForIndexPage() {
               Built for how your industry actually works
             </h1>
             <p className="mt-4 text-lg text-slate">
-              Same engineering, different vocabulary. Pick your industry and see the exact automations,
-              the hours they save, and what they cost.
+              Same engineering, different vocabulary. Pick your industry and see the exact
+              automations, the hours they save, and what they cost.
             </p>
           </div>
           <div className="hidden lg:block h-full">

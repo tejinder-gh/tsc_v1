@@ -1,5 +1,5 @@
-import { CtaLink } from "@/components/CtaLink";
 import { AbstractVisual } from "@/components/AbstractVisual";
+import { CtaLink } from "@/components/CtaLink";
 import { hero } from "@/content/home";
 
 /**
@@ -37,7 +37,10 @@ export function Hero() {
           >
             {hero.subhead}
           </p>
-          <div className="hero-reveal mt-8 flex flex-wrap gap-3" style={{ animationDelay: "270ms" }}>
+          <div
+            className="hero-reveal mt-8 flex flex-wrap gap-3"
+            style={{ animationDelay: "270ms" }}
+          >
             <CtaLink href={hero.primaryCta.href} location="hero">
               {hero.primaryCta.label}
             </CtaLink>

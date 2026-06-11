@@ -8,14 +8,15 @@
  */
 
 import type { Metadata } from "next";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { FinalCta } from "@/components/FinalCta";
 import { ServicesGrid } from "@/components/ServicesGrid";
-import { AbstractVisual } from "@/components/AbstractVisual";
 
 export const metadata: Metadata = {
   title: "What we automate",
   description:
     "Missed-call answering, booking and reminders, intake and documents, reviews, follow-up, and reporting dashboards - the six automations that give owners their week back.",
+  alternates: { canonical: "/services" },
 };
 
 export default function ServicesIndexPage() {

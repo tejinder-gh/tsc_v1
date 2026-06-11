@@ -9,15 +9,16 @@
  */
 
 import type { Metadata } from "next";
+import { AbstractVisual } from "@/components/AbstractVisual";
 import { CtaLink } from "@/components/CtaLink";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { AbstractVisual } from "@/components/AbstractVisual";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Send a quick query",
   description:
     "Tell us what's eating your time. We reply within 1 business day with whether (and how) it can be automated.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {
@@ -29,8 +30,8 @@ export default function ContactPage() {
             Tell us what&apos;s eating your time
           </h1>
           <p className="mt-4 text-lg text-slate">
-            Two sentences is plenty. We reply within one business day with a straight answer: what can
-            be automated, roughly what it saves, and what it costs.
+            Two sentences is plenty. We reply within one business day with a straight answer: what
+            can be automated, roughly what it saves, and what it costs.
           </p>
         </div>
         <div className="hidden lg:flex justify-end">
@@ -43,7 +44,9 @@ export default function ContactPage() {
         </div>
         <aside className="space-y-5">
           <div className="rounded-2xl bg-mist p-6 shadow-sm ring-1 ring-ink/5">
-            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">The faster path</h2>
+            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">
+              The faster path
+            </h2>
             <p className="mt-2 leading-relaxed">
               The free 30-minute audit usually answers in one call what email takes a week to cover
               - and you leave with three automation ideas either way.
@@ -55,7 +58,9 @@ export default function ContactPage() {
             </div>
           </div>
           <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-ink/5">
-            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">Just browsing?</h2>
+            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">
+              Just browsing?
+            </h2>
             <p className="mt-2 leading-relaxed">
               The Automation Opportunities Checklist lists 25 tasks businesses stop doing by hand.
             </p>

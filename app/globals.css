@@ -1,11 +1,15 @@
 /*
- * What: Global styles - Tailwind v4 theme tokens, base typography, focus styles,
- *       the hero reveal animation, and custom range-slider styling for the ROI calculator.
+ * What: Global styles - Tailwind v4 theme tokens (slate/teal palette, shadow scale),
+ *       base typography, focus styles, the hero reveal animation, the no-JS guard for
+ *       Framer Motion reveals, and range-slider styling for the ROI calculator.
  * Why: Tailwind v4 is configured in CSS (no tailwind.config); the design system's named
- *      palette and font pairing live here as the single source of truth.
- * How: @theme defines color/container tokens; @theme inline maps font utilities to the
- *      next/font CSS variables. prefers-reduced-motion disables the only animation.
- * From Where: Design plan - "approachable precision" direction, 2026-06.
+ *      palette, font mapping (Inter + JetBrains Mono), and shadows live here as the
+ *      single source of truth.
+ * How: @theme defines color/container/shadow tokens; @theme inline maps font utilities to
+ *      the next/font CSS variables. prefers-reduced-motion disables CSS animations;
+ *      Framer Motion reveals handle it via MotionConfig in RevealCascade.
+ * From Where: Design plan - "approachable precision" direction; slate/teal + Framer
+ *             Motion refresh, 2026-06.
  * When: 2026-06.
  */
 
@@ -29,7 +33,7 @@
 @theme inline {
   --font-display: var(--font-inter);
   --font-body: var(--font-inter);
-  --font-mono: var(--font-mono);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 body {
@@ -68,19 +72,12 @@ h4 {
   animation: rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-/* Scroll reveal - hidden state only applies when JS is running (.js on <html>),
-   so no-JS visitors and crawlers always see full content. */
-.js .reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
-.js .reveal.is-visible {
-  opacity: 1;
-  transform: none;
+/* Framer Motion serializes its hidden initial state (opacity:0, translateY) into the
+   prerendered HTML. Without JS that state would never resolve, so force every reveal
+   target visible whenever the .js flag is absent (no-JS visitors and crawlers). */
+html:not(.js) [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 /* Entrance micro-animations for overlays and bars. */
@@ -128,11 +125,6 @@ h4 {
 @media (prefers-reduced-motion: reduce) {
   .hero-reveal {
     animation: none;
-  }
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
   html {
     scroll-behavior: auto;
