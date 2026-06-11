@@ -11,22 +11,22 @@
  * From Where: docs/automation-opportunities-checklist.md and checklist page spec, 2026-06.
  */
 
-import { useState, useId } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Check, AlertCircle, RefreshCw, Printer } from "lucide-react";
+import { AlertCircle, ArrowRight, Check, Printer, RefreshCw } from "lucide-react";
+import { useId, useState } from "react";
+import { useForm } from "react-hook-form";
 import { checklistData } from "@/content/checklist";
 import { businessTypes, segmentForBusinessType } from "@/content/site";
+import {
+  calculateChecklistHours,
+  calculateDreadScore,
+  getChecklistDiagnosis,
+  getTopPriorities,
+} from "@/lib/checklist";
 import { submitLead } from "@/lib/leads";
 import { type ChecklistFormValues, checklistFormSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
 import { CtaLink } from "../CtaLink";
-import {
-  calculateChecklistHours,
-  calculateDreadScore,
-  getTopPriorities,
-  getChecklistDiagnosis,
-} from "@/lib/checklist";
 
 export function InteractiveChecklist() {
   const { segment, setSegment } = useSegment();
@@ -34,7 +34,7 @@ export function InteractiveChecklist() {
   const [selections, setSelections] = useState<Record<number, number>>({});
   const [sent, setSent] = useState(false);
   const [sendError, setSendError] = useState("");
-  
+
   const emailId = useId();
   const typeId = useId();
 
@@ -88,9 +88,12 @@ export function InteractiveChecklist() {
     if (derived) setSegment(derived);
 
     // Format the checklist results into a neat text report
-    const formattedPriority = priorityItems.map(
-      (p, i) => `${i + 1}. ${p.item.task} (Wasted Hours/wk: ${p.item.hoursDisplay}, Dread: ${p.dread}/3)`
-    ).join("\n");
+    const formattedPriority = priorityItems
+      .map(
+        (p, i) =>
+          `${i + 1}. ${p.item.task} (Wasted Hours/wk: ${p.item.hoursDisplay}, Dread: ${p.dread}/3)`,
+      )
+      .join("\n");
 
     const formattedMessage = `Checklist Results:
 - Tasks Checked: ${selectedCount} of 25
@@ -121,7 +124,10 @@ ${formattedPriority || "None selected"}
       {/* Checklist Side: 7 Columns */}
       <div className="space-y-8 lg:col-span-7 print:w-full">
         {checklistData.map((category) => (
-          <div key={category.title} className="rounded-xl border border-ink/10 bg-white p-6 shadow-sm">
+          <div
+            key={category.title}
+            className="rounded-xl border border-ink/10 bg-white p-6 shadow-sm"
+          >
             <h2 className="font-display text-xl font-bold tracking-tight text-ink border-b border-ink/10 pb-3">
               {category.title}
             </h2>
@@ -211,7 +217,9 @@ ${formattedPriority || "None selected"}
         {/* Live Calculation Panel */}
         <div className="rounded-xl bg-ink p-6 text-white shadow-lg border border-white/5">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
-            <h3 className="font-display text-lg font-bold tracking-tight text-white">Your Automation Score</h3>
+            <h3 className="font-display text-lg font-bold tracking-tight text-white">
+              Your Automation Score
+            </h3>
             <button
               type="button"
               onClick={() => setSelections({})}
@@ -234,8 +242,8 @@ ${formattedPriority || "None selected"}
                 {selectedCount === 0
                   ? "0"
                   : minHours === maxHours
-                  ? `${minHours}`
-                  : `${minHours}-${maxHours}`}
+                    ? `${minHours}`
+                    : `${minHours}-${maxHours}`}
               </span>
             </div>
             <div className="pl-2">
@@ -256,9 +264,7 @@ ${formattedPriority || "None selected"}
                 {diagnosis.title}
               </span>
             </div>
-            <p className="mt-2 text-xs text-slate/90 leading-relaxed">
-              {diagnosis.body}
-            </p>
+            <p className="mt-2 text-xs text-slate/90 leading-relaxed">{diagnosis.body}</p>
           </div>
 
           {/* Top 3 Priorities */}
@@ -302,18 +308,24 @@ ${formattedPriority || "None selected"}
             Get Your Custom Roadmap
           </h3>
           <p className="mt-1.5 text-xs leading-relaxed">
-            Submit your scores to receive a detailed plain-English report of your top opportunities, average payback periods, and next steps.
+            Submit your scores to receive a detailed plain-English report of your top opportunities,
+            average payback periods, and next steps.
           </p>
 
           {sent ? (
             <div className="mt-4 rounded-lg bg-mist p-4 border border-ink/5" role="status">
               <p className="font-display font-bold text-ink text-sm">Your roadmap is on the way.</p>
               <p className="mt-1 text-xs leading-relaxed text-slate">
-                We are compiling your results. Check your inbox (including spam) in the next few minutes.
+                We are compiling your results. Check your inbox (including spam) in the next few
+                minutes.
               </p>
             </div>
           ) : (
-            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-3" noValidate>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="mt-4 flex flex-col gap-3"
+              noValidate
+            >
               <div>
                 <label htmlFor={emailId} className="sr-only">
                   Email address
@@ -388,7 +400,12 @@ ${formattedPriority || "None selected"}
           )}
 
           <div className="mt-4 border-t border-ink/10 pt-4 text-center">
-            <CtaLink href="/book" location="checklist_interactive_summary" variant="text" className="text-xs">
+            <CtaLink
+              href="/book"
+              location="checklist_interactive_summary"
+              variant="text"
+              className="text-xs"
+            >
               Or book a free 30-minute audit
             </CtaLink>
           </div>

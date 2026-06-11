@@ -46,9 +46,7 @@ export function SegmentRouter() {
               }}
               aria-current={selected ? "true" : undefined}
               className={`group flex flex-col justify-between rounded-xl bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                selected
-                  ? "border-2 border-ledger"
-                  : "border-2 border-ink/10 hover:border-ledger"
+                selected ? "border-2 border-ledger" : "border-2 border-ink/10 hover:border-ledger"
               }`}
             >
               <div>

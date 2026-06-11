@@ -10,7 +10,7 @@ import type { ChecklistItem } from "@/content/checklist";
 /** Calculate min and max hours wasted per week based on selections */
 export function calculateChecklistHours(
   selections: Record<number, number>,
-  allItems: readonly ChecklistItem[]
+  allItems: readonly ChecklistItem[],
 ) {
   let minHours = 0;
   let maxHours = 0;
@@ -30,7 +30,7 @@ export function calculateChecklistHours(
 /** Calculate the dread score: sum of (averageHours * dreadFactor) for each selected item */
 export function calculateDreadScore(
   selections: Record<number, number>,
-  allItems: readonly ChecklistItem[]
+  allItems: readonly ChecklistItem[],
 ) {
   let totalScore = 0;
 
@@ -56,7 +56,7 @@ export interface PriorityEntry {
 /** Get top 3 priority items sorted by their score (averageHours * dread), then by dread level */
 export function getTopPriorities(
   selections: Record<number, number>,
-  allItems: readonly ChecklistItem[]
+  allItems: readonly ChecklistItem[],
 ): PriorityEntry[] {
   return Object.keys(selections)
     .map((itemIdStr) => {

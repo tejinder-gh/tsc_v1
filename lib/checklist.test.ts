@@ -6,13 +6,13 @@
  */
 
 import { describe, expect, it } from "vitest";
+import type { ChecklistItem } from "@/content/checklist";
 import {
   calculateChecklistHours,
   calculateDreadScore,
-  getTopPriorities,
   getChecklistDiagnosis,
+  getTopPriorities,
 } from "./checklist";
-import type { ChecklistItem } from "@/content/checklist";
 
 const mockItems: readonly ChecklistItem[] = [
   { id: 1, task: "Task 1", automation: "Auto 1", minHours: 2, maxHours: 4, hoursDisplay: "2-4" },

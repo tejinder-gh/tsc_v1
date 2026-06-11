@@ -52,7 +52,7 @@ webhook is set.
       and swap the placeholder block in `app/about/page.tsx`)
 - [ ] "Recent builds" entries in `content/proof.ts` - keep only ones that reflect real
       work; replace with named testimonials as permissions arrive
-- [ ] Review the six industries; trim or extend `content/industries.ts`
+- [ ] Review the industries; trim or extend `content/industries.ts`
 
 ## 7. OG image & polish
 

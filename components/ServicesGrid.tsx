@@ -24,7 +24,7 @@ export function ServicesGrid({ id }: { id?: string }) {
       <RevealBlock>
         <h2 className="font-display text-3xl font-bold sm:text-4xl">What we automate</h2>
         <p className="mt-3 max-w-2xl">
-          Six builds cover most of what eats an owner's week. Every one connects to the tools you
+          Nine builds cover most of what eats an owner's week. Every one connects to the tools you
           already use.
         </p>
       </RevealBlock>

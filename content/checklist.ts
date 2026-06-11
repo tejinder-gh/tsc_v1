@@ -26,7 +26,7 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 1,
         task: 'Answering routine calls ("Are you open? How much? Where are you?")',
-        automation: 'An AI receptionist answers 24/7 with your real answers, in your tone.',
+        automation: "An AI receptionist answers 24/7 with your real answers, in your tone.",
         minHours: 4,
         maxHours: 6,
         hoursDisplay: "4-6",
@@ -34,7 +34,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 2,
         task: "Returning missed calls and voicemails",
-        automation: "Every call gets answered live, so there's nothing to return - after-hours callers get booked, not dumped to voicemail.",
+        automation:
+          "Every call gets answered live, so there's nothing to return - after-hours callers get booked, not dumped to voicemail.",
         minHours: 2,
         maxHours: 3,
         hoursDisplay: "2-3",
@@ -42,7 +43,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 3,
         task: "Replying to website and contact-form inquiries",
-        automation: 'An instant reply answers their question and includes a booking link - within a minute, not "by end of day".',
+        automation:
+          'An instant reply answers their question and includes a booking link - within a minute, not "by end of day".',
         minHours: 2,
         maxHours: 4,
         hoursDisplay: "2-4",
@@ -50,7 +52,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 4,
         task: "Answering the same questions by text and email",
-        automation: "An FAQ assistant trained on your actual answers handles the repeats; only new questions reach you.",
+        automation:
+          "An FAQ assistant trained on your actual answers handles the repeats; only new questions reach you.",
         minHours: 2,
         maxHours: 3,
         hoursDisplay: "2-3",
@@ -66,7 +69,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 6,
         task: "Taking messages and routing them to the right person",
-        automation: "Calls and messages get tagged by topic and sent to the right inbox - no more sticky notes.",
+        automation:
+          "Calls and messages get tagged by topic and sent to the right inbox - no more sticky notes.",
         minHours: 1,
         maxHours: 2,
         hoursDisplay: "1-2",
@@ -79,7 +83,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 7,
         task: 'The "does Tuesday at 2 work?" scheduling back-and-forth',
-        automation: "A self-serve booking link synced to your real calendar - clients pick a slot themselves.",
+        automation:
+          "A self-serve booking link synced to your real calendar - clients pick a slot themselves.",
         minHours: 3,
         maxHours: 5,
         hoursDisplay: "3-5",
@@ -87,7 +92,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 8,
         task: "Sending appointment reminders",
-        automation: "Automatic text + email reminders at 48 hours and 2 hours out - the single biggest no-show killer.",
+        automation:
+          "Automatic text + email reminders at 48 hours and 2 hours out - the single biggest no-show killer.",
         minHours: 1,
         maxHours: 2,
         hoursDisplay: "1-2",
@@ -103,7 +109,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 10,
         task: "Filling last-minute openings",
-        automation: "A waitlist automatically offers the freed slot to the next person who wanted it.",
+        automation:
+          "A waitlist automatically offers the freed slot to the next person who wanted it.",
         minHours: 1,
         maxHours: 1,
         hoursDisplay: "1",
@@ -111,7 +118,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 11,
         task: "Chasing no-shows to rebook",
-        automation: 'An automatic "life happens - grab a new time here" message goes out the same day.',
+        automation:
+          'An automatic "life happens - grab a new time here" message goes out the same day.',
         minHours: 1,
         maxHours: 1,
         hoursDisplay: "1",
@@ -132,7 +140,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 13,
         task: "Re-typing form answers into your software",
-        automation: "Form fields flow straight into your CRM or practice software - typed once, by the client.",
+        automation:
+          "Form fields flow straight into your CRM or practice software - typed once, by the client.",
         minHours: 2,
         maxHours: 4,
         hoursDisplay: "2-4",
@@ -156,7 +165,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 16,
         task: "Invoicing and chasing late payments",
-        automation: "Invoices fire when the work is done; reminders chase themselves so you never have the awkward call.",
+        automation:
+          "Invoices fire when the work is done; reminders chase themselves so you never have the awkward call.",
         minHours: 2,
         maxHours: 3,
         hoursDisplay: "2-3",
@@ -164,7 +174,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 17,
         task: "Logging jobs, cases, or visits into a spreadsheet",
-        automation: "Records create themselves from the calendar and forms - the spreadsheet stays current without you.",
+        automation:
+          "Records create themselves from the calendar and forms - the spreadsheet stays current without you.",
         minHours: 1,
         maxHours: 2,
         hoursDisplay: "1-2",
@@ -172,7 +183,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 18,
         task: "Collecting insurance or eligibility details up front",
-        automation: "Verification questions live in the intake form and flag problems before the appointment, not at the front desk.",
+        automation:
+          "Verification questions live in the intake form and flag problems before the appointment, not at the front desk.",
         minHours: 1,
         maxHours: 2,
         hoursDisplay: "1-2",
@@ -185,7 +197,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 19,
         task: "Asking happy customers for reviews",
-        automation: "An automatic text after the visit with a direct review link - asked every time, not just when you remember.",
+        automation:
+          "An automatic text after the visit with a direct review link - asked every time, not just when you remember.",
         minHours: 1,
         maxHours: 2,
         hoursDisplay: "1-2",
@@ -201,7 +214,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 21,
         task: "Keeping an eye on what's said about you online",
-        automation: "Mentions get monitored; you're only alerted when something actually needs you.",
+        automation:
+          "Mentions get monitored; you're only alerted when something actually needs you.",
         minHours: 1,
         maxHours: 1,
         hoursDisplay: "1",
@@ -209,7 +223,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 22,
         task: "Posting routine social updates",
-        automation: "A month of posts drafted and scheduled in one sitting instead of a nightly scramble.",
+        automation:
+          "A month of posts drafted and scheduled in one sitting instead of a nightly scramble.",
         minHours: 2,
         maxHours: 3,
         hoursDisplay: "2-3",
@@ -217,7 +232,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 23,
         task: "Sending the monthly newsletter",
-        automation: "Drafted from what already happened in your business that month; you edit, it sends.",
+        automation:
+          "Drafted from what already happened in your business that month; you edit, it sends.",
         minHours: 1,
         maxHours: 2,
         hoursDisplay: "1-2",
@@ -225,7 +241,8 @@ export const checklistData: readonly ChecklistCategory[] = [
       {
         id: 24,
         task: 'Re-engaging past customers ("it\'s been 6 months since your last visit")',
-        automation: "Recall and win-back messages go out on a schedule, automatically personalized.",
+        automation:
+          "Recall and win-back messages go out on a schedule, automatically personalized.",
         minHours: 1,
         maxHours: 2,
         hoursDisplay: "1-2",

@@ -11,7 +11,7 @@
  */
 
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Public_Sans, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, JetBrains_Mono, Public_Sans } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { ExitIntentModal } from "@/components/capture/ExitIntentModal";

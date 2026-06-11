@@ -17,7 +17,7 @@ import { industriesBySegment } from "@/content/industries";
 export const metadata: Metadata = {
   title: "Industries we automate",
   description:
-    "AI automation for convenience stores, restaurants, salons, medical clinics, dental offices, and law firms. Find your industry and see exactly what we automate.",
+    "AI automation for convenience stores, restaurants, salons, gyms, construction, auto repair, pet grooming, medical clinics, dental offices, law firms, accounting, real estate, veterinary clinics, and physiotherapy. Find your industry and see exactly what we automate.",
   alternates: { canonical: "/for" },
 };
 
