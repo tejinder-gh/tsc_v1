@@ -214,6 +214,40 @@ export const services: readonly Service[] = [
     ],
     relatedIndustries: ["convenience-stores", "restaurants", "medical-clinics"],
   },
+  {
+    slug: "inventory-and-supplier-ordering",
+    name: "Inventory & supplier ordering",
+    title: "Orders that draft themselves",
+    excerpt:
+      "Automate order drafting from POS sales data, send formatted orders directly to vendors on schedule, and track stock thresholds automatically.",
+    problem:
+      "Walking the aisles with a notepad, cross-checking what sold, and emailing four suppliers before the cutoff. Doing supplier orders by hand eats hours of ownership time and risks out-of-stock items or over-ordering.",
+    whatWeBuild: [
+      "Automatic data connection that reads sales and inventory levels from your POS system",
+      "Supplier order drafting: a scheduled script calculates exactly what needs to be ordered to meet your stock thresholds",
+      "One-click approval: a draft order is compiled and sent to you. You review, click approve, and it goes out to your suppliers formatted exactly how they want it",
+      "Low-stock and discrepancy alerts sent to your phone before it affects your customers",
+    ],
+    tools: ["Square", "Clover", "Lightspeed POS", "Google Sheets", "Make or n8n", "Twilio SMS"],
+    timeline: "1 to 2 weeks to live",
+    outcome:
+      "Supplier orders take minutes instead of evenings. You maintain optimal stock levels without manual walks, and reduce capital tied up in excess inventory.",
+    faq: [
+      {
+        q: "Does it work with legacy suppliers who do not have APIs?",
+        a: "Yes. The system compiles the orders and formats them as standard emails or PDFs, sending them automatically to whatever email or ordering portal your supplier uses.",
+      },
+      {
+        q: "What if sales spike and I need to override the draft?",
+        a: "You stay in full control. The draft order is sent to you first. You can easily tweak quantities or add custom items on your phone before approving it.",
+      },
+      {
+        q: "How does it handle partial shipments or backorders?",
+        a: "We set up a simple checklist in your dashboard or spreadsheet. When shipments arrive, staff mark what was received, and the system automatically flags discrepancies to the supplier.",
+      },
+    ],
+    relatedIndustries: ["convenience-stores", "restaurants", "salons-spas"],
+  },
 ] as const;
 
 export function serviceBySlug(slug: string): Service | undefined {
