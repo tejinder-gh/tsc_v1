@@ -1,14 +1,21 @@
 # Launch Checklist
 
 Work top to bottom; the site is deployable at every step, but leads only flow once the
-webhook is set.
+webhook is set. **Ordering rule: env vars and the Zap must be live and verified BEFORE
+the DNS cutover** - production fails loud (503) on submissions when `LEAD_WEBHOOK_URL`
+is missing, by design.
 
 ## 1. Domain & hosting
 
 - [ ] Import the repo into Vercel (zero config - framework auto-detected)
-- [ ] Add the production domain in Vercel and update DNS
+- [ ] Set ALL env vars on the production environment, then **redeploy** - Vercel env
+      changes do not apply to existing deployments
+- [ ] Add the production domain in Vercel and update DNS (only after section 3's test
+      matrix passes)
 - [ ] Set `NEXT_PUBLIC_SITE_URL` to the final `https://` domain (drives canonical URLs, sitemap, JSON-LD)
 - [ ] Verify `https://<domain>/sitemap.xml` and `/robots.txt` after first deploy
+- [ ] Create the Google Business Profile and start postcard verification now - it takes
+      days and is the minimum "this firm exists" record for brand-name search
 
 ## 2. Cal.com
 
@@ -19,15 +26,40 @@ webhook is set.
 
 ## 3. Lead webhook
 
+- [ ] Confirm the Zapier plan tier supports multi-step Zaps, paths/filters, and a
+      schedule trigger (all needed below) - or use Make, which prices these lower
 - [ ] Create a catch hook in Zapier / Make / n8n
-- [ ] Set `LEAD_WEBHOOK_URL`
-- [ ] Route by `lead_source` and `segment` into your CRM / sheet / inbox
+- [ ] Set `LEAD_WEBHOOK_URL` (then redeploy - see section 1)
+- [ ] Route by `lead_source` and `segment` into your CRM / sheet / inbox. Live sources
+      (exactly five): `contact_form`, `exit_intent`, `quick_widget`, `roi_calculator`,
+      `checklist_interactive`
+- [ ] Use plain-text email steps (not HTML-interpolated) - lead fields are user input
 - [ ] Build the ROI-report email step: when `lead_source = roi_calculator`, send a
       templated email using `roi_hours_per_week`, `roi_hourly_cost`, `roi_annual_cost`
-- [ ] Build the checklist delivery step: when `lead_source` is `checklist_page` or
-      `exit_intent`, send the checklist email
-- [ ] Submit one test lead per form: contact, checklist, exit-intent modal, quick
-      widget, ROI capture - confirm all five arrive with correct `segment`
+- [ ] Build the checklist delivery step: when `lead_source` is `exit_intent` or
+      `checklist_interactive`, send the checklist email. For `checklist_interactive`,
+      format the `message` field (their scored results: top tasks + hours back) at the
+      top of the email, above the checklist - that summary IS the promised report
+- [ ] Turn ON Zapier error notifications to your real email (Zap settings) - a broken
+      Zap step otherwise fails silently while visitors see errors
+- [ ] **Test matrix (production deployment only - previews fake-succeed by design):**
+      submit one test lead per live surface: contact form, exit-intent modal, quick
+      widget, ROI capture, interactive checklist - confirm all five ARRIVE at the Zap
+      destination with correct `lead_source` and `segment` (green UI is not enough)
+- [ ] Honeypot negative test: fill the hidden `website` field via devtools and submit -
+      UI shows success, NOTHING arrives at the Zap, a `[lead] Honeypot` warn appears in
+      Vercel logs
+- [ ] Set up the weekly canary: a scheduled Zap (or cron) POSTs a synthetic lead via
+      curl - never a browser, which could autofill the honeypot - with
+      `lead_source: "synthetic_test"` and a real email field; exclude `synthetic_test`
+      from all CRM/email branches; final step emails you "canary delivered". **A missing
+      weekly canary email is the alarm** - Zapier cannot alert on a trigger not firing
+- [ ] Runbook, when leads seem to stop: check Zapier task history → check Vercel
+      function logs → send a manual synthetic lead. Zapier task history doubles as a
+      replay buffer for leads that arrived during a broken destination step
+- [ ] Escalation trigger (documented in `app/api/lead/route.ts`): quota burn with zero
+      honeypot warns = direct-POST spam → add a Vercel WAF rate limit or Turnstile
+      within 24h
 
 ## 4. Checklist email
 
@@ -35,7 +67,8 @@ webhook is set.
       `docs/automation-opportunities-checklist.md`
 - [ ] Add it to the webhook's checklist delivery step (section 3) as the email body or
       template
-- [ ] Submit a test lead on `/checklist` and confirm the checklist email arrives
+- [ ] Submit a test lead through the interactive checklist on `/checklist` and confirm
+      the email arrives with the scored-results summary on top and the checklist below
 
 ## 5. Analytics
 
@@ -45,13 +78,18 @@ webhook is set.
 
 ## 6. Content placeholders to replace
 
-- [ ] Pricing anchors in `content/site.ts` (currently: local "From $395/month";
-      practice "$7,500 - $25,000" + support "from $750/month") - confirm real numbers
+- [ ] Pricing anchors (local "From $395/month"; practice "$7,500 - $25,000" + support
+      "from $1,500/month") - confirm real numbers. The retainer figure lives in
+      `content/site.ts`, `content/faq.ts`, AND ~8 industry FAQ answers in
+      `content/industries.ts`; any future change must sweep all three
+      (`grep -rn '<old number>' content/` until zero hits)
 - [ ] Contact email and phone in `content/site.ts` (phone is a 555 placeholder)
 - [ ] Founder bio specifics and photo (`content/about.ts`, add `/public/founder.jpg`
       and swap the placeholder block in `app/about/page.tsx`)
-- [ ] "Recent builds" entries in `content/proof.ts` - keep only ones that reflect real
-      work; replace with named testimonials as permissions arrive
+- [ ] "Recent builds" entries in `content/proof.ts` - keep ONLY entries reflecting real
+      work; reframe the rest as "example automations" or replace the section with the
+      demo build once it exists. Padded proof fails buyer diligence harder than honest
+      thin proof
 - [ ] Review the industries; trim or extend `content/industries.ts`
 
 ## 7. OG image & polish
@@ -62,6 +100,19 @@ webhook is set.
       accessibility 100
 - [ ] Test at 360px width: sticky bar, widget, calculator sliders, forms
 - [ ] Test exit-intent modal (desktop: move cursor out the top of the viewport; fires
-      once per session)
+      once per session) - confirm autofocus lands in the EMAIL field, not the hidden
+      honeypot (keyboard-tab through every form: focus must never land in an invisible
+      input)
 - [ ] Spot-check segment behavior: choose "local business" on home, confirm practice
       pricing never appears on the home page afterward (and vice versa)
+- [ ] Spot-check the FAQ structured data (view-source JSON-LD on `/`) renders the
+      $1,500/month retainer figure - Google republishes what's in there
+
+## 8. Demo pilot (Demo-First Launch plan)
+
+See the full plan: `~/.gstack/projects/TheSkillCorner/admin-main-design-20260612-005022.md`
+
+- [ ] Enable the voice platform's call logs/recordings for the pilot - debugging and
+      sales evidence in one
+- [ ] Night before the pitch: record the backup demo video (call the line, book, SMS
+      arrives); live preflight call 30 minutes before the meeting

@@ -27,9 +27,10 @@ import { submitLead } from "@/lib/leads";
 import { type ChecklistFormValues, checklistFormSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
 import { CtaLink } from "../CtaLink";
+import { HoneypotField } from "../forms/HoneypotField";
 
 export function InteractiveChecklist() {
-  const { segment, setSegment } = useSegment();
+  const { setSegment } = useSegment();
   // Selections map: itemId -> dreadFactor (1 | 2 | 3)
   const [selections, setSelections] = useState<Record<number, number>>({});
   const [sent, setSent] = useState(false);
@@ -112,6 +113,7 @@ ${formattedPriority || "None selected"}
         email: values.email,
         business_type: values.businessType,
         message: formattedMessage,
+        website: values.website,
       });
       setSent(true);
     } catch (error) {
@@ -157,6 +159,8 @@ ${formattedPriority || "None selected"}
                       {/* Content */}
                       <div className="flex-1">
                         <div className="flex items-start justify-between gap-4">
+                          {/* biome-ignore lint/a11y/noStaticElementInteractions: the adjacent checkbox button is the accessible control; this label click is a supplementary pointer target */}
+                          {/* biome-ignore lint/a11y/useKeyWithClickEvents: keyboard users toggle via the checkbox button */}
                           <span
                             onClick={() => handleToggleTask(item.id)}
                             className={`cursor-pointer text-[15px] font-semibold leading-snug transition-colors ${
@@ -305,19 +309,21 @@ ${formattedPriority || "None selected"}
         {/* Lead Capture Form */}
         <div className="rounded-xl border border-ink/10 bg-white p-6 shadow-sm">
           <h3 className="font-display text-lg font-bold tracking-tight text-ink">
-            Get Your Custom Roadmap
+            Get Your Results by Email
           </h3>
           <p className="mt-1.5 text-xs leading-relaxed">
-            Submit your scores to receive a detailed plain-English report of your top opportunities,
-            average payback periods, and next steps.
+            Submit your scores and we&apos;ll email your results - your top opportunities with the
+            hours each gives back - along with the full 25-item checklist.
           </p>
 
           {sent ? (
             <div className="mt-4 rounded-lg bg-mist p-4 border border-ink/5" role="status">
-              <p className="font-display font-bold text-ink text-sm">Your roadmap is on the way.</p>
+              <p className="font-display font-bold text-ink text-sm">
+                Your results are on the way.
+              </p>
               <p className="mt-1 text-xs leading-relaxed text-slate">
-                We are compiling your results. Check your inbox (including spam) in the next few
-                minutes.
+                Your scored results and the checklist are headed to your inbox. Check spam if they
+                haven&apos;t arrived in a few minutes.
               </p>
             </div>
           ) : (
@@ -383,10 +389,10 @@ ${formattedPriority || "None selected"}
                 className="flex w-full items-center justify-center gap-2 rounded-lg bg-ledger py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ledger-dark disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {form.formState.isSubmitting ? (
-                  "Generating..."
+                  "Sending..."
                 ) : (
                   <>
-                    Email me the roadmap
+                    Email me my results
                     <ArrowRight className="h-4 w-4" />
                   </>
                 )}
@@ -396,6 +402,7 @@ ${formattedPriority || "None selected"}
                   Select at least one task to generate report
                 </span>
               )}
+              <HoneypotField registration={form.register("website")} />
             </form>
           )}
 

@@ -9,7 +9,13 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { checklistFormSchema, contactFormSchema, leadSchema, quickQuestionSchema } from "./schemas";
+import {
+  checklistFormSchema,
+  contactFormSchema,
+  leadSchema,
+  quickQuestionSchema,
+  roiReportSchema,
+} from "./schemas";
 
 describe("leadSchema", () => {
   it("accepts a minimal email-only lead and defaults segment to unknown", () => {
@@ -50,6 +56,29 @@ describe("leadSchema", () => {
       lead_source: "contact_form",
       email: "a@b.co",
       message: "x".repeat(3001),
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("parses with the honeypot field absent, empty, or filled (rejection is the route's job)", () => {
+    const absent = leadSchema.safeParse({ lead_source: "contact_form", email: "a@b.co" });
+    expect(absent.success).toBe(true);
+    if (absent.success) expect(absent.data.website).toBeUndefined();
+
+    const filled = leadSchema.safeParse({
+      lead_source: "contact_form",
+      email: "a@b.co",
+      website: "http://spam.example",
+    });
+    expect(filled.success).toBe(true);
+    if (filled.success) expect(filled.data.website).toBe("http://spam.example");
+  });
+
+  it("rejects an oversized honeypot value", () => {
+    const result = leadSchema.safeParse({
+      lead_source: "contact_form",
+      email: "a@b.co",
+      website: "x".repeat(201),
     });
     expect(result.success).toBe(false);
   });
@@ -104,5 +133,36 @@ describe("quickQuestionSchema", () => {
       quickQuestionSchema.safeParse({ email: "a@b.co", message: "Do you work with Square?" })
         .success,
     ).toBe(true);
+  });
+});
+
+describe("honeypot on form schemas", () => {
+  // The field must survive each PER-FORM schema or zodResolver strips it
+  // client-side before submit and the server check never sees it.
+  it("every form schema declares and carries the website honeypot field", () => {
+    const cases = [
+      contactFormSchema.safeParse({
+        name: "Sam",
+        email: "sam@store.ca",
+        businessType: "convenience-store",
+        message: "Ordering takes me five hours every Sunday.",
+        website: "http://spam.example",
+      }),
+      checklistFormSchema.safeParse({
+        email: "a@b.co",
+        businessType: "restaurant",
+        website: "http://spam.example",
+      }),
+      quickQuestionSchema.safeParse({
+        email: "a@b.co",
+        message: "Do you work with Square?",
+        website: "http://spam.example",
+      }),
+      roiReportSchema.safeParse({ email: "a@b.co", website: "http://spam.example" }),
+    ];
+    for (const result of cases) {
+      expect(result.success).toBe(true);
+      if (result.success) expect(result.data.website).toBe("http://spam.example");
+    }
   });
 });

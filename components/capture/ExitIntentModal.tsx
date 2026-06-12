@@ -54,7 +54,9 @@ export function ExitIntentModal() {
       if (event.key === "Escape") close();
     }
     document.addEventListener("keydown", onKeyDown);
-    dialogRef.current?.querySelector("input")?.focus();
+    // :not([tabindex="-1"]) keeps autofocus off the hidden honeypot input -
+    // focusing it would lead real users to type their email into the trap.
+    dialogRef.current?.querySelector<HTMLInputElement>('input:not([tabindex="-1"])')?.focus();
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, close]);
 

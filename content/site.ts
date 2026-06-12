@@ -62,7 +62,7 @@ export const pricing: Record<Segment, PricingAnchorContent> = {
     label: "Custom build",
     anchor: "Typical engagements run $7,500 - $25,000",
     detail:
-      "Scoped and quoted after your audit, with monitoring and support from $750/month. You approve the scope before anything is built.",
+      "Scoped and quoted after your audit, with monitoring and support from $1,500/month. You approve the scope before anything is built.",
     compliance:
       "PIPEDA/PHIPA-aware data handling. No patient or client records touch our systems without a signed agreement, and we work inside your existing tools wherever possible.",
   },

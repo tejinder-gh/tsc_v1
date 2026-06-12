@@ -18,12 +18,18 @@ import { businessTypes, segmentForBusinessType } from "@/content/site";
 import { submitLead } from "@/lib/leads";
 import { type ChecklistFormValues, checklistFormSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
+import { HoneypotField } from "./HoneypotField";
 
 interface ChecklistFormProps {
   leadSource?: string;
   compact?: boolean;
 }
 
+// The "checklist_page" default is currently unreachable: /checklist renders
+// InteractiveChecklist (lead_source "checklist_interactive") and this form's
+// only live consumer is ExitIntentModal, which passes "exit_intent". The
+// default stays for a future static-gate page; update README's lead_source
+// list if it ever goes live again.
 export function ChecklistForm({
   leadSource = "checklist_page",
   compact = false,
@@ -46,6 +52,7 @@ export function ChecklistForm({
         segment: derived ?? "unknown",
         email: values.email,
         business_type: values.businessType,
+        website: values.website,
       });
       setSent(true);
     } catch (error) {
@@ -122,6 +129,7 @@ export function ChecklistForm({
       >
         {form.formState.isSubmitting ? "Sending..." : "Email me the checklist"}
       </button>
+      <HoneypotField registration={form.register("website")} />
     </form>
   );
 }

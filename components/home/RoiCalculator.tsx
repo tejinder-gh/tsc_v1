@@ -20,6 +20,7 @@ import { submitLead } from "@/lib/leads";
 import { annualCost, formatCurrency, monthlyCost, ROI_BOUNDS } from "@/lib/roi";
 import { type RoiReportValues, roiReportSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
+import { HoneypotField } from "../forms/HoneypotField";
 
 type CaptureState = "idle" | "open" | "sending" | "sent" | "error";
 
@@ -50,6 +51,7 @@ export function RoiCalculator() {
         roi_hours_per_week: hours,
         roi_hourly_cost: rate,
         roi_annual_cost: annual,
+        website: values.website,
       });
       setCapture("sent");
     } catch (error) {
@@ -178,6 +180,7 @@ export function RoiCalculator() {
                   >
                     {capture === "sending" ? "Sending..." : "Send it"}
                   </button>
+                  <HoneypotField registration={form.register("website")} />
                 </form>
               )}
               {form.formState.errors.email ? (

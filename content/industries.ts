@@ -299,7 +299,7 @@ export const industries: readonly Industry[] = [
       },
       {
         q: "What does an engagement cost?",
-        a: "Clinic builds are custom: typical engagements run $7,500 to $25,000 depending on scope, with monitoring and support from $750/month. The audit is free and you get the scoped quote before deciding anything.",
+        a: "Clinic builds are custom: typical engagements run $7,500 to $25,000 depending on scope, with monitoring and support from $1,500/month. The audit is free and you get the scoped quote before deciding anything.",
       },
       {
         q: "Does it work with our EMR?",
@@ -366,7 +366,7 @@ export const industries: readonly Industry[] = [
       },
       {
         q: "What is the investment?",
-        a: "Custom builds typically run $7,500 to $25,000 depending on scope, with support from $750/month. Recall automation alone usually shows up in hygiene production within the first two months.",
+        a: "Custom builds typically run $7,500 to $25,000 depending on scope, with support from $1,500/month. Recall automation alone usually shows up in hygiene production within the first two months.",
       },
       {
         q: "Will recall messages annoy patients?",
@@ -434,7 +434,7 @@ export const industries: readonly Industry[] = [
       },
       {
         q: "What does an engagement cost?",
-        a: "Custom builds typically run $7,500 to $25,000 depending on scope, with support from $750/month. One additional retained matter usually covers the intake build on its own.",
+        a: "Custom builds typically run $7,500 to $25,000 depending on scope, with support from $1,500/month. One additional retained matter usually covers the intake build on its own.",
       },
       {
         q: "Does it integrate with Clio?",
@@ -779,7 +779,7 @@ export const industries: readonly Industry[] = [
       },
       {
         q: "What is the typical investment?",
-        a: "Veterinary practice builds are custom-tailored to your clinic flow, typically ranging from $7,500 to $25,000, with ongoing support from $750/month.",
+        a: "Veterinary practice builds are custom-tailored to your clinic flow, typically ranging from $7,500 to $25,000, with ongoing support from $1,500/month.",
       },
     ],
     metaDescription:
@@ -1392,7 +1392,7 @@ export const industries: readonly Industry[] = [
       },
       {
         q: "What does a custom optometry clinic build cost?",
-        a: "Typical engagements run $7,500 to $25,000 depending on scope, with support from $750/month. The initial practice audit is completely free.",
+        a: "Typical engagements run $7,500 to $25,000 depending on scope, with support from $1,500/month. The initial practice audit is completely free.",
       },
       {
         q: "Can the recall system promote frame sales?",
@@ -1461,7 +1461,7 @@ export const industries: readonly Industry[] = [
       },
       {
         q: "What is the typical investment?",
-        a: "Custom practice builds range from $7,500 to $25,000, with ongoing support from $750/month. The initial workflow audit is free.",
+        a: "Custom practice builds range from $7,500 to $25,000, with ongoing support from $1,500/month. The initial workflow audit is free.",
       },
       {
         q: "Can the screening form route patients to therapists?",
@@ -1529,7 +1529,7 @@ export const industries: readonly Industry[] = [
       },
       {
         q: "What does an agency build cost?",
-        a: "Custom insurance builds typically run $7,500 to $25,000 depending on scope, with support from $750/month. The initial audit is free.",
+        a: "Custom insurance builds typically run $7,500 to $25,000 depending on scope, with support from $1,500/month. The initial audit is free.",
       },
       {
         q: "Can the lead responder draft quick quotes?",
@@ -1598,7 +1598,7 @@ export const industries: readonly Industry[] = [
       },
       {
         q: "What does the setup invest?",
-        a: "Custom brokerage builds range from $7,500 to $25,000, with support from $750/month. Saving just one loan fall-through pays for the build.",
+        a: "Custom brokerage builds range from $7,500 to $25,000, with support from $1,500/month. Saving just one loan fall-through pays for the build.",
       },
       {
         q: "Can Realtors receive updates too?",

@@ -15,7 +15,7 @@ export interface FaqItem {
 export const homeFaq: readonly FaqItem[] = [
   {
     q: "How much does it cost?",
-    a: "Local businesses start with fixed packages from $395/month, setup included. Practices and firms get custom builds - typical engagements run $7,500 to $25,000 with support from $750/month. Either way, you get an exact quote after the free audit, and the audit costs nothing.",
+    a: "Local businesses start with fixed packages from $395/month, setup included. Practices and firms get custom builds - typical engagements run $7,500 to $25,000 with support from $1,500/month. Either way, you get an exact quote after the free audit, and the audit costs nothing.",
   },
   {
     q: "How long until something is actually running?",

@@ -15,6 +15,20 @@ export const segmentField = z.enum(["local", "practice", "unknown"]);
 const email = z.string().trim().email("Enter a valid email address").max(254);
 const shortText = z.string().trim().max(200);
 
+/**
+ * Honeypot field. Humans never see or fill it (HoneypotField renders it
+ * off-screen); bots auto-fill it. It MUST be declared on every per-form schema,
+ * not just leadSchema: zodResolver hands react-hook-form only the parsed output,
+ * so a field missing from the form schema is stripped client-side and the
+ * server check would never see it.
+ */
+export const honeypotField = z.string().trim().max(200).optional();
+
+/** Extends a form schema with the shared honeypot field. */
+export function withHoneypot<T extends z.ZodRawShape>(schema: z.ZodObject<T>) {
+  return schema.extend({ website: honeypotField });
+}
+
 /** Server-side schema for every webhook submission. */
 export const leadSchema = z
   .object({
@@ -29,6 +43,7 @@ export const leadSchema = z
     roi_hours_per_week: z.number().min(0).max(200).optional(),
     roi_hourly_cost: z.number().min(0).max(1000).optional(),
     roi_annual_cost: z.number().min(0).max(10_000_000).optional(),
+    website: honeypotField,
   })
   .refine((data) => Boolean(data.email) || Boolean(data.message), {
     message: "A lead needs at least an email or a message",
@@ -37,35 +52,43 @@ export const leadSchema = z
 export type LeadPayload = z.input<typeof leadSchema>;
 
 /** /contact - the quick query form. */
-export const contactFormSchema = z.object({
-  name: z.string().trim().min(1, "Tell us your name").max(120),
-  email: email.min(1, "We need an email to reply to"),
-  businessType: z.string().trim().min(1, "Pick the closest match"),
-  message: z.string().trim().min(10, "Give us a sentence or two").max(3000),
-  budget: z.string().trim().max(60).optional(),
-});
+export const contactFormSchema = withHoneypot(
+  z.object({
+    name: z.string().trim().min(1, "Tell us your name").max(120),
+    email: email.min(1, "We need an email to reply to"),
+    businessType: z.string().trim().min(1, "Pick the closest match"),
+    message: z.string().trim().min(10, "Give us a sentence or two").max(3000),
+    budget: z.string().trim().max(60).optional(),
+  }),
+);
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-/** /checklist and exit-intent modal - the lead magnet gate. */
-export const checklistFormSchema = z.object({
-  email: email.min(1, "Enter the email to send it to"),
-  businessType: z.string().trim().min(1, "Pick the closest match"),
-});
+/** Interactive checklist and exit-intent modal - the lead magnet gate. */
+export const checklistFormSchema = withHoneypot(
+  z.object({
+    email: email.min(1, "Enter the email to send it to"),
+    businessType: z.string().trim().min(1, "Pick the closest match"),
+  }),
+);
 
 export type ChecklistFormValues = z.infer<typeof checklistFormSchema>;
 
 /** Floating widget - one question plus a reply address. */
-export const quickQuestionSchema = z.object({
-  email: email.min(1, "We need an email to reply to"),
-  message: z.string().trim().min(5, "Type your question first").max(1000),
-});
+export const quickQuestionSchema = withHoneypot(
+  z.object({
+    email: email.min(1, "We need an email to reply to"),
+    message: z.string().trim().min(5, "Type your question first").max(1000),
+  }),
+);
 
 export type QuickQuestionValues = z.infer<typeof quickQuestionSchema>;
 
 /** ROI calculator - email capture for the report. */
-export const roiReportSchema = z.object({
-  email: email.min(1, "Enter the email to send the report to"),
-});
+export const roiReportSchema = withHoneypot(
+  z.object({
+    email: email.min(1, "Enter the email to send the report to"),
+  }),
+);
 
 export type RoiReportValues = z.infer<typeof roiReportSchema>;

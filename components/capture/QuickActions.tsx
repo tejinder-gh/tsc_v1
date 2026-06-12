@@ -19,6 +19,7 @@ import { submitLead } from "@/lib/leads";
 import { type QuickQuestionValues, quickQuestionSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
 import { CtaLink } from "../CtaLink";
+import { HoneypotField } from "../forms/HoneypotField";
 
 const DISMISS_KEY = "tsc_widget_dismissed";
 
@@ -60,6 +61,7 @@ export function QuickActions() {
         segment: segment ?? "unknown",
         email: values.email,
         message: values.message,
+        website: values.website,
       });
       setView("sent");
     } catch (error) {
@@ -171,6 +173,7 @@ export function QuickActions() {
               >
                 {form.formState.isSubmitting ? "Sending..." : "Send question"}
               </button>
+              <HoneypotField registration={form.register("website")} />
             </form>
           ) : null}
 

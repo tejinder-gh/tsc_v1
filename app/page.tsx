@@ -9,6 +9,7 @@
  * When: 2026-06.
  */
 
+import type { Metadata } from "next";
 import { Faq } from "@/components/Faq";
 import { FinalCta } from "@/components/FinalCta";
 import { Hero } from "@/components/home/Hero";
@@ -19,7 +20,6 @@ import { RoiCalculator } from "@/components/home/RoiCalculator";
 import { PricingAnchor } from "@/components/PricingAnchor";
 import { ServicesGrid } from "@/components/ServicesGrid";
 import { homeFaq } from "@/content/faq";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },

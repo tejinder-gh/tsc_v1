@@ -19,6 +19,7 @@ import { submitLead } from "@/lib/leads";
 import { type ContactFormValues, contactFormSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
 import { CtaLink } from "../CtaLink";
+import { HoneypotField } from "./HoneypotField";
 
 const budgetOptions = [
   "Under $500/month",
@@ -55,6 +56,7 @@ export function ContactForm() {
         business_type: values.businessType,
         message: values.message,
         budget: values.budget || undefined,
+        website: values.website,
       });
       setSent(true);
     } catch (error) {
@@ -196,6 +198,7 @@ export function ContactForm() {
       >
         {form.formState.isSubmitting ? "Sending..." : "Send my question"}
       </button>
+      <HoneypotField registration={form.register("website")} />
     </form>
   );
 }

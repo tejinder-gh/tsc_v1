@@ -10,11 +10,11 @@
  * When: 2026-06.
  */
 
+import Link from "next/link";
 import { RevealBlock, RevealContainer, RevealItem } from "@/components/RevealCascade";
 import { services } from "@/content/services";
-import Link from "next/link";
 
-export function ServicesGrid({ id, count }: { id?: string, count?: number }) {
+export function ServicesGrid({ id, count }: { id?: string; count?: number }) {
   return (
     <section
       id={id}

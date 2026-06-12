@@ -35,7 +35,7 @@ Deploys to Vercel with zero config - import the repo, set the env vars, done.
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `LEAD_WEBHOOK_URL` | Yes (prod) | Zapier/Make/n8n catch hook. Every form POSTs JSON here. Without it, leads return `delivered:false` and log a server warning (dev-friendly). |
+| `LEAD_WEBHOOK_URL` | Yes (prod) | Zapier/Make/n8n catch hook. Every form POSTs JSON here. Without it, dev/preview deploys return `delivered:false` with a server warning (dev-friendly); **production fails loud with a 503** so a missing env var can never silently swallow leads. |
 | `NEXT_PUBLIC_CAL_LINK` | Yes (prod) | Cal.com event link, e.g. `yourname/automation-audit`. Without it, `/book` shows an email fallback. |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | One of these | Plausible site domain. Takes precedence over GA4. |
 | `NEXT_PUBLIC_GA_ID` | One of these | GA4 measurement ID (`G-XXXX`). |
@@ -47,7 +47,7 @@ Every submission posts JSON with at minimum:
 
 ```json
 {
-  "lead_source": "contact_form | checklist_page | exit_intent | quick_widget | roi_calculator",
+  "lead_source": "contact_form | exit_intent | quick_widget | roi_calculator | checklist_interactive",
   "segment": "local | practice | unknown",
   "page": "/for/dental-offices",
   "submitted_at": "2026-06-09T20:00:00.000Z"
@@ -56,6 +56,13 @@ Every submission posts JSON with at minimum:
 
 Plus form-specific fields (`name`, `email`, `business_type`, `message`, `budget`,
 `roi_hours_per_week`, `roi_hourly_cost`, `roi_annual_cost`). Schemas: `lib/schemas.ts`.
+
+Spam defense: every form carries an invisible honeypot field (`website`,
+`components/forms/HoneypotField.tsx`). Submissions with it filled get a fake success
+response and are dropped server-side — they never reach the webhook and never fire
+analytics. Note: `checklist_page` exists in `ChecklistForm` as a default but is
+currently unreachable (its only live consumer, the exit-intent modal, overrides to
+`exit_intent`).
 
 Note: the ROI "Email me this report" capture sends the inputs and result to the webhook;
 your Zapier/Make scenario is responsible for actually emailing the report (a simple
