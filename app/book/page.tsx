@@ -9,13 +9,12 @@
  */
 
 import type { Metadata } from "next";
-import { AbstractVisual } from "@/components/AbstractVisual";
 import { BookingEmbed } from "@/components/BookingEmbed";
 import { CtaLink } from "@/components/CtaLink";
 import { booking } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Book a free automation audit",
+  title: "Book a Free AI Automation Audit",
   description:
     "30 minutes, no pitch deck. You leave with 3 automation ideas for your business whether you hire us or not.",
   alternates: { canonical: "/book" },
@@ -31,8 +30,32 @@ export default function BookPage() {
           </h1>
           <p className="mt-4 text-lg text-slate">{booking.promise}</p>
         </div>
-        <div className="hidden lg:flex justify-end">
-          <AbstractVisual variant="book" />
+        <div className="hidden lg:block space-y-4">
+          <p className="font-mono text-xs font-semibold uppercase tracking-wider text-slate">
+            Typical outcomes we build:
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-xl border border-ledger/20 bg-ledger/5 p-5">
+              <span className="block font-display text-2xl font-bold text-ledger">~12 min</span>
+              <p className="mt-1 text-sm font-semibold text-ink">Saved per patient</p>
+              <p className="mt-1 text-xs text-slate">Medical clinic, North York</p>
+            </div>
+            <div className="rounded-xl border border-ledger/20 bg-ledger/5 p-5">
+              <span className="block font-display text-2xl font-bold text-ledger">30+ calls</span>
+              <p className="mt-1 text-sm font-semibold text-ink">Captured per month</p>
+              <p className="mt-1 text-xs text-slate">Restaurant, Mississauga</p>
+            </div>
+            <div className="rounded-xl border border-ledger/20 bg-ledger/5 p-5">
+              <span className="block font-display text-2xl font-bold text-ledger">Cut by 50%</span>
+              <p className="mt-1 text-sm font-semibold text-ink">No-shows down half</p>
+              <p className="mt-1 text-xs text-slate">Hair salon, two locations</p>
+            </div>
+            <div className="rounded-xl border border-ledger/20 bg-ledger/5 p-5">
+              <span className="block font-display text-2xl font-bold text-ledger">&lt; 2 mins</span>
+              <p className="mt-1 text-sm font-semibold text-ink">First response time</p>
+              <p className="mt-1 text-xs text-slate">Law firm, Downtown Toronto</p>
+            </div>
+          </div>
         </div>
       </div>
       <div className="mt-9">

@@ -15,7 +15,7 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Send a quick query",
+  title: "Contact Us & Free Automation Consultation",
   description:
     "Tell us what's eating your time. We reply within 1 business day with whether (and how) it can be automated.",
   alternates: { canonical: "/contact" },

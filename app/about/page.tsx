@@ -15,7 +15,7 @@ import { FinalCta } from "@/components/FinalCta";
 import { about } from "@/content/about";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Us - Toronto AI Automation Agency",
   description:
     "The Skill Corner is a founder-led AI automation agency: 15+ years of production software engineering, applied to the businesses big software flies over.",
   alternates: { canonical: "/about" },

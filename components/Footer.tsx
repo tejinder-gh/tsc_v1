@@ -86,11 +86,19 @@ export function Footer() {
         </nav>
       </div>
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-site flex-col gap-2 px-4 py-5 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>
-            &copy; {new Date().getFullYear()} {site.legalName}. {site.address.locality},{" "}
-            {site.address.region}.
-          </p>
+        <div className="mx-auto flex max-w-site flex-col gap-4 px-4 py-5 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <p>
+              &copy; {new Date().getFullYear()} {site.legalName}. {site.address.locality},{" "}
+              {site.address.region}.
+            </p>
+            <Link href="/privacy" className="hover:text-white underline underline-offset-2">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-white underline underline-offset-2">
+              Terms of Service
+            </Link>
+          </div>
           <p>PIPEDA/PHIPA-aware data handling for clinics, dental offices, and law firms.</p>
         </div>
       </div>

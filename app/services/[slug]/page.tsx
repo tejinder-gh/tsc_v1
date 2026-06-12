@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const service = serviceBySlug(slug);
   if (!service) return {};
   return {
-    title: service.title,
+    title: `${service.name} - ${service.title}`,
     description: service.excerpt,
     alternates: { canonical: `/services/${service.slug}` },
   };
