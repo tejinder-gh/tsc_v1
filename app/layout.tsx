@@ -95,6 +95,7 @@ const localBusinessJsonLd = {
     addressCountry: site.address.country,
   },
   priceRange: "$$",
+  ...(site.sameAs && site.sameAs.length > 0 ? { sameAs: site.sameAs } : {}),
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

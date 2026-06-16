@@ -25,6 +25,10 @@ export const site = {
     region: "ON",
     country: "CA",
   },
+  sameAs: [
+    // "https://www.google.com/maps?cid=YOUR_BUSINESS_ID",
+    // "https://clutch.co/profile/the-skill-corner",
+  ],
 } as const;
 
 export interface NavItem {

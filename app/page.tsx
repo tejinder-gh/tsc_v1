@@ -17,7 +17,6 @@ import { HowItWorks } from "@/components/home/HowItWorks";
 import { ProblemStrip } from "@/components/home/ProblemStrip";
 import { ProofSection } from "@/components/home/ProofSection";
 import { RoiCalculator } from "@/components/home/RoiCalculator";
-import { SegmentRouter } from "@/components/home/SegmentRouter";
 import { PricingAnchor } from "@/components/PricingAnchor";
 import { ServicesGrid } from "@/components/ServicesGrid";
 import { homeFaq } from "@/content/faq";
@@ -30,7 +29,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <SegmentRouter />
       <ProblemStrip />
       <RoiCalculator />
       <ProofSection />
