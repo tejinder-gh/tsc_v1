@@ -62,7 +62,7 @@ export function RoiCalculator() {
 
   return (
     <section aria-labelledby="roi-heading" className="mx-auto max-w-site px-4 py-16 sm:px-6">
-      <div className="rounded-xl bg-ink p-6 sm:p-10 md:p-12">
+      <div className="rounded-xl bg-navy p-6 sm:p-10 md:p-12">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <h2
@@ -131,8 +131,8 @@ export function RoiCalculator() {
             </p>
             <p
               aria-live="polite"
-              className="mt-3 font-display text-5xl font-bold text-ledger tabular-nums sm:text-6xl"
-              style={{ color: "#2FB97E" }}
+              className="mt-3 font-display text-5xl font-bold text-blue tabular-nums sm:text-6xl"
+              style={{ color: "#60A5FA" }}
             >
               {formatCurrency(annual)}
             </p>
@@ -152,7 +152,7 @@ export function RoiCalculator() {
                 <button
                   type="button"
                   onClick={() => setCapture("open")}
-                  className="rounded-lg border-2 border-white/60 px-6 py-3 font-semibold text-white transition-colors hover:bg-white hover:text-ink"
+                  className="rounded-lg border-2 border-white/60 px-6 py-3 font-semibold text-white transition-colors hover:bg-white hover:text-navy"
                 >
                   Email me this report
                 </button>
@@ -170,13 +170,13 @@ export function RoiCalculator() {
                     type="email"
                     placeholder="you@yourbusiness.ca"
                     autoComplete="email"
-                    className="w-full rounded-lg border-2 border-white/30 bg-white px-4 py-3 text-ink placeholder:text-slate/60"
+                    className="w-full rounded-lg border-2 border-white/30 bg-white px-4 py-3 text-navy placeholder:text-slate/60"
                     {...form.register("email")}
                   />
                   <button
                     type="submit"
                     disabled={capture === "sending"}
-                    className="shrink-0 rounded-lg bg-ledger px-5 py-3 font-semibold text-white transition-colors hover:bg-ledger-dark disabled:opacity-60"
+                    className="shrink-0 rounded-lg bg-blue px-5 py-3 font-semibold text-white transition-colors hover:bg-blue-pressed disabled:opacity-60"
                   >
                     {capture === "sending" ? "Sending..." : "Send it"}
                   </button>

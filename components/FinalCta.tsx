@@ -24,7 +24,7 @@ export function FinalCta({
 }: FinalCtaProps) {
   return (
     <section aria-label="Next steps">
-      <div className="bg-ink">
+      <div className="bg-navy">
         <div className="mx-auto flex max-w-site flex-col items-start gap-6 px-4 py-16 sm:px-6 md:flex-row md:items-center md:justify-between">
           <div className="max-w-xl">
             <h2 className="font-display text-3xl font-bold !text-white sm:text-4xl">{heading}</h2>
@@ -42,7 +42,7 @@ export function FinalCta({
       </div>
       <div className="bg-mist">
         <div className="mx-auto flex max-w-site flex-col items-start gap-4 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between">
-          <p className="font-medium text-ink">
+          <p className="font-medium text-navy">
             Not ready to talk? Grab the free Automation Opportunities Checklist - 25 tasks your
             business can stop doing by hand.
           </p>

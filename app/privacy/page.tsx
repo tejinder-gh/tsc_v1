@@ -12,10 +12,10 @@ export default function PrivacyPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
       <header className="mb-10">
-        <p className="font-mono text-sm font-semibold uppercase tracking-widest text-ledger">
+        <p className="font-mono text-sm font-semibold uppercase tracking-widest text-blue">
           Compliance
         </p>
-        <h1 className="mt-3 font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+        <h1 className="mt-3 font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
           Privacy Policy
         </h1>
         <p className="mt-3 text-sm text-slate">Last updated: June 12, 2026</p>
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
         </p>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">1. Information We Collect</h2>
+          <h2 className="font-display text-2xl font-bold text-navy">1. Information We Collect</h2>
           <p>
             We only collect information necessary to fulfill our service engagements, deliver our
             lead magnets, and respond to your direct queries:
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">2. How We Handle Data</h2>
+          <h2 className="font-display text-2xl font-bold text-navy">2. How We Handle Data</h2>
           <p>
             We operate on a <strong>minimal-retention, done-in-place</strong> data architecture:
           </p>
@@ -71,8 +71,8 @@ export default function PrivacyPage() {
           </ul>
         </section>
 
-        <section className="space-y-3 font-medium border-l-4 border-ledger/50 bg-mist/30 p-4 rounded-r-xl">
-          <h2 className="font-display text-xl font-bold text-ink">3. PIPEDA & PHIPA Compliance</h2>
+        <section className="space-y-3 font-medium border-l-4 border-blue/50 bg-mist/30 p-4 rounded-r-xl">
+          <h2 className="font-display text-xl font-bold text-navy">3. PIPEDA & PHIPA Compliance</h2>
           <p>
             For our professional practice clients (medical clinics, dental offices, law firms, and
             accounting practices):
@@ -101,7 +101,7 @@ export default function PrivacyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">
+          <h2 className="font-display text-2xl font-bold text-navy">
             4. Third-Party Service Providers
           </h2>
           <p>
@@ -122,16 +122,16 @@ export default function PrivacyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">5. Contact Information</h2>
+          <h2 className="font-display text-2xl font-bold text-navy">5. Contact Information</h2>
           <p>
             If you have questions about this Privacy Policy or wish to request details about data
             handling for a custom integration, please contact our privacy representative:
           </p>
-          <p className="mt-2 text-ink">
+          <p className="mt-2 text-navy">
             <strong>{site.legalName}</strong>
             <br />
             Email:{" "}
-            <a href={`mailto:${site.email}`} className="font-semibold text-ledger underline">
+            <a href={`mailto:${site.email}`} className="font-semibold text-blue underline">
               {site.email}
             </a>
             <br />

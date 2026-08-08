@@ -66,7 +66,7 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div className="rounded-xl border-2 border-ledger/30 bg-mist p-7" role="status">
+      <div className="rounded-xl border-2 border-blue/30 bg-mist p-7" role="status">
         <h2 className="font-display text-2xl font-bold">Got it. We reply within 1 business day.</h2>
         <p className="mt-3 leading-relaxed">
           Want answers faster? The free audit call usually beats email by a couple of days - and you
@@ -87,14 +87,14 @@ export function ContactForm() {
     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor={ids.name} className="block font-medium text-ink">
+          <label htmlFor={ids.name} className="block font-medium text-navy">
             Your name
           </label>
           <input
             id={ids.name}
             type="text"
             autoComplete="name"
-            className="mt-1 w-full rounded-lg border-2 border-ink/15 px-4 py-3"
+            className="mt-1 w-full rounded-lg border-2 border-navy/15 px-4 py-3"
             {...form.register("name")}
           />
           {errors.name ? (
@@ -104,14 +104,14 @@ export function ContactForm() {
           ) : null}
         </div>
         <div>
-          <label htmlFor={ids.email} className="block font-medium text-ink">
+          <label htmlFor={ids.email} className="block font-medium text-navy">
             Email
           </label>
           <input
             id={ids.email}
             type="email"
             autoComplete="email"
-            className="mt-1 w-full rounded-lg border-2 border-ink/15 px-4 py-3"
+            className="mt-1 w-full rounded-lg border-2 border-navy/15 px-4 py-3"
             {...form.register("email")}
           />
           {errors.email ? (
@@ -123,12 +123,12 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor={ids.type} className="block font-medium text-ink">
+        <label htmlFor={ids.type} className="block font-medium text-navy">
           What kind of business do you run?
         </label>
         <select
           id={ids.type}
-          className="mt-1 w-full rounded-lg border-2 border-ink/15 bg-white px-4 py-3"
+          className="mt-1 w-full rounded-lg border-2 border-navy/15 bg-white px-4 py-3"
           defaultValue=""
           {...form.register("businessType")}
         >
@@ -149,14 +149,14 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor={ids.message} className="block font-medium text-ink">
+        <label htmlFor={ids.message} className="block font-medium text-navy">
           What&apos;s eating your time?
         </label>
         <textarea
           id={ids.message}
           rows={5}
           placeholder="Example: I spend every Sunday night building supplier orders, and we miss calls all day Saturday."
-          className="mt-1 w-full rounded-lg border-2 border-ink/15 px-4 py-3"
+          className="mt-1 w-full rounded-lg border-2 border-navy/15 px-4 py-3"
           {...form.register("message")}
         />
         {errors.message ? (
@@ -167,12 +167,12 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor={ids.budget} className="block font-medium text-ink">
+        <label htmlFor={ids.budget} className="block font-medium text-navy">
           Budget range <span className="font-normal text-slate">(optional)</span>
         </label>
         <select
           id={ids.budget}
-          className="mt-1 w-full rounded-lg border-2 border-ink/15 bg-white px-4 py-3"
+          className="mt-1 w-full rounded-lg border-2 border-navy/15 bg-white px-4 py-3"
           defaultValue=""
           {...form.register("budget")}
         >
@@ -194,7 +194,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={form.formState.isSubmitting}
-        className="self-start rounded-lg bg-ledger px-6 py-3.5 font-semibold text-white transition-colors hover:bg-ledger-dark disabled:opacity-60"
+        className="self-start rounded-lg bg-blue px-6 py-3.5 font-semibold text-white transition-colors hover:bg-blue-pressed disabled:opacity-60"
       >
         {form.formState.isSubmitting ? "Sending..." : "Send my question"}
       </button>

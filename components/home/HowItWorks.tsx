@@ -22,7 +22,7 @@ export function HowItWorks() {
               <div className="h-full rounded-xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-elevated hover:-translate-y-0.5">
                 <span
                   aria-hidden="true"
-                  className="grid h-10 w-10 place-items-center rounded-full bg-ledger font-display text-lg font-bold text-white shadow-sm"
+                  className="grid h-10 w-10 place-items-center rounded-full bg-blue font-display text-lg font-bold text-white shadow-sm"
                 >
                   {step.number}
                 </span>

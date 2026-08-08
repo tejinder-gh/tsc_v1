@@ -4,9 +4,9 @@
  * What: The site's only CTA button/link primitive - styled variants plus automatic
  *       cta_clicked analytics with location and segment.
  * Why: Every CTA click must fire an event with consistent properties; one primitive
- *      guarantees no CTA ships untracked and the accent color stays CTA-only.
+ *      guarantees no CTA ships untracked and the blue accent stays CTA-only.
  * How: Wraps next/link; fires track() in onClick (navigation proceeds normally).
- *      Variants: primary (ledger), secondary (ink outline), onDark variants for ink bands.
+ *      Variants: primary (blue), secondary (navy outline), onDark variants for navy bands.
  * From Where: TheSkillCorner marketing site build brief (analytics + design spec), 2026-06.
  * When: 2026-06.
  */
@@ -20,14 +20,14 @@ type Variant = "primary" | "secondary" | "primaryOnDark" | "secondaryOnDark" | "
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "inline-block rounded-lg bg-ledger px-6 py-3.5 font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-ledger-dark hover:shadow-md active:translate-y-0 active:scale-[0.98]",
+    "inline-block rounded-lg bg-blue px-6 py-3.5 font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-pressed hover:shadow-md active:translate-y-0 active:scale-[0.98]",
   secondary:
-    "inline-block rounded-lg border border-ink bg-transparent px-6 py-3.5 font-semibold text-ink transition-all duration-200 hover:-translate-y-0.5 hover:bg-mist hover:shadow-sm active:translate-y-0 active:scale-[0.98]",
+    "inline-block rounded-lg border border-navy bg-transparent px-6 py-3.5 font-semibold text-navy transition-all duration-200 hover:-translate-y-0.5 hover:bg-mist hover:shadow-sm active:translate-y-0 active:scale-[0.98]",
   primaryOnDark:
-    "inline-block rounded-lg bg-ledger px-6 py-3.5 font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-ledger-dark hover:shadow-md active:translate-y-0 active:scale-[0.98]",
+    "inline-block rounded-lg bg-blue px-6 py-3.5 font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-pressed hover:shadow-md active:translate-y-0 active:scale-[0.98]",
   secondaryOnDark:
     "inline-block rounded-lg border border-white/70 bg-transparent px-6 py-3.5 font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-sm active:translate-y-0 active:scale-[0.98]",
-  text: "font-semibold text-ledger underline underline-offset-4 transition-colors hover:text-accent",
+  text: "font-semibold text-blue underline underline-offset-4 transition-colors hover:text-blue-pressed",
 };
 
 interface CtaLinkProps {

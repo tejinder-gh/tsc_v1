@@ -14,7 +14,10 @@ import { consoleLogger } from "../core/logger";
 import { runTick } from "../server/run-tick";
 
 const DEFAULT_INTERVAL_MS = 300_000;
-const intervalMs = Math.max(15_000, Number(process.env.SCHEDULER_INTERVAL_MS ?? DEFAULT_INTERVAL_MS));
+const intervalMs = Math.max(
+  15_000,
+  Number(process.env.SCHEDULER_INTERVAL_MS ?? DEFAULT_INTERVAL_MS),
+);
 
 let stopped = false;
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

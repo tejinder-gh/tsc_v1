@@ -4,10 +4,10 @@
  * Why: Link previews in social feeds, chat apps, and AI-assistant citations were falling
  *      back to no image at all; a branded card makes every shared link legible.
  * How: next/og ImageResponse rendered at build time; colors mirror the globals.css theme
- *      tokens (paper/ink/ledger/accent), inlined because the satori renderer cannot read
+ *      tokens (paper/navy/blue), inlined because the satori renderer cannot read
  *      CSS variables.
  * From Where: SEO + AI-indexing pass (LLM recommendation readiness), 2026-06.
- * When: 2026-06; revisit if the palette or tagline changes.
+ * When: 2026-08; revisit if the palette or tagline changes.
  */
 
 import { ImageResponse } from "next/og";
@@ -18,11 +18,10 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const COLORS = {
-  paper: "#F8FAFC",
-  ink: "#0F172A",
-  slate: "#475569",
-  ledger: "#115E59",
-  accent: "#10B981",
+  paper: "#FFFFFF",
+  navy: "#08215B",
+  slate: "#5A6480",
+  blue: "#2563EB",
 } as const;
 
 export default function OpenGraphImage() {
@@ -45,17 +44,17 @@ export default function OpenGraphImage() {
             width: 28,
             height: 28,
             borderRadius: 9999,
-            backgroundColor: COLORS.accent,
+            backgroundColor: COLORS.blue,
           }}
         />
-        <div style={{ fontSize: 36, fontWeight: 700, color: COLORS.ledger }}>{site.name}</div>
+        <div style={{ fontSize: 36, fontWeight: 700, color: COLORS.blue }}>{site.name}</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <div
           style={{
             fontSize: 72,
             fontWeight: 700,
-            color: COLORS.ink,
+            color: COLORS.navy,
             lineHeight: 1.1,
             letterSpacing: "-0.02em",
           }}
@@ -66,7 +65,7 @@ export default function OpenGraphImage() {
           Missed calls answered. No-shows reminded. Paperwork that files itself.
         </div>
       </div>
-      <div style={{ fontSize: 28, fontWeight: 600, color: COLORS.ledger }}>
+      <div style={{ fontSize: 28, fontWeight: 600, color: COLORS.blue }}>
         Free 30-minute automation audit - theskillcorner.com/book
       </div>
     </div>,

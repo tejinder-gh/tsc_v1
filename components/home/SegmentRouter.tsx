@@ -46,18 +46,18 @@ export function SegmentRouter() {
               }}
               aria-current={selected ? "true" : undefined}
               className={`group flex flex-col justify-between rounded-xl bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
-                selected ? "border-2 border-ledger" : "border-2 border-ink/10 hover:border-ledger"
+                selected ? "border-2 border-blue" : "border-2 border-navy/10 hover:border-blue"
               }`}
             >
               <div>
-                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-mist text-ledger">
-                  <Icon className="h-6 w-6" strokeWidth={2} />
+                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-mist text-blue">
+                  <Icon className="h-6 w-6" strokeWidth={1.7} />
                 </div>
-                <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                <h2 className="font-display text-2xl font-bold tracking-tight text-navy sm:text-3xl">
                   {card.title}
                   <span
                     aria-hidden="true"
-                    className="ml-2 inline-block text-ledger transition-transform duration-300 group-hover:translate-x-1"
+                    className="ml-2 inline-block text-blue transition-transform duration-300 group-hover:translate-x-1"
                   >
                     &rarr;
                   </span>
@@ -73,7 +73,7 @@ export function SegmentRouter() {
                   {exampleTags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm font-medium text-slate transition-colors group-hover:bg-ledger/10 group-hover:text-ledger-dark"
+                      className="inline-flex items-center rounded-full bg-mist px-3 py-1 text-sm font-medium text-slate transition-colors group-hover:bg-blue/10 group-hover:text-blue-pressed"
                     >
                       {tag}
                     </span>

@@ -18,13 +18,13 @@ import { CtaLink } from "./CtaLink";
 export function BookingEmbed() {
   if (!booking.calLink) {
     return (
-      <div className="rounded-xl border-2 border-dashed border-ink/20 bg-mist p-8 text-center">
-        <p className="font-display text-xl font-bold text-ink">Booking is almost ready</p>
+      <div className="rounded-xl border-2 border-dashed border-navy/20 bg-mist p-8 text-center">
+        <p className="font-display text-xl font-bold text-navy">Booking is almost ready</p>
         <p className="mx-auto mt-2 max-w-md leading-relaxed">
           Online scheduling is being set up (set NEXT_PUBLIC_CAL_LINK). In the meantime, email{" "}
           <a
             href={`mailto:${site.email}`}
-            className="font-semibold text-ledger underline underline-offset-4"
+            className="font-semibold text-blue underline underline-offset-4"
           >
             {site.email}
           </a>{" "}
@@ -40,7 +40,7 @@ export function BookingEmbed() {
   }
 
   return (
-    <div className="min-h-[640px] overflow-hidden rounded-xl border border-ink/10 bg-white">
+    <div className="min-h-[640px] overflow-hidden rounded-xl border border-navy/10 bg-white">
       <Cal
         calLink={booking.calLink}
         style={{ width: "100%", height: "100%", minHeight: "640px" }}

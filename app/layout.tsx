@@ -4,14 +4,14 @@
  *       (floating widget, exit-intent modal, mobile sticky bar).
  * Why: Capture surfaces and segment state must exist on every page so each page surfaces
  *      at least two rungs of the conversion ladder.
- * How: next/font loads Inter + JetBrains Mono as CSS variables consumed by the Tailwind
- *      theme; Plausible or GA4 loads only when its env var is set.
+ * How: next/font loads Poppins + DM Sans + JetBrains Mono as CSS variables consumed by
+ *      the Tailwind theme; Plausible or GA4 loads only when its env var is set.
  * From Where: TheSkillCorner marketing site build brief, 2026-06.
  * When: 2026-06.
  */
 
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, JetBrains_Mono, Public_Sans } from "next/font/google";
+import { DM_Sans, JetBrains_Mono, Poppins } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { ExitIntentModal } from "@/components/capture/ExitIntentModal";
@@ -24,15 +24,17 @@ import { SegmentProvider } from "@/lib/segment-context";
 import { BUSINESS_ID } from "@/lib/structured-data";
 import "./globals.css";
 
-const displayFont = Bricolage_Grotesque({
+const displayFont = Poppins({
   subsets: ["latin"],
-  variable: "--font-bricolage",
+  weight: ["500", "600"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
-const bodyFont = Public_Sans({
+const bodyFont = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-public-sans",
+  weight: ["400", "700"],
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -63,10 +65,17 @@ export const metadata: Metadata = {
     title: site.name,
     description: site.description,
   },
+  icons: {
+    icon: [
+      { url: "/favicon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/favicon-180.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F8FAFC",
+  themeColor: "#08215B",
 };
 
 const localBusinessJsonLd = {

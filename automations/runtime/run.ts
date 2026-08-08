@@ -14,6 +14,7 @@
 import { buildSenders } from "../channels";
 import { type Clock, systemClock } from "../core/clock";
 import type { ClientConfig } from "../core/config";
+import { type DraftStore, FileDraftStore } from "../core/drafts";
 import { type EngineResult, planClient } from "../core/engine";
 import { FileIdempotencyStore, type IdempotencyStore } from "../core/idempotency";
 import { consoleLogger, type Logger } from "../core/logger";
@@ -31,6 +32,7 @@ export interface RunOptions {
   idempotency?: IdempotencyStore;
   clock?: Clock;
   logger?: Logger;
+  draftStore?: DraftStore;
   draftSink?: DraftSink;
   env?: NodeJS.ProcessEnv;
   /** Closes the loop: outbound respects opt-outs and per-automation stops written by inbound. */
@@ -52,6 +54,8 @@ export async function runClient(config: ClientConfig, options: RunOptions): Prom
   const registry = options.registry ?? createRegistry();
   const idempotency =
     options.idempotency ?? new FileIdempotencyStore(`.automations/idempotency/${config.id}.json`);
+  const draftStore =
+    options.draftStore ?? new FileDraftStore(`.automations/drafts/${config.id}.json`);
   const senders = buildSenders(config, logger, options.env);
 
   const plan = await planClient(config, {
@@ -68,7 +72,7 @@ export async function runClient(config: ClientConfig, options: RunOptions): Prom
     idempotency,
     clock,
     logger,
-    draftSink: options.draftSink,
+    draftSink: options.draftSink ?? ((draft) => draftStore.save(draft)),
     suppression: options.suppression,
     conversations: options.conversations,
     contactIndex: options.contactIndex,

@@ -14,7 +14,7 @@ import { CtaLink } from "../CtaLink";
 
 export function MobileStickyBar() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-paper/95 px-3 py-2.5 backdrop-blur md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-navy/10 bg-paper/95 px-3 py-2.5 backdrop-blur md:hidden">
       <div className="grid grid-cols-2 gap-2">
         <CtaLink
           href="/book"

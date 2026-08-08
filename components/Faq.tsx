@@ -27,14 +27,14 @@ export function Faq({ items, title = "Questions owners actually ask" }: FaqProps
         <h2 id="faq-heading" className="font-display text-3xl font-bold sm:text-4xl">
           {title}
         </h2>
-        <div className="mt-8 divide-y divide-ink/10 rounded-xl border border-ink/10 bg-white">
+        <div className="mt-8 divide-y divide-navy/10 rounded-xl border border-navy/10 bg-white">
           {items.map((item) => (
             <details key={item.q} className="group px-5 py-4">
-              <summary className="flex items-center justify-between gap-4 font-display text-base font-semibold text-ink sm:text-lg">
+              <summary className="flex items-center justify-between gap-4 font-display text-base font-semibold text-navy sm:text-lg">
                 {item.q}
                 <span
                   aria-hidden="true"
-                  className="faq-chevron shrink-0 text-ledger transition-transform"
+                  className="faq-chevron shrink-0 text-blue transition-transform"
                 >
                   <svg aria-hidden="true" width="14" height="9" viewBox="0 0 14 9" fill="none">
                     <path

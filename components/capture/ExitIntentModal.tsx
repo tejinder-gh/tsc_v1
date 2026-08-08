@@ -66,7 +66,7 @@ export function ExitIntentModal() {
     // biome-ignore lint/a11y/noStaticElementInteractions: backdrop click-to-close is supplementary; Escape and the close button cover keyboard users
     // biome-ignore lint/a11y/useKeyWithClickEvents: Escape already closes the dialog for keyboard users
     <div
-      className="fixed inset-0 z-50 grid place-items-center bg-ink/60 p-4"
+      className="fixed inset-0 z-50 grid place-items-center bg-navy/60 p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) close();
       }}
@@ -86,7 +86,7 @@ export function ExitIntentModal() {
             type="button"
             onClick={close}
             aria-label="Close"
-            className="rounded p-1 text-slate hover:text-ink"
+            className="rounded p-1 text-slate hover:text-navy"
           >
             <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path

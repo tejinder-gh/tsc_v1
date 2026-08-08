@@ -19,6 +19,42 @@ The demo runs two very different clients (a salon and a dental practice) through
 whole pipeline at a fixed instant, in **dry-run** (every send prints instead of
 dialing Twilio/SendGrid).
 
+## Running it on a schedule (making it live)
+
+The engine only acts when something calls it on an interval. `runTick` runs every enabled
+automation for every known client, using the **same file-backed stores as the inbound webhook**
+(`getInboundStores`), so an opt-out a customer just texted is honoured on the very next tick.
+
+```bash
+npm run automations:scheduler   # long-running worker (self-hosted VM/container)
+npm run automations:tick        # one pass, then exit (cron / CI / manual)
+```
+
+Two ways to drive it:
+
+- **Self-hosted:** run `automations:scheduler` as a process (interval = `SCHEDULER_INTERVAL_MS`,
+  default 5 min). Non-overlapping loop, clean SIGTERM shutdown.
+- **Serverless (Vercel):** a platform cron pings `GET /api/cron` (protected by `CRON_SECRET`,
+  which Vercel Cron sends automatically). Add to `vercel.json`:
+  `{ "crons": [{ "path": "/api/cron", "schedule": "*/5 * * * *" }] }` (cadence per your plan).
+
+Each client's integrations are resolved by an `IntegrationsResolver` (the seam where real
+booking/POS/CRM adapters plug in); the demo resolver returns the fixture datasets so it runs
+out of the box. A client with no integrations wired is skipped, not failed.
+
+### Operator overrides (toggle automations without a deploy)
+
+`runTick` passes each config through `applyOverrides`, which merges a per-client JSON file at
+`.automations/overrides/<clientId>.json` — a simple `{ "<automationId>": true|false }` map — onto
+the config. A dashboard (or a hand edit) can switch a flow off; the next tick respects it. No code
+change, no redeploy.
+
+### Draft approvals
+
+`draft` actions (review replies, social posts, newsletters) are persisted to a `DraftStore`
+(`.automations/drafts/<clientId>.json`) instead of being sent. An approval surface reads
+`getPending()`, and `remove(idempotencyKey)` clears one once a human approves and sends it.
+
 ## How it fits together
 
 ```

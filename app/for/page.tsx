@@ -37,7 +37,7 @@ function IndustryGroup({
     <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-20">
       <h2
         id={`${id}-heading`}
-        className="font-display text-2xl font-bold tracking-[-0.02em] text-ink sm:text-3xl"
+        className="font-display text-2xl font-bold tracking-[-0.02em] text-navy sm:text-3xl"
       >
         {title}
       </h2>
@@ -47,11 +47,11 @@ function IndustryGroup({
           <Link
             key={industry.slug}
             href={`/for/${industry.slug}`}
-            className="group flex flex-col rounded-xl bg-white p-6 shadow-sm border-2 border-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-ledger"
+            className="group flex flex-col rounded-xl bg-white p-6 shadow-sm border-2 border-navy/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue"
           >
             <h3 className="font-display text-xl font-bold">{industry.name}</h3>
             <p className="mt-2 flex-1 leading-relaxed">{industry.cardLine}</p>
-            <p className="mt-4 text-sm font-semibold text-ledger">
+            <p className="mt-4 text-sm font-semibold text-blue">
               See what we automate
               <span
                 aria-hidden="true"
@@ -73,7 +73,7 @@ export default function ForIndexPage() {
       <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           <div className="max-w-3xl">
-            <h1 className="font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+            <h1 className="font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
               Built for how your industry actually works
             </h1>
             <p className="mt-4 text-lg text-slate">

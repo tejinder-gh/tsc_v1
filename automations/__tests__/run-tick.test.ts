@@ -30,9 +30,9 @@ describe("scheduler runTick", () => {
       clients: [radianceSalonConfig],
       resolveIntegrations: resolver,
       storesFor: () => stores,
+      applyOverrides: (c) => c, // hermetic: ignore any on-disk operator overrides
       clock: fixedClock(DEMO_NOW),
       logger: noopLogger,
-      env: {},
     });
 
     expect(report.clients).toHaveLength(1);
@@ -49,13 +49,29 @@ describe("scheduler runTick", () => {
       clients: [radianceSalonConfig],
       resolveIntegrations: resolver,
       storesFor: () => stores,
+      applyOverrides: (c) => c, // hermetic: ignore any on-disk operator overrides
       clock: fixedClock(DEMO_NOW),
       logger: noopLogger,
-      env: {},
     });
 
     expect(report.clients[0].suppressed).toBe(1);
     expect(report.clients[0].sent).toBe(4);
+  });
+
+  it("applies operator overrides that disable an automation", async () => {
+    const report = await runTick({
+      clients: [radianceSalonConfig],
+      resolveIntegrations: resolver,
+      storesFor: () => freshStores(),
+      // Operator toggled win-back off in the dashboard.
+      applyOverrides: (c) => ({
+        ...c,
+        automations: c.automations.map((a) => (a.id === "winback" ? { ...a, enabled: false } : a)),
+      }),
+      clock: fixedClock(DEMO_NOW),
+      logger: noopLogger,
+    });
+    expect(report.clients[0].sent).toBe(4); // the win-back send is gone
   });
 
   it("skips a client with no integrations wired", async () => {
@@ -65,7 +81,6 @@ describe("scheduler runTick", () => {
       storesFor: () => freshStores(),
       clock: fixedClock(DEMO_NOW),
       logger: noopLogger,
-      env: {},
     });
     expect(report.clients[0].skipped).toBe("no integrations wired");
     expect(report.clients[0].sent).toBe(0);

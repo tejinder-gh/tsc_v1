@@ -15,18 +15,21 @@
 import { type Clock, systemClock } from "../core/clock";
 import type { ClientConfig } from "../core/config";
 import { consoleLogger, type Logger } from "../core/logger";
+import { applyOverrides } from "../core/overrides";
 import { knownClients } from "./clients-registry";
-import { demoIntegrationsResolver, type IntegrationsResolver } from "./integrations-resolver";
 import { getInboundStores, type InboundStores } from "./inbound-stores";
+import { demoIntegrationsResolver, type IntegrationsResolver } from "./integrations-resolver";
 
 export interface TickOptions {
   clients?: readonly ClientConfig[];
   resolveIntegrations?: IntegrationsResolver;
   /** Override how per-client stores are obtained (tests pass in-memory). */
   storesFor?: (clientId: string) => InboundStores;
+  /** Apply operator config overrides (default: the on-disk file overrides). Tests pass identity. */
+  applyOverrides?: (config: ClientConfig) => ClientConfig;
   clock?: Clock;
   logger?: Logger;
-  env?: Record<string, string | undefined>;
+  env?: NodeJS.ProcessEnv;
 }
 
 export interface ClientTickResult {
@@ -53,6 +56,7 @@ export async function runTick(options: TickOptions = {}): Promise<TickReport> {
   const clients = options.clients ?? knownClients;
   const resolveIntegrations = options.resolveIntegrations ?? demoIntegrationsResolver;
   const storesFor = options.storesFor ?? ((id: string) => getInboundStores(id, env));
+  const applyOverridesFn = options.applyOverrides ?? applyOverrides;
 
   const ranAt = clock.now();
   const results: ClientTickResult[] = [];
@@ -60,7 +64,8 @@ export async function runTick(options: TickOptions = {}): Promise<TickReport> {
   // Imported lazily to avoid a cycle (runtime/run -> channels -> ... ) at module load.
   const { runClient } = await import("../runtime/run");
 
-  for (const config of clients) {
+  for (const rawConfig of clients) {
+    const config = applyOverridesFn(rawConfig);
     const integrations = resolveIntegrations(config.id);
     if (!integrations) {
       logger.warn("no integrations wired for client; skipping", { clientId: config.id });
@@ -107,5 +112,15 @@ export async function runTick(options: TickOptions = {}): Promise<TickReport> {
 }
 
 function emptyResult(clientId: string, skipped?: string): ClientTickResult {
-  return { clientId, skipped, planned: 0, sent: 0, notified: 0, drafted: 0, suppressed: 0, failed: 0, errors: [] };
+  return {
+    clientId,
+    skipped,
+    planned: 0,
+    sent: 0,
+    notified: 0,
+    drafted: 0,
+    suppressed: 0,
+    failed: 0,
+    errors: [],
+  };
 }

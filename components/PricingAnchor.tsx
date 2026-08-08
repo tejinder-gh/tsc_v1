@@ -22,14 +22,14 @@ interface PricingAnchorProps {
 function AnchorCard({ segment, location }: { segment: Segment; location: string }) {
   const content = pricing[segment];
   return (
-    <div className="flex h-full flex-col rounded-xl border-2 border-ink/10 bg-white p-7">
+    <div className="flex h-full flex-col rounded-xl border-2 border-navy/10 bg-white p-7">
       <p className="text-sm font-semibold uppercase tracking-wide text-slate">{content.label}</p>
-      <p className="mt-2 font-display text-2xl font-bold text-ledger sm:text-3xl">
+      <p className="mt-2 font-display text-2xl font-bold text-blue sm:text-3xl">
         {content.anchor}
       </p>
       <p className="mt-3 leading-relaxed">{content.detail}</p>
       {content.compliance ? (
-        <p className="mt-4 rounded-lg bg-mist p-4 text-sm leading-relaxed text-ink">
+        <p className="mt-4 rounded-lg bg-mist p-4 text-sm leading-relaxed text-navy">
           {content.compliance}
         </p>
       ) : null}

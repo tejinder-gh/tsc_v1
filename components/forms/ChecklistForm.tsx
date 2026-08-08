@@ -63,7 +63,7 @@ export function ChecklistForm({
   if (sent) {
     return (
       <div className="rounded-xl bg-mist p-5" role="status">
-        <p className="font-display text-lg font-bold text-ink">It&apos;s on its way.</p>
+        <p className="font-display text-lg font-bold text-navy">It&apos;s on its way.</p>
         <p className="mt-2 leading-relaxed">
           Check your inbox in the next few minutes - the checklist will arrive by email. If you
           don&apos;t see it, check your spam folder.
@@ -75,7 +75,7 @@ export function ChecklistForm({
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
       <div>
-        <label htmlFor={emailId} className={compact ? "sr-only" : "block font-medium text-ink"}>
+        <label htmlFor={emailId} className={compact ? "sr-only" : "block font-medium text-navy"}>
           Email address
         </label>
         <input
@@ -83,7 +83,7 @@ export function ChecklistForm({
           type="email"
           placeholder="you@yourbusiness.ca"
           autoComplete="email"
-          className="mt-1 w-full rounded-lg border-2 border-ink/15 px-4 py-3"
+          className="mt-1 w-full rounded-lg border-2 border-navy/15 px-4 py-3"
           {...form.register("email")}
         />
         {form.formState.errors.email ? (
@@ -93,12 +93,12 @@ export function ChecklistForm({
         ) : null}
       </div>
       <div>
-        <label htmlFor={typeId} className={compact ? "sr-only" : "block font-medium text-ink"}>
+        <label htmlFor={typeId} className={compact ? "sr-only" : "block font-medium text-navy"}>
           What kind of business?
         </label>
         <select
           id={typeId}
-          className="mt-1 w-full rounded-lg border-2 border-ink/15 bg-white px-4 py-3"
+          className="mt-1 w-full rounded-lg border-2 border-navy/15 bg-white px-4 py-3"
           defaultValue=""
           {...form.register("businessType")}
         >
@@ -125,7 +125,7 @@ export function ChecklistForm({
       <button
         type="submit"
         disabled={form.formState.isSubmitting}
-        className="rounded-lg bg-ledger px-6 py-3.5 font-semibold text-white transition-colors hover:bg-ledger-dark disabled:opacity-60"
+        className="rounded-lg bg-blue px-6 py-3.5 font-semibold text-white transition-colors hover:bg-blue-pressed disabled:opacity-60"
       >
         {form.formState.isSubmitting ? "Sending..." : "Email me the checklist"}
       </button>

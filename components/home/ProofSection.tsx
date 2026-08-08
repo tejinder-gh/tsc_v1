@@ -35,14 +35,14 @@ export function ProofSection() {
                 {build.business}
               </p>
               <p className="mt-3 leading-relaxed">
-                <span className="font-semibold text-ink">The problem: </span>
+                <span className="font-semibold text-navy">The problem: </span>
                 {build.problem}
               </p>
               <p className="mt-2 flex-1 leading-relaxed">
-                <span className="font-semibold text-ink">The build: </span>
+                <span className="font-semibold text-navy">The build: </span>
                 {build.automation}
               </p>
-              <p className="mt-4 font-display text-xl font-bold text-ledger">{build.result}</p>
+              <p className="mt-4 font-display text-xl font-bold text-blue">{build.result}</p>
             </article>
           ))}
         </div>

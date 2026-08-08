@@ -1,28 +1,30 @@
 /*
- * What: Global styles - Tailwind v4 theme tokens (slate/teal palette, shadow scale),
+ * What: Global styles - Tailwind v4 theme tokens (navy/blue palette, shadow scale),
  *       base typography, focus styles, the hero reveal animation, the no-JS guard for
  *       Framer Motion reveals, and range-slider styling for the ROI calculator.
  * Why: Tailwind v4 is configured in CSS (no tailwind.config); the design system's named
- *      palette, font mapping (Inter + JetBrains Mono), and shadows live here as the
- *      single source of truth.
+ *      palette, font mapping (Poppins + DM Sans + JetBrains Mono), and shadows live here
+ *      as the single source of truth.
  * How: @theme defines color/container/shadow tokens; @theme inline maps font utilities to
  *      the next/font CSS variables. prefers-reduced-motion disables CSS animations;
  *      Framer Motion reveals handle it via MotionConfig in RevealCascade.
- * From Where: Design plan - "approachable precision" direction; slate/teal + Framer
- *             Motion refresh, 2026-06.
- * When: 2026-06.
+ * From Where: Design plan - "approachable precision" direction; navy/blue brand refresh,
+ *             2026-08.
+ * When: 2026-08.
  */
 
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #14242E; /* custom ink */
-  --color-slate: #4A5C66; /* custom slate */
-  --color-paper: #FBFBFA; /* custom paper */
-  --color-mist: #ECF1EF; /* custom mist */
-  --color-ledger: #0C7E54; /* custom ledger */
-  --color-ledger-dark: #0A6B47; /* custom ledger dark */
-  --color-accent: #10B981; /* emerald-500, for hover states */
+  --color-navy: #08215B; /* headings, footer, icon ground - the logo's ink */
+  --color-blue: #2563EB; /* the dot - links, primary buttons, one accent per view */
+  --color-blue-pressed: #1B49B8; /* blue hover/pressed */
+  --color-blue-tint: #EAF0FE; /* soft blue backgrounds */
+  --color-slate: #5A6480; /* body copy on white */
+  --color-paper: #FFFFFF;
+  --color-mist: #F2F5FA; /* alternating section background, soft cards */
+  --color-line: #DDE3EE; /* hairline borders/dividers */
+  --color-muted: #97A0B8; /* de-emphasized text/icons */
   --container-site: 72rem;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.04);
@@ -31,8 +33,8 @@
 }
 
 @theme inline {
-  --font-display: var(--font-bricolage);
-  --font-body: var(--font-public-sans);
+  --font-display: var(--font-poppins);
+  --font-body: var(--font-dm-sans);
   --font-mono: var(--font-jetbrains-mono);
 }
 
@@ -47,11 +49,11 @@ h1,
 h2,
 h3,
 h4 {
-  color: var(--color-ink);
+  color: var(--color-navy);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-ledger);
+  outline: 2px solid var(--color-blue);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -142,7 +144,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ROI calculator sliders - signature element, ledger-green thumbs on the ink card. */
+/* ROI calculator sliders - signature element, blue thumbs on the navy card. */
 input[type="range"] {
   appearance: none;
   -webkit-appearance: none;
@@ -159,7 +161,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--color-ledger);
+  background: var(--color-blue);
   border: 3px solid #ffffff;
 }
 
@@ -167,7 +169,7 @@ input[type="range"]::-moz-range-thumb {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--color-ledger);
+  background: var(--color-blue);
   border: 3px solid #ffffff;
 }
 

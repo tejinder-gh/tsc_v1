@@ -59,7 +59,7 @@ export default async function ServicePage({ params }: PageProps) {
         ])}
       />
       <section className="mx-auto max-w-site px-4 pb-12 pt-16 sm:px-6 sm:pt-20">
-        <p className="text-sm font-semibold uppercase tracking-widest text-ledger">
+        <p className="text-sm font-semibold uppercase tracking-widest text-blue">
           {service.name}
         </p>
         <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">
@@ -84,7 +84,7 @@ export default async function ServicePage({ params }: PageProps) {
               <ul className="mt-6 space-y-4">
                 {service.whatWeBuild.map((item) => (
                   <li key={item} className="flex gap-3 rounded-xl bg-white p-5">
-                    <span aria-hidden="true" className="mt-1 shrink-0 text-ledger">
+                    <span aria-hidden="true" className="mt-1 shrink-0 text-blue">
                       <svg
                         aria-hidden="true"
                         width="16"
@@ -109,7 +109,7 @@ export default async function ServicePage({ params }: PageProps) {
             <div className="space-y-6">
               <div className="rounded-xl bg-white p-5">
                 <h3 className="font-display font-bold">Timeline</h3>
-                <p className="mt-1 font-display text-xl font-bold text-ledger">
+                <p className="mt-1 font-display text-xl font-bold text-blue">
                   {service.timeline}
                 </p>
               </div>
@@ -119,7 +119,7 @@ export default async function ServicePage({ params }: PageProps) {
                   {service.tools.map((tool) => (
                     <li
                       key={tool}
-                      className="rounded-full bg-mist px-3 py-1 text-sm font-medium text-ink"
+                      className="rounded-full bg-mist px-3 py-1 text-sm font-medium text-navy"
                     >
                       {tool}
                     </li>
@@ -143,7 +143,7 @@ export default async function ServicePage({ params }: PageProps) {
               <Link
                 key={industry.slug}
                 href={`/for/${industry.slug}`}
-                className="rounded-lg border-2 border-ink/10 bg-white px-4 py-2.5 font-medium text-ink transition-colors hover:border-ledger"
+                className="rounded-lg border-2 border-navy/10 bg-white px-4 py-2.5 font-medium text-navy transition-colors hover:border-blue"
               >
                 {industry.name}
               </Link>

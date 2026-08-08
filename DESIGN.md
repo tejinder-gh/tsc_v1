@@ -7,39 +7,60 @@ for a store owner. No sci-fi, no robots, no gradient blobs.
 
 | Token | Hex | Use |
 | --- | --- | --- |
-| `ink` | `#14242E` | Headings, dark bands (calculator, final CTA, footer) |
-| `slate` | `#4A5C66` | Body text |
-| `paper` | `#FBFBFA` | Page background |
-| `mist` | `#ECF1EF` | Alternating section background, soft cards |
-| `ledger` | `#0C7E54` | THE accent: CTAs, key numbers, slider thumbs - nothing else (darkened from the original #0E8A5C to clear WCAG AA 4.5:1 with white button text) |
-| `ledger-dark` | `#0A6B47` | CTA hover/pressed |
+| `navy` | `#08215B` | Headings, footer, icon ground - the logo's ink |
+| `blue` | `#2563EB` | THE accent - "the dot" from the logo. Links, primary buttons, one accent per view - nothing else |
+| `blue-pressed` | `#1B49B8` | Blue hover/pressed |
+| `blue-tint` | `#EAF0FE` | Soft blue backgrounds, selected states |
+| `slate` | `#5A6480` | Body copy on white |
+| `paper` | `#FFFFFF` | Page background |
+| `mist` | `#F2F5FA` | Alternating section background, soft cards |
+| `line` | `#DDE3EE` | Hairline borders/dividers |
+| `muted` | `#97A0B8` | De-emphasized text/icons |
 
-Rule: the eye learns **green = action and dollars saved**. Never use ledger green for
-decoration. (One exception: on the ink card the result figure uses a lightened
-`#2FB97E` for WCAG AA contrast against `#14242E`.)
+Rule: the eye learns **blue = one action per screen**. Blue is the dot from the logo -
+it marks the primary CTA or link, not every heading. Roughly 70% white, 20% navy, 10%
+blue on any given page.
+
+Contrast: navy on white is 14.7:1, blue on white is 5.2:1 - both pass AA for body text.
+White on blue passes at 18px and above; below that use navy. On the navy ROI-calculator
+card, the result figure uses a lightened `#60A5FA` (~6:1 against navy) instead of base
+blue, which only clears ~3:1 on that dark ground.
 
 Tokens are defined once in `app/globals.css` under `@theme` (Tailwind v4).
 
 ## Typography
 
-- Display: **Bricolage Grotesque** (`--font-display`, utility `font-display`) - headings, key numbers
-- Body: **Public Sans** (`--font-body`, default on `body`)
-- Scale in practice: 14 / 16 / 18 / 22 (lg) / 30 (3xl) / 36 (4xl) / 48 (5xl) / 60 (6xl)
+- Display: **Poppins**, weights 500/600 only (`--font-display`, utility `font-display`) -
+  headings and buttons. Matches the wordmark: geometric, near-monoline, wide apertures.
+  Loses legibility below 18px, so never use it for body copy.
+- Body: **DM Sans**, weights 400/700 (`--font-body`, default on `body`)
+- Type scale:
+  - H1: 62/65, -3% tracking
+  - H2: 38/44
+  - H3: 22/30
+  - Body: 18/30
+  - Eyebrow: DM Sans Bold, 13px, +16% tracking, all caps
+- Keep numerals tabular in phone numbers and pricing (`tabular-nums`).
 
 Both load via `next/font/google` with `display: swap`.
+
+## Iconography
+
+Line icons at 1.7px stroke on a 24px grid (`lucide-react`, `strokeWidth={1.7}`). Navy
+strokes with one blue stroke or dot per icon - the same one-accent rule as the logo.
 
 ## Layout
 
 Single-column narrative, max width `72rem` (`max-w-site`), full-bleed alternating
-paper/mist bands. Cards: white, `rounded-xl`, 2px `ink/10` borders that turn `ledger`
+paper/mist bands. Cards: white, `rounded-xl`, 2px `navy/10` borders that turn `blue`
 on hover. The only dark bands are the ROI calculator and the final CTA/footer -
 deliberate bookends.
 
 ## Signature element
 
-The ROI calculator (`components/home/RoiCalculator.tsx`): ink-dark card, oversized
-tabular ledger-green annual figure, custom green slider thumbs. All boldness is spent
-here; everything else stays disciplined.
+The ROI calculator (`components/home/RoiCalculator.tsx`): navy-dark card, oversized
+tabular blue annual figure, custom blue slider thumbs. All boldness is spent here;
+everything else stays disciplined.
 
 ## Motion
 
@@ -48,9 +69,9 @@ nothing else. Everything respects `prefers-reduced-motion` (disabled in globals.
 
 ## Anti-template self-critique
 
-- Not cream + serif + terracotta: sans display face, cool paper, green accent
-- Not near-black + acid green: light UI; deep ledger green on light grounds; dark used
-  only as bookends
+- Not cream + serif + terracotta: sans display face, cool paper, blue accent
+- Not near-black + acid green: light UI; deep navy on light grounds; dark used only as
+  bookends; blue reserved for the single accent per view
 - Not broadsheet hairline rules: carded, rounded, 2px borders, generous whitespace
-- Accepted risk: green CTAs can read "fintech" - offset by warm copy voice and
-  Bricolage's character
+- Accepted risk: navy + blue can read "fintech/SaaS" - offset by warm copy voice and
+  Poppins's geometric character

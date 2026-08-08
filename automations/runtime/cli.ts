@@ -12,8 +12,10 @@
 
 import { DEMO_NOW, demoClients } from "../clients";
 import { fixedClock } from "../core/clock";
+import { MemoryDraftStore } from "../core/drafts";
 import { MemoryIdempotencyStore } from "../core/idempotency";
 import { consoleLogger } from "../core/logger";
+import { applyOverrides } from "../core/overrides";
 import { runClient } from "./run";
 
 async function main(): Promise<void> {
@@ -21,12 +23,14 @@ async function main(): Promise<void> {
   consoleLogger.info("=== Automation demo run ===", { now: DEMO_NOW, clients: demoClients.length });
 
   for (const client of demoClients) {
-    consoleLogger.info(`--- ${client.config.business.name} (${client.config.id}) ---`);
-    const result = await runClient(client.config, {
+    const config = applyOverrides(client.config);
+    consoleLogger.info(`--- ${config.business.name} (${config.id}) ---`);
+    const result = await runClient(config, {
       integrations: client.integrations,
       clock,
       // Fresh per client so the demo always renders the full plan (nothing pre-marked).
       idempotency: new MemoryIdempotencyStore(),
+      draftStore: new MemoryDraftStore(),
       logger: consoleLogger,
     });
 

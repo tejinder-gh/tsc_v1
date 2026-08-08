@@ -12,10 +12,10 @@ export default function TermsPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
       <header className="mb-10">
-        <p className="font-mono text-sm font-semibold uppercase tracking-widest text-ledger">
+        <p className="font-mono text-sm font-semibold uppercase tracking-widest text-blue">
           Agreement
         </p>
-        <h1 className="mt-3 font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+        <h1 className="mt-3 font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
           Terms of Service
         </h1>
         <p className="mt-3 text-sm text-slate">Last updated: June 12, 2026</p>
@@ -29,7 +29,7 @@ export default function TermsPage() {
         </p>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">
+          <h2 className="font-display text-2xl font-bold text-navy">
             1. Service Scope & Engagements
           </h2>
           <p>
@@ -51,7 +51,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">2. Client Responsibilities</h2>
+          <h2 className="font-display text-2xl font-bold text-navy">2. Client Responsibilities</h2>
           <p>To deploy and run our automation systems, you agree to:</p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
@@ -70,7 +70,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">3. Intellectual Property</h2>
+          <h2 className="font-display text-2xl font-bold text-navy">3. Intellectual Property</h2>
           <p>
             All custom components, custom configurations, and integrations built specifically for
             your business under a paid SOW belong to you upon final payment, unless otherwise
@@ -80,7 +80,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">4. Limitation of Liability</h2>
+          <h2 className="font-display text-2xl font-bold text-navy">4. Limitation of Liability</h2>
           <p>While we build, test, and monitor all automations to ensure stability and accuracy:</p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
@@ -97,7 +97,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">5. Governing Law</h2>
+          <h2 className="font-display text-2xl font-bold text-navy">5. Governing Law</h2>
           <p>
             These Terms of Service and any separate agreements under which we provide you services
             shall be governed by and construed in accordance with the laws of the **Province of
@@ -106,7 +106,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-ink">6. Modifications</h2>
+          <h2 className="font-display text-2xl font-bold text-navy">6. Modifications</h2>
           <p>
             We reserve the right to modify these terms at any time. Changes will be posted to this
             page with an updated "Last updated" date. Your continued use of the website or our

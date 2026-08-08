@@ -74,13 +74,13 @@ export function QuickActions() {
   return (
     <div className="fixed bottom-20 right-4 z-40 md:bottom-6 md:right-6">
       {open ? (
-        <div className="mb-3 w-72 rounded-xl border border-ink/10 bg-white p-4 shadow-xl">
+        <div className="mb-3 w-72 rounded-xl border border-navy/10 bg-white p-4 shadow-xl">
           <div className="flex items-start justify-between gap-2">
-            <p className="font-display font-bold text-ink">How can we help?</p>
+            <p className="font-display font-bold text-navy">How can we help?</p>
             <button
               type="button"
               onClick={dismiss}
-              className="rounded p-1 text-slate hover:text-ink"
+              className="rounded p-1 text-slate hover:text-navy"
               aria-label="Dismiss quick actions for this visit"
             >
               <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -109,7 +109,7 @@ export function QuickActions() {
                     label: "Ask a question",
                   });
                 }}
-                className="rounded-lg border-2 border-ink px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-white"
+                className="rounded-lg border-2 border-navy px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-white"
               >
                 Ask a question
               </button>
@@ -137,7 +137,7 @@ export function QuickActions() {
                 id={questionId}
                 rows={3}
                 placeholder="What's eating your time? Ask us anything."
-                className="w-full rounded-lg border border-ink/20 px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-navy/20 px-3 py-2 text-sm"
                 {...form.register("message")}
               />
               {form.formState.errors.message ? (
@@ -153,7 +153,7 @@ export function QuickActions() {
                 type="email"
                 placeholder="Email for our reply"
                 autoComplete="email"
-                className="w-full rounded-lg border border-ink/20 px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-navy/20 px-3 py-2 text-sm"
                 {...form.register("email")}
               />
               {form.formState.errors.email ? (
@@ -169,7 +169,7 @@ export function QuickActions() {
               <button
                 type="submit"
                 disabled={form.formState.isSubmitting}
-                className="rounded-lg bg-ledger px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ledger-dark disabled:opacity-60"
+                className="rounded-lg bg-blue px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-pressed disabled:opacity-60"
               >
                 {form.formState.isSubmitting ? "Sending..." : "Send question"}
               </button>
@@ -193,7 +193,7 @@ export function QuickActions() {
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
-          className="rounded-full bg-ink px-5 py-3 font-semibold text-white shadow-lg transition-colors hover:bg-ledger"
+          className="rounded-full bg-navy px-5 py-3 font-semibold text-white shadow-lg transition-colors hover:bg-blue"
         >
           {open ? "Close" : "Need a hand?"}
         </button>

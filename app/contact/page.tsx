@@ -26,7 +26,7 @@ export default function ContactPage() {
     <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         <div>
-          <h1 className="max-w-3xl font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+          <h1 className="max-w-3xl font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
             Tell us what&apos;s eating your time
           </h1>
           <p className="mt-4 text-lg text-slate">
@@ -43,8 +43,8 @@ export default function ContactPage() {
           <ContactForm />
         </div>
         <aside className="space-y-5">
-          <div className="rounded-xl bg-mist p-6 shadow-sm border-2 border-ink/10">
-            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">
+          <div className="rounded-xl bg-mist p-6 shadow-sm border-2 border-navy/10">
+            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-navy">
               The faster path
             </h2>
             <p className="mt-2 leading-relaxed">
@@ -57,8 +57,8 @@ export default function ContactPage() {
               </CtaLink>
             </div>
           </div>
-          <div className="rounded-xl bg-white p-6 shadow-sm border-2 border-ink/10">
-            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">
+          <div className="rounded-xl bg-white p-6 shadow-sm border-2 border-navy/10">
+            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-navy">
               Just browsing?
             </h2>
             <p className="mt-2 leading-relaxed">
@@ -74,7 +74,7 @@ export default function ContactPage() {
             Prefer plain email?{" "}
             <a
               href={`mailto:${site.email}`}
-              className="font-semibold text-ledger underline underline-offset-4"
+              className="font-semibold text-blue underline underline-offset-4"
             >
               {site.email}
             </a>

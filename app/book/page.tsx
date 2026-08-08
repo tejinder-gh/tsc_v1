@@ -25,7 +25,7 @@ export default function BookPage() {
     <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         <div>
-          <h1 className="max-w-3xl font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+          <h1 className="max-w-3xl font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
             Book your free automation audit
           </h1>
           <p className="mt-4 text-lg text-slate">{booking.promise}</p>
@@ -35,24 +35,24 @@ export default function BookPage() {
             Typical outcomes we build:
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-ledger/20 bg-ledger/5 p-5">
-              <span className="block font-display text-2xl font-bold text-ledger">~12 min</span>
-              <p className="mt-1 text-sm font-semibold text-ink">Saved per patient</p>
+            <div className="rounded-xl border border-blue/20 bg-blue/5 p-5">
+              <span className="block font-display text-2xl font-bold text-blue">~12 min</span>
+              <p className="mt-1 text-sm font-semibold text-navy">Saved per patient</p>
               <p className="mt-1 text-xs text-slate">Medical clinic, North York</p>
             </div>
-            <div className="rounded-xl border border-ledger/20 bg-ledger/5 p-5">
-              <span className="block font-display text-2xl font-bold text-ledger">30+ calls</span>
-              <p className="mt-1 text-sm font-semibold text-ink">Captured per month</p>
+            <div className="rounded-xl border border-blue/20 bg-blue/5 p-5">
+              <span className="block font-display text-2xl font-bold text-blue">30+ calls</span>
+              <p className="mt-1 text-sm font-semibold text-navy">Captured per month</p>
               <p className="mt-1 text-xs text-slate">Restaurant, Mississauga</p>
             </div>
-            <div className="rounded-xl border border-ledger/20 bg-ledger/5 p-5">
-              <span className="block font-display text-2xl font-bold text-ledger">Cut by 50%</span>
-              <p className="mt-1 text-sm font-semibold text-ink">No-shows down half</p>
+            <div className="rounded-xl border border-blue/20 bg-blue/5 p-5">
+              <span className="block font-display text-2xl font-bold text-blue">Cut by 50%</span>
+              <p className="mt-1 text-sm font-semibold text-navy">No-shows down half</p>
               <p className="mt-1 text-xs text-slate">Hair salon, two locations</p>
             </div>
-            <div className="rounded-xl border border-ledger/20 bg-ledger/5 p-5">
-              <span className="block font-display text-2xl font-bold text-ledger">&lt; 2 mins</span>
-              <p className="mt-1 text-sm font-semibold text-ink">First response time</p>
+            <div className="rounded-xl border border-blue/20 bg-blue/5 p-5">
+              <span className="block font-display text-2xl font-bold text-blue">&lt; 2 mins</span>
+              <p className="mt-1 text-sm font-semibold text-navy">First response time</p>
               <p className="mt-1 text-xs text-slate">Law firm, Downtown Toronto</p>
             </div>
           </div>

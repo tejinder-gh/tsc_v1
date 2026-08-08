@@ -27,7 +27,7 @@ export default function AboutPage() {
       <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
         <div className="grid items-start gap-10 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <h1 className="max-w-2xl font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-ink sm:text-5xl">
+            <h1 className="max-w-2xl font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-navy sm:text-5xl">
               {about.headline}
             </h1>
             <div className="mt-6 max-w-2xl space-y-5 text-lg leading-relaxed">
@@ -42,7 +42,7 @@ export default function AboutPage() {
             </div>
           </div>
           <aside>
-            <div className="relative overflow-hidden rounded-xl bg-white shadow-sm border-2 border-ink/10">
+            <div className="relative overflow-hidden rounded-xl bg-white shadow-sm border-2 border-navy/10">
               <AbstractVisual variant="about" />
               <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white/90 to-transparent pt-12 pb-4 text-center">
                 <p className="max-w-[14rem] mx-auto px-4 text-sm font-medium text-slate">
@@ -50,12 +50,12 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="mt-6 rounded-xl bg-white p-6 shadow-sm border-2 border-ink/10">
+            <div className="mt-6 rounded-xl bg-white p-6 shadow-sm border-2 border-navy/10">
               <h2 className="font-display text-lg font-bold">Why owners trust the work</h2>
               <ul className="mt-3 space-y-2.5">
                 {about.credibility.map((item) => (
                   <li key={item} className="flex gap-2.5 text-sm leading-relaxed">
-                    <span aria-hidden="true" className="mt-0.5 shrink-0 text-ledger">
+                    <span aria-hidden="true" className="mt-0.5 shrink-0 text-blue">
                       <svg
                         aria-hidden="true"
                         width="14"

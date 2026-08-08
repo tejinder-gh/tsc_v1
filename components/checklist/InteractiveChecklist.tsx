@@ -128,12 +128,12 @@ ${formattedPriority || "None selected"}
         {checklistData.map((category) => (
           <div
             key={category.title}
-            className="rounded-xl border border-ink/10 bg-white p-6 shadow-sm"
+            className="rounded-xl border border-navy/10 bg-white p-6 shadow-sm"
           >
-            <h2 className="font-display text-xl font-bold tracking-tight text-ink border-b border-ink/10 pb-3">
+            <h2 className="font-display text-xl font-bold tracking-tight text-navy border-b border-navy/10 pb-3">
               {category.title}
             </h2>
-            <ul className="mt-4 divide-y divide-ink/5">
+            <ul className="mt-4 divide-y divide-navy/5">
               {category.items.map((item) => {
                 const isSelected = selections[item.id] !== undefined;
                 const selectedDread = selections[item.id] || 1;
@@ -147,8 +147,8 @@ ${formattedPriority || "None selected"}
                         onClick={() => handleToggleTask(item.id)}
                         className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded border-2 transition-all ${
                           isSelected
-                            ? "border-ledger bg-ledger text-white"
-                            : "border-ink/15 bg-white hover:border-ledger"
+                            ? "border-blue bg-blue text-white"
+                            : "border-navy/15 bg-white hover:border-blue"
                         }`}
                         aria-label={`Select task: ${item.task}`}
                         aria-pressed={isSelected}
@@ -164,7 +164,7 @@ ${formattedPriority || "None selected"}
                           <span
                             onClick={() => handleToggleTask(item.id)}
                             className={`cursor-pointer text-[15px] font-semibold leading-snug transition-colors ${
-                              isSelected ? "text-ink" : "text-slate hover:text-ink"
+                              isSelected ? "text-navy" : "text-slate hover:text-navy"
                             }`}
                           >
                             {item.task}
@@ -180,7 +180,7 @@ ${formattedPriority || "None selected"}
 
                         {/* Dread Selector (reveals when selected) */}
                         {isSelected && (
-                          <div className="mt-3 animate-pop rounded-lg bg-mist/60 p-3 border border-ink/5">
+                          <div className="mt-3 animate-pop rounded-lg bg-mist/60 p-3 border border-navy/5">
                             <span className="block text-xs font-semibold uppercase tracking-wider text-slate/80">
                               How draining is this task?
                             </span>
@@ -196,8 +196,8 @@ ${formattedPriority || "None selected"}
                                   onClick={() => handleSetDread(item.id, option.val)}
                                   className={`flex-1 rounded-md py-1.5 text-xs font-bold border transition-all ${
                                     selectedDread === option.val
-                                      ? "bg-ledger text-white border-ledger shadow-sm"
-                                      : "bg-white text-slate border-ink/10 hover:bg-mist"
+                                      ? "bg-blue text-white border-blue shadow-sm"
+                                      : "bg-white text-slate border-navy/10 hover:bg-mist"
                                   }`}
                                 >
                                   {option.val}: {option.label}
@@ -219,7 +219,7 @@ ${formattedPriority || "None selected"}
       {/* Sticky Calculations and Form Side: 5 Columns */}
       <div className="space-y-6 lg:sticky lg:top-24 lg:col-span-5 print:hidden">
         {/* Live Calculation Panel */}
-        <div className="rounded-xl bg-ink p-6 text-white shadow-lg border border-white/5">
+        <div className="rounded-xl bg-navy p-6 text-white shadow-lg border border-white/5">
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <h3 className="font-display text-lg font-bold tracking-tight text-white">
               Your Automation Score
@@ -231,7 +231,7 @@ ${formattedPriority || "None selected"}
               className="flex items-center gap-1.5 text-xs font-medium text-slate hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               title="Reset checklist"
             >
-              <RefreshCw className="h-3.5 w-3.5" />
+              <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.7} />
               Reset
             </button>
           </div>
@@ -263,7 +263,7 @@ ${formattedPriority || "None selected"}
           {/* Dynamic Diagnosis */}
           <div className="mt-6 rounded-lg bg-white/5 p-4 border border-white/5">
             <div className="flex items-center gap-2">
-              <AlertCircle className={`h-4.5 w-4.5 ${diagnosis.color}`} />
+              <AlertCircle className={`h-4.5 w-4.5 ${diagnosis.color}`} strokeWidth={1.7} />
               <span className={`font-display font-bold text-sm ${diagnosis.color}`}>
                 {diagnosis.title}
               </span>
@@ -280,7 +280,7 @@ ${formattedPriority || "None selected"}
               <ul className="mt-3 space-y-3">
                 {priorityItems.map((p, index) => (
                   <li key={p.item.id} className="flex gap-3 text-xs items-start leading-relaxed">
-                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded bg-ledger text-[10px] font-bold text-white">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded bg-blue text-[10px] font-bold text-white">
                       {index + 1}
                     </span>
                     <div className="flex-1">
@@ -301,14 +301,14 @@ ${formattedPriority || "None selected"}
             onClick={handlePrint}
             className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-white/10"
           >
-            <Printer className="h-4 w-4" />
+            <Printer className="h-4 w-4" strokeWidth={1.7} />
             Print Checklist Results
           </button>
         </div>
 
         {/* Lead Capture Form */}
-        <div className="rounded-xl border border-ink/10 bg-white p-6 shadow-sm">
-          <h3 className="font-display text-lg font-bold tracking-tight text-ink">
+        <div className="rounded-xl border border-navy/10 bg-white p-6 shadow-sm">
+          <h3 className="font-display text-lg font-bold tracking-tight text-navy">
             Get Your Results by Email
           </h3>
           <p className="mt-1.5 text-xs leading-relaxed">
@@ -317,8 +317,8 @@ ${formattedPriority || "None selected"}
           </p>
 
           {sent ? (
-            <div className="mt-4 rounded-lg bg-mist p-4 border border-ink/5" role="status">
-              <p className="font-display font-bold text-ink text-sm">
+            <div className="mt-4 rounded-lg bg-mist p-4 border border-navy/5" role="status">
+              <p className="font-display font-bold text-navy text-sm">
                 Your results are on the way.
               </p>
               <p className="mt-1 text-xs leading-relaxed text-slate">
@@ -341,7 +341,7 @@ ${formattedPriority || "None selected"}
                   type="email"
                   placeholder="you@yourbusiness.ca"
                   autoComplete="email"
-                  className="w-full rounded-lg border border-ink/15 px-3 py-2 text-sm focus:border-ledger focus:outline-none"
+                  className="w-full rounded-lg border border-navy/15 px-3 py-2 text-sm focus:border-blue focus:outline-none"
                   {...form.register("email")}
                 />
                 {form.formState.errors.email ? (
@@ -357,7 +357,7 @@ ${formattedPriority || "None selected"}
                 </label>
                 <select
                   id={typeId}
-                  className="w-full rounded-lg border border-ink/15 bg-white px-3 py-2 text-sm focus:border-ledger focus:outline-none"
+                  className="w-full rounded-lg border border-navy/15 bg-white px-3 py-2 text-sm focus:border-blue focus:outline-none"
                   defaultValue=""
                   {...form.register("businessType")}
                 >
@@ -386,14 +386,14 @@ ${formattedPriority || "None selected"}
               <button
                 type="submit"
                 disabled={form.formState.isSubmitting || selectedCount === 0}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-ledger py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ledger-dark disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-pressed disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {form.formState.isSubmitting ? (
                   "Sending..."
                 ) : (
                   <>
                     Email me my results
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4" strokeWidth={1.7} />
                   </>
                 )}
               </button>
@@ -406,7 +406,7 @@ ${formattedPriority || "None selected"}
             </form>
           )}
 
-          <div className="mt-4 border-t border-ink/10 pt-4 text-center">
+          <div className="mt-4 border-t border-navy/10 pt-4 text-center">
             <CtaLink
               href="/book"
               location="checklist_interactive_summary"

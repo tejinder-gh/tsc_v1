@@ -10,6 +10,7 @@
  * When: 2026-06.
  */
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { nav, site } from "@/content/site";
@@ -19,16 +20,11 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-paper/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-navy/10 bg-paper/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span
-            aria-hidden="true"
-            className="grid h-8 w-8 place-items-center rounded-md bg-ledger font-display text-sm font-bold text-white"
-          >
-            SC
-          </span>
-          <span className="font-display text-lg font-bold text-ink">{site.name}</span>
+          <Image src="/logo-mark.svg" alt="" aria-hidden="true" width={32} height={32} className="h-8 w-8" />
+          <span className="font-display text-lg font-semibold text-navy">{site.name}</span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
@@ -36,7 +32,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-slate transition-colors hover:text-ink"
+              className="text-sm font-medium text-slate transition-colors hover:text-navy"
             >
               {item.label}
             </Link>
@@ -49,7 +45,7 @@ export function Header() {
           </CtaLink>
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-md border border-ink/15 text-ink md:hidden"
+            className="grid h-10 w-10 place-items-center rounded-md border border-navy/15 text-navy md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
@@ -80,14 +76,14 @@ export function Header() {
         <nav
           id="mobile-nav"
           aria-label="Mobile"
-          className="border-t border-ink/10 bg-paper px-4 py-3 md:hidden"
+          className="border-t border-navy/10 bg-paper px-4 py-3 md:hidden"
         >
           <ul className="flex flex-col gap-1">
             {nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="block rounded-md px-2 py-2.5 font-medium text-ink hover:bg-mist"
+                  className="block rounded-md px-2 py-2.5 font-medium text-navy hover:bg-mist"
                   onClick={() => setOpen(false)}
                 >
                   {item.label}
@@ -97,7 +93,7 @@ export function Header() {
             <li>
               <Link
                 href="/contact"
-                className="block rounded-md px-2 py-2.5 font-medium text-ink hover:bg-mist"
+                className="block rounded-md px-2 py-2.5 font-medium text-navy hover:bg-mist"
                 onClick={() => setOpen(false)}
               >
                 Send a quick query

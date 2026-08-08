@@ -59,7 +59,7 @@ export default async function IndustryPage({ params }: PageProps) {
       <SetSegment segment={industry.segment} />
 
       <section className="mx-auto max-w-site px-4 pb-12 pt-16 sm:px-6 sm:pt-20">
-        <p className="text-sm font-semibold uppercase tracking-widest text-ledger">
+        <p className="text-sm font-semibold uppercase tracking-widest text-blue">
           For {industry.name.toLowerCase()}
         </p>
         <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">
@@ -102,11 +102,11 @@ export default async function IndustryPage({ params }: PageProps) {
           {industry.automations.map((automation) => (
             <div
               key={automation.title}
-              className="flex flex-col rounded-xl border-2 border-ink/10 bg-white p-6"
+              className="flex flex-col rounded-xl border-2 border-navy/10 bg-white p-6"
             >
               <h3 className="font-display text-xl font-bold">{automation.title}</h3>
               <p className="mt-2 flex-1 leading-relaxed">{automation.body}</p>
-              <p className="mt-4 inline-block font-display text-lg font-bold text-ledger">
+              <p className="mt-4 inline-block font-display text-lg font-bold text-blue">
                 {automation.metric}
               </p>
             </div>
@@ -122,14 +122,14 @@ export default async function IndustryPage({ params }: PageProps) {
               {industry.build.business} - anonymized for client privacy
             </p>
             <p className="mt-3 leading-relaxed">
-              <span className="font-semibold text-ink">The problem: </span>
+              <span className="font-semibold text-navy">The problem: </span>
               {industry.build.problem}
             </p>
             <p className="mt-2 leading-relaxed">
-              <span className="font-semibold text-ink">The build: </span>
+              <span className="font-semibold text-navy">The build: </span>
               {industry.build.automation}
             </p>
-            <p className="mt-4 font-display text-2xl font-bold text-ledger">
+            <p className="mt-4 font-display text-2xl font-bold text-blue">
               {industry.build.result}
             </p>
           </div>

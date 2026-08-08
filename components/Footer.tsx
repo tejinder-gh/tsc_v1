@@ -8,6 +8,7 @@
  * When: 2026-06.
  */
 
+import Image from "next/image";
 import Link from "next/link";
 import { industries } from "@/content/industries";
 import { services } from "@/content/services";
@@ -15,10 +16,16 @@ import { site } from "@/content/site";
 
 export function Footer() {
   return (
-    <footer className="bg-ink text-white/80">
+    <footer className="bg-navy text-white/80">
       <div className="mx-auto grid max-w-site gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
         <div>
-          <p className="font-display text-lg font-bold text-white">{site.name}</p>
+          <Image
+            src="/logo-full-on-navy.png"
+            alt={site.name}
+            width={160}
+            height={40}
+            className="h-8 w-auto"
+          />
           <p className="mt-3 max-w-xs text-sm leading-relaxed">
             AI automations for local businesses and professional practices. Audit, build, run - and
             your week gets shorter.

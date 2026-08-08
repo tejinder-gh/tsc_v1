@@ -25,7 +25,7 @@ export default function ServicesIndexPage() {
       <div className="mx-auto max-w-site px-4 pt-16 sm:px-6 lg:pt-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           <div className="max-w-3xl">
-            <h1 className="font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+            <h1 className="font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
               Nine automations that give you your week back
             </h1>
             <p className="mt-4 text-lg text-slate">

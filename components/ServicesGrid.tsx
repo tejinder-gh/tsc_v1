@@ -33,14 +33,14 @@ export function ServicesGrid({ id, count }: { id?: string; count?: number }) {
           <RevealItem key={service.slug} className="h-full">
             <Link
               href={`/services/${service.slug}`}
-              className="group flex h-full flex-col rounded-xl bg-white p-6 shadow-sm border-2 border-ink/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-ledger"
+              className="group flex h-full flex-col rounded-xl bg-white p-6 shadow-sm border-2 border-navy/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue"
             >
               <p className="text-xs font-semibold uppercase tracking-wide text-slate">
                 {service.name}
               </p>
               <h3 className="mt-2 font-display text-xl font-bold">{service.title}</h3>
               <p className="mt-2 flex-1 leading-relaxed">{service.excerpt}</p>
-              <p className="mt-4 text-sm font-semibold text-ledger">
+              <p className="mt-4 text-sm font-semibold text-blue">
                 {service.timeline}
                 <span
                   aria-hidden="true"
@@ -57,7 +57,7 @@ export function ServicesGrid({ id, count }: { id?: string; count?: number }) {
         <div className="flex justify-center mt-8">
           <Link
             href="/services"
-            className="inline-block rounded-full bg-ledger px-6 py-3 text-white font-bold hover:bg-ledger/90 transition-colors"
+            className="inline-block rounded-full bg-blue px-6 py-3 text-white font-bold hover:bg-blue/90 transition-colors"
           >
             See all services
           </Link>
