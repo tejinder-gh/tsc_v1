@@ -10,3 +10,4 @@
 | T-002 | ACCEPT | INTERMEDIATE | 2026-08-08 (review) | verified independently: build/test clean, robots.txt confirmed /dashboard/ disallowed under all 14 user-agent blocks. Merged to main. |
 | T-003 | IMPLEMENTED | SENIOR | 2026-08-08 14:24 UTC | branch=autofix/t-003 cost=$0.14 report=T-003-report.json |
 | T-003 | REWORK | SENIOR | 2026-08-08 (review) | zero-diff run: implementer correctly refused to hand-edit package.json/package-lock.json without npm audit access (same tooling gap as T-001 — `npm audit*` was missing from the runner's Bash allowlist). Patched scripts/run_phase4.py, re-dispatching. |
+| T-003 | BLOCKED | SENIOR | 2026-08-08 14:28 UTC | branch=autofix/t-003 cost=$1.00 report=T-003-report.json |
