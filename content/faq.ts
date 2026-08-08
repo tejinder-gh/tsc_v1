@@ -37,4 +37,8 @@ export const homeFaq: readonly FaqItem[] = [
     q: "Do I need technical staff to use this?",
     a: "No. We build it, host it, and maintain it. If you can use email, you can run everything we hand over. Your team gets a one-page guide per automation, written for people who have better things to do.",
   },
+  {
+    q: "How is this different from off-the-shelf AI solutions?",
+    a: "We build automation tailored to your specific business. We integrate with your existing systems and you are not learning new software. Every build is monitored and maintained - if something breaks, we fix it within one business day.",
+  },
 ] as const;
