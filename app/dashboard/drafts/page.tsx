@@ -32,7 +32,10 @@ export default async function DraftsPage() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              role="img"
+              aria-labelledby="inbox-zero-icon-title"
             >
+              <title id="inbox-zero-icon-title">All drafts reviewed</title>
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
               <path d="m9 11 3 3L22 4" />
             </svg>

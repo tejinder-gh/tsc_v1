@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
-import { approveDraft, rejectDraft } from "./actions";
+import { Bot, Clock, Send, Trash2 } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
 import type { DraftAction } from "../../../automations/core/types";
-import { Send, Trash2, Clock, Bot } from "lucide-react";
+import { approveDraft, rejectDraft } from "./actions";
 
 export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clientId: string }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -70,6 +70,7 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
           return (
             <button
               key={draft.meta.idempotencyKey}
+              type="button"
               onClick={() => setSelectedIndex(idx)}
               className={`text-left p-4 rounded-xl transition-all border ${
                 isSelected
@@ -120,8 +121,11 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
         </div>
 
         <div className="flex-1 p-6 flex flex-col bg-slate-50/30">
-          <label className="text-sm font-medium text-slate-700 mb-2 block">Message Content</label>
+          <label htmlFor="draft-body" className="text-sm font-medium text-slate-700 mb-2 block">
+            Message Content
+          </label>
           <textarea
+            id="draft-body"
             value={editedBody}
             onChange={(e) => setEditedBody(e.target.value)}
             disabled={isPending}
@@ -132,6 +136,7 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
 
         <div className="p-5 border-t border-slate-100 bg-white flex items-center justify-between">
           <button
+            type="button"
             onClick={handleReject}
             disabled={isPending}
             className="flex items-center gap-2 px-5 py-2.5 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors font-medium disabled:opacity-50"
@@ -140,6 +145,7 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
             Discard
           </button>
           <button
+            type="button"
             onClick={handleApprove}
             disabled={isPending}
             className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm shadow-blue-500/20 transition-all font-medium disabled:opacity-50 hover:shadow-md"

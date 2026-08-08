@@ -1,9 +1,9 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
+import { Clock, HeartHandshake, MessageSquare, RefreshCw, Workflow, Zap } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toggleFlow } from "./actions";
-import { Workflow, RefreshCw, Zap, Clock, MessageSquare, HeartHandshake } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 type ClientData = {
   id: string;
@@ -14,11 +14,41 @@ type ClientData = {
 // Map automation recipes to specific icons and colors for more visual flair
 function getRecipeDetails(recipe: string) {
   switch (recipe) {
-    case "booking-reminders": return { icon: Clock, color: "from-blue-500 to-cyan-500", bg: "bg-blue-50", text: "text-blue-600" };
-    case "review-booster": return { icon: MessageSquare, color: "from-amber-400 to-orange-500", bg: "bg-amber-50", text: "text-amber-600" };
-    case "no-show-rebook": return { icon: Zap, color: "from-purple-500 to-fuchsia-500", bg: "bg-purple-50", text: "text-purple-600" };
-    case "win-back": return { icon: HeartHandshake, color: "from-emerald-400 to-teal-500", bg: "bg-emerald-50", text: "text-emerald-600" };
-    default: return { icon: Workflow, color: "from-slate-400 to-slate-500", bg: "bg-slate-50", text: "text-slate-600" };
+    case "booking-reminders":
+      return {
+        icon: Clock,
+        color: "from-blue-500 to-cyan-500",
+        bg: "bg-blue-50",
+        text: "text-blue-600",
+      };
+    case "review-booster":
+      return {
+        icon: MessageSquare,
+        color: "from-amber-400 to-orange-500",
+        bg: "bg-amber-50",
+        text: "text-amber-600",
+      };
+    case "no-show-rebook":
+      return {
+        icon: Zap,
+        color: "from-purple-500 to-fuchsia-500",
+        bg: "bg-purple-50",
+        text: "text-purple-600",
+      };
+    case "win-back":
+      return {
+        icon: HeartHandshake,
+        color: "from-emerald-400 to-teal-500",
+        bg: "bg-emerald-50",
+        text: "text-emerald-600",
+      };
+    default:
+      return {
+        icon: Workflow,
+        color: "from-slate-400 to-slate-500",
+        bg: "bg-slate-50",
+        text: "text-slate-600",
+      };
   }
 }
 
@@ -44,7 +74,7 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       {/* Client Selector Sidebar */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         className="w-full lg:w-72 flex flex-col gap-3"
@@ -69,9 +99,9 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
               }`}
             >
               {isSelected && (
-                <motion.div 
+                <motion.div
                   layoutId="active-client-bg"
-                  className="absolute inset-0 bg-gradient-to-br from-blue-50/80 to-transparent z-0" 
+                  className="absolute inset-0 bg-gradient-to-br from-blue-50/80 to-transparent z-0"
                   initial={false}
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
@@ -88,7 +118,7 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
       </motion.div>
 
       {/* Flows Panel */}
-      <motion.div 
+      <motion.div
         key={selectedClientId}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -97,17 +127,19 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
       >
         {/* Decorative background glow */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
-        
+
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-slate-100/60 relative z-10">
           <div>
             <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">
               {selectedClient.name}
             </h2>
-            <p className="text-slate-500 mt-1.5 font-medium">Configure active recipes for this workspace.</p>
+            <p className="text-slate-500 mt-1.5 font-medium">
+              Configure active recipes for this workspace.
+            </p>
           </div>
           {isPending && (
-            <motion.div 
-              initial={{ opacity: 0, rotate: -90 }} 
+            <motion.div
+              initial={{ opacity: 0, rotate: -90 }}
               animate={{ opacity: 1, rotate: 0 }}
               className="bg-white p-2 rounded-full shadow-sm border border-slate-100"
             >
@@ -121,7 +153,7 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
             {selectedClient.automations.map((auto, idx) => {
               const details = getRecipeDetails(auto.recipe);
               const Icon = details.icon;
-              
+
               return (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -136,41 +168,52 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
                 >
                   {/* Active state gradient border effect */}
                   {auto.enabled && (
-                    <div className={`absolute inset-0 rounded-3xl p-[1px] bg-gradient-to-br ${details.color} opacity-20 -z-10`} />
+                    <div
+                      className={`absolute inset-0 rounded-3xl p-[1px] bg-gradient-to-br ${details.color} opacity-20 -z-10`}
+                    />
                   )}
 
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-4">
-                      <div className={`p-3.5 rounded-2xl transition-colors duration-300 ${auto.enabled ? details.bg + ' ' + details.text : 'bg-slate-200/80 text-slate-500'}`}>
+                      <div
+                        className={`p-3.5 rounded-2xl transition-colors duration-300 ${auto.enabled ? `${details.bg} ${details.text}` : "bg-slate-200/80 text-slate-500"}`}
+                      >
                         <Icon size={22} strokeWidth={2.5} />
                       </div>
                       <div>
-                        <h3 className={`font-bold text-lg tracking-tight transition-colors ${auto.enabled ? 'text-slate-900' : 'text-slate-600'}`}>
-                          {auto.id.charAt(0).toUpperCase() + auto.id.slice(1).replace('-', ' ')}
+                        <h3
+                          className={`font-bold text-lg tracking-tight transition-colors ${auto.enabled ? "text-slate-900" : "text-slate-600"}`}
+                        >
+                          {auto.id.charAt(0).toUpperCase() + auto.id.slice(1).replace("-", " ")}
                         </h3>
-                        <p className="text-xs font-mono text-slate-400 mt-1 uppercase tracking-wider">{auto.recipe}</p>
+                        <p className="text-xs font-mono text-slate-400 mt-1 uppercase tracking-wider">
+                          {auto.recipe}
+                        </p>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between mt-8 pt-5 border-t border-slate-100/80">
-                    <span className={`text-sm font-semibold transition-colors ${auto.enabled ? details.text : 'text-slate-400'}`}>
-                      {auto.enabled ? 'Active' : 'Disabled'}
+                    <span
+                      className={`text-sm font-semibold transition-colors ${auto.enabled ? details.text : "text-slate-400"}`}
+                    >
+                      {auto.enabled ? "Active" : "Disabled"}
                     </span>
-                    
+
                     {/* Custom Animated Toggle */}
                     <button
+                      type="button"
                       onClick={() => handleToggle(auto.id, auto.enabled)}
                       disabled={isPending}
                       className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
-                        auto.enabled ? 'bg-slate-800' : 'bg-slate-200'
+                        auto.enabled ? "bg-slate-800" : "bg-slate-200"
                       }`}
                     >
                       <motion.span
                         layout
                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         className={`inline-block h-5 w-5 rounded-full bg-white shadow-sm ${
-                          auto.enabled ? 'translate-x-[22px]' : 'translate-x-1'
+                          auto.enabled ? "translate-x-[22px]" : "translate-x-1"
                         }`}
                       />
                     </button>

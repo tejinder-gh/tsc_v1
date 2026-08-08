@@ -59,9 +59,7 @@ export default async function ServicePage({ params }: PageProps) {
         ])}
       />
       <section className="mx-auto max-w-site px-4 pb-12 pt-16 sm:px-6 sm:pt-20">
-        <p className="text-sm font-semibold uppercase tracking-widest text-blue">
-          {service.name}
-        </p>
+        <p className="text-sm font-semibold uppercase tracking-widest text-blue">{service.name}</p>
         <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">
           {service.title}
         </h1>
@@ -109,9 +107,7 @@ export default async function ServicePage({ params }: PageProps) {
             <div className="space-y-6">
               <div className="rounded-xl bg-white p-5">
                 <h3 className="font-display font-bold">Timeline</h3>
-                <p className="mt-1 font-display text-xl font-bold text-blue">
-                  {service.timeline}
-                </p>
+                <p className="mt-1 font-display text-xl font-bold text-blue">{service.timeline}</p>
               </div>
               <div className="rounded-xl bg-white p-5">
                 <h3 className="font-display font-bold">Built on</h3>

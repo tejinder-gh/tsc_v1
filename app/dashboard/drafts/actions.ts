@@ -1,14 +1,14 @@
 "use server";
 
-import { demoClients } from "../../../automations/clients";
+import { revalidatePath } from "next/cache";
 import { buildSenders } from "../../../automations/channels";
+import { demoClients } from "../../../automations/clients";
 import { systemClock } from "../../../automations/core/clock";
 import { FileDraftStore } from "../../../automations/core/drafts";
 import { FileIdempotencyStore } from "../../../automations/core/idempotency";
 import { consoleLogger } from "../../../automations/core/logger";
-import { dispatch } from "../../../automations/runtime/dispatch";
 import type { DraftAction, SendAction } from "../../../automations/core/types";
-import { revalidatePath } from "next/cache";
+import { dispatch } from "../../../automations/runtime/dispatch";
 
 function getClient(clientId: string) {
   const client = demoClients.find((c) => c.config.id === clientId);

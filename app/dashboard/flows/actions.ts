@@ -1,8 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { demoClients } from "../../../automations/clients";
 import { applyOverrides, setAutomationOverride } from "../../../automations/core/overrides";
-import { revalidatePath } from "next/cache";
 
 export async function getClientsWithFlows() {
   return demoClients.map((client) => {

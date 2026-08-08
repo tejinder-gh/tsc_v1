@@ -23,7 +23,14 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-navy/10 bg-paper/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <Image src="/logo-mark.svg" alt="" aria-hidden="true" width={32} height={32} className="h-8 w-8" />
+          <Image
+            src="/logo-mark.svg"
+            alt=""
+            aria-hidden="true"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+          />
           <span className="font-display text-lg font-semibold text-navy">{site.name}</span>
         </Link>
 
