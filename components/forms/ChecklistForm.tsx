@@ -87,7 +87,7 @@ export function ChecklistForm({
           {...form.register("email")}
         />
         {form.formState.errors.email ? (
-          <p className="mt-1 text-sm text-red-600" role="alert">
+          <p className="mt-1 text-sm text-danger" role="alert">
             {form.formState.errors.email.message}
           </p>
         ) : null}
@@ -112,13 +112,13 @@ export function ChecklistForm({
           ))}
         </select>
         {form.formState.errors.businessType ? (
-          <p className="mt-1 text-sm text-red-600" role="alert">
+          <p className="mt-1 text-sm text-danger" role="alert">
             {form.formState.errors.businessType.message}
           </p>
         ) : null}
       </div>
       {sendError ? (
-        <p className="text-sm text-red-600" role="alert">
+        <p className="text-sm text-danger" role="alert">
           {sendError}
         </p>
       ) : null}

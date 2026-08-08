@@ -345,7 +345,7 @@ ${formattedPriority || "None selected"}
                   {...form.register("email")}
                 />
                 {form.formState.errors.email ? (
-                  <p className="mt-1 text-xs text-red-600" role="alert">
+                  <p className="mt-1 text-xs text-danger" role="alert">
                     {form.formState.errors.email.message}
                   </p>
                 ) : null}
@@ -371,14 +371,14 @@ ${formattedPriority || "None selected"}
                   ))}
                 </select>
                 {form.formState.errors.businessType ? (
-                  <p className="mt-1 text-xs text-red-600" role="alert">
+                  <p className="mt-1 text-xs text-danger" role="alert">
                     {form.formState.errors.businessType.message}
                   </p>
                 ) : null}
               </div>
 
               {sendError ? (
-                <p className="text-xs text-red-600" role="alert">
+                <p className="text-xs text-danger" role="alert">
                   {sendError}
                 </p>
               ) : null}

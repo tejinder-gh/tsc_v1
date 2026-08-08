@@ -16,6 +16,8 @@
 @import "tailwindcss";
 
 @theme {
+  /* Legacy names - kept so existing markup (text-navy, bg-blue, bg-mist, ...) keeps working.
+     Values are pixel-identical to the brief's spec-named tokens below; see DESIGN.md. */
   --color-navy: #08215B; /* headings, footer, icon ground - the logo's ink */
   --color-blue: #2563EB; /* the dot - links, primary buttons, one accent per view */
   --color-blue-pressed: #1B49B8; /* blue hover/pressed */
@@ -25,10 +27,36 @@
   --color-mist: #F2F5FA; /* alternating section background, soft cards */
   --color-line: #DDE3EE; /* hairline borders/dividers */
   --color-muted: #97A0B8; /* de-emphasized text/icons */
+
+  /* Spec-named tokens (brief §5.1) - same brand palette, full tier set. New work should
+     use these directly; old classes above are aliases of the same hex values. */
+  --color-navy-900: #06183F; /* pressed navy, deep footers */
+  --color-navy-700: #08215B; /* = --color-navy */
+  --color-navy-500: #1B3A80; /* navy hover on navy surfaces */
+  --color-blue-700: #1B49B8; /* = --color-blue-pressed */
+  --color-blue-500: #2563EB; /* = --color-blue */
+  --color-blue-100: #EAF0FE; /* = --color-blue-tint */
+  --color-slate-600: #5A6480; /* = --color-slate */
+  --color-slate-400: #97A0B8; /* = --color-muted */
+  --color-success: #0F7B4F;
+  --color-warning: #9A5B00;
+  --color-danger: #B42318;
+
   --container-site: 72rem;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.06), 0 24px 48px rgba(0, 0, 0, 0.06);
+
+  /* Radius scale (brief §5.3): 4px controls/inputs, 6px cards/media, pill for
+     avatars/tags only. Existing rounded-lg/rounded-xl usage is migrated page by page as
+     each screen is rebuilt against the brief; new work should use these directly. */
+  --radius-control: 4px;
+  --radius-card: 6px;
+  --radius-pill: 999px;
+
+  /* Elevation, three navy-tinted steps only (brief §5.3). */
+  --shadow-sm: 0 1px 2px rgb(8 33 91 / 0.06);
+  --shadow-md: 0 4px 12px rgb(8 33 91 / 0.08);
+  --shadow-lg: 0 16px 40px rgb(8 33 91 / 0.12);
+  /* Not in the brief's 3-step scale; kept for two existing home sections until they're
+     rebuilt in the home pass, at which point they move to sm/md/lg. */
   --shadow-elevated: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 4px 8px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.04);
 }
 

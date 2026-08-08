@@ -98,7 +98,7 @@ export function ContactForm() {
             {...form.register("name")}
           />
           {errors.name ? (
-            <p className="mt-1 text-sm text-red-600" role="alert">
+            <p className="mt-1 text-sm text-danger" role="alert">
               {errors.name.message}
             </p>
           ) : null}
@@ -115,7 +115,7 @@ export function ContactForm() {
             {...form.register("email")}
           />
           {errors.email ? (
-            <p className="mt-1 text-sm text-red-600" role="alert">
+            <p className="mt-1 text-sm text-danger" role="alert">
               {errors.email.message}
             </p>
           ) : null}
@@ -142,7 +142,7 @@ export function ContactForm() {
           ))}
         </select>
         {errors.businessType ? (
-          <p className="mt-1 text-sm text-red-600" role="alert">
+          <p className="mt-1 text-sm text-danger" role="alert">
             {errors.businessType.message}
           </p>
         ) : null}
@@ -160,7 +160,7 @@ export function ContactForm() {
           {...form.register("message")}
         />
         {errors.message ? (
-          <p className="mt-1 text-sm text-red-600" role="alert">
+          <p className="mt-1 text-sm text-danger" role="alert">
             {errors.message.message}
           </p>
         ) : null}
@@ -186,7 +186,7 @@ export function ContactForm() {
       </div>
 
       {sendError ? (
-        <p className="text-sm text-red-600" role="alert">
+        <p className="text-sm text-danger" role="alert">
           {sendError}
         </p>
       ) : null}

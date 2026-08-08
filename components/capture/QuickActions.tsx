@@ -141,7 +141,7 @@ export function QuickActions() {
                 {...form.register("message")}
               />
               {form.formState.errors.message ? (
-                <p className="text-xs text-red-600" role="alert">
+                <p className="text-xs text-danger" role="alert">
                   {form.formState.errors.message.message}
                 </p>
               ) : null}
@@ -157,12 +157,12 @@ export function QuickActions() {
                 {...form.register("email")}
               />
               {form.formState.errors.email ? (
-                <p className="text-xs text-red-600" role="alert">
+                <p className="text-xs text-danger" role="alert">
                   {form.formState.errors.email.message}
                 </p>
               ) : null}
               {sendError ? (
-                <p className="text-xs text-red-600" role="alert">
+                <p className="text-xs text-danger" role="alert">
                   {sendError}
                 </p>
               ) : null}
