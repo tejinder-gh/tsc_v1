@@ -68,6 +68,7 @@
   --color-paper: #FFFFFF;
   --color-mist: #F2F5FA; /* alternating section background, soft cards */
   --color-line: #DDE3EE; /* hairline borders/dividers */
+  --color-border-input: #848CA0; /* form input borders, meets WCAG 1.4.11 3:1 contrast on white */
   --color-muted: #97A0B8; /* de-emphasized text/icons */
 
   /* Spec-named tokens (brief §5.1) - same brand palette, full tier set. New work should

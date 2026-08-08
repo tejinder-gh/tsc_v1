@@ -45,7 +45,7 @@ const budgetOptions = [
 const STEP_ONE_FIELDS = ["name", "business", "email", "businessType"] as const;
 
 const fieldBaseClass =
-  "mt-1 w-full rounded-control border-[1.5px] border-line px-4 py-3.5 text-base transition-colors focus:border-blue-500 focus:outline-none focus:ring-[3px] focus:ring-blue-100";
+  "mt-1 w-full rounded-control border-[1.5px] border-border-input px-4 py-3.5 text-base transition-colors focus:border-blue-500 focus:outline-none focus:ring-[3px] focus:ring-blue-100";
 const fieldErrorClass = "border-danger focus:border-danger focus:ring-danger/20";
 
 export function ContactForm() {

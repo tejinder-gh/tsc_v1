@@ -143,7 +143,7 @@ export default function ComponentGalleryPage() {
               id="gallery-input-default"
               type="text"
               placeholder="Type here"
-              className="mt-1 w-full rounded-control border-[1.5px] border-line px-4 py-3.5 text-base focus:border-blue-500 focus:outline-none focus:ring-[3px] focus:ring-blue-100"
+              className="mt-1 w-full rounded-control border-[1.5px] border-border-input px-4 py-3.5 text-base focus:border-blue-500 focus:outline-none focus:ring-[3px] focus:ring-blue-100"
             />
           </div>
           <div>
