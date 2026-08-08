@@ -17,7 +17,14 @@ import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CtaLink } from "@/components/CtaLink";
 import { submitLead } from "@/lib/leads";
-import { annualCost, formatCurrency, monthlyCost, ROI_BOUNDS } from "@/lib/roi";
+import {
+  annualCost,
+  formatCurrency,
+  monthlyCost,
+  PRACTICE_BUILD_FEE_RANGE,
+  practicePaybackRange,
+  ROI_BOUNDS,
+} from "@/lib/roi";
 import { type RoiReportValues, roiReportSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
 import { HoneypotField } from "../forms/HoneypotField";
@@ -37,6 +44,7 @@ export function RoiCalculator() {
   const inputs = { hoursPerWeek: hours, hourlyCost: rate };
   const annual = annualCost(inputs);
   const monthly = monthlyCost(inputs);
+  const payback = segment === "practice" ? practicePaybackRange(annual) : null;
 
   const form = useForm<RoiReportValues>({ resolver: zodResolver(roiReportSchema) });
 
@@ -139,6 +147,14 @@ export function RoiCalculator() {
             <p className="mt-2 text-white/70">
               about {formatCurrency(monthly)} every month, spent on work a system can do
             </p>
+
+            {segment === "practice" ? (
+              <p aria-live="polite" className="mt-4 text-sm text-white/70">
+                {payback
+                  ? `Projected payback: roughly ${payback.lowMonths}–${payback.highMonths} months, based on the numbers above and our typical ${formatCurrency(PRACTICE_BUILD_FEE_RANGE.low)}–${formatCurrency(PRACTICE_BUILD_FEE_RANGE.high)} engagement range - confirmed exactly after your free audit.`
+                  : "At this rate, a typical practice engagement pays back over several years - your free audit will pinpoint the faster wins for your workflow."}
+              </p>
+            ) : null}
 
             <div className="mt-7 flex flex-col gap-3">
               <CtaLink href="/book" location="roi_calculator" variant="primaryOnDark">
