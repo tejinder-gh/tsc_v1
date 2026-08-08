@@ -8,6 +8,10 @@
 
 export const about = {
   headline: "Built by an engineer who got tired of watching good businesses drown in admin.",
+  founder: {
+    name: "Tejinder Pal Singh",
+    title: "Founder | Managing Director",
+  },
   story: [
     "The Skill Corner started with a simple observation: the owners working the hardest were spending the least time on the work that actually grows a business. A store owner rebuilding supplier orders every Sunday night. A clinic front desk re-typing forms patients had already filled out. A lawyer answering the same intake questions for the tenth time that week.",
     "None of that work needs a person anymore. After fifteen years building software systems - from small-business tools to platforms handling millions of requests - I started The Skill Corner to bring that same engineering discipline to the businesses that never get it: the storefronts, clinics, and firms that big software companies fly right over.",

@@ -11,6 +11,12 @@
 
 export type Segment = "local" | "practice";
 
+export interface Office {
+  city: string;
+  region?: string;
+  country: string;
+}
+
 export const site = {
   name: "The Skill Corner",
   legalName: "The Skill Corner Inc.",
@@ -18,13 +24,31 @@ export const site = {
   description:
     "The Skill Corner builds AI automations for local businesses and professional practices - missed-call answering, booking reminders, intake processing, review responses, and follow-up that never slips.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://theskillcorner.com",
-  email: "hello@theskillcorner.com",
-  phone: "+1-416-555-0184",
+  email: "info@theskillcorner.com",
+  /** Primary (North America) line - used for the main tel: link and JSON-LD `telephone`. */
+  phone: "+1-437-972-4379",
+  /** Secondary (India) line. */
+  phoneIndia: "+91-79733-93949",
+  principal: {
+    name: "Tejinder Pal Singh",
+    title: "Founder | Managing Director",
+  },
+  /** Registered/primary address, used for legal copy and the main JSON-LD address. */
   address: {
     locality: "Toronto",
     region: "ON",
     country: "CA",
   },
+  /**
+   * The four-office locality rail (brief §2/§7): brand furniture, not a claim of legal
+   * entity per office - presented as offices in the footer rail and JSON-LD only.
+   */
+  offices: [
+    { city: "Toronto", region: "ON", country: "CA" },
+    { city: "Surrey", region: "BC", country: "CA" },
+    { city: "California", region: "CA", country: "US" },
+    { city: "Ludhiana", region: "PB", country: "IN" },
+  ] as readonly Office[],
   sameAs: [
     // "https://www.google.com/maps?cid=YOUR_BUSINESS_ID",
     // "https://clutch.co/profile/the-skill-corner",

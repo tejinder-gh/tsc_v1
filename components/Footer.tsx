@@ -30,12 +30,24 @@ export function Footer() {
             AI automations for local businesses and professional practices. Audit, build, run - and
             your week gets shorter.
           </p>
-          <p className="mt-4 text-sm">
+          <p className="mt-4 flex flex-col gap-1 text-sm">
             <a
               href={`mailto:${site.email}`}
               className="underline underline-offset-4 hover:text-white"
             >
               {site.email}
+            </a>
+            <a
+              href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}
+              className="underline underline-offset-4 hover:text-white"
+            >
+              {site.phone}
+            </a>
+            <a
+              href={`tel:${site.phoneIndia.replace(/[^+\d]/g, "")}`}
+              className="underline underline-offset-4 hover:text-white"
+            >
+              {site.phoneIndia}
             </a>
           </p>
         </div>
@@ -108,6 +120,11 @@ export function Footer() {
           </div>
           <p>PIPEDA/PHIPA-aware data handling for clinics, dental offices, and law firms.</p>
         </div>
+      </div>
+      <div className="bg-navy-900">
+        <p className="mx-auto max-w-site px-4 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-white sm:px-6">
+          {site.offices.map((office) => office.city).join(" · ")}
+        </p>
       </div>
     </footer>
   );

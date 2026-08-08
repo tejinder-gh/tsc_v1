@@ -30,6 +30,10 @@ export default function AboutPage() {
             <h1 className="max-w-2xl font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-navy sm:text-5xl">
               {about.headline}
             </h1>
+            <p className="mt-4 font-semibold text-navy">
+              {about.founder.name}
+              <span className="font-normal text-slate"> - {about.founder.title}</span>
+            </p>
             <div className="mt-6 max-w-2xl space-y-5 text-lg leading-relaxed">
               {about.story.map((paragraph) => (
                 <p key={paragraph.slice(0, 40)}>{paragraph}</p>

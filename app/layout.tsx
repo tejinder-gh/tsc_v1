@@ -75,12 +75,33 @@ const localBusinessJsonLd = {
   url: site.url,
   email: site.email,
   telephone: site.phone,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: site.address.locality,
-    addressRegion: site.address.region,
-    addressCountry: site.address.country,
+  founder: {
+    "@type": "Person",
+    name: site.principal.name,
+    jobTitle: site.principal.title,
   },
+  address: site.offices.map((office) => ({
+    "@type": "PostalAddress",
+    addressLocality: office.city,
+    ...(office.region ? { addressRegion: office.region } : {}),
+    addressCountry: office.country,
+  })),
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: site.phone,
+      areaServed: ["CA", "US"],
+      email: site.email,
+    },
+    {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: site.phoneIndia,
+      areaServed: "IN",
+      email: site.email,
+    },
+  ],
   priceRange: "$$",
   ...(site.sameAs && site.sameAs.length > 0 ? { sameAs: site.sameAs } : {}),
 };
