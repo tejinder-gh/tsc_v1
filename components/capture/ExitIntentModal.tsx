@@ -6,14 +6,18 @@
  * Why: An exiting visitor is low-intent; asking for the smaller commitment (an email
  *      for the checklist) converts better than pushing a call.
  * How: mouseout toward the top of the viewport on pointer:fine devices triggers it;
- *      sessionStorage flag prevents repeats. Escape and backdrop close it. Submits via
- *      the shared ChecklistForm with lead_source "exit_intent".
- * From Where: TheSkillCorner marketing site build brief (exit-intent spec), 2026-06.
- * When: 2026-06.
+ *      sessionStorage flag prevents repeats. useFocusTrap (shared with Header's mobile
+ *      nav) handles the focus trap, Escape-to-close, focus return, and body scroll lock
+ *      (brief §6/§9). Backdrop click also closes it. Submits via the shared ChecklistForm
+ *      with lead_source "exit_intent".
+ * From Where: TheSkillCorner marketing site build brief (exit-intent spec), 2026-06;
+ *             brought to the §6/§9 modal spec (focus trap) 2026-08.
+ * When: 2026-08.
  */
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { checklist } from "@/content/site";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import { ChecklistForm } from "../forms/ChecklistForm";
 
 const SHOWN_KEY = "tsc_exit_shown";
@@ -21,8 +25,7 @@ const SHOWN_KEY = "tsc_exit_shown";
 export function ExitIntentModal() {
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
-
-  const close = useCallback(() => setOpen(false), []);
+  const close = () => setOpen(false);
 
   useEffect(() => {
     const isDesktopPointer = window.matchMedia("(pointer: fine) and (min-width: 768px)").matches;
@@ -48,17 +51,7 @@ export function ExitIntentModal() {
     return () => document.removeEventListener("mouseout", onMouseOut);
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") close();
-    }
-    document.addEventListener("keydown", onKeyDown);
-    // :not([tabindex="-1"]) keeps autofocus off the hidden honeypot input -
-    // focusing it would lead real users to type their email into the trap.
-    dialogRef.current?.querySelector<HTMLInputElement>('input:not([tabindex="-1"])')?.focus();
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [open, close]);
+  useFocusTrap(open, dialogRef, close);
 
   if (!open) return null;
 

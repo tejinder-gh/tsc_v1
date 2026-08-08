@@ -129,6 +129,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="font-body antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-white focus:px-4 focus:py-3 focus:font-display focus:text-sm focus:font-medium focus:text-navy-700 focus:shadow-lg focus:outline focus:outline-2 focus:outline-blue-500"
+        >
+          Skip to content
+        </a>
         {/* Flags JS availability before first paint so scroll-reveal hidden states
             never apply for no-JS visitors or crawlers. */}
         <Script id="js-flag" strategy="beforeInteractive">
@@ -164,7 +170,9 @@ gtag('config', '${gaId}');`}
         ) : null}
         <SegmentProvider>
           <Header />
-          <main id="main">{children}</main>
+          <main id="main" tabIndex={-1} className="focus:outline-none">
+            {children}
+          </main>
           <Footer />
           <QuickActions />
           <ExitIntentModal />

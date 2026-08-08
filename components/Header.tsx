@@ -24,10 +24,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { nav, site } from "@/content/site";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import { CtaLink } from "./CtaLink";
-
-const FOCUSABLE_SELECTOR =
-  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -35,7 +33,6 @@ export function Header() {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -61,44 +58,7 @@ export function Header() {
     document.body.classList.toggle("menu-open", open);
   }, [open]);
 
-  useEffect(() => {
-    if (!open) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const panel = panelRef.current;
-    const focusables = panel
-      ? Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
-      : [];
-    focusables[0]?.focus();
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        setOpen(false);
-        menuButtonRef.current?.focus();
-        return;
-      }
-      if (event.key !== "Tab" || focusables.length === 0) return;
-
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [open]);
+  useFocusTrap(open, panelRef, () => setOpen(false));
 
   return (
     <header
@@ -146,7 +106,6 @@ export function Header() {
             </CtaLink>
           </div>
           <button
-            ref={menuButtonRef}
             type="button"
             className="grid h-11 w-11 place-items-center rounded-control border border-navy/15 text-navy md:hidden"
             aria-expanded={open}
