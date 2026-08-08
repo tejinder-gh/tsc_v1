@@ -251,17 +251,3 @@ body.menu-open .mobile-sticky-bar {
   display: none;
 }
 
-/* FAQ accordion marker */
-details > summary {
-  list-style: none;
-  cursor: pointer;
-}
-details > summary::-webkit-details-marker {
-  display: none;
-}
-details[open] .faq-chevron {
-  transform: rotate(180deg);
-}
-details[open] .faq-body {
-  animation: pop-in 0.25s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
