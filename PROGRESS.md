@@ -16,3 +16,5 @@
 | T-003 | IMPLEMENTED | SENIOR | 2026-08-08 14:32 UTC | branch=autofix/t-003 cost=$0.79 report=T-003-report.json |
 | T-003 | ACCEPT | SENIOR | 2026-08-08 (review) | verified independently: npm audit 0 vulnerabilities, next resolved to 16.3.0 within existing ^16.1.0 range, build/test/lint clean, scope exactly package.json+package-lock.json. Merged to main. |
 | T-004 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 14:34 UTC | branch=autofix/t-004 cost=$0.10 report=T-004-report.json |
+| T-004 | ESCALATE | INTERMEDIATE | 2026-08-08 (review) | ticket-scoping defect: IN only listed app/api/cron/route.ts but AC4 requires creating app/api/cron/route.test.ts — a different path the fail-closed Write() permission didn't cover, so the test-file write was denied. The one-line route.ts fix itself was correct. Added route.test.ts to IN; deleted stale WIP branch. Not counted against INTERMEDIATE's rework rate. |
+| T-004 | REWORK | INTERMEDIATE | 2026-08-08 (review) | re-queued after ticket rewrite above. |
