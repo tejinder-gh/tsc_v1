@@ -5,10 +5,12 @@
  *      "systems quietly working" while staying on the slate/teal palette.
  * How: Pure server component; a small render function per variant keeps each under the
  *      function-size limit. All output is aria-hidden (wrapper and SVGs) since it carries
- *      no information. Entry uses the shared hero-reveal CSS animation; ambient motion is
+ *      no information. Renders immediately, no entrance animation (brief §8.14 excludes
+ *      hero content from reveals, and this always sits above the fold); ambient motion is
  *      CSS-only (pulse/spin), so prefers-reduced-motion disables it globally.
- * From Where: Slate/teal design refresh of the marketing site, 2026-06.
- * When: 2026-06.
+ * From Where: Slate/teal design refresh of the marketing site, 2026-06; entrance fade
+ *             removed per §8.14 and the performance pass, 2026-08.
+ * When: 2026-08.
  */
 
 import type { ReactNode } from "react";
@@ -25,8 +27,6 @@ export type AbstractVisualVariant =
 interface AbstractVisualProps {
   variant: AbstractVisualVariant;
   className?: string;
-  /** hero-reveal animation-delay; defaults to landing after the hero copy cascade. */
-  delay?: string;
 }
 
 /** Loose mesh of connected nodes - the "whole business automated" picture. */
@@ -288,12 +288,11 @@ const visuals: Record<AbstractVisualVariant, () => ReactNode> = {
   checklist: ChecklistVisual,
 };
 
-export function AbstractVisual({ variant, className = "", delay = "450ms" }: AbstractVisualProps) {
+export function AbstractVisual({ variant, className = "" }: AbstractVisualProps) {
   const Visual = visuals[variant];
   return (
     <div
-      className={`hero-reveal relative flex h-full min-h-[300px] w-full items-center justify-center ${className}`}
-      style={{ animationDelay: delay }}
+      className={`relative flex h-full min-h-[300px] w-full items-center justify-center ${className}`}
       aria-hidden="true"
     >
       <Visual />

@@ -170,7 +170,7 @@ export function RoiCalculator() {
                     type="email"
                     placeholder="you@yourbusiness.ca"
                     autoComplete="email"
-                    className="w-full rounded-lg border-2 border-white/30 bg-white px-4 py-3 text-navy placeholder:text-slate/60"
+                    className="w-full rounded-lg border-2 border-white/30 bg-white px-4 py-3 text-navy placeholder:text-slate"
                     {...form.register("email")}
                   />
                   <button

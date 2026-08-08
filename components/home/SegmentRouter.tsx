@@ -66,7 +66,7 @@ export function SegmentRouter() {
               </div>
 
               <div className="mt-8">
-                <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate/80">
+                <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate">
                   We handle:
                 </p>
                 <div className="flex flex-wrap gap-2">

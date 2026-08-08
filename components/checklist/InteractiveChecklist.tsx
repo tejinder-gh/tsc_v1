@@ -169,19 +169,17 @@ ${formattedPriority || "None selected"}
                           >
                             {item.task}
                           </span>
-                          <span className="shrink-0 tabular-nums text-xs font-semibold text-slate/85">
+                          <span className="shrink-0 tabular-nums text-xs font-semibold text-slate">
                             {item.hoursDisplay} hrs/wk
                           </span>
                         </div>
 
-                        <p className="mt-1 text-sm text-slate/80 leading-relaxed">
-                          {item.automation}
-                        </p>
+                        <p className="mt-1 text-sm text-slate leading-relaxed">{item.automation}</p>
 
                         {/* Dread Selector (reveals when selected) */}
                         {isSelected && (
                           <div className="mt-3 animate-pop rounded-lg bg-mist/60 p-3 border border-navy/5">
-                            <span className="block text-xs font-semibold uppercase tracking-wider text-slate/80">
+                            <span className="block text-xs font-semibold uppercase tracking-wider text-slate">
                               How draining is this task?
                             </span>
                             <div className="mt-2 flex gap-2">
@@ -268,7 +266,7 @@ ${formattedPriority || "None selected"}
                 {diagnosis.title}
               </span>
             </div>
-            <p className="mt-2 text-xs text-slate/90 leading-relaxed">{diagnosis.body}</p>
+            <p className="mt-2 text-xs text-slate leading-relaxed">{diagnosis.body}</p>
           </div>
 
           {/* Top 3 Priorities */}
@@ -398,7 +396,7 @@ ${formattedPriority || "None selected"}
                 )}
               </button>
               {selectedCount === 0 && (
-                <span className="block text-center text-[10px] text-slate/80">
+                <span className="block text-center text-[10px] text-slate">
                   Select at least one task to generate report
                 </span>
               )}
