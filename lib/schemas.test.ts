@@ -98,23 +98,43 @@ describe("leadSchema", () => {
 });
 
 describe("contactFormSchema", () => {
-  it("requires name, email, business type, and a real message", () => {
+  it("requires step-one fields (name, business, email, business type)", () => {
     expect(
       contactFormSchema.safeParse({
         name: "Sam",
+        business: "Sam's Corner Store",
         email: "sam@store.ca",
         businessType: "convenience-store",
-        message: "Ordering takes me five hours every Sunday.",
       }).success,
     ).toBe(true);
     expect(
       contactFormSchema.safeParse({
         name: "",
+        business: "Sam's Corner Store",
         email: "sam@store.ca",
         businessType: "convenience-store",
-        message: "Help",
       }).success,
     ).toBe(false);
+    expect(
+      contactFormSchema.safeParse({
+        name: "Sam",
+        email: "sam@store.ca",
+        businessType: "convenience-store",
+      }).success,
+    ).toBe(false);
+  });
+
+  it("treats step-two fields (phone, message, budget) as optional", () => {
+    expect(
+      contactFormSchema.safeParse({
+        name: "Sam",
+        business: "Sam's Corner Store",
+        email: "sam@store.ca",
+        businessType: "convenience-store",
+        phone: "437-555-0100",
+        message: "Ordering takes me five hours every Sunday.",
+      }).success,
+    ).toBe(true);
   });
 });
 
@@ -143,9 +163,9 @@ describe("honeypot on form schemas", () => {
     const cases = [
       contactFormSchema.safeParse({
         name: "Sam",
+        business: "Sam's Corner Store",
         email: "sam@store.ca",
         businessType: "convenience-store",
-        message: "Ordering takes me five hours every Sunday.",
         website: "http://spam.example",
       }),
       checklistFormSchema.safeParse({

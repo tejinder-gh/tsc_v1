@@ -37,7 +37,9 @@ export const leadSchema = z
     page: z.string().trim().max(300).optional(),
     name: shortText.optional(),
     email: email.optional(),
+    business: shortText.optional(),
     business_type: shortText.optional(),
+    phone: shortText.optional(),
     message: z.string().trim().max(3000).optional(),
     budget: shortText.optional(),
     roi_hours_per_week: z.number().min(0).max(200).optional(),
@@ -51,13 +53,19 @@ export const leadSchema = z
 
 export type LeadPayload = z.input<typeof leadSchema>;
 
-/** /contact - the quick query form. */
+/**
+ * /contact - the two-step quick query form (brief §8.3). Step one (name, business,
+ * email, business type) is required and enables submit on its own; step two (phone,
+ * free text) is optional and skippable, so both are optional at the schema level.
+ */
 export const contactFormSchema = withHoneypot(
   z.object({
     name: z.string().trim().min(1, "Tell us your name").max(120),
+    business: z.string().trim().min(1, "Tell us your business name").max(120),
     email: email.min(1, "We need an email to reply to"),
     businessType: z.string().trim().min(1, "Pick the closest match"),
-    message: z.string().trim().min(10, "Give us a sentence or two").max(3000),
+    phone: z.string().trim().max(40).optional(),
+    message: z.string().trim().max(3000).optional(),
     budget: z.string().trim().max(60).optional(),
   }),
 );
