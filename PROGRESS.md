@@ -15,3 +15,4 @@
 | T-003 | REWORK | SENIOR | 2026-08-08 (review) | re-queued after ticket rewrite above — see ESCALATE row for context. |
 | T-003 | IMPLEMENTED | SENIOR | 2026-08-08 14:32 UTC | branch=autofix/t-003 cost=$0.79 report=T-003-report.json |
 | T-003 | ACCEPT | SENIOR | 2026-08-08 (review) | verified independently: npm audit 0 vulnerabilities, next resolved to 16.3.0 within existing ^16.1.0 range, build/test/lint clean, scope exactly package.json+package-lock.json. Merged to main. |
+| T-004 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 14:34 UTC | branch=autofix/t-004 cost=$0.10 report=T-004-report.json |
