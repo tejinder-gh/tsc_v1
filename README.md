@@ -31,6 +31,16 @@ Other scripts: `npm run build`, `npm run start`, `npm run lint`, `npm run format
 
 Deploys to Vercel with zero config - import the repo, set the env vars, done.
 
+## Operator dashboard
+
+`/dashboard` (and every sub-route) is gated behind [Clerk](https://clerk.com) - only a
+signed-in Clerk session can reach it or invoke its Server Actions. The marketing site
+itself has no auth and loads no Clerk JS.
+
+To use it locally: create a Clerk application, then set `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+and `CLERK_SECRET_KEY` in `.env.local` (see `.env.example`). Without those set, `/dashboard`
+fails closed rather than falling back to open access.
+
 ## Environment variables
 
 | Variable | Required | Purpose |
