@@ -27,3 +27,4 @@
 | T-006 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 14:50 UTC | branch=autofix/t-006 cost=$0.18 report=T-006-report.json |
 | T-006 | ACCEPT | INTERMEDIATE | 2026-08-08 (review) | verified independently: lint/test clean, scope exactly content/faq.ts (1 entry added). New answer traces every claim to existing FAQ entries (bespoke build, tool integration, one-business-day fix SLA), no competitor names, no new numbers. Merged to main. |
 | T-007 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 14:53 UTC | branch=autofix/t-007 cost=$0.16 report=T-007-report.json |
+| T-007 | REWORK | INTERMEDIATE | 2026-08-08 (review) | implementation shape correct (scope, token placement, gallery mirror) but the chosen color #8E96A8 measures 2.967:1 against white, under the 3:1 AC1 requires — implementer's own self-report showed matching intermediate math but wrote the wrong final conclusion ("≈3.0"). Rework notes specify a verified replacement (#848CA0, 3.365:1). |
