@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `AI automation for ${industry.name.toLowerCase()}`,
     description: industry.metaDescription,
-    alternates: { canonical: `/for/${industry.slug}` },
+    alternates: { canonical: `/industries/${industry.slug}` },
   };
 }
 
@@ -52,8 +52,8 @@ export default async function IndustryPage({ params }: PageProps) {
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Home", path: "/" },
-          { name: "Industries", path: "/for" },
-          { name: industry.name, path: `/for/${industry.slug}` },
+          { name: "Industries", path: "/industries" },
+          { name: industry.name, path: `/industries/${industry.slug}` },
         ])}
       />
       <SetSegment segment={industry.segment} />

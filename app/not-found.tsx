@@ -17,7 +17,7 @@ export default function NotFound() {
         directly.
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <CtaLink href="/for" location="not_found" variant="secondary">
+        <CtaLink href="/industries" location="not_found" variant="secondary">
           Find your industry
         </CtaLink>
         <CtaLink href="/book" location="not_found">

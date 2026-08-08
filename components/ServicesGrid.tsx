@@ -1,6 +1,6 @@
 /**
  * What: Grid of service cards with outcome-first titles, used on the home page and the
- *       /services index.
+ *       /what-we-automate index.
  * Why: "What we automate" is the secondary-CTA destination; cards must sell the outcome,
  *      not the technology.
  * How: Server component mapping content/services.ts; each card links to its detail page.
@@ -32,7 +32,7 @@ export function ServicesGrid({ id, count }: { id?: string; count?: number }) {
         {services.slice(0, count || -1).map((service) => (
           <RevealItem key={service.slug} className="h-full">
             <Link
-              href={`/services/${service.slug}`}
+              href={`/what-we-automate/${service.slug}`}
               className="group flex h-full flex-col rounded-xl bg-white p-6 shadow-sm border-2 border-navy/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue"
             >
               <p className="text-xs font-semibold uppercase tracking-wide text-slate">
@@ -56,7 +56,7 @@ export function ServicesGrid({ id, count }: { id?: string; count?: number }) {
       {count && services.length > count && (
         <div className="flex justify-center mt-8">
           <Link
-            href="/services"
+            href="/what-we-automate"
             className="inline-block rounded-full bg-blue px-6 py-3 text-white font-bold hover:bg-blue/90 transition-colors"
           >
             See all services

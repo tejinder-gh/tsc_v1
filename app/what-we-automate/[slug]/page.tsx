@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${service.name} - ${service.title}`,
     description: service.excerpt,
-    alternates: { canonical: `/services/${service.slug}` },
+    alternates: { canonical: `/what-we-automate/${service.slug}` },
   };
 }
 
@@ -54,8 +54,8 @@ export default async function ServicePage({ params }: PageProps) {
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Home", path: "/" },
-          { name: "What we automate", path: "/services" },
-          { name: service.name, path: `/services/${service.slug}` },
+          { name: "What we automate", path: "/what-we-automate" },
+          { name: service.name, path: `/what-we-automate/${service.slug}` },
         ])}
       />
       <section className="mx-auto max-w-site px-4 pb-12 pt-16 sm:px-6 sm:pt-20">
@@ -138,7 +138,7 @@ export default async function ServicePage({ params }: PageProps) {
             {related.map((industry) => (
               <Link
                 key={industry.slug}
-                href={`/for/${industry.slug}`}
+                href={`/industries/${industry.slug}`}
                 className="rounded-lg border-2 border-navy/10 bg-white px-4 py-2.5 font-medium text-navy transition-colors hover:border-blue"
               >
                 {industry.name}

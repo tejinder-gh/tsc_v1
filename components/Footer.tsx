@@ -57,7 +57,7 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-sm">
             {services.map((s) => (
               <li key={s.slug}>
-                <Link href={`/services/${s.slug}`} className="hover:text-white">
+                <Link href={`/what-we-automate/${s.slug}`} className="hover:text-white">
                   {s.name}
                 </Link>
               </li>
@@ -70,7 +70,7 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-sm">
             {industries.map((i) => (
               <li key={i.slug}>
-                <Link href={`/for/${i.slug}`} className="hover:text-white">
+                <Link href={`/industries/${i.slug}`} className="hover:text-white">
                   {i.name}
                 </Link>
               </li>
@@ -111,10 +111,10 @@ export function Footer() {
               &copy; {new Date().getFullYear()} {site.legalName}. {site.address.locality},{" "}
               {site.address.region}.
             </p>
-            <Link href="/privacy" className="hover:text-white underline underline-offset-2">
+            <Link href="/legal/privacy" className="hover:text-white underline underline-offset-2">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white underline underline-offset-2">
+            <Link href="/legal/terms" className="hover:text-white underline underline-offset-2">
               Terms of Service
             </Link>
           </div>

@@ -61,8 +61,8 @@ export interface NavItem {
 }
 
 export const nav: readonly NavItem[] = [
-  { label: "What we automate", href: "/services" },
-  { label: "Industries", href: "/for" },
+  { label: "What we automate", href: "/what-we-automate" },
+  { label: "Industries", href: "/industries" },
   { label: "About", href: "/about" },
   { label: "Free checklist", href: "/checklist" },
 ] as const;

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "What we automate",
   description:
     "From missed-call answering and booking reminders to client onboarding and supplier ordering - the nine automations that give owners their week back.",
-  alternates: { canonical: "/services" },
+  alternates: { canonical: "/what-we-automate" },
 };
 
 export default function ServicesIndexPage() {

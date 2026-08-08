@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy & Compliance",
   description:
     "The Skill Corner's data privacy practices, PIPEDA/PHIPA compliance posture, and how we handle client and patient information.",
-  alternates: { canonical: "/privacy" },
+  alternates: { canonical: "/legal/privacy" },
 };
 
 export default function PrivacyPage() {

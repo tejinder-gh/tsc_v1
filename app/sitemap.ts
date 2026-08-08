@@ -13,22 +13,30 @@ import { services } from "@/content/services";
 import { site } from "@/content/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/for", "/services", "/book", "/contact", "/checklist", "/about"].map(
-    (path) => ({
-      url: `${site.url}${path}`,
-      changeFrequency: "monthly" as const,
-      priority: path === "" ? 1 : 0.7,
-    }),
-  );
+  const staticRoutes = [
+    "",
+    "/industries",
+    "/what-we-automate",
+    "/book",
+    "/contact",
+    "/checklist",
+    "/about",
+    "/legal/privacy",
+    "/legal/terms",
+  ].map((path) => ({
+    url: `${site.url}${path}`,
+    changeFrequency: "monthly" as const,
+    priority: path === "" ? 1 : 0.7,
+  }));
 
   const industryRoutes = industries.map((industry) => ({
-    url: `${site.url}/for/${industry.slug}`,
+    url: `${site.url}/industries/${industry.slug}`,
     changeFrequency: "monthly" as const,
     priority: 0.9,
   }));
 
   const serviceRoutes = services.map((service) => ({
-    url: `${site.url}/services/${service.slug}`,
+    url: `${site.url}/what-we-automate/${service.slug}`,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));

@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Terms of Service",
   description:
     "Standard terms of service, client responsibilities, and service delivery parameters for The Skill Corner.",
-  alternates: { canonical: "/terms" },
+  alternates: { canonical: "/legal/terms" },
 };
 
 export default function TermsPage() {

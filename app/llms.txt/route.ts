@@ -22,12 +22,13 @@ export const dynamic = "force-static";
 function buildLlmsTxt(): string {
   const serviceLines = services.map(
     (service) =>
-      `- [${service.name}](${site.url}/services/${service.slug}): ${service.excerpt} Timeline: ${service.timeline}.`,
+      `- [${service.name}](${site.url}/what-we-automate/${service.slug}): ${service.excerpt} Timeline: ${service.timeline}.`,
   );
 
   const industryLines = (segment: "local" | "practice") =>
     industriesBySegment(segment).map(
-      (industry) => `- [${industry.name}](${site.url}/for/${industry.slug}): ${industry.cardLine}`,
+      (industry) =>
+        `- [${industry.name}](${site.url}/industries/${industry.slug}): ${industry.cardLine}`,
     );
 
   const faqLines = homeFaq.map((item) => `- ${item.q} ${item.a}`);

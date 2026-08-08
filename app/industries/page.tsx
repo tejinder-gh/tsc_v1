@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Industries we automate",
   description:
     "AI automation for convenience stores, restaurants, salons, gyms, construction, auto repair, pet grooming, medical clinics, dental offices, law firms, accounting, real estate, veterinary clinics, and physiotherapy. Find your industry and see exactly what we automate.",
-  alternates: { canonical: "/for" },
+  alternates: { canonical: "/industries" },
 };
 
 function IndustryGroup({
@@ -46,7 +46,7 @@ function IndustryGroup({
         {items.map((industry) => (
           <Link
             key={industry.slug}
-            href={`/for/${industry.slug}`}
+            href={`/industries/${industry.slug}`}
             className="group flex flex-col rounded-xl bg-white p-6 shadow-sm border-2 border-navy/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue"
           >
             <h3 className="font-display text-xl font-bold">{industry.name}</h3>

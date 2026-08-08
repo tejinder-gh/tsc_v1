@@ -37,7 +37,7 @@ export function serviceJsonLd(service: Service): Record<string, unknown> {
     "@type": "Service",
     name: service.name,
     description: service.excerpt,
-    url: `${site.url}/services/${service.slug}`,
+    url: `${site.url}/what-we-automate/${service.slug}`,
     serviceType: "AI automation",
     provider: { "@id": BUSINESS_ID },
   };
@@ -49,7 +49,7 @@ export function industryServiceJsonLd(industry: Industry): Record<string, unknow
     "@type": "Service",
     name: `AI automation for ${industry.name.toLowerCase()}`,
     description: industry.metaDescription,
-    url: `${site.url}/for/${industry.slug}`,
+    url: `${site.url}/industries/${industry.slug}`,
     serviceType: "AI automation",
     audience: { "@type": "BusinessAudience", name: industry.name },
     provider: { "@id": BUSINESS_ID },
