@@ -21,3 +21,4 @@
 | T-004 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 14:37 UTC | branch=autofix/t-004 cost=$0.17 report=T-004-report.json |
 | T-004 | REWORK | INTERMEDIATE | 2026-08-08 (review) | cycle 2 (1st chargeable to implementer): route.ts fix correct, but route.test.ts mocked runTick's return with a hallucinated shape (timestamp/clientsProcessed/tasksCreated) instead of the real TickReport type (ranAt/clients), breaking `npm run build`'s type check. Also one Biome formatting diff. See REWORK NOTES in tickets/T-004.md. |
 | T-004 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 14:41 UTC | branch=autofix/t-004 cost=$0.21 report=T-004-report.json |
+| T-004 | ACCEPT | INTERMEDIATE | 2026-08-08 (review) | verified independently: build/test/lint clean (89 tests incl. 6 new), live curl confirms 401 with secret unset. Scope exactly the 2 IN files. Merged to main. |
