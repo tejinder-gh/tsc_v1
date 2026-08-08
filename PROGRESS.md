@@ -29,3 +29,4 @@
 | T-007 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 14:53 UTC | branch=autofix/t-007 cost=$0.16 report=T-007-report.json |
 | T-007 | REWORK | INTERMEDIATE | 2026-08-08 (review) | implementation shape correct (scope, token placement, gallery mirror) but the chosen color #8E96A8 measures 2.967:1 against white, under the 3:1 AC1 requires — implementer's own self-report showed matching intermediate math but wrote the wrong final conclusion ("≈3.0"). Rework notes specify a verified replacement (#848CA0, 3.365:1). |
 | T-007 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 17:50 UTC | branch=autofix/t-007 cost=$0.20 report=T-007-report.json |
+| T-007 | ACCEPT | INTERMEDIATE | 2026-08-08 (review) | verified independently: #848CA0 recomputed at 3.365:1 (matches claim), lint/test/build clean, scope exactly the 3 IN files, zero diff on every other border-line usage. Merged to main. Backlog complete — all 7 tickets accepted. |
