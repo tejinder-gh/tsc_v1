@@ -4,4 +4,5 @@
 |---|---|---|---|---|
 | T-001 | IMPLEMENTED | SENIOR | 2026-08-08 14:13 UTC | branch=autofix/t-001 cost=$0.76 report=T-001-report.json |
 | T-001 | REWORK | SENIOR | 2026-08-08 (review) | cycle 1: npm run build fails entirely (not just /dashboard) when Clerk keys unset — dashboard routes statically prerendered by default; needs force-dynamic. See REWORK NOTES in tickets/T-001.md. Scope/AC3/AC5 verified clean otherwise. |
-| T-001 | BLOCKED | SENIOR | 2026-08-08 14:18 UTC | branch=autofix/t-001 cost=$1.01 report=T-001-report.json |
+| T-001 | BLOCKED | SENIOR | 2026-08-08 14:18 UTC | branch=autofix/t-001 cost=$1.01 report=T-001-report.json (ran out of turns fighting sandbox Bash allowlist on compound verify commands, but its actual fix — force-dynamic + regenerated lockfile — was already committed) |
+| T-001 | ACCEPT | SENIOR | 2026-08-08 (review) | cycle 1 rework verified independently: npm run build succeeds with Clerk keys unset (dashboard routes now dynamic, marketing fully static), npm test 85/85, scope clean (6 IN files only, app/layout.tsx untouched), fails closed with generic 500 (no stack trace leak). Merged to main. |
