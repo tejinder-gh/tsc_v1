@@ -1,10 +1,14 @@
 /**
- * What: Proof content - the "Recent builds" grid (problem, automation, result), tagged by segment.
- * Why: No client testimonials exist at launch; anonymized real-style builds are honest proof
- *      without fabricated names. The grid swaps by chosen segment for relevance.
- * How: Typed array; business field is a business type + region, never an invented person or
- *      company name. Replace with real testimonials as they arrive.
- * From Where: TheSkillCorner marketing site build brief (proof rules: no fabricated client names), 2026-06.
+ * What: Proof content - illustrative scenarios (problem, automation, anticipated outcome),
+ *       tagged by segment. Rendered by ProofSection with "Example -" and "Anticipated
+ *       outcome" labels so numbers never read as measured client results.
+ * Why: No client testimonials or measured results exist at launch. The brief forbids
+ *      inventing a statistic or case study, so these are framed as illustrative scenarios,
+ *      not real or anonymized clients - `business` is a category + region for flavor, and
+ *      `result` is what that kind of build typically achieves, not a claimed measurement.
+ * How: Typed array; the grid swaps by chosen segment for relevance.
+ * From Where: TheSkillCorner marketing site build brief (proof rules: no invented
+ *             statistics or case studies), 2026-06; reframed 2026-08.
  * When: 2026-06; replace entries with named testimonials as soon as permissioned ones exist.
  */
 

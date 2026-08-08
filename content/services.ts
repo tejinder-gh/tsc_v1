@@ -238,7 +238,7 @@ export const services: readonly Service[] = [
     tools: ["HubSpot", "Mailchimp", "Clio Grow", "Your inbox", "Make or n8n"],
     timeline: "1 to 3 weeks to live",
     outcome:
-      "Nothing waits on someone remembering. Businesses typically see 10 to 20 percent of stalled quotes close after a proper sequence, and win-back campaigns reliably rebook 8 to 12 percent of lapsed customers.",
+      "Nothing waits on someone remembering. Businesses typically see 10 to 20 percent of stalled quotes close after a proper sequence, and win-back campaigns typically rebook 8 to 12 percent of lapsed customers.",
     faq: [
       {
         q: "I do not have a CRM. Is that a problem?",
@@ -470,7 +470,7 @@ export const services: readonly Service[] = [
     tools: ["QuickBooks", "Xero", "Stripe", "Jobber / Jane App", "Make or n8n"],
     timeline: "1 week to live",
     outcome:
-      "Invoices go out immediately and are paid 8-10 days faster. Accounts receivable balances drop by 30-40% without you making a single manual phone call.",
+      "Invoices go out immediately and are typically paid 8-10 days faster. Accounts receivable balances often drop by 30-40% without you making a single manual phone call.",
     faq: [
       {
         q: "Can it handle custom invoice terms?",
@@ -572,7 +572,7 @@ export const services: readonly Service[] = [
     ],
     timeline: "1 week to live",
     outcome:
-      "Consistent local social presence that boosts map rankings. You save 3-4 hours of marketing management a week, keeping your brand fresh on autopilot.",
+      "Consistent local social presence that boosts map rankings. You typically save 3-4 hours of marketing management a week, keeping your brand fresh on autopilot.",
     faq: [
       {
         q: "Do I have to write the posts?",
@@ -668,7 +668,7 @@ export const services: readonly Service[] = [
     tools: ["Mailchimp", "Klaviyo", "Twilio", "Your POS / CRM database", "Make or n8n"],
     timeline: "1 to 2 weeks to live",
     outcome:
-      "Re-engage 8% to 15% of lapsed clients automatically. Your schedule stays fuller, and you recover lost customer lifetime value without manual email campaigns.",
+      "Typically re-engages 8% to 15% of lapsed clients automatically. Your schedule stays fuller, and you recover lost customer lifetime value without manual email campaigns.",
     faq: [
       {
         q: "Can we control the discount or offer?",
@@ -718,7 +718,7 @@ export const services: readonly Service[] = [
     tools: ["Mailchimp / HubSpot / ActiveCampaign", "Claude API", "Make or n8n"],
     timeline: "1 week to live",
     outcome:
-      "Engaging monthly newsletters delivered to your client database on schedule. You save 3-5 hours of writing and template design every month.",
+      "Engaging monthly newsletters delivered to your client database on schedule. You typically save 3-5 hours of writing and template design every month.",
     faq: [
       {
         q: "Can I edit the draft before it sends?",
@@ -773,7 +773,7 @@ export const services: readonly Service[] = [
     tools: ["PandaDoc / DocuSign / SignWell", "HubSpot", "Google Drive", "Make or n8n"],
     timeline: "1 week to live",
     outcome:
-      "Contracts are signed 3-5 days faster. Admin staff stop checking signatures manually, and projects start without paperwork delays.",
+      "Contracts are typically signed 3-5 days faster. Admin staff stop checking signatures manually, and projects start without paperwork delays.",
     faq: [
       {
         q: "Are these electronic signatures legally binding?",
@@ -852,7 +852,7 @@ export const services: readonly Service[] = [
     tools: ["7shifts / Deputy / When I Work", "Square POS", "Twilio SMS", "Make or n8n"],
     timeline: "2 weeks to live",
     outcome:
-      "Schedule building takes minutes. Shifts are distributed instantly, crew members swap shifts without manager phone tag, and payroll prep is cut by 80%.",
+      "Schedule building takes minutes. Shifts are distributed instantly, crew members swap shifts without manager phone tag, and payroll prep time typically drops by up to 80%.",
     faq: [
       {
         q: "Can it handle part-time availability limits?",
@@ -893,7 +893,7 @@ export const services: readonly Service[] = [
     tools: ["Twilio SMS", "HubSpot / Jobber / Jane", "SendGrid", "Make or n8n"],
     timeline: "1 to 2 weeks to live",
     outcome:
-      "Office phone inquiries decrease by 40-50%. Clients feel constantly updated, increasing trust and satisfaction without staff manually calling them.",
+      "Office phone inquiries typically decrease by 40-50%. Clients feel constantly updated, increasing trust and satisfaction without staff manually calling them.",
     faq: [
       {
         q: "Can we write our own status messages?",

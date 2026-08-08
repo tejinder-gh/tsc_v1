@@ -106,20 +106,31 @@ export default async function IndustryPage({ params }: PageProps) {
             >
               <h3 className="font-display text-xl font-bold">{automation.title}</h3>
               <p className="mt-2 flex-1 leading-relaxed">{automation.body}</p>
-              <p className="mt-4 inline-block font-display text-lg font-bold text-blue">
-                {automation.metric}
+              <p className="mt-4">
+                <span className="block text-xs font-semibold uppercase tracking-wide text-slate">
+                  Typical impact
+                </span>
+                <span className="inline-block font-display text-lg font-bold text-blue">
+                  {automation.metric}
+                </span>
               </p>
             </div>
           ))}
         </div>
       </section>
 
-      <section aria-label="Recent build" className="bg-mist">
+      <section aria-label="What this could look like" className="bg-mist">
         <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
-          <h2 className="font-display text-3xl font-bold sm:text-4xl">A recent build like yours</h2>
+          <h2 className="font-display text-3xl font-bold sm:text-4xl">
+            What this could look like for you
+          </h2>
+          <p className="mt-3 max-w-2xl">
+            An illustrative scenario, not a specific client - a walkthrough of how this build
+            typically plays out.
+          </p>
           <div className="mt-8 max-w-2xl rounded-xl bg-white p-7">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate">
-              {industry.build.business} - anonymized for client privacy
+              Example - {industry.build.business}
             </p>
             <p className="mt-3 leading-relaxed">
               <span className="font-semibold text-navy">The problem: </span>
@@ -129,8 +140,13 @@ export default async function IndustryPage({ params }: PageProps) {
               <span className="font-semibold text-navy">The build: </span>
               {industry.build.automation}
             </p>
-            <p className="mt-4 font-display text-2xl font-bold text-blue">
-              {industry.build.result}
+            <p className="mt-4">
+              <span className="block text-xs font-semibold uppercase tracking-wide text-slate">
+                Anticipated outcome
+              </span>
+              <span className="font-display text-2xl font-bold text-blue">
+                {industry.build.result}
+              </span>
             </p>
           </div>
         </div>

@@ -30,31 +30,14 @@ export default function BookPage() {
           </h1>
           <p className="mt-4 text-lg text-slate">{booking.promise}</p>
         </div>
-        <div className="hidden lg:block space-y-4">
-          <p className="font-mono text-xs font-semibold uppercase tracking-wider text-slate">
-            Typical outcomes we build:
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-blue/20 bg-blue/5 p-5">
-              <span className="block font-display text-2xl font-bold text-blue">~12 min</span>
-              <p className="mt-1 text-sm font-semibold text-navy">Saved per patient</p>
-              <p className="mt-1 text-xs text-slate">Medical clinic, North York</p>
-            </div>
-            <div className="rounded-xl border border-blue/20 bg-blue/5 p-5">
-              <span className="block font-display text-2xl font-bold text-blue">30+ calls</span>
-              <p className="mt-1 text-sm font-semibold text-navy">Captured per month</p>
-              <p className="mt-1 text-xs text-slate">Restaurant, Mississauga</p>
-            </div>
-            <div className="rounded-xl border border-blue/20 bg-blue/5 p-5">
-              <span className="block font-display text-2xl font-bold text-blue">Cut by 50%</span>
-              <p className="mt-1 text-sm font-semibold text-navy">No-shows down half</p>
-              <p className="mt-1 text-xs text-slate">Hair salon, two locations</p>
-            </div>
-            <div className="rounded-xl border border-blue/20 bg-blue/5 p-5">
-              <span className="block font-display text-2xl font-bold text-blue">&lt; 2 mins</span>
-              <p className="mt-1 text-sm font-semibold text-navy">First response time</p>
-              <p className="mt-1 text-xs text-slate">Law firm, Downtown Toronto</p>
-            </div>
+        <div className="hidden lg:block">
+          <div className="rounded-xl border-2 border-navy/10 bg-mist p-6">
+            <p className="font-display text-lg font-bold text-navy">What to expect on the call</p>
+            <ul className="mt-3 space-y-2.5 text-sm leading-relaxed">
+              <li>We ask what you're doing by hand today and where it hurts most.</li>
+              <li>You get three concrete automation ideas, scoped to your business.</li>
+              <li>No pitch deck, no pressure - if it's not a fit, we'll say so.</li>
+            </ul>
           </div>
         </div>
       </div>

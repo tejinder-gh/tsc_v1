@@ -5,7 +5,13 @@
  *      industry's own vocabulary. Typed content makes adding industry #7 a copy job.
  * How: One Industry interface; pages statically generate from this array. segment drives
  *      which pricing anchor renders and which vocabulary ("customers" vs "patients/clients").
- * From Where: TheSkillCorner marketing site build brief (industry funnel spec), 2026-06.
+ *      `automations[].metric` and `build.result` are typical/anticipated figures for that
+ *      kind of build, not measured client data - the page labels them "Typical impact" and
+ *      "Anticipated outcome" rather than presenting them as fact, and `build` is an
+ *      illustrative scenario, not a real or anonymized client, per the brief's rule against
+ *      inventing statistics or case studies.
+ * From Where: TheSkillCorner marketing site build brief (industry funnel spec), 2026-06;
+ *             proof framing reworked 2026-08.
  * When: 2026-06; revisit as ad campaigns reveal which industries convert.
  */
 
