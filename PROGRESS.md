@@ -8,3 +8,4 @@
 | T-001 | ACCEPT | SENIOR | 2026-08-08 (review) | cycle 1 rework verified independently: npm run build succeeds with Clerk keys unset (dashboard routes now dynamic, marketing fully static), npm test 85/85, scope clean (6 IN files only, app/layout.tsx untouched), fails closed with generic 500 (no stack trace leak). Merged to main. |
 | T-002 | IMPLEMENTED | INTERMEDIATE | 2026-08-08 14:21 UTC | branch=autofix/t-002 cost=$0.08 report=T-002-report.json |
 | T-002 | ACCEPT | INTERMEDIATE | 2026-08-08 (review) | verified independently: build/test clean, robots.txt confirmed /dashboard/ disallowed under all 14 user-agent blocks. Merged to main. |
+| T-003 | IMPLEMENTED | SENIOR | 2026-08-08 14:24 UTC | branch=autofix/t-003 cost=$0.14 report=T-003-report.json |
