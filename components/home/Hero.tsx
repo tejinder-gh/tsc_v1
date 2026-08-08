@@ -20,7 +20,7 @@ export function Hero() {
         {/* Left Column: Copy & CTAs */}
         <div className="max-w-2xl">
           <p
-            className="hero-reveal font-mono text-sm font-semibold uppercase tracking-widest text-blue"
+            className="hero-reveal font-body font-bold text-sm uppercase tracking-widest text-blue"
             style={{ animationDelay: "0ms" }}
           >
             {hero.eyebrow}

@@ -4,14 +4,14 @@
  *       (floating widget, exit-intent modal, mobile sticky bar).
  * Why: Capture surfaces and segment state must exist on every page so each page surfaces
  *      at least two rungs of the conversion ladder.
- * How: next/font loads Poppins + DM Sans + JetBrains Mono as CSS variables consumed by
- *      the Tailwind theme; Plausible or GA4 loads only when its env var is set.
+ * How: Poppins + DM Sans are self-hosted woff2 files (@font-face in globals.css, brief
+ *      §4/§5.2); the two files used above the fold are preloaded here. Plausible or GA4
+ *      loads only when its env var is set.
  * From Where: TheSkillCorner marketing site build brief, 2026-06.
  * When: 2026-06.
  */
 
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, JetBrains_Mono, Poppins } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { ExitIntentModal } from "@/components/capture/ExitIntentModal";
@@ -23,28 +23,6 @@ import { site } from "@/content/site";
 import { SegmentProvider } from "@/lib/segment-context";
 import { BUSINESS_ID } from "@/lib/structured-data";
 import "./globals.css";
-
-const displayFont = Poppins({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  variable: "--font-poppins",
-  display: "swap",
-});
-
-const bodyFont = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-dm-sans",
-  display: "swap",
-});
-
-// Variable name must differ from Tailwind's --font-mono token; @theme inline maps
-// --font-mono to this, and identical names would self-reference on <html>.
-const monoFont = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -112,7 +90,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
   return (
-    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`}>
+    <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/poppins-600-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/dm-sans-400-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="font-body antialiased">
         {/* Flags JS availability before first paint so scroll-reveal hidden states
             never apply for no-JS visitors or crawlers. */}

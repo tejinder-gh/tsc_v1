@@ -169,7 +169,7 @@ ${formattedPriority || "None selected"}
                           >
                             {item.task}
                           </span>
-                          <span className="shrink-0 font-mono text-xs font-semibold text-slate/85">
+                          <span className="shrink-0 tabular-nums text-xs font-semibold text-slate/85">
                             {item.hoursDisplay} hrs/wk
                           </span>
                         </div>

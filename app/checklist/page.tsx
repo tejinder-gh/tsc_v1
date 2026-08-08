@@ -26,7 +26,7 @@ export default function ChecklistPage() {
         <div className="absolute -inset-10 -z-10 hidden lg:block opacity-40">
           <AbstractVisual variant="checklist" />
         </div>
-        <p className="font-mono text-sm font-semibold uppercase tracking-widest text-blue">
+        <p className="font-body font-bold text-sm uppercase tracking-widest text-blue">
           Interactive Audit
         </p>
         <h1 className="mt-3 font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-navy sm:text-5xl">
