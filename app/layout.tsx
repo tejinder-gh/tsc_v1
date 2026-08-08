@@ -170,7 +170,7 @@ gtag('config', '${gaId}');`}
           <ExitIntentModal />
           <MobileStickyBar />
           {/* Spacer so the mobile sticky bar never covers footer content. */}
-          <div aria-hidden="true" className="h-16 md:hidden" />
+          <div aria-hidden="true" className="h-14 md:hidden" />
         </SegmentProvider>
       </body>
     </html>

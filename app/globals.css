@@ -246,6 +246,11 @@ input[type="range"]:focus-visible {
   outline-offset: 6px;
 }
 
+/* Hides the mobile sticky bar while Header's full-screen mobile menu is open (brief §8.2). */
+body.menu-open .mobile-sticky-bar {
+  display: none;
+}
+
 /* FAQ accordion marker */
 details > summary {
   list-style: none;
