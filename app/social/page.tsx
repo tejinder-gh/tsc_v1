@@ -1,16 +1,19 @@
 /**
- * What: /social - the landing page for anyone scanning the founder's physical business
- *       card. Founder-forward, "save my contact" first, then the full range of what The
- *       Skill Corner builds (AI automation and digital services), then a fast way to reach
- *       out.
+ * What: /social - the landing page for anyone scanning The Skill Corner's physical
+ *       business card. Company-forward (not an individual) - "save our contact" first,
+ *       then the full range of what The Skill Corner builds (AI automation and digital
+ *       services), then a fast way to reach out.
  * Why: A QR code on a physical card needs somewhere real to land - this page exists to
- *      convert that one scan into a saved contact and, ideally, a lead. See the plan file
- *      (partitioned-moseying-shamir.md) for the full scope rationale.
- * How: Server page; the "save my contact" link points at /contact.vcf (app/contact.vcf/route.ts).
+ *      convert that one scan into a saved contact and, ideally, a lead. Deliberately
+ *      company-branded rather than founder-branded per explicit direction: this is TSC's
+ *      card, not a personal one. See the plan file (partitioned-moseying-shamir.md) for
+ *      the full scope rationale.
+ * How: Server page; the "save our contact" link points at /contact.vcf
+ *      (app/contact.vcf/route.ts, itself an organization vCard, not a personal one).
  *      QuickMessageForm is the one client boundary, reusing the existing lead pipeline with
  *      lead_source "social_card". MobileStickyBar/QuickActions/ExitIntentModal are already
  *      global via app/layout.tsx and need no changes to appear here.
- * From Where: Founder request, 2026-08.
+ * From Where: Founder request, 2026-08; re-scoped to company-only framing same day.
  * When: 2026-08.
  */
 
@@ -23,8 +26,8 @@ import { digitalServices } from "@/content/digital-services";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: `${site.principal.name} - ${site.name}`,
-  description: `Get in touch with ${site.principal.name}, ${site.principal.title} at ${site.name} - AI automation, websites, apps, branding, and digital marketing.`,
+  title: `${site.name} - AI Automation & Digital Services`,
+  description: `Get in touch with ${site.name} - AI automation, websites, apps, branding, and digital marketing for local businesses and professional practices.`,
   alternates: { canonical: "/social" },
 };
 
@@ -37,16 +40,12 @@ export default function SocialPage() {
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <p className="text-sm font-bold uppercase tracking-widest text-blue-500">
-              Good to meet you
+              Thanks for stopping by
             </p>
             <h1 className="mt-4 font-display text-4xl font-bold leading-tight sm:text-5xl">
-              {site.principal.name}
+              {site.name}
             </h1>
-            <p className="mt-2 text-lg font-medium text-slate-600">{site.principal.title}</p>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed">
-              {site.name} builds AI automation, websites, applications, brand identity, and the
-              digital marketing behind all of it - for local businesses and professional practices.
-            </p>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed">{site.description}</p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -54,7 +53,7 @@ export default function SocialPage() {
                 download="contact.vcf"
                 className="inline-flex min-h-12 items-center justify-center rounded-control bg-blue-500 px-6 font-display text-[15px] font-medium text-white shadow-sm transition-all hover:bg-blue-700"
               >
-                Save my contact
+                Save our contact
               </a>
               <CtaLink href="/book" location="social_hero" variant="secondary">
                 Book a free audit

@@ -89,7 +89,7 @@ export const pricing: Record<Segment, PricingAnchorContent> = {
   },
   practice: {
     label: "Custom build",
-    anchor: "Typical engagements run $7,500 - $25,000",
+    anchor: "Typical engagements run $1,500 - $25,000",
     detail:
       "Scoped and quoted after your audit, with monitoring and support from $1,500/month. You approve the scope before anything is built.",
     compliance:

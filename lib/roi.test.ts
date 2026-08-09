@@ -53,8 +53,8 @@ describe("clamp", () => {
 });
 
 describe("PRACTICE_BUILD_FEE_RANGE", () => {
-  it("parses the published $7,500-$25,000 range from content/site.ts", () => {
-    expect(PRACTICE_BUILD_FEE_RANGE).toEqual({ low: 7500, high: 25000 });
+  it("parses the published $1,500-$25,000 range from content/site.ts", () => {
+    expect(PRACTICE_BUILD_FEE_RANGE).toEqual({ low: 1500, high: 25000 });
   });
 });
 
@@ -76,15 +76,16 @@ describe("practicePaybackRange", () => {
   });
 
   it("returns null when savings are so small the payback would read as nonsense", () => {
-    // Slider minimums (1 hr/week at $15/hr) produce a tiny annual figure whose payback
-    // against even the low end of the fee range runs to many years.
-    const annual = annualCost({ hoursPerWeek: 1, hourlyCost: 15 });
-    expect(practicePaybackRange(annual)).toBeNull();
+    // With the current $1,500 low end, even the slider minimum (1 hr/week at $15/hr,
+    // $780/yr) clears the 60-month guard - so this exercises the guard directly with a
+    // raw annual figure below what the slider can reach, rather than via annualCost().
+    expect(practicePaybackRange(200)).toBeNull();
   });
 
   it("scales the low and high months with the low and high end of the fee range", () => {
-    // Annual savings chosen so months land well above 1, keeping rounding error negligible.
-    const result = practicePaybackRange(3600);
+    // 600/12 = 50 monthly savings divides both ends of the fee range evenly (1500/50=30,
+    // 25000/50=500), so rounding introduces no error and the ratio is exact.
+    const result = practicePaybackRange(600);
     expect(result).not.toBeNull();
     const ratio = (result?.highMonths ?? 0) / (result?.lowMonths ?? 1);
     const expectedRatio = PRACTICE_BUILD_FEE_RANGE.high / PRACTICE_BUILD_FEE_RANGE.low;

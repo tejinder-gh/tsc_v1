@@ -43,12 +43,12 @@ export function Footer() {
             >
               {site.phone}
             </a>
-            <a
+            {/* <a
               href={`tel:${site.phoneIndia.replace(/[^+\d]/g, "")}`}
               className="underline underline-offset-4 hover:text-white"
             >
               {site.phoneIndia}
-            </a>
+            </a> */}
           </p>
         </div>
 
