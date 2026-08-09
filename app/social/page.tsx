@@ -1,28 +1,44 @@
 /**
  * What: /social - the landing page for anyone scanning The Skill Corner's physical
- *       business card. Company-forward (not an individual) - "save our contact" first,
- *       then the full range of what The Skill Corner builds (AI automation and digital
- *       services), then a fast way to reach out.
+ *       business card. Company-forward (not an individual): who TSC is, what it builds,
+ *       and how it helps - backed by real numbers already published elsewhere on the
+ *       site, not new claims invented for this page.
  * Why: A QR code on a physical card needs somewhere real to land - this page exists to
- *      convert that one scan into a saved contact and, ideally, a lead. Deliberately
- *      company-branded rather than founder-branded per explicit direction: this is TSC's
- *      card, not a personal one. See the plan file (partitioned-moseying-shamir.md) for
- *      the full scope rationale.
- * How: Server page; the "save our contact" link points at /contact.vcf
- *      (app/contact.vcf/route.ts, itself an organization vCard, not a personal one).
- *      QuickMessageForm is the one client boundary, reusing the existing lead pipeline with
- *      lead_source "social_card". MobileStickyBar/QuickActions/ExitIntentModal are already
- *      global via app/layout.tsx and need no changes to appear here.
- * From Where: Founder request, 2026-08; re-scoped to company-only framing same day.
+ *      introduce the company and convert that one scan into a saved contact and, ideally,
+ *      a lead. First pass (a generic "By the numbers" stat-tile grid + two flat category-
+ *      summary cards) tested flat in a real browser pass against the homepage - the
+ *      founder confirmed it didn't create "an urge to explore." Root cause, found by
+ *      comparing screenshots against home page (/): this site never presents numbers as a
+ *      standalone stat block - every number lives inside a specific, individually-titled
+ *      card (a service's own timeline badge, the ROI calculator's own figure, a named
+ *      pricing tier). This page now reuses those exact components (ServicesGrid,
+ *      DigitalServicesTeaser, PricingAnchor) instead of a hand-rolled summary, so it reads
+ *      the same way the rest of the site already reads - proven, not a page-specific
+ *      alternate design. Every figure still traces to an existing source; nothing here is
+ *      a new claim invented for this page (content/proof.ts's no-fabrication discipline).
+ * How: Server page composing existing components. ServicesGrid/DigitalServicesTeaser/
+ *      RoiCalculator/ProofSection/PricingAnchor are the exact same components the homepage
+ *      uses, in the same order they appear there. QuickMessageForm is the one page-specific
+ *      client boundary. The "save our contact" link points at /contact.vcf (an organization
+ *      vCard). MobileStickyBar/QuickActions/ExitIntentModal are already global via
+ *      app/layout.tsx.
+ * From Where: Founder request, 2026-08; re-scoped to company-only framing, then to
+ *      numerically-backed content, then rebuilt around proven components after a real
+ *      browser comparison showed the hand-rolled version read flat, same day.
  * When: 2026-08.
  */
 
 import type { Metadata } from "next";
-import Link from "next/link";
 import { AbstractVisual } from "@/components/AbstractVisual";
 import { CtaLink } from "@/components/CtaLink";
 import { QuickMessageForm } from "@/components/forms/QuickMessageForm";
+import { DigitalServicesTeaser } from "@/components/home/DigitalServicesTeaser";
+import { ProofSection } from "@/components/home/ProofSection";
+import { RoiCalculator } from "@/components/home/RoiCalculator";
+import { PricingAnchor } from "@/components/PricingAnchor";
+import { ServicesGrid } from "@/components/ServicesGrid";
 import { digitalServices } from "@/content/digital-services";
+import { services } from "@/content/services";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -40,12 +56,19 @@ export default function SocialPage() {
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <p className="text-sm font-bold uppercase tracking-widest text-blue-500">
-              Thanks for stopping by
+              AI automation &amp; digital services agency
             </p>
             <h1 className="mt-4 font-display text-4xl font-bold leading-tight sm:text-5xl">
               {site.name}
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed">{site.description}</p>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed">
+              We build the automations, the software, and the digital presence that run your
+              business - so the busywork runs itself.
+            </p>
+            <p className="mt-3 max-w-xl text-sm text-slate-600">
+              {services.length} automations. {digitalServices.length} digital service lines. A free
+              30-minute audit to start, no pitch deck.
+            </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -79,51 +102,11 @@ export default function SocialPage() {
         </div>
       </section>
 
-      <section aria-label="What we build" className="bg-mist">
-        <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
-          <h2 className="font-display text-2xl font-bold sm:text-3xl">What we build</h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            <Link
-              href="/what-we-automate"
-              className="group flex flex-col rounded-xl border-2 border-navy/10 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-blue hover:shadow-md"
-            >
-              <h3 className="font-display text-xl font-bold">AI Automation</h3>
-              <p className="mt-2 flex-1 leading-relaxed">
-                Missed-call answering, booking reminders, intake processing, review responses, and
-                follow-up that never slips.
-              </p>
-              <p className="mt-4 text-sm font-semibold text-blue">
-                See what we automate
-                <span
-                  aria-hidden="true"
-                  className="ml-2 inline-block transition-transform group-hover:translate-x-1"
-                >
-                  &rarr;
-                </span>
-              </p>
-            </Link>
-
-            <Link
-              href="/digital-services"
-              className="group flex flex-col rounded-xl border-2 border-navy/10 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-blue hover:shadow-md"
-            >
-              <h3 className="font-display text-xl font-bold">Digital Services</h3>
-              <p className="mt-2 flex-1 leading-relaxed">
-                {digitalServices.map((service) => service.name).join(", ")}.
-              </p>
-              <p className="mt-4 text-sm font-semibold text-blue">
-                See digital services
-                <span
-                  aria-hidden="true"
-                  className="ml-2 inline-block transition-transform group-hover:translate-x-1"
-                >
-                  &rarr;
-                </span>
-              </p>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <RoiCalculator />
+      <ServicesGrid count={3} />
+      <DigitalServicesTeaser />
+      <ProofSection />
+      <PricingAnchor location="social" />
 
       <section aria-label="Send a message" className="mx-auto max-w-site px-4 py-14 sm:px-6">
         <div className="mx-auto max-w-lg">
