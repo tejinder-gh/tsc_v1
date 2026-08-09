@@ -27,8 +27,8 @@ export function Footer() {
             className="h-8 w-auto"
           />
           <p className="mt-3 max-w-xs text-sm leading-relaxed">
-            AI automations for local businesses and professional practices. Audit, build, run - and
-            your week gets shorter.
+            AI automation and digital services for local businesses and professional practices -
+            automations, websites, apps, brand design, and marketing.
           </p>
           <p className="mt-4 flex flex-col gap-1 text-sm">
             <a
@@ -94,6 +94,11 @@ export function Footer() {
             <li>
               <Link href="/checklist" className="hover:text-white">
                 Free automation checklist
+              </Link>
+            </li>
+            <li>
+              <Link href="/digital-services" className="hover:text-white">
+                Digital services
               </Link>
             </li>
             <li>

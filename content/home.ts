@@ -10,7 +10,7 @@
 import type { Segment } from "./site";
 
 export const hero = {
-  eyebrow: "AI automation agency",
+  eyebrow: "AI automation & digital services agency",
   headline: "Your business runs on repetitive work. We make it run itself.",
   subhead:
     "The Skill Corner builds AI automations for local businesses and professional practices - from missed-call answering to patient intake. You keep the work only you can do; the rest runs on its own.",

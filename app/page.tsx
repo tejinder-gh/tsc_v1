@@ -12,6 +12,7 @@
 import type { Metadata } from "next";
 import { Faq } from "@/components/Faq";
 import { FinalCta } from "@/components/FinalCta";
+import { DigitalServicesTeaser } from "@/components/home/DigitalServicesTeaser";
 import { Hero } from "@/components/home/Hero";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { ProblemStrip } from "@/components/home/ProblemStrip";
@@ -33,6 +34,7 @@ export default function HomePage() {
       <RoiCalculator />
       <ProofSection />
       <ServicesGrid id="what-we-automate" count={3} />
+      <DigitalServicesTeaser />
       <HowItWorks />
       <PricingAnchor location="home" />
       <Faq items={homeFaq} />

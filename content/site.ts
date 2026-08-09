@@ -20,9 +20,9 @@ export interface Office {
 export const site = {
   name: "The Skill Corner",
   legalName: "The Skill Corner Inc.",
-  tagline: "AI automation for local businesses and professional practices",
+  tagline: "AI automation and digital services for local businesses and professional practices",
   description:
-    "The Skill Corner builds AI automations for local businesses and professional practices - missed-call answering, booking reminders, intake processing, review responses, and follow-up that never slips.",
+    "The Skill Corner builds AI automations for local businesses and professional practices - missed-call answering, booking reminders, intake processing, review responses, and follow-up that never slips - alongside website development, application development, brand design, and digital marketing.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://theskillcorner.com",
   email: "info@theskillcorner.com",
   /** Primary (North America) line - used for the main tel: link and JSON-LD `telephone`. */
@@ -62,6 +62,7 @@ export interface NavItem {
 
 export const nav: readonly NavItem[] = [
   { label: "What we automate", href: "/what-we-automate" },
+  { label: "Digital Services", href: "/digital-services" },
   { label: "Industries", href: "/industries" },
   { label: "About", href: "/about" },
   { label: "Free checklist", href: "/checklist" },

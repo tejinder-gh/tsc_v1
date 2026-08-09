@@ -17,6 +17,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/industries",
     "/what-we-automate",
+    "/digital-services",
+    "/social",
     "/how-it-works",
     "/results",
     "/book",
