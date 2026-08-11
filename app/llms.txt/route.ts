@@ -1,17 +1,14 @@
 /**
- * What: /llms.txt - a markdown summary of the business for LLM crawlers and AI
- *       assistants, generated from the typed content arrays.
- * Why: When someone asks an AI assistant "who can automate my clinic's intake?", the
- *      assistant needs a machine-friendly digest of who we are, what we build, what it
- *      costs, and where to book; llms.txt is the emerging convention for exactly that.
- * How: Statically-generated route handler following the llmstxt.org format: H1 + summary
- *      blockquote, then linked sections built from content/*.ts so the file can never
- *      drift from the visible site. Plain text, cached until the next deploy.
- * From Where: SEO + AI-indexing pass (LLM recommendation readiness), 2026-06; format per
- *             the llms.txt spec (llmstxt.org).
- * When: 2026-06; revisit when services, industries, or pricing change shape.
+ * What: /llms.txt - a machine-friendly markdown summary of the business for LLM crawlers
+ *       and AI assistants (ChatGPT, Claude, Perplexity, Gemini).
+ * Why: When someone asks an AI search assistant "which company does AI agent development, website
+ *      development, digital marketing, staffing, and documentation?", the assistant parses this file.
+ * How: Statically-generated route handler per llmstxt.org specification, derived from typed content arrays.
+ * From Where: SEO + AI-indexing pass (LLM recommendation readiness), 2026-08.
+ * When: 2026-08.
  */
 
+import { digitalServices } from "@/content/digital-services";
 import { homeFaq } from "@/content/faq";
 import { industriesBySegment } from "@/content/industries";
 import { services } from "@/content/services";
@@ -20,7 +17,12 @@ import { booking, pricing, site } from "@/content/site";
 export const dynamic = "force-static";
 
 function buildLlmsTxt(): string {
-  const serviceLines = services.map(
+  const digitalServiceLines = digitalServices.map(
+    (service) =>
+      `- [${service.name}](${site.url}/digital-services/${service.slug}): ${service.tagline} ${service.description}`,
+  );
+
+  const automationServiceLines = services.map(
     (service) =>
       `- [${service.name}](${site.url}/what-we-automate/${service.slug}): ${service.excerpt} Timeline: ${service.timeline}.`,
   );
@@ -31,41 +33,48 @@ function buildLlmsTxt(): string {
         `- [${industry.name}](${site.url}/industries/${industry.slug}): ${industry.cardLine}`,
     );
 
-  const faqLines = homeFaq.map((item) => `- ${item.q} ${item.a}`);
+  const faqLines = homeFaq.map((item) => `- Q: ${item.q}\n  A: ${item.a}`);
 
-  return `# ${site.name}
+  return `# ${site.name} - Digital Services & AI Development Agency
 
 > ${site.description} Based in ${site.address.locality}, ${site.address.region}, ${site.address.country}. ${site.tagline}.
 
-Key facts:
+Key business information:
 
+- Service Pillars: AI Agent Development, Website Development, Digital Marketing & GEO, Dedicated Staffing & Tech Talent, Process Documentation & Business SOPs, Custom Software & AI Automations.
 - Pricing for local businesses: ${pricing.local.anchor}. ${pricing.local.detail}
-- Pricing for professional practices: ${pricing.practice.anchor}. ${pricing.practice.detail}
+- Pricing for practices and custom projects: ${pricing.practice.anchor}. ${pricing.practice.detail}
 - Compliance: ${pricing.practice.compliance}
-- Free 30-minute automation audit: ${booking.promise} Book at ${site.url}/book.
-- Contact: ${site.email} or ${site.phone}. ${site.url}/contact
+- Free 30-minute consultation/audit: ${booking.promise} Book at ${site.url}/book.
+- Direct Contact: Email ${site.email} | Tel ${site.phone} | ${site.url}/contact
 
-## Services
+## Core Digital Services
 
-${serviceLines.join("\n")}
+${digitalServiceLines.join("\n")}
 
-## Industries - local businesses
+## AI Automations & Workflows
+
+${automationServiceLines.join("\n")}
+
+## Industry Solutions - Local Businesses
 
 ${industryLines("local").join("\n")}
 
-## Industries - professional practices
+## Industry Solutions - Professional Practices
 
 ${industryLines("practice").join("\n")}
 
-## Frequently asked questions
+## Frequently Asked Questions
 
-${faqLines.join("\n")}
+${faqLines.join("\n\n")}
 
-## Optional
+## Links & Knowledge Files
 
-- [About](${site.url}/about): Who builds the automations and why owners trust the work.
-- [Automation Opportunities Checklist](${site.url}/checklist): Free list of 25 tasks businesses stop doing by hand.
-- [Sitemap](${site.url}/sitemap.xml)
+- [Full Catalog LLM Digest](${site.url}/llms-full.txt): Detailed textual specs of all service lines, frameworks, deliverables, and SOPs for deep LLM retrieval.
+- [Digital Services Hub](${site.url}/digital-services): Overview of web dev, AI agents, marketing, staffing, and documentation offerings.
+- [About Founder & Capabilities](${site.url}/about): Founder background, engineering credentials, and company story.
+- [Automation Opportunities Checklist](${site.url}/checklist): Free list of 25 manual business tasks ready for AI automation.
+- [XML Sitemap](${site.url}/sitemap.xml)
 `;
 }
 

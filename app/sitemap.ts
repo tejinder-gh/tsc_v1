@@ -1,13 +1,13 @@
 /**
- * What: sitemap.xml - all static routes plus every industry and service page.
- * Why: Industry pages are the SEO engine; the sitemap must include them automatically as
- *      content grows.
+ * What: sitemap.xml - all static routes plus every industry, automation service, and digital service page.
+ * Why: Search engine indexation requires complete discovery of all content endpoints.
  * How: Next metadata route deriving URLs from the typed content arrays.
- * From Where: TheSkillCorner marketing site build brief (SEO spec), 2026-06.
- * When: 2026-06.
+ * From Where: TheSkillCorner marketing site build brief (SEO spec), updated 2026-08.
+ * When: 2026-08.
  */
 
 import type { MetadataRoute } from "next";
+import { digitalServices } from "@/content/digital-services";
 import { industries } from "@/content/industries";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
@@ -45,5 +45,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...industryRoutes, ...serviceRoutes];
+  const digitalServiceRoutes = digitalServices.map((service) => ({
+    url: `${site.url}/digital-services/${service.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
+
+  return [...staticRoutes, ...industryRoutes, ...serviceRoutes, ...digitalServiceRoutes];
 }

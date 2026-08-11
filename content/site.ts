@@ -20,9 +20,10 @@ export interface Office {
 export const site = {
   name: "The Skill Corner",
   legalName: "The Skill Corner Inc.",
-  tagline: "AI automation and digital services for local businesses and professional practices",
+  tagline:
+    "AI agent development, custom website development, digital marketing, staffing, documentation, and AI automations",
   description:
-    "The Skill Corner builds AI automations for local businesses and professional practices - missed-call answering, booking reminders, intake processing, review responses, and follow-up that never slips - alongside website development, application development, brand design, and digital marketing.",
+    "The Skill Corner provides end-to-end digital services for growing businesses and professional practices - including custom AI agent development, high-performance website development, Generative Engine Optimization (GEO) & digital marketing, dedicated tech staffing & staff augmentation, business process documentation & SOPs, and custom AI automations (missed-call answering, booking reminders, intake processing, and lead follow-up).",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://theskillcorner.com",
   email: "info@theskillcorner.com",
   /** Primary (North America) line - used for the main tel: link and JSON-LD `telephone`. */

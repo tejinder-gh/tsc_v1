@@ -1,16 +1,17 @@
 /**
- * What: JSON-LD builders - FAQPage, Service, and BreadcrumbList objects derived from the
- *       typed content arrays.
+ * What: JSON-LD builders - FAQPage, Service, DigitalService, and BreadcrumbList objects
+ *       derived from the typed content arrays.
  * Why: Structured data is how search engines and LLM crawlers extract the business's
  *      services, answers, and page hierarchy for rich results and AI recommendations;
  *      building it from content/*.ts keeps schema in lockstep with visible copy.
  * How: Pure functions returning plain objects; components serialize them via <JsonLd>.
  *      The LocalBusiness node in app/layout.tsx carries an @id these nodes reference as
  *      provider, linking every page's schema into one graph.
- * From Where: SEO + AI-indexing pass (LLM recommendation readiness), 2026-06.
- * When: 2026-06; revisit if pages gain per-service pricing (add Offer nodes).
+ * From Where: SEO + AI-indexing pass (LLM recommendation readiness), 2026-08.
+ * When: 2026-08.
  */
 
+import type { DigitalService } from "@/content/digital-services";
 import type { FaqItem } from "@/content/faq";
 import type { Industry } from "@/content/industries";
 import type { Service } from "@/content/services";
@@ -39,6 +40,18 @@ export function serviceJsonLd(service: Service): Record<string, unknown> {
     description: service.excerpt,
     url: `${site.url}/what-we-automate/${service.slug}`,
     serviceType: "AI automation",
+    provider: { "@id": BUSINESS_ID },
+  };
+}
+
+export function digitalServiceJsonLd(service: DigitalService): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name,
+    description: service.description,
+    url: `${site.url}/digital-services/${service.slug}`,
+    serviceType: service.name,
     provider: { "@id": BUSINESS_ID },
   };
 }

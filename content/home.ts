@@ -10,13 +10,14 @@
 import type { Segment } from "./site";
 
 export const hero = {
-  eyebrow: "AI automation & digital services agency",
-  headline: "Your business runs on repetitive work. We make it run itself.",
+  eyebrow: "Full-service digital agency & AI development firm",
+  headline: "AI agent development, custom websites, marketing, staffing & SOP documentation.",
   subhead:
-    "The Skill Corner builds AI automations for local businesses and professional practices - from missed-call answering to patient intake. You keep the work only you can do; the rest runs on its own.",
-  primaryCta: { label: "Book a free automation audit", href: "/book" },
-  secondaryCta: { label: "See what we automate", href: "#what-we-automate" },
-  trustLine: "Serving storefronts, clinics, and firms across Canada - built and supported locally.",
+    "The Skill Corner delivers end-to-end digital services for growing businesses and professional practices - from custom AI voice and chat agents to high-performance website development, digital marketing (SEO & GEO), dedicated tech staffing, business SOP documentation, and workflow automations.",
+  primaryCta: { label: "Book a free audit", href: "/book" },
+  secondaryCta: { label: "Explore digital services", href: "/digital-services" },
+  trustLine:
+    "Serving businesses, clinics, and professional practices worldwide - engineered with precision.",
 } as const;
 
 export interface SegmentCard {
