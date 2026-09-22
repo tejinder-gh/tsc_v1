@@ -8,12 +8,25 @@
  * When: 2026-06; revisit if a second provider or server-side events are added.
  */
 
-export type AnalyticsEvent = "cta_clicked" | "lead_captured";
+export type AnalyticsEvent =
+  | "cta_clicked"
+  | "lead_captured"
+  | "journey_started"
+  | "journey_intent_selected"
+  | "journey_problem_entered"
+  | "journey_stage_changed";
 
 export interface AnalyticsProps {
-  location: string;
-  segment: string;
+  location?: string;
+  segment?: string;
   label?: string;
+  source?: string;
+  intent?: string;
+  hasProblemText?: boolean;
+  characterBucket?: "<50" | "50-149" | "150+";
+  from?: string;
+  to?: string;
+  [key: string]: string | number | boolean | undefined;
 }
 
 interface AnalyticsWindow {
@@ -24,11 +37,12 @@ interface AnalyticsWindow {
 export function track(event: AnalyticsEvent, props: AnalyticsProps): void {
   if (typeof window === "undefined") return;
   const w = window as unknown as AnalyticsWindow;
-  const flat: Record<string, string> = {
-    location: props.location,
-    segment: props.segment,
-    ...(props.label ? { label: props.label } : {}),
-  };
+  const flat: Record<string, string> = {};
+  for (const [k, v] of Object.entries(props)) {
+    if (v !== undefined) {
+      flat[k] = String(v);
+    }
+  }
   try {
     if (w.plausible) w.plausible(event, { props: flat });
     if (w.gtag) w.gtag("event", event, flat);
