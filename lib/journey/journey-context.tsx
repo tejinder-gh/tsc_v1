@@ -14,6 +14,8 @@ import {
 import { track } from "@/lib/analytics";
 import { loadPersistedJourney, savePersistedJourney } from "./storage";
 import {
+  type ContextFocus,
+  type ContextSituation,
   INITIAL_JOURNEY_CONTEXT,
   type JourneyContext,
   type JourneyStage,
@@ -24,6 +26,10 @@ interface JourneyActions {
   selectIntent: (intent: PrimaryIntent) => void;
   setProblem: (problemText: string) => boolean;
   setStage: (stage: JourneyStage) => void;
+  setContextFocus: (focus: ContextFocus) => void;
+  setContextSituation: (situation: ContextSituation) => void;
+  changeGoal: () => void;
+  completeContext: () => void;
   resetJourney: () => void;
   continueJourney: () => void;
 }
@@ -39,6 +45,9 @@ type JourneyAction =
   | { type: "SELECT_INTENT"; payload: { intent: PrimaryIntent; now: string } }
   | { type: "SET_PROBLEM"; payload: { problemText: string; now: string } }
   | { type: "SET_STAGE"; payload: { stage: JourneyStage; now: string } }
+  | { type: "SET_CONTEXT_FOCUS"; payload: { focus: ContextFocus; now: string } }
+  | { type: "SET_CONTEXT_SITUATION"; payload: { situation: ContextSituation; now: string } }
+  | { type: "CHANGE_GOAL"; payload: { now: string } }
   | { type: "CHANGE_ANSWER"; payload: { now: string } }
   | { type: "RESET"; payload: { now: string } };
 
@@ -72,11 +81,43 @@ function journeyReducer(state: JourneyContext, action: JourneyAction): JourneyCo
         updatedAt: action.payload.now,
       };
 
+    case "SET_CONTEXT_FOCUS": {
+      const isChanging = state.contextFocus !== action.payload.focus;
+      return {
+        ...state,
+        contextFocus: action.payload.focus,
+        // Changing Question 1 clears situation (Ticket 002 §13)
+        contextSituation: isChanging ? undefined : state.contextSituation,
+        stage: "context",
+        updatedAt: action.payload.now,
+      };
+    }
+
+    case "SET_CONTEXT_SITUATION":
+      return {
+        ...state,
+        contextSituation: action.payload.situation,
+        stage: "context",
+        updatedAt: action.payload.now,
+      };
+
+    case "CHANGE_GOAL":
+      return {
+        ...state,
+        stage: "new",
+        intent: undefined,
+        contextFocus: undefined,
+        contextSituation: undefined,
+        updatedAt: action.payload.now,
+      };
+
     case "CHANGE_ANSWER":
       return {
         ...state,
         stage: "new",
         intent: undefined,
+        contextFocus: undefined,
+        contextSituation: undefined,
         updatedAt: action.payload.now,
       };
 
@@ -208,6 +249,94 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     [journey],
   );
 
+  const setContextFocus = useCallback(
+    (focus: ContextFocus) => {
+      const now = new Date().toISOString();
+      const isChanging = journey.contextFocus !== focus;
+      const nextState: JourneyContext = {
+        ...journey,
+        contextFocus: focus,
+        contextSituation: isChanging ? undefined : journey.contextSituation,
+        stage: "context",
+        updatedAt: now,
+      };
+
+      dispatch({ type: "SET_CONTEXT_FOCUS", payload: { focus, now } });
+      savePersistedJourney(nextState);
+
+      if (journey.intent) {
+        track("journey_context_focus_selected", {
+          intent: journey.intent,
+          focus,
+        });
+      }
+    },
+    [journey],
+  );
+
+  const setContextSituation = useCallback(
+    (situation: ContextSituation) => {
+      const now = new Date().toISOString();
+      const nextState: JourneyContext = {
+        ...journey,
+        contextSituation: situation,
+        stage: "context",
+        updatedAt: now,
+      };
+
+      dispatch({ type: "SET_CONTEXT_SITUATION", payload: { situation, now } });
+      savePersistedJourney(nextState);
+
+      if (journey.intent && journey.contextFocus) {
+        track("journey_context_situation_selected", {
+          intent: journey.intent,
+          focus: journey.contextFocus,
+          situation,
+        });
+
+        track("journey_context_completed", {
+          intent: journey.intent,
+          focus: journey.contextFocus,
+          situation,
+        });
+      }
+    },
+    [journey],
+  );
+
+  const changeGoal = useCallback(() => {
+    const now = new Date().toISOString();
+    const fromStage = journey.stage;
+    const nextState: JourneyContext = {
+      ...journey,
+      stage: "new",
+      intent: undefined,
+      contextFocus: undefined,
+      contextSituation: undefined,
+      updatedAt: now,
+    };
+
+    dispatch({ type: "CHANGE_GOAL", payload: { now } });
+    savePersistedJourney(nextState);
+
+    track("journey_stage_changed", { from: fromStage, to: "new" });
+  }, [journey]);
+
+  const completeContext = useCallback(() => {
+    const fromStage = journey.stage;
+    const now = new Date().toISOString();
+    const nextState: JourneyContext = {
+      ...journey,
+      stage: "opportunity",
+      updatedAt: now,
+    };
+
+    dispatch({ type: "SET_STAGE", payload: { stage: "opportunity", now } });
+    savePersistedJourney(nextState);
+
+    track("journey_stage_changed", { from: fromStage, to: "opportunity" });
+  }, [journey]);
+
   const resetJourney = useCallback(() => {
     const now = new Date().toISOString();
     dispatch({ type: "CHANGE_ANSWER", payload: { now } });
@@ -215,6 +344,8 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       ...journey,
       stage: "new",
       intent: undefined,
+      contextFocus: undefined,
+      contextSituation: undefined,
       updatedAt: now,
     });
   }, [journey]);
@@ -232,6 +363,10 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       selectIntent,
       setProblem,
       setStage,
+      setContextFocus,
+      setContextSituation,
+      changeGoal,
+      completeContext,
       resetJourney,
       continueJourney,
     }),
@@ -242,6 +377,10 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       selectIntent,
       setProblem,
       setStage,
+      setContextFocus,
+      setContextSituation,
+      changeGoal,
+      completeContext,
       resetJourney,
       continueJourney,
     ],
