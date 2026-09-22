@@ -51,6 +51,73 @@ afterEach(() => {
 });
 
 describe("POST /api/lead", () => {
+  it("rejects oversized declared Content-Length with 413", async () => {
+    const req = new Request("http://localhost/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Content-Length": "40000" },
+      body: JSON.stringify(validLead),
+    });
+    const res = await POST(req);
+    expect(res.status).toBe(413);
+    const body = await res.json();
+    expect(body.ok).toBe(false);
+  });
+
+  it("rejects oversized actual payload with 413", async () => {
+    const bigPayload = { ...validLead, message: "x".repeat(35000) };
+    const req = new Request("http://localhost/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bigPayload),
+    });
+    const res = await POST(req);
+    expect(res.status).toBe(413);
+    const body = await res.json();
+    expect(body.ok).toBe(false);
+  });
+
+  it("rejects oversized actual payload when Content-Length is absent with 413", async () => {
+    const raw = JSON.stringify({ ...validLead, message: "x".repeat(35000) });
+    const stream = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode(raw));
+        controller.close();
+      },
+    });
+    const req = new Request("http://localhost/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: stream,
+      // @ts-expect-error duplex required for ReadableStream body in Node
+      duplex: "half",
+    });
+    const res = await POST(req);
+    expect(res.status).toBe(413);
+    const body = await res.json();
+    expect(body.ok).toBe(false);
+  });
+
+  it("rejects oversized actual payload when Content-Length claims small value with 413", async () => {
+    const raw = JSON.stringify({ ...validLead, message: "x".repeat(35000) });
+    const stream = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode(raw));
+        controller.close();
+      },
+    });
+    const req = new Request("http://localhost/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Content-Length": "10" },
+      body: stream,
+      // @ts-expect-error duplex required for ReadableStream body in Node
+      duplex: "half",
+    });
+    const res = await POST(req);
+    expect(res.status).toBe(413);
+    const body = await res.json();
+    expect(body.ok).toBe(false);
+  });
+
   it("rejects a malformed JSON body with 400", async () => {
     const res = await POST(makeRequest("not-json{"));
     expect(res.status).toBe(400);

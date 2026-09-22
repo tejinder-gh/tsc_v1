@@ -31,14 +31,20 @@
  */
 
 import { NextResponse } from "next/server";
+import { readBoundedBody } from "@/lib/request-limit";
 import { leadSchema } from "@/lib/schemas";
 
 const DELIVERY_FAILED = "Lead delivery failed. Please try again, or email us directly.";
 
 export async function POST(request: Request): Promise<NextResponse> {
+  const bounded = await readBoundedBody(request, 32 * 1024);
+  if (!bounded.ok) {
+    return NextResponse.json({ ok: false, error: bounded.error }, { status: bounded.status });
+  }
+
   let raw: unknown;
   try {
-    raw = await request.json();
+    raw = JSON.parse(bounded.text);
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON body" }, { status: 400 });
   }

@@ -27,6 +27,7 @@ import type { InboundMessage } from "@/automations/inbound/types";
 import { parseTwilioInbound } from "@/automations/inbound/webhook";
 import { resolveClientByNumber } from "@/automations/server/clients-registry";
 import { processInbound } from "@/automations/server/process-inbound";
+import { readBoundedBody } from "@/lib/request-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,23 +39,55 @@ function twiml(status: number): Response {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  const bounded = await readBoundedBody(request, 32 * 1024);
+  if (!bounded.ok) {
+    return new Response(bounded.error, { status: bounded.status });
+  }
+
   const record: Record<string, string> = {};
   try {
-    const form = await request.formData();
-    for (const [key, value] of form.entries()) record[key] = String(value);
+    const contentType = request.headers.get("content-type") || "";
+    if (contentType.includes("application/x-www-form-urlencoded")) {
+      const params = new URLSearchParams(bounded.text);
+      for (const [key, value] of params.entries()) record[key] = value;
+    } else {
+      const formRes = new Response(Buffer.from(bounded.buffer), {
+        headers: { "content-type": contentType },
+      });
+      const form = await formRes.formData();
+      for (const [key, value] of form.entries()) record[key] = String(value);
+    }
   } catch {
     return new Response("Invalid form body", { status: 400 });
   }
 
-  // Verify the request really came from Twilio (skipped only when no token is configured).
+  // Verify the request really came from Twilio.
+  // In production, missing credentials fail closed immediately.
   const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
+
+  if (isProd && !authToken) {
+    consoleLogger.error("inbound rejected: TWILIO_AUTH_TOKEN missing in production");
+    return new Response("Configuration error", { status: 500 });
+  }
+
   if (authToken) {
     const signature = request.headers.get("x-twilio-signature") ?? "";
     const url = process.env.PUBLIC_INBOUND_URL ?? request.url;
-    if (!validateTwilioSignature(url, record, signature, authToken)) {
+    if (!signature || !validateTwilioSignature(url, record, signature, authToken)) {
       consoleLogger.warn("inbound rejected: bad Twilio signature", { from: record.From });
       return new Response("Invalid signature", { status: 403 });
     }
+  } else {
+    if (process.env.ALLOW_UNSIGNED_TWILIO_WEBHOOKS_DEV !== "true") {
+      consoleLogger.error(
+        "inbound rejected: TWILIO_AUTH_TOKEN is missing and ALLOW_UNSIGNED_TWILIO_WEBHOOKS_DEV is not set",
+      );
+      return new Response("Configuration error", { status: 500 });
+    }
+    consoleLogger.warn(
+      "inbound processing without Twilio signature verification (dev opt-in enabled)",
+    );
   }
 
   let message: InboundMessage;
