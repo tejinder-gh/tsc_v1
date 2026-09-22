@@ -62,7 +62,7 @@ export function Header() {
   const primaryNav = [
     { label: "Work", href: "/digital-services" },
     { label: "Explore", href: "/library" },
-    { label: "Journal", href: "/newsletters" },
+    { label: "Briefings", href: "/newsletters" },
   ];
 
   const handleStartClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
