@@ -2,14 +2,14 @@
 
 import { useJourney } from "@/lib/journey";
 import { ContextEngine } from "./context/ContextEngine";
-import { OpportunityTransitional } from "./context/OpportunityTransitional";
 import { IntentSelector } from "./IntentSelector";
 import { JourneyProgress } from "./JourneyProgress";
 import { LiveSystemExample } from "./LiveSystemExample";
+import { OpportunityView, SolutionPlaceholder } from "./opportunity";
 import { ProblemInput } from "./ProblemInput";
 
 export function JourneyHero() {
-  const { hasExistingProgress, journey, continueJourney, resetJourney, setStage } = useJourney();
+  const { hasExistingProgress, journey, continueJourney, resetJourney } = useJourney();
 
   return (
     <section
@@ -49,13 +49,11 @@ export function JourneyHero() {
         {/* Stage 02: Context Engine (Ticket 002) */}
         {journey.stage === "context" && <ContextEngine />}
 
-        {/* Stage 03: Opportunity Transitional State (Ticket 002 §16) */}
-        {journey.stage === "opportunity" && (
-          <OpportunityTransitional
-            onBackToContext={() => setStage("context")}
-            onReset={resetJourney}
-          />
-        )}
+        {/* Stage 03: Opportunity Diagnostic (Ticket 003) */}
+        {journey.stage === "opportunity" && <OpportunityView />}
+
+        {/* Stage 03 Substage: Solution Demonstration Placeholder (Ticket 003 §15) */}
+        {journey.stage === "solution" && <SolutionPlaceholder />}
 
         {/* Stage 01: Initial Arrival & Intent Selection Hero (Ticket 001) */}
         {(journey.stage === "new" || journey.stage === "intent-selected") && (
