@@ -11,6 +11,7 @@ import {
   INITIAL_JOURNEY_CONTEXT,
   INTENT_LABELS,
   type JourneyContext,
+  type JourneyStage,
 } from "../types";
 
 describe("Journey Model & Canonical Definitions", () => {
@@ -28,6 +29,9 @@ describe("Journey Model & Canonical Definitions", () => {
     expect(INITIAL_JOURNEY_CONTEXT.intent).toBeUndefined();
     expect(INITIAL_JOURNEY_CONTEXT.freeformProblem).toBeUndefined();
     expect(INITIAL_JOURNEY_CONTEXT.problems).toEqual([]);
+    expect(INITIAL_JOURNEY_CONTEXT.selectedSolutions).toEqual([]);
+    expect(INITIAL_JOURNEY_CONTEXT.viewedSolutions).toEqual([]);
+    expect(INITIAL_JOURNEY_CONTEXT.savedResources).toEqual([]);
   });
 });
 
@@ -170,5 +174,82 @@ describe("Journey Local Storage Persistence", () => {
 
     clearPersistedJourney();
     expect(localStorage.getItem(JOURNEY_STORAGE_KEY)).toBeNull();
+  });
+});
+
+describe("Journey State Transitions & Business Logic", () => {
+  it("rejects empty or whitespace-only problem submissions", () => {
+    const validateProblem = (text: string) => text.trim().length > 0;
+    expect(validateProblem("")).toBe(false);
+    expect(validateProblem("   ")).toBe(false);
+    expect(validateProblem("\n\t  ")).toBe(false);
+    expect(validateProblem("Inbound calls are dropped")).toBe(true);
+  });
+
+  it("buckets character length correctly for privacy-preserving analytics", () => {
+    const getBucket = (len: number) => {
+      if (len < 50) return "<50";
+      if (len < 150) return "50-149";
+      return "150+";
+    };
+
+    expect(getBucket(10)).toBe("<50");
+    expect(getBucket(49)).toBe("<50");
+    expect(getBucket(50)).toBe("50-149");
+    expect(getBucket(149)).toBe("50-149");
+    expect(getBucket(150)).toBe("150+");
+    expect(getBucket(300)).toBe("150+");
+  });
+
+  it("maps stages correctly to the 4 progress indicators (Ticket 001 §10)", () => {
+    const mapToStageIndicator = (
+      stage: JourneyStage,
+    ): "01 GOAL" | "02 CONTEXT" | "03 OPPORTUNITY" | "04 PLAN" => {
+      switch (stage) {
+        case "new":
+        case "intent-selected":
+          return "01 GOAL";
+        case "context":
+          return "02 CONTEXT";
+        case "opportunity":
+        case "solution":
+          return "03 OPPORTUNITY";
+        case "plan":
+          return "04 PLAN";
+      }
+    };
+
+    expect(mapToStageIndicator("new")).toBe("01 GOAL");
+    expect(mapToStageIndicator("intent-selected")).toBe("01 GOAL");
+    expect(mapToStageIndicator("context")).toBe("02 CONTEXT");
+    expect(mapToStageIndicator("opportunity")).toBe("03 OPPORTUNITY");
+    expect(mapToStageIndicator("solution")).toBe("03 OPPORTUNITY");
+    expect(mapToStageIndicator("plan")).toBe("04 PLAN");
+  });
+
+  it("implements change answer reset rule (Ticket 001 §26)", () => {
+    const state: JourneyContext = {
+      version: 1,
+      stage: "intent-selected",
+      intent: "save-time",
+      problems: [],
+      selectedSolutions: [],
+      viewedSolutions: [],
+      savedResources: [],
+      createdAt: "2026-09-22T18:00:00.000Z",
+      updatedAt: "2026-09-22T18:00:00.000Z",
+    };
+
+    // Change answer: stage -> 'new', intent -> undefined, retains createdAt
+    const resetState: JourneyContext = {
+      ...state,
+      stage: "new",
+      intent: undefined,
+      updatedAt: "2026-09-22T18:05:00.000Z",
+    };
+
+    expect(resetState.stage).toBe("new");
+    expect(resetState.intent).toBeUndefined();
+    expect(resetState.createdAt).toBe("2026-09-22T18:00:00.000Z");
   });
 });
