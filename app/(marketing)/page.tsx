@@ -13,11 +13,11 @@ import type { Metadata } from "next";
 import { Faq } from "@/components/Faq";
 import { FinalCta } from "@/components/FinalCta";
 import { DigitalServicesTeaser } from "@/components/home/DigitalServicesTeaser";
-import { Hero } from "@/components/home/Hero";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { ProblemStrip } from "@/components/home/ProblemStrip";
 import { ProofSection } from "@/components/home/ProofSection";
 import { RoiCalculator } from "@/components/home/RoiCalculator";
+import { JourneyHero } from "@/components/journey";
 import { PricingAnchor } from "@/components/PricingAnchor";
 import { ServicesGrid } from "@/components/ServicesGrid";
 import { homeFaq } from "@/content/faq";
@@ -29,16 +29,21 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <ProblemStrip />
-      <RoiCalculator />
-      <ProofSection />
-      <ServicesGrid id="what-we-automate" count={3} />
-      <DigitalServicesTeaser />
-      <HowItWorks />
-      <PricingAnchor location="home" />
-      <Faq items={homeFaq} />
-      <FinalCta location="home" />
+      {/* Redesign v2 Top Entry Experience (Ticket 001) */}
+      <JourneyHero />
+
+      {/* Architectural Seam: Lower homepage sections pending Ticket 002/003 progressive disposition */}
+      <section aria-label="Overview and proof" className="transition-opacity">
+        <ProblemStrip />
+        <RoiCalculator />
+        <ProofSection />
+        <ServicesGrid id="what-we-automate" count={3} />
+        <DigitalServicesTeaser />
+        <HowItWorks />
+        <PricingAnchor location="home" />
+        <Faq items={homeFaq} />
+        <FinalCta location="home" />
+      </section>
     </>
   );
 }

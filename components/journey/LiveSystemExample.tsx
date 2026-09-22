@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useState } from "react";
 
 export function LiveSystemExample() {
@@ -8,7 +8,7 @@ export function LiveSystemExample() {
   const [mobileExpanded, setMobileExpanded] = useState(false);
 
   // Motion timing: panel (0s) -> incoming call (0.4s) -> transition annotation (0.9s) -> action (1.4s) -> metrics (1.9s)
-  const itemVariant = (delay: number) => ({
+  const itemVariant = (delay: number): Variants => ({
     hidden: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 8 },
     visible: {
       opacity: 1,
@@ -16,7 +16,7 @@ export function LiveSystemExample() {
       transition: {
         duration: shouldReduceMotion ? 0 : 0.35,
         delay: shouldReduceMotion ? 0 : delay,
-        ease: [0.16, 1, 0.3, 1],
+        ease: "easeOut",
       },
     },
   });
