@@ -1,0 +1,50 @@
+{
+  "principalKey": "claude",
+  "displayName": "Claude Strategy & Architecture",
+  "description": "Declarative policy template for Claude principal grants and key scopes",
+  "principalGrants": [
+    {
+      "action": "context.read",
+      "resourceType": "SECOND_BRAIN_DOMAIN",
+      "resourceKey": "domain:strategy",
+      "constraints": {
+        "domains": ["strategy"]
+      },
+      "description": "Read and route strategy domain context"
+    },
+    {
+      "action": "automation.read",
+      "resourceType": "SECOND_BRAIN_DOMAIN",
+      "resourceKey": "domain:strategy",
+      "constraints": {
+        "domains": ["strategy"]
+      },
+      "description": "Read strategy-linked automation jobs"
+    },
+    {
+      "action": "meta.endpoints.read",
+      "resourceType": "API_ENDPOINT",
+      "resourceKey": "/api/internal/v1/endpoints",
+      "description": "Discover authorized API endpoints"
+    }
+  ],
+  "sampleCredentialScopes": {
+    "claude-strategy-key": [
+      {
+        "action": "context.read",
+        "resourceType": "SECOND_BRAIN_DOMAIN",
+        "resourceKey": "domain:strategy",
+        "constraints": {
+          "domains": ["strategy"]
+        },
+        "description": "Strategy context read scope"
+      },
+      {
+        "action": "meta.endpoints.read",
+        "resourceType": "API_ENDPOINT",
+        "resourceKey": "/api/internal/v1/endpoints",
+        "description": "Authorized endpoint discovery"
+      }
+    ]
+  }
+}

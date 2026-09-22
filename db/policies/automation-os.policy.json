@@ -1,0 +1,110 @@
+{
+  "principalKey": "automation-os",
+  "displayName": "Automation OS Runner",
+  "description": "Declarative policy template for Automation OS state-machine runner",
+  "principalGrants": [
+    {
+      "action": "automation.evaluate",
+      "resourceType": "AUTOMATION_JOB",
+      "resourceKey": "*",
+      "description": "Evaluate due jobs across schedules"
+    },
+    {
+      "action": "automation.read",
+      "resourceType": "AUTOMATION_JOB",
+      "resourceKey": "*",
+      "description": "Read job configurations, execution policies, dependencies, and declared targets"
+    },
+    {
+      "action": "automation.occurrence.write",
+      "resourceType": "AUTOMATION_OPERATION",
+      "resourceKey": "occurrences",
+      "description": "Ensure occurrence records in occurrences_automation"
+    },
+    {
+      "action": "automation.claim.acquire",
+      "resourceType": "AUTOMATION_OPERATION",
+      "resourceKey": "claims",
+      "description": "Acquire lease claim on occurrence"
+    },
+    {
+      "action": "automation.claim.release",
+      "resourceType": "AUTOMATION_OPERATION",
+      "resourceKey": "claims",
+      "description": "Release lease claim on occurrence"
+    },
+    {
+      "action": "automation.attempt.write",
+      "resourceType": "AUTOMATION_OPERATION",
+      "resourceKey": "attempts",
+      "description": "Record attempt start, finish, status, and scheduler disposition"
+    },
+    {
+      "action": "automation.cycle.write",
+      "resourceType": "AUTOMATION_OPERATION",
+      "resourceKey": "cycles",
+      "description": "Upsert runner cycle metadata and cycle job links"
+    },
+    {
+      "action": "automation.status.read",
+      "resourceType": "AUTOMATION_OPERATION",
+      "resourceKey": "status",
+      "description": "Read operational status, active claims, and queue backlogs"
+    },
+    {
+      "action": "meta.endpoints.read",
+      "resourceType": "API_ENDPOINT",
+      "resourceKey": "/api/internal/v1/endpoints",
+      "description": "Discover authorized Automation OS endpoints"
+    }
+  ],
+  "sampleCredentialScopes": {
+    "automation-runner-worker-key": [
+      {
+        "action": "automation.evaluate",
+        "resourceType": "AUTOMATION_JOB",
+        "resourceKey": "*"
+      },
+      {
+        "action": "automation.read",
+        "resourceType": "AUTOMATION_JOB",
+        "resourceKey": "*"
+      },
+      {
+        "action": "automation.occurrence.write",
+        "resourceType": "AUTOMATION_OPERATION",
+        "resourceKey": "occurrences"
+      },
+      {
+        "action": "automation.claim.acquire",
+        "resourceType": "AUTOMATION_OPERATION",
+        "resourceKey": "claims"
+      },
+      {
+        "action": "automation.claim.release",
+        "resourceType": "AUTOMATION_OPERATION",
+        "resourceKey": "claims"
+      },
+      {
+        "action": "automation.attempt.write",
+        "resourceType": "AUTOMATION_OPERATION",
+        "resourceKey": "attempts"
+      },
+      {
+        "action": "automation.cycle.write",
+        "resourceType": "AUTOMATION_OPERATION",
+        "resourceKey": "cycles"
+      },
+      {
+        "action": "automation.status.read",
+        "resourceType": "AUTOMATION_OPERATION",
+        "resourceKey": "status"
+      },
+      {
+        "action": "meta.endpoints.read",
+        "resourceType": "API_ENDPOINT",
+        "resourceKey": "/api/internal/v1/endpoints"
+      }
+    ]
+  }
+}

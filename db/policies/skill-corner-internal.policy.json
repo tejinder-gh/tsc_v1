@@ -1,0 +1,25 @@
+{
+  "principalKey": "skill-corner-internal",
+  "displayName": "Skill Corner Internal Orchestrator",
+  "description": "Declarative policy template for internal operations and orchestration",
+  "principalGrants": [
+    {
+      "action": "*",
+      "resourceType": "API_ENDPOINT",
+      "resourceKey": "*",
+      "description": "Full access to internal endpoints"
+    },
+    {
+      "action": "*",
+      "resourceType": "SECOND_BRAIN_DOMAIN",
+      "resourceKey": "*",
+      "description": "Full access to Second Brain domains"
+    },
+    {
+      "action": "*",
+      "resourceType": "AUTOMATION_JOB",
+      "resourceKey": "*",
+      "description": "Full access to Automation OS jobs"
+    }
+  ]
+}

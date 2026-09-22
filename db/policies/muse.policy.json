@@ -1,0 +1,22 @@
+{
+  "principalKey": "muse",
+  "displayName": "Muse Creative & Social",
+  "description": "Declarative policy template for Muse principal grants and key scopes",
+  "principalGrants": [
+    {
+      "action": "context.read",
+      "resourceType": "SECOND_BRAIN_DOMAIN",
+      "resourceKey": "domain:social-content",
+      "constraints": {
+        "domains": ["social-content"]
+      },
+      "description": "Read social-content domain context and guidelines"
+    },
+    {
+      "action": "meta.endpoints.read",
+      "resourceType": "API_ENDPOINT",
+      "resourceKey": "/api/internal/v1/endpoints",
+      "description": "Discover authorized endpoints"
+    }
+  ]
+}

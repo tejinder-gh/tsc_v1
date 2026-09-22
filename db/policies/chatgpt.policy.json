@@ -1,0 +1,25 @@
+{
+  "principalKey": "chatgpt",
+  "displayName": "ChatGPT Assistant",
+  "description": "Declarative policy template for ChatGPT knowledge queries",
+  "principalGrants": [
+    {
+      "action": "context.read",
+      "resourceType": "SECOND_BRAIN_DOMAIN",
+      "resourceKey": "*",
+      "description": "Read context across public index"
+    },
+    {
+      "action": "automation.read",
+      "resourceType": "AUTOMATION_JOB",
+      "resourceKey": "*",
+      "description": "Read job configurations"
+    },
+    {
+      "action": "meta.endpoints.read",
+      "resourceType": "API_ENDPOINT",
+      "resourceKey": "/api/internal/v1/endpoints",
+      "description": "Discover authorized endpoints"
+    }
+  ]
+}
