@@ -14,7 +14,10 @@ export type AnalyticsEvent =
   | "journey_started"
   | "journey_intent_selected"
   | "journey_problem_entered"
-  | "journey_stage_changed";
+  | "journey_stage_changed"
+  | "journey_context_focus_selected"
+  | "journey_context_situation_selected"
+  | "journey_context_completed";
 
 export interface AnalyticsProps {
   location?: string;
@@ -22,6 +25,8 @@ export interface AnalyticsProps {
   label?: string;
   source?: string;
   intent?: string;
+  focus?: string;
+  situation?: string;
   hasProblemText?: boolean;
   characterBucket?: "<50" | "50-149" | "150+";
   from?: string;

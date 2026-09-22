@@ -15,11 +15,67 @@ export type JourneyStage =
 
 export type PrimaryIntent = "save-time" | "grow" | "build" | "learn";
 
+export type ContextFocus =
+  // save-time
+  | "customer-communication"
+  | "admin-data-entry"
+  | "scheduling-coordination"
+  | "reporting-analysis"
+  | "internal-workflows"
+
+  // grow
+  | "find-more-leads"
+  | "respond-faster"
+  | "follow-up"
+  | "convert-more"
+  | "retain-customers"
+
+  // build
+  | "customer-experience"
+  | "internal-tool"
+  | "automation-integration"
+  | "ai-product"
+  | "existing-product"
+
+  // learn
+  | "ai-automation"
+  | "software-product"
+  | "growth-marketing"
+  | "operations-systems";
+
+export type ContextSituation =
+  // save-time
+  | "mostly-manual"
+  | "fragmented-tools"
+  | "works-but-slow"
+  | "frequent-errors"
+
+  // grow
+  | "not-enough-demand"
+  | "leads-go-cold"
+  | "slow-response"
+  | "low-conversion"
+  | "weak-retention"
+
+  // build
+  | "idea"
+  | "prototype"
+  | "existing-system"
+  | "scaling"
+
+  // learn
+  | "quick-answer"
+  | "practical-guide"
+  | "templates-tools"
+  | "ongoing-briefings";
+
 export interface JourneyContext {
   version: 1;
   stage: JourneyStage;
   intent?: PrimaryIntent;
   freeformProblem?: string;
+  contextFocus?: ContextFocus;
+  contextSituation?: ContextSituation;
   industry?: string;
   businessType?: string;
   problems: string[];
