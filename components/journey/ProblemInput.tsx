@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { type FormEvent, useEffect, useState } from "react";
 import { useJourney } from "@/lib/journey";
 
@@ -16,6 +17,7 @@ export function ProblemInput({
   id = "problem-input",
   showMicrocopy = true,
 }: ProblemInputProps) {
+  const router = useRouter();
   const { journey, setProblem } = useJourney();
   const [value, setValue] = useState(journey.freeformProblem ?? "");
   const [error, setError] = useState<string | null>(null);
@@ -39,10 +41,12 @@ export function ProblemInput({
     if (!success) {
       setError("Please describe what isn't working before continuing.");
     } else {
-      // Scroll to #start if submitted from another section
+      // Scroll to #start if on homepage, otherwise navigate to /#start
       const target = document.getElementById("start");
       if (target && id !== "problem-input") {
         target.scrollIntoView({ behavior: "smooth" });
+      } else if (!target) {
+        router.push("/#start");
       }
     }
   };
