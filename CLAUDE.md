@@ -3,7 +3,12 @@
 Next.js (App Router) + React + TypeScript + Tailwind v4 marketing site.
 
 - Design system: see `DESIGN.md` (tokens in `app/globals.css` under `@theme`)
+- Routes & API inventory: see `ROUTES.md` (all UI routes, API endpoints, dynamic slugs, and redirects)
 - Tests: `npm test` (vitest)
+
+## Maintenance rules
+
+- **Route & API Catalog (`ROUTES.md`)**: Whenever you add, modify, rename, or delete any UI route (`app/**/page.tsx`), API route handler (`app/**/route.ts`), dynamic slug, or redirect (`next.config.mjs`), you **MUST** update `ROUTES.md` in the same change to keep the inventory accurate and synchronized.
 
 ## Skill routing
 
