@@ -24,9 +24,9 @@ export function LiveSystemExample() {
   return (
     <div className="w-full">
       {/* Desktop / Tablet Full System Event Log */}
-      <div className="hidden sm:block rounded-[6px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 lg:p-7 shadow-[0_4px_20px_rgba(18,19,15,0.04)] font-geist">
+      <div className="hidden sm:block rounded-[6px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-5 lg:p-6 shadow-[0_4px_20px_rgba(18,19,15,0.04)] font-geist">
         {/* Terminal / System Header */}
-        <div className="flex items-center justify-between border-b border-[var(--tsc-line)] pb-4 text-xs font-mono tracking-wider text-[var(--tsc-muted)] uppercase">
+        <div className="flex items-center justify-between border-b border-[var(--tsc-line)] pb-3 text-xs font-mono tracking-wider text-[var(--tsc-muted)] uppercase">
           <div className="flex items-center gap-2">
             <span
               className="inline-block h-2 w-2 rounded-full bg-[var(--tsc-positive)] ring-4 ring-[var(--tsc-positive)]/15"
@@ -42,25 +42,25 @@ export function LiveSystemExample() {
           initial="hidden"
           animate="visible"
           variants={itemVariant(0.1)}
-          className="mt-5 text-[22px] lg:text-[26px] font-semibold leading-[1.2] tracking-tight text-[var(--tsc-ink)]"
+          className="mt-4 text-[20px] lg:text-[23px] font-semibold leading-[1.2] tracking-tight text-[var(--tsc-ink)]"
         >
           A missed call becomes
           <br />a confirmed table.
         </motion.div>
 
         {/* Event Timeline */}
-        <div className="mt-6 space-y-4">
+        <div className="mt-4 space-y-3">
           {/* Step 1: Incoming Call */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={itemVariant(0.4)}
-            className="rounded-[4px] border border-[var(--tsc-line)] bg-white p-4"
+            className="rounded-[4px] border border-[var(--tsc-line)] bg-white p-3.5"
           >
             <div className="text-[11px] font-mono tracking-wider text-[var(--tsc-muted)] uppercase">
               19:42:03 • INCOMING CALL
             </div>
-            <div className="mt-2 text-sm text-[var(--tsc-ink)] leading-relaxed italic">
+            <div className="mt-1.5 text-sm text-[var(--tsc-ink)] leading-relaxed italic">
               &ldquo;Table for four around 8:30 — do you have anything?&rdquo;
             </div>
           </motion.div>
@@ -70,9 +70,9 @@ export function LiveSystemExample() {
             initial="hidden"
             animate="visible"
             variants={itemVariant(0.9)}
-            className="flex items-center gap-3 px-2 text-xs font-mono text-[var(--tsc-muted)]"
+            className="flex items-center gap-3 px-2 py-0.5 text-xs font-mono text-[var(--tsc-muted)]"
           >
-            <div className="h-4 w-px bg-[var(--tsc-line)] ml-4" aria-hidden="true" />
+            <div className="h-3.5 w-px bg-[var(--tsc-line)] ml-4" aria-hidden="true" />
             <div className="flex items-center gap-1.5 text-[11px] tracking-tight">
               <span className="text-[var(--tsc-ink)] font-medium">↓</span>
               <span>intent recognized · availability checked</span>
@@ -84,7 +84,7 @@ export function LiveSystemExample() {
             initial="hidden"
             animate="visible"
             variants={itemVariant(1.4)}
-            className="rounded-[4px] border border-[var(--tsc-line)] bg-white p-4"
+            className="rounded-[4px] border border-[var(--tsc-line)] bg-white p-3.5"
           >
             <div className="text-[11px] font-mono tracking-wider text-[var(--tsc-muted)] uppercase flex items-center justify-between">
               <span>19:42:11 • ACTION</span>
@@ -92,7 +92,7 @@ export function LiveSystemExample() {
                 COMPLETED
               </span>
             </div>
-            <div className="mt-2 text-sm font-medium text-[var(--tsc-ink)] leading-relaxed">
+            <div className="mt-1.5 text-sm font-medium text-[var(--tsc-ink)] leading-relaxed">
               Reservation created for 4 at 8:30 PM.
               <br />
               <span className="text-[13px] font-normal text-[var(--tsc-muted)]">
@@ -107,16 +107,20 @@ export function LiveSystemExample() {
           initial="hidden"
           animate="visible"
           variants={itemVariant(1.9)}
-          className="mt-6 grid grid-cols-2 gap-4 border-t border-[var(--tsc-line)] pt-5 font-mono"
+          className="mt-4 grid grid-cols-2 gap-4 border-t border-[var(--tsc-line)] pt-4 font-mono"
         >
           <div>
-            <div className="text-2xl font-bold tracking-tight text-[var(--tsc-ink)]">11 sec</div>
+            <div className="text-xl lg:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]">
+              11 sec
+            </div>
             <div className="mt-0.5 text-[10px] tracking-wider text-[var(--tsc-muted)] uppercase">
               CALL → BOOKING
             </div>
           </div>
           <div>
-            <div className="text-2xl font-bold tracking-tight text-[var(--tsc-ink)]">0</div>
+            <div className="text-xl lg:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]">
+              0
+            </div>
             <div className="mt-0.5 text-[10px] tracking-wider text-[var(--tsc-muted)] uppercase">
               STAFF INTERRUPTIONS
             </div>

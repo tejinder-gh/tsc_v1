@@ -135,18 +135,20 @@
   --font-body: "DM Sans", system-ui, sans-serif;
 }
 
-body {
-  background-color: var(--color-paper);
-  color: var(--color-slate);
-  font-family: var(--font-body), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-slate);
+    font-family: var(--font-body), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
 
-h1,
-h2,
-h3,
-h4 {
-  color: var(--color-navy);
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-navy);
+  }
 }
 
 :focus-visible {
