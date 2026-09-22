@@ -14,13 +14,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
-import { ExitIntentModal } from "@/components/capture/ExitIntentModal";
-import { MobileStickyBar } from "@/components/capture/MobileStickyBar";
-import { QuickActions } from "@/components/capture/QuickActions";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { site } from "@/content/site";
-import { SegmentProvider } from "@/lib/segment-context";
 import { BUSINESS_ID } from "@/lib/structured-data";
 import "./globals.css";
 
@@ -177,18 +171,7 @@ gtag('config', '${gaId}');`}
             </Script>
           </>
         ) : null}
-        <SegmentProvider>
-          <Header />
-          <main id="main" tabIndex={-1} className="focus:outline-none">
-            {children}
-          </main>
-          <Footer />
-          <QuickActions />
-          <ExitIntentModal />
-          <MobileStickyBar />
-          {/* Spacer so the mobile sticky bar never covers footer content. */}
-          <div aria-hidden="true" className="h-14 md:hidden" />
-        </SegmentProvider>
+        {children}
       </body>
     </html>
   );
