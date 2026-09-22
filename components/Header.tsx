@@ -23,9 +23,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { nav, site } from "@/content/site";
+import { site } from "@/content/site";
 import { useFocusTrap } from "@/lib/use-focus-trap";
-import { CtaLink } from "./CtaLink";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -60,37 +59,57 @@ export function Header() {
 
   useFocusTrap(open, panelRef, () => setOpen(false));
 
+  const primaryNav = [
+    { label: "Work", href: "/digital-services" },
+    { label: "Explore", href: "/library" },
+    { label: "Journal", href: "/newsletters" },
+  ];
+
+  const handleStartClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      const target = document.getElementById("start");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+        const focusable = target.querySelector<HTMLElement>("input, button");
+        focusable?.focus();
+      }
+    }
+  };
+
   return (
     <header
-      className={`sticky top-0 z-40 bg-paper/95 backdrop-blur transition-[border-color] duration-150 ${
-        scrolled ? "border-b border-line" : "border-b border-transparent"
+      className={`sticky top-0 z-40 bg-[var(--tsc-paper)]/95 backdrop-blur transition-[border-color] duration-150 ${
+        scrolled ? "border-b border-[var(--tsc-line)]" : "border-b border-transparent"
       }`}
     >
-      <div className="mx-auto flex h-[72px] max-w-site items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between gap-4 px-6 lg:px-16">
         <Link href="/" className="flex items-center gap-2.5">
           <Image
             src="/logo-mark.svg"
             alt=""
             aria-hidden="true"
-            width={32}
-            height={32}
-            className="h-8 w-8"
+            width={28}
+            height={28}
+            className="h-7 w-7 opacity-95"
           />
-          <span className="font-display text-lg font-semibold text-navy">{site.name}</span>
+          <span className="font-geist text-sm sm:text-[15px] font-semibold tracking-wider text-[var(--tsc-ink)] uppercase">
+            {site.name}
+          </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
-          {nav.map((item) => {
+        <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
+          {primaryNav.map((item) => {
             const current = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={current ? "page" : undefined}
-                className={`border-b-2 pb-1 text-sm font-medium transition-colors ${
+                className={`text-[13px] font-medium tracking-tight transition-colors ${
                   current
-                    ? "border-blue-500 text-navy-700"
-                    : "border-transparent text-slate-600 hover:text-navy-700"
+                    ? "text-[var(--tsc-ink)] font-semibold"
+                    : "text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)]"
                 }`}
               >
                 {item.label}
@@ -101,13 +120,18 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <div className="hidden md:block">
-            <CtaLink href="/book" location="header" className="!px-4 text-sm">
-              Book a free audit
-            </CtaLink>
+            <Link
+              href="/#start"
+              onClick={handleStartClick}
+              className="inline-flex items-center gap-1.5 rounded-[4px] border border-[var(--tsc-ink)]/30 px-3.5 py-1.5 text-[13px] font-medium text-[var(--tsc-ink)] transition-all hover:bg-[var(--tsc-ink)] hover:text-[var(--tsc-paper)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
+            >
+              <span>Start with a problem</span>
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
           <button
             type="button"
-            className="grid h-11 w-11 place-items-center rounded-control border border-navy/15 text-navy md:hidden"
+            className="grid h-10 w-10 place-items-center rounded-[4px] border border-[var(--tsc-line)] text-[var(--tsc-ink)] md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
@@ -151,36 +175,35 @@ export function Header() {
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
-              className="fixed inset-x-0 top-[72px] bottom-0 z-50 flex flex-col overflow-y-auto bg-paper md:hidden"
+              className="fixed inset-x-0 top-20 bottom-0 z-50 flex flex-col overflow-y-auto bg-[var(--tsc-paper)] md:hidden"
             >
-              <nav aria-label="Mobile" className="flex-1 px-4 py-6 sm:px-6">
-                <ul className="flex flex-col gap-1">
-                  {nav.map((item) => (
+              <nav aria-label="Mobile" className="flex-1 px-6 py-8">
+                <ul className="flex flex-col gap-2">
+                  {primaryNav.map((item) => (
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="flex min-h-11 items-center rounded-control px-2 text-xl font-medium text-navy hover:bg-mist"
+                        className="flex min-h-11 items-center rounded-[4px] px-2 text-lg font-medium text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)]"
                         onClick={() => setOpen(false)}
                       >
                         {item.label}
                       </Link>
                     </li>
                   ))}
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="flex min-h-11 items-center rounded-control px-2 text-xl font-medium text-navy hover:bg-mist"
-                      onClick={() => setOpen(false)}
-                    >
-                      Send a quick query
-                    </Link>
-                  </li>
                 </ul>
               </nav>
-              <div className="border-t border-line px-4 py-4 sm:px-6">
-                <CtaLink href="/book" location="header_mobile" className="w-full">
-                  Book a free audit
-                </CtaLink>
+              <div className="border-t border-[var(--tsc-line)] px-6 py-6">
+                <Link
+                  href="/#start"
+                  onClick={(e) => {
+                    setOpen(false);
+                    handleStartClick(e);
+                  }}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-[4px] border border-[var(--tsc-ink)] bg-[var(--tsc-ink)] px-4 py-3 text-sm font-medium text-[var(--tsc-paper)]"
+                >
+                  <span>Start with a problem</span>
+                  <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>,
             document.body,
