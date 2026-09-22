@@ -40,14 +40,16 @@ export function savePersistedJourney(context: JourneyContext): void {
     return;
   }
 
-  // Only persist once interaction has actually happened (beyond blank 'new' stage)
-  const hasInteracted =
-    context.stage !== "new" ||
-    Boolean(context.intent) ||
-    Boolean(context.freeformProblem) ||
-    context.problems.length > 0;
+  // Only persist once interaction has actually happened (beyond blank 'new' initial state)
+  const isBlankInitial =
+    context.stage === "new" &&
+    !context.intent &&
+    !context.freeformProblem &&
+    context.problems.length === 0 &&
+    !context.createdAt &&
+    !context.updatedAt;
 
-  if (!hasInteracted) {
+  if (isBlankInitial) {
     return;
   }
 

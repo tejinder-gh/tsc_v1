@@ -52,10 +52,22 @@ type JourneyAction =
   | { type: "CHANGE_ANSWER"; payload: { now: string } }
   | { type: "RESET"; payload: { now: string } };
 
+export function normalizeJourneyStage(journey: JourneyContext): JourneyContext {
+  if (journey.stage === "opportunity" || journey.stage === "solution") {
+    if (!journey.intent) {
+      return { ...journey, stage: "new" };
+    }
+    if (!journey.contextFocus || !journey.contextSituation) {
+      return { ...journey, stage: "context" };
+    }
+  }
+  return journey;
+}
+
 function journeyReducer(state: JourneyContext, action: JourneyAction): JourneyContext {
   switch (action.type) {
     case "HYDRATE":
-      return action.payload;
+      return normalizeJourneyStage(action.payload);
 
     case "SELECT_INTENT":
       return {
@@ -153,15 +165,19 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const persisted = loadPersistedJourney();
     if (persisted) {
-      dispatch({ type: "HYDRATE", payload: persisted });
+      const normalized = normalizeJourneyStage(persisted);
+      dispatch({ type: "HYDRATE", payload: normalized });
+      if (normalized.stage !== persisted.stage) {
+        savePersistedJourney(normalized);
+      }
       startedTrackedRef.current = true;
 
       // Section 27: If stage >= context, note existing progress for continuation affordance
       if (
-        persisted.stage === "context" ||
-        persisted.stage === "opportunity" ||
-        persisted.stage === "solution" ||
-        persisted.stage === "plan"
+        normalized.stage === "context" ||
+        normalized.stage === "opportunity" ||
+        normalized.stage === "solution" ||
+        normalized.stage === "plan"
       ) {
         setHasExistingProgress(true);
       }
