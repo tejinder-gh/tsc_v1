@@ -12,11 +12,22 @@
  */
 
 import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { site } from "@/content/site";
 import { BUSINESS_ID } from "@/lib/structured-data";
 import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -114,7 +125,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <link
           rel="preload"
