@@ -1,5 +1,6 @@
 "use client";
 
+import { SectionLabel } from "@/components/ui/editorial";
 import { useJourney } from "@/lib/journey";
 import { ContextEngine } from "./context/ContextEngine";
 import { IntentSelector } from "./IntentSelector";
@@ -15,12 +16,12 @@ export function JourneyHero() {
     <section
       id="start"
       aria-label="Studio introduction and intent router"
-      className="relative overflow-hidden bg-[var(--tsc-paper)] border-b border-[var(--tsc-line)] pt-6 pb-12 sm:pt-8 sm:pb-14 lg:pt-10 lg:pb-16 font-geist min-h-[520px]"
+      className="relative bg-[var(--tsc-paper)] border-b border-[var(--tsc-line)] pt-6 pb-10 sm:pt-7 sm:pb-12 lg:pt-8 lg:pb-14 font-geist"
     >
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
         {/* Returning visitor continuation banner (Ticket 001 §27) */}
         {hasExistingProgress && (
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-[4px] border border-[var(--tsc-ink)]/20 bg-white px-4 py-3 text-xs sm:text-sm">
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-[8px] border border-[var(--tsc-ink)]/20 bg-white px-4 py-3 text-xs sm:text-sm">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[var(--tsc-positive)]" aria-hidden="true" />
               <span className="text-[var(--tsc-ink)] font-medium">
@@ -57,25 +58,20 @@ export function JourneyHero() {
 
         {/* Stage 01: Initial Arrival & Intent Selection Hero (Ticket 001) */}
         {(journey.stage === "new" || journey.stage === "intent-selected") && (
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16 items-start">
-            {/* Left Column: Intent Router & Editorial Narrative (~58%) */}
-            <div className="lg:col-span-7 flex flex-col space-y-4 sm:space-y-5 lg:space-y-6">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14 xl:gap-16 items-start">
+            {/* Left Column: Intent Router & Editorial Narrative (~58% / 7 cols) */}
+            <div className="lg:col-span-7 flex flex-col space-y-5 lg:space-y-6">
               {/* Eyebrow */}
-              <div className="text-[11px] sm:text-xs font-mono font-semibold tracking-[0.14em] text-[var(--tsc-muted)] uppercase">
-                A DIGITAL SYSTEMS STUDIO
-              </div>
+              <SectionLabel>A DIGITAL SYSTEMS STUDIO</SectionLabel>
 
-              {/* Main Headline (deliberate line break on desktop) */}
-              <h1
-                style={{ color: "var(--tsc-ink)" }}
-                className="text-[42px] sm:text-[58px] lg:text-[72px] xl:text-[80px] font-bold leading-[0.96] tracking-[-0.035em] text-[var(--tsc-ink)]"
-              >
+              {/* Main Headline (Editorial cover scale) */}
+              <h1 className="text-[44px] sm:text-[62px] lg:text-[74px] xl:text-[84px] font-bold leading-[0.95] tracking-[-0.035em] text-[var(--tsc-ink)]">
                 Tell us what
                 <br className="hidden sm:inline" /> should work better.
               </h1>
 
               {/* Supporting Copy */}
-              <p className="max-w-[580px] text-base sm:text-[18px] lg:text-[19px] font-normal leading-[1.48] text-[var(--tsc-ink)]/80">
+              <p className="max-w-[560px] text-base sm:text-[18px] lg:text-[19px] font-normal leading-[1.5] text-[var(--tsc-ink)]/80">
                 We design and build the systems behind growing businesses — but you shouldn&apos;t
                 need to understand our service catalog to know where to start.
               </p>
@@ -96,8 +92,8 @@ export function JourneyHero() {
               </div>
             </div>
 
-            {/* Right Column: Live System Demonstration (~42%) - normal flow, not sticky (Ticket 001A §8) */}
-            <div className="lg:col-span-5">
+            {/* Right Column: Live System Demonstration (~42% / 5 cols) */}
+            <div className="lg:col-span-5 lg:pt-2">
               <LiveSystemExample />
             </div>
           </div>
