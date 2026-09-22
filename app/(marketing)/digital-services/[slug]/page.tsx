@@ -5,7 +5,6 @@ import { DeliverableIndex } from "@/components/public/DeliverableIndex";
 import { EditorialFaq } from "@/components/public/EditorialFaq";
 import { EditorialHero, type MetadataItem } from "@/components/public/EditorialHero";
 import { FitSection } from "@/components/public/FitSection";
-import { OutcomeComparison, type OutcomeItem } from "@/components/public/OutcomeComparison";
 import { PageEyebrow } from "@/components/public/PageEyebrow";
 import { SecondaryProblemPrompt } from "@/components/public/SecondaryProblemPrompt";
 import { digitalServices, getDigitalServiceBySlug } from "@/content/digital-services";
@@ -67,20 +66,6 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
     { label: "DELIVERY", value: "Custom Architecture & Deployment" },
   ];
 
-  // Derive outcome comparisons from features
-  const outcomeItems: OutcomeItem[] = service.features.map((feature, idx) => {
-    const fallbackBefore = [
-      "Fragmented tools, manual inputs, and inconsistent execution across team members.",
-      "Off-the-shelf software requiring team members to adjust their workflow to vendor limits.",
-      "Data silos and lack of visibility into system bottlenecks or conversion drops.",
-      "Periodic fire-fighting and manual maintenance cycles consuming leadership attention.",
-    ];
-    return {
-      before: fallbackBefore[idx % fallbackBefore.length],
-      after: `${feature.title}: ${feature.description}`,
-    };
-  });
-
   return (
     <>
       <JsonLd data={breadcrumbs} />
@@ -134,12 +119,50 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Section C: What Changes */}
-      <OutcomeComparison
-        eyebrow="WHAT CHANGES"
-        title={`How ${service.name.toLowerCase()} alters day-to-day operations.`}
-        items={outcomeItems}
-      />
+      {/* Section C: Core Capabilities */}
+      <section
+        aria-labelledby="capabilities-heading"
+        className="py-14 sm:py-20 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+      >
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+            {/* Left Column: Eyebrow & Title */}
+            <div className="lg:col-span-5 space-y-3">
+              <PageEyebrow>CORE CAPABILITIES</PageEyebrow>
+              <h2
+                id="capabilities-heading"
+                className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
+              >
+                Key system specifications.
+              </h2>
+            </div>
+
+            {/* Right Column: Dense Editorial Index */}
+            <div className="lg:col-span-7">
+              <div className="divide-y divide-[var(--tsc-line)] border-y border-[var(--tsc-line)]">
+                {service.features.map((feature, idx) => {
+                  const num = String(idx + 1).padStart(2, "0");
+                  return (
+                    <div key={feature.title} className="py-6 sm:py-7 space-y-2">
+                      <div className="flex items-baseline gap-3">
+                        <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
+                          {num}
+                        </span>
+                        <h3 className="font-semibold text-base sm:text-lg text-[var(--tsc-ink)]">
+                          {feature.title}
+                        </h3>
+                      </div>
+                      <p className="pl-7 text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Section D: System / Approach */}
       <section

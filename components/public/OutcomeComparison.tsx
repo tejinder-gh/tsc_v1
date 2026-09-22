@@ -34,7 +34,7 @@ export function OutcomeComparison({
         <div className="divide-y divide-[var(--tsc-line)] border-y border-[var(--tsc-line)]">
           {items.map((item) => (
             <div
-              key={item.before}
+              key={`${item.before}-${item.after}`}
               className="py-8 grid grid-cols-1 md:grid-cols-12 gap-6 items-start"
             >
               {/* BEFORE */}

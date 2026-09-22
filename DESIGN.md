@@ -5,28 +5,39 @@ for a store owner. No sci-fi, no robots, no gradient blobs.
 
 ## Palette
 
+### Canonical Semantic Palette (Phase 01 / Redesign v2)
+Defined in `app/globals.css` under `:root` and `@theme`. These tokens represent the single source of truth across all public and editorial interfaces:
+
+| Token | CSS Variable | Hex | Use |
+| --- | --- | --- | --- |
+| `ink` | `--tsc-ink` | `#12130f` | Primary text, titles, dark sections, high-contrast borders |
+| `paper` | `--tsc-paper` | `#f4f1e9` | Primary warm background canvas across pages and heroes |
+| `surface` | `--tsc-surface` | `#fbf9f3` | Soft surface tint for secondary callouts, cards, inputs |
+| `line` | `--tsc-line` | `#d7d2c7` | Hairline dividers, section borders, component bounds |
+| `muted` | `--tsc-muted` | `#6d6b63` | Secondary text, section eyebrows, metadata labels |
+| `signal` | `--tsc-signal` | `#d5ff52` | Accent lime signal for high-urgency status and active indicators |
+| `action` | `--tsc-action` | `#2d51ff` | Primary interactive blue for focused actions, links, focus rings |
+| `positive` | `--tsc-positive` | `#2e694e` | Success states and verified indicators |
+| `white` | `--tsc-white` | `#ffffff` | Pure white for contrast accents and crisp foreground highlights |
+
+### Legacy Palette (Backward-Compatible Aliases)
+Retained in `@theme` in `app/globals.css` to support existing component markups:
+
 | Token | Hex | Use |
 | --- | --- | --- |
-| `navy` | `#08215B` | Headings, footer, icon ground - the logo's ink |
-| `blue` | `#2563EB` | THE accent - "the dot" from the logo. Links, primary buttons, one accent per view - nothing else |
+| `navy` | `#08215B` | Legacy headings, footer, icon ground |
+| `blue` | `#2563EB` | Legacy button and accent alias |
 | `blue-pressed` | `#1B49B8` | Blue hover/pressed |
 | `blue-tint` | `#EAF0FE` | Soft blue backgrounds, selected states |
-| `slate` | `#5A6480` | Body copy on white |
-| `paper` | `#FFFFFF` | Page background |
-| `mist` | `#F2F5FA` | Alternating section background, soft cards |
-| `line` | `#DDE3EE` | Hairline borders/dividers |
-| `muted` | `#97A0B8` | De-emphasized text/icons |
+| `slate` | `#5A6480` | Legacy body copy on white |
+| `paper` | `#FFFFFF` | Legacy pure white page background |
+| `mist` | `#F2F5FA` | Alternating section background |
+| `line` | `#DDE3EE` | Legacy hairline borders/dividers |
+| `muted` | `#97A0B8` | Legacy de-emphasized text/icons |
 
-Rule: the eye learns **blue = one action per screen**. Blue is the dot from the logo -
-it marks the primary CTA or link, not every heading. Roughly 70% white, 20% navy, 10%
-blue on any given page.
+Rule: the eye learns **action blue = one primary action per screen**. Roughly 70% paper canvas, 20% ink typography, 10% action/surface accents on any given page.
 
-Contrast: navy on white is 14.7:1, blue on white is 5.2:1 - both pass AA for body text.
-White on blue passes at 18px and above; below that use navy. On the navy ROI-calculator
-card, the result figure uses a lightened `#60A5FA` (~6:1 against navy) instead of base
-blue, which only clears ~3:1 on that dark ground.
-
-Tokens are defined once in `app/globals.css` under `@theme` (Tailwind v4).
+Tokens are defined once in `app/globals.css` under `:root` and `@theme` (Tailwind v4).
 
 ## Typography
 
