@@ -1,106 +1,139 @@
-/**
- * What: Industry index - all industries grouped into the two segments, with anchors
- *       (#local-businesses, #practices) that the home segment router links to.
- * Why: The router needs a destination per segment, and the index internally links every
- *      industry funnel page for SEO.
- * How: Server component grouping content/industries.ts by segment.
- * From Where: TheSkillCorner marketing site build brief, 2026-06.
- * When: 2026-06.
- */
-
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AbstractVisual } from "@/components/AbstractVisual";
-import { FinalCta } from "@/components/FinalCta";
+import { JsonLd } from "@/components/JsonLd";
+import { EditorialHero } from "@/components/public/EditorialHero";
+import { PageEyebrow } from "@/components/public/PageEyebrow";
+import { SecondaryProblemPrompt } from "@/components/public/SecondaryProblemPrompt";
 import { industriesBySegment } from "@/content/industries";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Industries we automate",
+  title: "Industry Applications | The Skill Corner",
   description:
-    "AI automation for convenience stores, restaurants, salons, gyms, construction, auto repair, pet grooming, medical clinics, dental offices, law firms, accounting, real estate, veterinary clinics, and physiotherapy. Find your industry and see exactly what we automate.",
+    "Operational automation and software systems tailored to local businesses and professional practices.",
   alternates: { canonical: "/industries" },
+  openGraph: {
+    title: "Industry Applications | The Skill Corner",
+    description:
+      "Operational automation and software systems tailored to recurring sector bottlenecks.",
+    url: "https://theskillcorner.com/industries",
+  },
 };
 
-function IndustryGroup({
-  id,
-  title,
-  intro,
-  segment,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  segment: "local" | "practice";
-}) {
-  const items = industriesBySegment(segment);
-  return (
-    <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-20">
-      <h2
-        id={`${id}-heading`}
-        className="font-display text-2xl font-bold tracking-[-0.02em] text-navy sm:text-3xl"
-      >
-        {title}
-      </h2>
-      <p className="mt-2 max-w-2xl">{intro}</p>
-      <div className="mt-6 grid gap-5 md:grid-cols-3">
-        {items.map((industry) => (
-          <Link
-            key={industry.slug}
-            href={`/industries/${industry.slug}`}
-            className="group flex flex-col rounded-xl bg-white p-6 shadow-sm border-2 border-navy/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-blue"
-          >
-            <h3 className="font-display text-xl font-bold">{industry.name}</h3>
-            <p className="mt-2 flex-1 leading-relaxed">{industry.cardLine}</p>
-            <p className="mt-4 text-sm font-semibold text-blue">
-              See what we automate
-              <span
-                aria-hidden="true"
-                className="ml-2 inline-block transition-transform group-hover:translate-x-1"
-              >
-                &rarr;
-              </span>
-            </p>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
+export default function IndustriesIndexPage() {
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Industries", path: "/industries" },
+  ]);
 
-export default function ForIndexPage() {
+  const localIndustries = industriesBySegment("local");
+  const practiceIndustries = industriesBySegment("practice");
+
+  const groups = [
+    {
+      id: "local-businesses",
+      index: "01",
+      title: "LOCAL BUSINESSES",
+      intro:
+        "Fast setup, resilient integrations, and direct ROI for operations managing high customer velocity.",
+      items: localIndustries,
+    },
+    {
+      id: "practices",
+      index: "02",
+      title: "PRACTICES & FIRMS",
+      intro:
+        "Confidentiality-aware, structured workflows engineered for appointments, intake, and document routing.",
+      items: practiceIndustries,
+    },
+  ];
+
   return (
     <>
-      <div className="mx-auto max-w-site px-4 py-16 sm:px-6 lg:py-24">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          <div className="max-w-3xl">
-            <h1 className="font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
-              Built for how your industry actually works
-            </h1>
-            <p className="mt-4 text-lg text-slate">
-              Same engineering, different vocabulary. Pick your industry and see the exact
-              automations, the hours they save, and what they cost.
-            </p>
-          </div>
-          <div className="hidden lg:block h-full">
-            <AbstractVisual variant="for" />
-          </div>
+      <JsonLd data={breadcrumbs} />
+
+      {/* Hero Section */}
+      <EditorialHero
+        eyebrow="INDUSTRIES"
+        headline="Systems tailored to how your industry operates."
+        supportingCopy="Same engineering discipline, sector-specific workflows. Operational systems addressing recurring friction across commercial businesses and professional practices."
+        primaryAction={{
+          label: "Start with a problem →",
+          href: "/#start",
+        }}
+        secondaryAction={{
+          label: "Browse sectors ↓",
+          href: "#sectors",
+        }}
+      />
+
+      {/* Editorial Industry Index */}
+      <section
+        id="sectors"
+        aria-label="Industry Sectors"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+      >
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-16 space-y-20">
+          {groups.map((group) => (
+            <div
+              key={group.id}
+              id={group.id}
+              className="scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start"
+            >
+              {/* Left Column: Group Description */}
+              <div className="lg:col-span-4 space-y-3 lg:sticky lg:top-28">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
+                    {group.index}
+                  </span>
+                  <span className="font-mono text-xs text-[var(--tsc-line)]">/</span>
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] tracking-wider uppercase">
+                    {group.title}
+                  </span>
+                </div>
+                <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
+                  {group.intro}
+                </p>
+              </div>
+
+              {/* Right Column: Editorial Listing */}
+              <div className="lg:col-span-8">
+                <div className="divide-y divide-[var(--tsc-line)] border-y border-[var(--tsc-line)]">
+                  {group.items.map((ind) => (
+                    <Link
+                      key={ind.slug}
+                      href={`/industries/${ind.slug}`}
+                      className="group flex items-start sm:items-center justify-between gap-4 py-5 px-3 -mx-3 rounded-[4px] hover:bg-[var(--tsc-surface)]/70 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
+                    >
+                      <div className="space-y-1 max-w-xl">
+                        <div className="font-semibold text-base sm:text-lg text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
+                          {ind.name}
+                        </div>
+                        <div className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                          {ind.cardLine}
+                        </div>
+                      </div>
+                      <span
+                        className="font-mono text-sm text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)] group-hover:translate-x-1 transition-all pt-1 sm:pt-0 shrink-0 select-none"
+                        aria-hidden="true"
+                      >
+                        &rarr;
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="mt-12 space-y-14 lg:mt-24">
-          <IndustryGroup
-            id="local-businesses"
-            title="Local businesses"
-            intro="Fixed prices, plain talk, fast setup. Automations that start paying for themselves in weeks."
-            segment="local"
-          />
-          <IndustryGroup
-            id="practices"
-            title="Practices and firms"
-            intro="Privacy-first builds that fit how your office already works. PIPEDA/PHIPA-aware by design."
-            segment="practice"
-          />
-        </div>
-      </div>
-      <FinalCta location="for_index" />
+      </section>
+
+      {/* Closing Problem Prompt */}
+      <SecondaryProblemPrompt
+        eyebrow="YOUR OPERATION"
+        heading="Operate in an industry not listed above?"
+        supportingCopy="Our core systems are engineered around communication, intake, scheduling, documents, and reporting bottlenecks. Describe how information moves in your business and we will assess whether our architecture fits."
+      />
     </>
   );
 }
