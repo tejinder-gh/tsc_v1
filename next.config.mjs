@@ -10,6 +10,11 @@ const nextConfig = {
       { source: "/for/:slug", destination: "/industries/:slug", permanent: true },
       { source: "/privacy", destination: "/legal/privacy", permanent: true },
       { source: "/terms", destination: "/legal/terms", permanent: true },
+      {
+        source: "/what-we-automate/feedback-and-reviews",
+        destination: "/what-we-automate/reviews-and-reputation",
+        permanent: true,
+      },
     ];
   },
 };

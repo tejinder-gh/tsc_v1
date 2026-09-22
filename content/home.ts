@@ -20,31 +20,6 @@ export const hero = {
     "Serving businesses, clinics, and professional practices worldwide - engineered with precision.",
 } as const;
 
-export interface SegmentCard {
-  segment: Segment;
-  title: string;
-  body: string;
-  href: string;
-  examples: string;
-}
-
-export const segmentCards: readonly SegmentCard[] = [
-  {
-    segment: "local",
-    title: "I run a local business",
-    body: "Stores, restaurants, salons, gyms. Fixed prices, plain talk, and automations that start paying for themselves in weeks.",
-    href: "/for#local-businesses",
-    examples: "Missed calls, supplier orders, reviews, no-shows",
-  },
-  {
-    segment: "practice",
-    title: "I run a practice or firm",
-    body: "Clinics, dental offices, law firms, accountants. Privacy-first builds that fit how your office already works.",
-    href: "/for#practices",
-    examples: "No-shows, intake paperwork, after-hours inquiries, follow-ups",
-  },
-] as const;
-
 export interface Problem {
   title: string;
   body: string;

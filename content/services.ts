@@ -58,7 +58,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "restaurants",
       "medical-clinics",
       "law-firms",
@@ -181,21 +181,23 @@ export const services: readonly Service[] = [
   {
     slug: "reviews-and-reputation",
     name: "Reviews & reputation",
-    title: "Every review answered. Every time.",
+    title: "Turn happy clients into 5-star reviews — and answer every one",
     excerpt:
-      "Review monitoring, drafted responses in your voice, and automatic review requests after every visit.",
+      "Automated Google review requests via text, intelligent negative feedback routing, and drafted responses in your voice for every review.",
     problem:
-      "Unanswered reviews cost twice: the unhappy customer stays unhappy in public, and the next hundred people who read the page see that you did not respond. Meanwhile your happiest customers were never asked to leave a review at all.",
+      "Unanswered reviews cost twice: the unhappy customer stays unhappy in public, and prospective customers see silence. Meanwhile, happy customers forget to leave reviews unless prompted when they are happiest. Chasing reviews manually is inconsistent, yet steady review volume and ratings are the single biggest ranking factor on Google Maps.",
     whatWeBuild: [
-      "Monitoring across Google, Yelp, and the platforms that matter for your business",
+      "Automatic SMS review requests sent immediately after service completion, visit, or payment",
+      "Smart feedback routing: 5-star responses go straight to Google; 1-to-3 star feedback routes to private manager alerts for rapid resolution",
+      "Monitoring across Google Business Profile, Yelp, and the platforms that matter for your business",
       "Drafted responses in your voice, queued for one-tap approval - or auto-published for straightforward five-star thank-yous",
-      "Post-visit review requests by text, timed and worded to actually get clicked",
-      "A monthly snapshot: rating trend, volume, and the themes customers keep mentioning",
+      "Branded QR code signs for your counter, truck, or invoice that direct customers to the review flow",
+      "Monthly analytics tracking review growth, rating trends, and overall Google Maps ranking improvements",
     ],
-    tools: ["Google Business Profile", "Yelp", "Twilio SMS", "Claude API"],
+    tools: ["Google Business Profile API", "Yelp", "Twilio SMS", "Claude API", "Make or n8n"],
     timeline: "Under a week to live",
     outcome:
-      "Every review gets a response within a day, and steady review requests typically double monthly review volume within a quarter - which moves where you rank on the map.",
+      "Google Maps review volume typically doubles or triples in 90 days, pushing you higher in local search results while every existing review receives a prompt, professional response.",
     faq: [
       {
         q: "Will the responses sound canned?",
@@ -205,11 +207,19 @@ export const services: readonly Service[] = [
         q: "Can it handle a bad review?",
         a: "It drafts a calm, professional response and always routes negative reviews to you for approval first. You stay in control of anything with teeth.",
       },
+      {
+        q: "Is it safe and compliant to route reviews?",
+        a: "We ask for honest reviews while providing a direct channel for dissatisfied customers to reach a manager, ensuring compliance with review guidelines.",
+      },
+      {
+        q: "Can it integrate with Yelp or Facebook reviews?",
+        a: "Yes. We can direct users to the review site where you need the most growth.",
+      },
     ],
     relatedIndustries: [
       "restaurants",
       "salons-spas",
-      "convenience-stores",
+      "retail-stores",
       "gyms-fitness",
       "construction-trades",
       "auto-repair",
@@ -219,6 +229,16 @@ export const services: readonly Service[] = [
       "photography-studios",
       "catering-services",
       "landscaping-gardening",
+      "medical-clinics",
+      "dental-offices",
+      "law-firms",
+      "accounting-firms",
+      "real-estate",
+      "veterinary-clinics",
+      "physiotherapy-clinics",
+      "optometry-clinics",
+      "mental-health-practices",
+      "tutoring-centers",
     ],
   },
   {
@@ -297,7 +317,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "restaurants",
       "medical-clinics",
       "gyms-fitness",
@@ -350,7 +370,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "restaurants",
       "salons-spas",
       "boutique-retail",
@@ -482,7 +502,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "restaurants",
       "salons-spas",
       "gyms-fitness",
@@ -584,7 +604,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "restaurants",
       "salons-spas",
       "gyms-fitness",
@@ -596,59 +616,6 @@ export const services: readonly Service[] = [
       "catering-services",
       "landscaping-gardening",
       "residential-cleaning",
-    ],
-  },
-  {
-    slug: "feedback-and-reviews",
-    name: "Review booster",
-    title: "Turn satisfied clients into review stars",
-    excerpt:
-      "Request Google reviews via text the moment jobs are marked completed, and intercept negative feedback before it hits the web.",
-    problem:
-      "Unhappy customers write reviews without being asked. Happy ones forget. Chasing reviews manually feels needy, but they are the single most important factor for ranking on Google Maps.",
-    whatWeBuild: [
-      "Automatic SMS review requests sent immediately after service completion or payment",
-      "Smart feedback routing: 5-star responses go straight to Google; 1 to 3-star feedback goes to a private manager alert for resolution",
-      "Branded QR code signs for your counter or truck that direct customers to the review flow",
-      "Monthly analytics tracking review growth and overall Google ranking improvements",
-    ],
-    tools: ["Google Business Profile API", "Twilio SMS", "Make or n8n", "Your booking software"],
-    timeline: "1 week to live",
-    outcome:
-      "Google Maps review volume typically doubles or triples in 90 days, pushing you higher in local search results and capturing reviews when clients are happiest.",
-    faq: [
-      {
-        q: "Is it safe to filter reviews?",
-        a: "We ask for honest reviews while providing a direct channel for dissatisfied customers to reach a manager, ensuring compliance with review guidelines.",
-      },
-      {
-        q: "Can it integrate with Yelp or Facebook reviews?",
-        a: "Yes. We can direct users to the review site where you need the most growth.",
-      },
-    ],
-    relatedIndustries: [
-      "convenience-stores",
-      "restaurants",
-      "salons-spas",
-      "gyms-fitness",
-      "construction-trades",
-      "auto-repair",
-      "pet-grooming-boarding",
-      "medical-clinics",
-      "dental-offices",
-      "law-firms",
-      "accounting-firms",
-      "real-estate",
-      "veterinary-clinics",
-      "physiotherapy-clinics",
-      "residential-cleaning",
-      "boutique-retail",
-      "photography-studios",
-      "catering-services",
-      "landscaping-gardening",
-      "optometry-clinics",
-      "mental-health-practices",
-      "tutoring-centers",
     ],
   },
   {
@@ -680,7 +647,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "restaurants",
       "salons-spas",
       "gyms-fitness",
@@ -730,7 +697,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "restaurants",
       "salons-spas",
       "gyms-fitness",
@@ -825,7 +792,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "restaurants",
       "construction-trades",
       "auto-repair",
@@ -905,7 +872,7 @@ export const services: readonly Service[] = [
       },
     ],
     relatedIndustries: [
-      "convenience-stores",
+      "retail-stores",
       "salons-spas",
       "construction-trades",
       "auto-repair",

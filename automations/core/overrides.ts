@@ -38,7 +38,7 @@ export function setAutomationOverride(
   const current = getAutomationOverrides(clientId);
   current[automationId] = enabled;
   mkdirSync(dirname(path), { recursive: true });
-  writeFileSync(path, JSON.stringify(current, null, 2));
+  writeFileSync(path, `${JSON.stringify(current, null, 2)}\n`);
 }
 
 /**
