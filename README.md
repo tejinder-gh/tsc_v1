@@ -141,4 +141,45 @@ app/          routes (App Router), API route, sitemap, robots
 components/   shared UI; home/ sections; capture/ widgets; forms/
 content/      all editable copy (typed)
 lib/          analytics, segment context, ROI math, zod schemas, lead client
+relay/        stateless SMS relay (auth, canonical request, schema, adapters)
+docs/         architecture guides and contracts (relay-api-contract.md)
 ```
+
+---
+
+## Secure Android SMS Relay Subsystem
+
+A stateless, hardened Next.js endpoint that accepts signed SMS relay events from an Android capture device and delivers them to external providers (Email, Webhook, etc.) without persistence.
+
+### Architecture
+
+```text
+Android SMS Capture Layer
+        ↓ (HTTPS POST with HMAC-SHA256 headers)
+POST /api/v1/relay (Stateless Next.js Route Handler)
+        ↓
+Cryptographic Verification (Canonical request: VERSION\nMETHOD\nPATH\nRELAY_ID\nDEVICE_ID\nTIMESTAMP\nNONCE\nBODY_SHA256)
+        ↓
+Strict Zod Payload Validation (UUID eventId, sender, 4KB max body, ISO receivedAt, optional dual-SIM metadata)
+        ↓
+Delivery Adapter (Email via SendGrid/Resend, Webhook, DevNull)
+        ↓
+Destination Inbox (e.g. Canadian email address)
+```
+
+### Key Security & Architectural Invariants
+
+- **Endpoint:** `POST /api/v1/relay` only. Non-POST methods return `405 Method Not Allowed` with `Allow: POST`.
+- **Zero Persistence:** No database, no Redis, no disk storage. SMS contents are never stored server-side.
+- **HMAC-SHA256 Signing:** Operates over exact raw request body bytes. Any byte or whitespace mutation invalidates the signature.
+- **Timing-Safe Equality:** Uses `crypto.timingSafeEqual` to eliminate timing side-channels.
+- **Freshness Window:** Accepts requests only within `±300 seconds` (configured via `SMS_RELAY_TIMESTAMP_WINDOW_SECONDS`).
+- **Defensive Error Handling:** Authentication failures return generic `401 AUTHENTICATION_FAILED` to prevent leaking credential state.
+- **Logging Hygiene:** SMS bodies, sender phone numbers, OTPs, and HMAC secrets are strictly forbidden from server logs.
+- **Pluggable Adapters:** Downstream providers (`EmailDeliveryAdapter`, `WebhookDeliveryAdapter`) can be swapped or extended without modifying the Android application or HMAC contracts.
+
+### Full Documentation
+
+- **[API Contract & Deterministic Test Vector](docs/relay-api-contract.md)**
+- **[Adding a New Delivery Provider](docs/adding-delivery-provider.md)**
+
