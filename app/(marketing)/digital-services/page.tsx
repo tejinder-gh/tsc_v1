@@ -1,176 +1,248 @@
-/**
- * What: The digital-services hub page presenting all core service pillars:
- *       AI Agent Development, Website Development, Digital Marketing & GEO,
- *       Dedicated Staffing & Tech Talent, Process Documentation & SOPs,
- *       Application Development, and Rebranding & Brand Design.
- * Why: Text-heavy authority page linked to individual detail pages for top SEO and GEO rankings.
- * How: Server component iterating over content/digital-services.ts with rich links and schema markup.
- * From Where: Updated 2026-08 for client request.
- * When: 2026-08.
- */
-
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AbstractVisual } from "@/components/AbstractVisual";
-import { CtaLink } from "@/components/CtaLink";
-import { FinalCta } from "@/components/FinalCta";
 import { JsonLd } from "@/components/JsonLd";
+import { EditorialHero } from "@/components/public/EditorialHero";
+import { PageEyebrow } from "@/components/public/PageEyebrow";
+import { SecondaryProblemPrompt } from "@/components/public/SecondaryProblemPrompt";
 import { digitalServices } from "@/content/digital-services";
+import { services as automationServices } from "@/content/services";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Digital Services & AI Agent Development | The Skill Corner",
+  title: "Work & Capabilities | The Skill Corner",
   description:
-    "End-to-end digital services for businesses and practices: custom AI agent development, website development, digital marketing & GEO, dedicated tech staffing, business SOP documentation, and application builds.",
+    "End-to-end digital services, automation systems, software, and operational support chosen for the bottleneck, not because a category happens to be fashionable.",
   alternates: { canonical: "/digital-services" },
   openGraph: {
-    title: "Digital Services & AI Agent Development | The Skill Corner",
+    title: "Work & Capabilities | The Skill Corner",
     description:
-      "Full-service B2B digital agency providing AI agent development, website development, digital marketing (SEO & GEO), tech staffing, business SOP documentation, and custom app engineering.",
+      "Automation, software, digital growth, and operational systems — chosen for the bottleneck.",
+    url: "https://theskillcorner.com/digital-services",
   },
 };
 
 export default function DigitalServicesPage() {
   const breadcrumbs = breadcrumbJsonLd([
     { name: "Home", path: "/" },
-    { name: "Digital Services", path: "/digital-services" },
+    { name: "Work", path: "/digital-services" },
   ]);
+
+  // Editorial Band 01: Automate (18 canonical automations from content/services.ts)
+  const automateOfferings = automationServices.map((s) => ({
+    name: s.name,
+    tagline: s.title,
+    href: `/what-we-automate/${s.slug}`,
+  }));
+
+  // Editorial Band 02: Build (Websites, Apps, AI Agents from content/digital-services.ts)
+  const buildSlugs = new Set([
+    "ai-agent-development",
+    "website-development",
+    "application-development",
+  ]);
+  const buildOfferings = digitalServices
+    .filter((s) => buildSlugs.has(s.slug))
+    .map((s) => ({
+      name: s.name,
+      tagline: s.tagline,
+      href: `/digital-services/${s.slug}`,
+    }));
+
+  // Editorial Band 03: Grow (Marketing/GEO, Rebranding from content/digital-services.ts)
+  const growSlugs = new Set(["digital-marketing", "rebranding"]);
+  const growOfferings = digitalServices
+    .filter((s) => growSlugs.has(s.slug))
+    .map((s) => ({
+      name: s.name,
+      tagline: s.tagline,
+      href: `/digital-services/${s.slug}`,
+    }));
+
+  // Editorial Band 04: Operate (Staffing, Documentation from content/digital-services.ts)
+  const operateSlugs = new Set(["staffing", "documentation"]);
+  const operateOfferings = digitalServices
+    .filter((s) => operateSlugs.has(s.slug))
+    .map((s) => ({
+      name: s.name,
+      tagline: s.tagline,
+      href: `/digital-services/${s.slug}`,
+    }));
+
+  const bands = [
+    {
+      index: "01",
+      title: "AUTOMATE",
+      description:
+        "Systems that remove repetitive execution, routing, coordination, communication, and handoffs.",
+      offerings: automateOfferings,
+    },
+    {
+      index: "02",
+      title: "BUILD",
+      description: "Websites, applications, internal tools, integrations, and custom software.",
+      offerings: buildOfferings,
+    },
+    {
+      index: "03",
+      title: "GROW",
+      description:
+        "Digital acquisition, search, conversion, brand/digital presence, and customer-growth work.",
+      offerings: growOfferings,
+    },
+    {
+      index: "04",
+      title: "OPERATE",
+      description:
+        "Technical staffing, operational documentation, SOPs, and other capabilities concerned with running and scaling the organization.",
+      offerings: operateOfferings,
+    },
+  ];
+
+  const engagementSteps = [
+    {
+      step: "01",
+      title: "Understand the constraint",
+      body: "We start by observing where hours, inquiries, or dollars are currently leaking before discussing technology.",
+    },
+    {
+      step: "02",
+      title: "Define the smallest useful intervention",
+      body: "We specify the single highest-leverage system that resolves the bottleneck with minimal disruption.",
+    },
+    {
+      step: "03",
+      title: "Build against existing systems where possible",
+      body: "We connect into the software, phone lines, and databases your business already relies on rather than forcing replacements.",
+    },
+    {
+      step: "04",
+      title: "Measure whether the intervention changed the work",
+      body: "Success is evaluated strictly by time recovered, calls captured, or operational velocity gained.",
+    },
+  ];
 
   return (
     <>
       <JsonLd data={breadcrumbs} />
 
-      <section className="mx-auto max-w-site px-4 pb-12 pt-16 sm:px-6 sm:pt-20">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-widest text-blue-500">
-              Full-Service B2B Digital Agency
-            </p>
-            <h1 className="mt-4 max-w-xl font-display text-4xl font-bold leading-tight sm:text-5xl">
-              AI Agents, Web Dev, Marketing, Staffing & SOP Documentation.
-            </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-navy-800">
-              The Skill Corner delivers comprehensive digital solutions for growing businesses and
-              professional practices. Whether you need autonomous AI voice/chat agents, a
-              high-performance Next.js website, top-ranking SEO/GEO marketing campaigns, dedicated
-              engineering staff, or standardized SOP documentation, we build and manage systems
-              engineered for growth.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <CtaLink href="/book" location="digital_services_hero">
-                Book a free audit
-              </CtaLink>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-control border-2 border-navy-700 bg-white px-6 py-3 font-display text-base font-semibold text-navy-700 hover:bg-mist"
-              >
-                Send a quick query
-              </Link>
+      {/* Hero Section */}
+      <EditorialHero
+        eyebrow="WORK"
+        headline="Systems that make the work lighter."
+        supportingCopy="Automation, software, digital growth, and operational systems — chosen for the bottleneck, not because a category happens to be fashionable."
+        primaryAction={{
+          label: "Start with a problem →",
+          href: "/#start",
+        }}
+        secondaryAction={{
+          label: "Browse capabilities",
+          href: "#capabilities",
+        }}
+      />
+
+      {/* Capability Index (4 Editorial Bands) */}
+      <section
+        id="capabilities"
+        aria-label="Capabilities Index"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+      >
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-16 space-y-20">
+          {bands.map((band) => (
+            <div
+              key={band.index}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start"
+            >
+              {/* Left Column: Band Category Description */}
+              <div className="lg:col-span-4 space-y-3 lg:sticky lg:top-28">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
+                    {band.index}
+                  </span>
+                  <span className="font-mono text-xs text-[var(--tsc-line)]">/</span>
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] tracking-wider uppercase">
+                    {band.title}
+                  </span>
+                </div>
+                <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
+                  {band.description}
+                </p>
+              </div>
+
+              {/* Right Column: Editorial Capability Listing */}
+              <div className="lg:col-span-8">
+                <div className="divide-y divide-[var(--tsc-line)] border-y border-[var(--tsc-line)]">
+                  {band.offerings.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="group flex items-start sm:items-center justify-between gap-4 py-5 px-3 -mx-3 rounded-[4px] hover:bg-[var(--tsc-surface)]/70 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
+                    >
+                      <div className="space-y-1 max-w-xl">
+                        <div className="font-semibold text-base sm:text-lg text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
+                          {item.name}
+                        </div>
+                        <div className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                          {item.tagline}
+                        </div>
+                      </div>
+                      <span
+                        className="font-mono text-sm text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)] group-hover:translate-x-1 transition-all pt-1 sm:pt-0 shrink-0 select-none"
+                        aria-hidden="true"
+                      >
+                        &rarr;
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="hidden lg:block h-full">
-            <AbstractVisual variant="services" />
-          </div>
+          ))}
         </div>
       </section>
 
-      <section aria-label="Core digital service categories" className="bg-mist py-16">
-        <div className="mx-auto max-w-site px-4 sm:px-6">
-          <div className="max-w-3xl">
-            <h2 className="font-display text-3xl font-bold">
-              Explore Our Digital Service Capabilities
+      {/* How an Engagement Starts */}
+      <section
+        aria-labelledby="how-engagement-starts"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+      >
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
+          <div className="max-w-3xl mb-12 space-y-3">
+            <PageEyebrow>PROCESS</PageEyebrow>
+            <h2
+              id="how-engagement-starts"
+              className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
+            >
+              How an engagement starts.
             </h2>
-            <p className="mt-3 text-lg leading-relaxed text-navy-700">
-              Each service is custom-engineered and fully integrated into your business operations.
-              Click any category below to read complete technical specifications, implementation
-              processes, and deliverables.
+            <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
+              We deploy disciplined interventions rather than open-ended consulting cycles.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {digitalServices.map((service) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {engagementSteps.map((step) => (
               <div
-                key={service.slug}
-                className="flex flex-col justify-between rounded-xl border-2 border-navy/10 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+                key={step.step}
+                className="p-6 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/30 space-y-3"
               >
-                <div>
-                  <h3 className="font-display text-xl font-bold text-navy-900">{service.name}</h3>
-                  <p className="mt-2 text-sm font-semibold text-blue-600">{service.tagline}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-navy-700">
-                    {service.description}
-                  </p>
-
-                  <ul className="mt-4 space-y-2 text-xs text-navy-800">
-                    {service.bullets.map((bullet) => (
-                      <li key={bullet} className="flex items-start gap-2">
-                        <span aria-hidden="true" className="mt-0.5 text-blue-500 font-bold">
-                          &check;
-                        </span>
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
+                  {step.step}
                 </div>
-
-                <div className="mt-6 pt-4 border-t border-mist">
-                  <Link
-                    href={`/digital-services/${service.slug}`}
-                    className="inline-flex items-center text-sm font-bold text-blue-600 hover:text-navy-900 group"
-                  >
-                    View detailed {service.name.toLowerCase()} specs
-                    <span
-                      aria-hidden="true"
-                      className="ml-1 transition-transform group-hover:translate-x-1"
-                    >
-                      &rarr;
-                    </span>
-                  </Link>
-                </div>
+                <h3 className="font-semibold text-base text-[var(--tsc-ink)]">{step.title}</h3>
+                <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                  {step.body}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-site px-4 py-16 sm:px-6">
-        <div className="rounded-2xl bg-navy-900 p-8 text-white sm:p-12">
-          <div className="max-w-3xl">
-            <h2 className="font-display text-3xl font-bold sm:text-4xl">
-              Why Businesses Choose The Skill Corner
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-blue-100">
-              We combine deep engineering discipline with practical business execution. You
-              don&apos;t get black-box agency promises; you get production-ready software, clear SOP
-              documentation, verified SEO/GEO search rankings, and dedicated technical support.
-            </p>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div className="rounded-lg bg-navy-800 p-5">
-                <h3 className="font-display text-lg font-semibold text-white">
-                  Full Stack & AI Mastery
-                </h3>
-                <p className="mt-2 text-sm text-blue-200">
-                  Custom LLMs, voice AI agents, Next.js web applications, vector databases, and API
-                  integrations built by senior engineers.
-                </p>
-              </div>
-              <div className="rounded-lg bg-navy-800 p-5">
-                <h3 className="font-display text-lg font-semibold text-white">
-                  100% Code & Asset Ownership
-                </h3>
-                <p className="mt-2 text-sm text-blue-200">
-                  Zero vendor lock-in. You own every line of source code, design file, SOP document,
-                  and vector knowledge base.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <FinalCta
-        location="digital_services"
-        heading="Tell us what digital service you need."
-        body="Book a free 30-minute consultation. We will audit your current site, marketing, staffing needs, or AI agent workflow and deliver an exact plan."
+      {/* Closing Problem Prompt */}
+      <SecondaryProblemPrompt
+        eyebrow="START HERE"
+        heading="Not sure which category your problem belongs in?"
+        supportingCopy="Good. Start with the problem instead. Describe what is taking more time, attention, or manual effort than it should."
       />
     </>
   );
