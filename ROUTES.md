@@ -19,6 +19,7 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
 | `/results` | [`app/(marketing)/results/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/results/page.tsx) | Public | **Results & Scenarios**: Illustrative problem/build/anticipated outcome scenarios with transparent non-fabricated claims. |
 | `/book` | [`app/(marketing)/book/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/book/page.tsx) | Public | **Audit Booking**: Top conversion rung. Embeds Cal.com calendar for a free 30-minute AI Automation Audit ("leave with 3 ideas whether you hire us or not"). |
 | `/contact` | [`app/(marketing)/contact/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/contact/page.tsx) | Public | **Quick Query & Contact**: Contact form + sidebar booking links for visitors with questions who aren't ready to book a live call. |
+| `/library` | [`app/(marketing)/library/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/library/page.tsx) | Public | **Public Library & Discovery Catalog**: Unified catalog of 30+ productized automations, digital services, market research feeds, and technical briefings with interactive goal wizard and search. |
 | `/checklist` | [`app/(marketing)/checklist/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/checklist/page.tsx) | Public | **Lead Magnet**: Interactive Automation Opportunities Checklist covering 25 business tasks, calculating hours saved, gated by email capture. |
 | `/social` | [`app/(marketing)/social/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/social/page.tsx) | Public | **Physical Business Card Landing Page**: Mobile-first landing target for NFC cards and QR codes. Features quick messaging form and `/contact.vcf` download link. |
 
@@ -55,6 +56,15 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
   * **Local Businesses**: `retail-stores`, `restaurants`, `salons-spas`, `gyms-fitness`, `auto-repair`, `pet-grooming-boarding`, `residential-cleaning`, `boutique-retail`, `photography-studios`, `catering-services`, `landscaping-gardening`, `construction-trades`.
   * **Professional Practices**: `medical-clinics`, `dental-offices`, `law-firms`, `accounting-firms`, `real-estate`, `veterinary-clinics`, `physiotherapy-clinics`, `optometry-clinics`, `mental-health-practices`, `insurance-agencies`, `mortgage-brokerages`, `tutoring-centers`.
 
+#### D. Newsletters & Market Intelligence Hub
+* **Hub Route**: `/newsletters` — [`app/(marketing)/newsletters/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/newsletters/page.tsx)
+* **Dynamic Route**: `/newsletters/[slug]` — [`app/(marketing)/newsletters/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/newsletters/[slug]/page.tsx)
+* **Source of Truth**: [`features/newsletters/data/newsletters.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/features/newsletters/data/newsletters.ts)
+* **Active Publications (3 Canonical Radars)**:
+  1. `tech-founder-briefing`: Actionable AI & engineering shifts, distilled weekly for founders and CTOs.
+  2. `ontario-opportunity-monitor`: Daily deal radar for Ontario businesses, distressed assets, and auctions.
+  3. `tender-brief`: Curated municipal & provincial procurement opportunities matching SMB capabilities.
+
 ---
 
 ### 1.3 Operator Dashboard (Clerk Protected)
@@ -64,6 +74,9 @@ Enforced via [`middleware.ts`](file:///Users/tejindersingh/dev/projects/TheSkill
 | Route | File Path | Access | Purpose |
 | :--- | :--- | :--- | :--- |
 | `/dashboard` | [`app/dashboard/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/page.tsx) | Operator Auth (Clerk) | Dashboard entry point; automatically redirects to `/dashboard/flows`. |
+| `/dashboard/catalog` | [`app/dashboard/catalog/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/catalog/page.tsx) | Operator Auth (Clerk) | Unified catalog control plane: view, filter, and audit status, pricing, and visibility of all 34 canonical offerings. |
+| `/dashboard/newsletters` | [`app/dashboard/newsletters/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/newsletters/page.tsx) | Operator Auth (Clerk) | Newsletter operations control plane: manage subscribers, publication cadence, AI compilation schedules, and issue counts. |
+| `/dashboard/newsletters/[slug]` | [`app/dashboard/newsletters/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/newsletters/[slug]/page.tsx) | Operator Auth (Clerk) | Single newsletter management: compile new AI drafts, review takeaways, edit markdown body, and approve/publish editions. |
 | `/dashboard/flows` | [`app/dashboard/flows/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/flows/page.tsx) | Operator Auth (Clerk) | Manage and toggle client-specific agentic automation flows and recipe triggers. |
 | `/dashboard/drafts` | [`app/dashboard/drafts/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/drafts/page.tsx) | Operator Auth (Clerk) | Human-in-the-loop review queue to approve, edit, or reject AI-drafted customer outbound SMS/messages. |
 
@@ -91,6 +104,7 @@ Enforced via [`middleware.ts`](file:///Users/tejindersingh/dev/projects/TheSkill
 | Endpoint | Method | File Path | Auth / Security | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | `/api/lead` | `POST` | [`app/api/lead/route.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/api/lead/route.ts) | Honeypot check + Zod validation + 32KB payload limit | Validates inbound lead submissions from forms and delivers them to `LEAD_WEBHOOK_URL` (Zapier, Make, n8n) with timeouts and error shielding. |
+| `/api/newsletter/subscribe` | `POST` | [`app/api/newsletter/subscribe/route.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/api/newsletter/subscribe/route.ts) | Honeypot drop + Zod validation + 32KB payload limit | Registers newsletter subscriptions, validates publication slugs, logs masked PII audit events, forwards to CRM webhook when set, and returns early-subscriber waitlist status. |
 | `/api/inbound` | `POST` | [`app/api/inbound/route.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/api/inbound/route.ts) | Twilio signature (`x-twilio-signature`) + Fail-closed in prod | Inbound Twilio webhook for SMS replies. Fails closed in production if token is absent, parses customer intent, handles opt-outs ("STOP"), triggers AI draft generation, and replies with empty TwiML. |
 | `/api/cron` | `GET` | [`app/api/cron/route.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/api/cron/route.ts) | Bearer Secret (`CRON_SECRET`) | Scheduled runner tick pinged by Vercel Cron. Executes scheduled automation cycles across all active clients. |
 | `/api/v1/relay` | `POST` | [`app/api/v1/relay/route.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/api/v1/relay/route.ts) | HMAC-SHA256 signature + nonce | Stateless SMS relay gateway for Android SMS capture devices. Validates hardware cryptographic signatures and forwards to delivery adapters with zero persistence. |

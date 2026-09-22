@@ -12,3 +12,6 @@ npm-debug.log*
 next-env.d.ts
 .gstack/
 /.automations/
+
+# clerk configuration (can include secrets)
+/.clerk/

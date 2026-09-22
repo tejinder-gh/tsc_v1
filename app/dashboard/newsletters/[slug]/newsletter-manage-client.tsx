@@ -1,0 +1,293 @@
+"use client";
+
+import {
+  ArrowLeft,
+  Bot,
+  Calendar,
+  Check,
+  CheckCircle2,
+  Clock,
+  ExternalLink,
+  Eye,
+  FileText,
+  Loader2,
+  Send,
+  Sparkles,
+  Users,
+} from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import type { Newsletter, NewsletterIssue } from "@/features/newsletters/domain/types";
+
+export function NewsletterManageClient({ newsletter }: { newsletter: Newsletter }) {
+  const [issues, setIssues] = useState<NewsletterIssue[]>(newsletter.issues);
+  const [selectedIssueId, setSelectedIssueId] = useState<string>(
+    newsletter.issues[newsletter.issues.length - 1]?.id || "",
+  );
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
+
+  const selectedIssue = issues.find((i) => i.id === selectedIssueId);
+
+  const handleSimulateAiGeneration = () => {
+    setIsGenerating(true);
+    setActionSuccess(null);
+
+    setTimeout(() => {
+      const nextIssueNum = issues.length + 1;
+      const newIssue: NewsletterIssue = {
+        id: `${newsletter.slug}-draft-${Date.now()}`,
+        newsletterSlug: newsletter.slug,
+        issueNumber: nextIssueNum,
+        title: `Edition #${nextIssueNum}: Emerging Agent Protocols & Production Hardening`,
+        slug: `draft-edition-${nextIssueNum}`,
+        summary:
+          "Automated draft compilation from monitored source repositories and RSS feeds. Ready for human operator review.",
+        keyTakeaways: [
+          "State transition verification prevents cyclic execution in background jobs",
+          "Scoped IAM roles mitigate blast radius of autonomous tool execution",
+          "Deterministic test suites ensure zero regression across release cycles",
+        ],
+        contentMarkdown: `## Auto-Generated Draft Briefing\n\nThis edition was compiled by the automated intake worker scanning primary sources at 07:00 EST.\n\n### Key Highlights\n- Analysis of recent agent runtime vulnerabilities and mitigations\n- Standardized database access rules for unattended processes\n- Performance benchmarks across recent frontier and local model deployments\n\n*Review takeaways and edit before approving publication.*`,
+        generatedBy: "ai",
+        status: "review",
+        scheduledFor: new Date(Date.now() + 86400000).toISOString(),
+        sourceItemCount: 16,
+        curatorNotes: "Pending operator review.",
+      };
+
+      setIssues([newIssue, ...issues]);
+      setSelectedIssueId(newIssue.id);
+      setIsGenerating(false);
+      setActionSuccess(
+        "Demo draft compiled in-memory (Simulation only · Neon persistence requires applying migration 005).",
+      );
+    }, 1200);
+  };
+
+  const handleApproveAndPublish = (issueId: string) => {
+    setIssues((prev) =>
+      prev.map((iss) => {
+        if (iss.id === issueId) {
+          return {
+            ...iss,
+            status: "published",
+            publishedAt: new Date().toISOString(),
+            deliveredAt: new Date().toISOString(),
+          };
+        }
+        return iss;
+      }),
+    );
+    setActionSuccess(
+      "Issue marked published in local state (Simulation only · Durable publish requires applying migration 005).",
+    );
+  };
+
+  return (
+    <div className="space-y-8">
+      {/* Navigation */}
+      <div>
+        <Link
+          href="/dashboard/newsletters"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-3"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to All Publications</span>
+        </Link>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                {newsletter.name}
+              </h1>
+              <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">
+                {newsletter.cadence}
+              </span>
+            </div>
+            <p className="text-xs text-slate-500">{newsletter.tagline}</p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/newsletters/${newsletter.slug}`}
+              target="_blank"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg shadow-2xs"
+            >
+              <span>View Public Page</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </Link>
+
+            <button
+              type="button"
+              disabled={isGenerating}
+              onClick={handleSimulateAiGeneration}
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs disabled:opacity-50 cursor-pointer"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>Simulating Intake...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Simulate Draft Generation (Demo Preview)</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {actionSuccess && (
+        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+          <span>{actionSuccess}</span>
+        </div>
+      )}
+
+      {/* Main Grid: Issues Column & Preview Column */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Issue selector */}
+        <div className="space-y-3">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            Editions &amp; Drafts ({issues.length})
+          </h2>
+
+          <div className="space-y-2">
+            {issues.map((issue) => {
+              const isSelected = issue.id === selectedIssueId;
+              const isPublished = issue.status === "published";
+              const isReview = issue.status === "review";
+
+              return (
+                <button
+                  key={issue.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedIssueId(issue.id);
+                    setActionSuccess(null);
+                  }}
+                  className={`w-full text-left p-3.5 rounded-xl border transition-all ${
+                    isSelected
+                      ? "bg-white border-blue-600 shadow-xs ring-1 ring-blue-600"
+                      : "bg-white border-slate-200 hover:border-slate-300"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <span className="text-xs font-semibold text-slate-900">
+                      Issue #{issue.issueNumber}
+                      {issue.isSample && (
+                        <span className="ml-1.5 text-[10px] text-slate-400 font-normal">
+                          (Sample)
+                        </span>
+                      )}
+                    </span>
+                    <span
+                      className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                        isPublished
+                          ? "bg-emerald-50 text-emerald-700"
+                          : isReview
+                            ? "bg-amber-50 text-amber-700 border border-amber-200"
+                            : "bg-slate-100 text-slate-600"
+                      }`}
+                    >
+                      {issue.status}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-700 font-medium line-clamp-1 mb-1">
+                    {issue.title}
+                  </p>
+                  <p className="text-[11px] text-slate-400">
+                    {issue.publishedAt
+                      ? `Published ${new Date(issue.publishedAt).toLocaleDateString()}`
+                      : "In Review"}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Selected Issue Preview & Controls */}
+        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-6 space-y-6 shadow-2xs">
+          {selectedIssue ? (
+            <>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
+                      Issue #{selectedIssue.issueNumber}
+                    </span>
+                    <span className="text-slate-300">•</span>
+                    <span className="text-xs font-medium text-slate-500 capitalize">
+                      {selectedIssue.generatedBy} Generated
+                    </span>
+                    {selectedIssue.isSample && (
+                      <>
+                        <span className="text-slate-300">•</span>
+                        <span className="text-xs font-semibold text-amber-600">Sample Preview</span>
+                      </>
+                    )}
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900">{selectedIssue.title}</h3>
+                </div>
+
+                {selectedIssue.status !== "published" && (
+                  <button
+                    type="button"
+                    onClick={() => handleApproveAndPublish(selectedIssue.id)}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors cursor-pointer"
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Approve &amp; Publish (In-Memory Preview)</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Summary */}
+              <div className="space-y-1">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  Executive Summary
+                </span>
+                <p className="text-sm text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100 leading-relaxed">
+                  {selectedIssue.summary}
+                </p>
+              </div>
+
+              {/* Takeaways */}
+              <div className="space-y-2">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  Key Takeaways
+                </span>
+                <ul className="space-y-1.5 text-xs text-slate-700">
+                  {selectedIssue.keyTakeaways.map((t) => (
+                    <li key={t} className="flex items-start gap-2 bg-slate-50/50 p-2 rounded-md">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Markdown Content */}
+              <div className="space-y-2">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  Content Body (Markdown)
+                </span>
+                <div className="p-4 bg-slate-900 text-slate-200 text-xs font-mono rounded-lg overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
+                  {selectedIssue.contentMarkdown}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="py-20 text-center text-slate-400 text-sm">
+              Select an edition from the list to view and manage.
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
