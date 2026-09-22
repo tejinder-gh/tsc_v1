@@ -253,3 +253,265 @@ describe("Journey State Transitions & Business Logic", () => {
     expect(resetState.createdAt).toBe("2026-09-22T18:00:00.000Z");
   });
 });
+
+describe("Context Engine Configuration (Ticket 002 §5-9)", () => {
+  it("defines question 1 and question 2 with valid options for all 4 primary intents", async () => {
+    const { getContextConfig } = await import("../context-config");
+    const { contextFocusSchema, contextSituationSchema } = await import("../schema");
+
+    for (const intent of CANONICAL_INTENTS) {
+      const config = getContextConfig(intent);
+      expect(config).toBeDefined();
+      expect(config.question1).toBeDefined();
+      expect(config.question1.eyebrow).toBeTruthy();
+      expect(config.question1.heading).toBeTruthy();
+      expect(config.question1.options.length).toBeGreaterThanOrEqual(4);
+
+      for (const opt of config.question1.options) {
+        expect(contextFocusSchema.safeParse(opt.value).success).toBe(true);
+        expect(opt.label).toBeTruthy();
+        expect(opt.description).toBeTruthy();
+      }
+
+      expect(config.question2).toBeDefined();
+      expect(config.question2.eyebrow).toBeTruthy();
+      expect(config.question2.heading).toBeTruthy();
+      expect(config.question2.options.length).toBeGreaterThanOrEqual(4);
+
+      for (const opt of config.question2.options) {
+        expect(contextSituationSchema.safeParse(opt.value).success).toBe(true);
+        expect(opt.label).toBeTruthy();
+        expect(opt.description).toBeTruthy();
+      }
+    }
+  });
+
+  it("verifies exact copy for save-time intent branch", async () => {
+    const { getContextConfig } = await import("../context-config");
+    const config = getContextConfig("save-time");
+
+    expect(config.question1.eyebrow).toBe("LET'S FIND THE FRICTION");
+    expect(config.question1.heading).toBe("Where does work keep\nstealing your attention?");
+    expect(config.question1.options.map((o) => o.value)).toEqual([
+      "customer-communication",
+      "admin-data-entry",
+      "scheduling-coordination",
+      "reporting-analysis",
+      "internal-workflows",
+    ]);
+
+    expect(config.question2.eyebrow).toBe("ONE MORE THING");
+    expect(config.question2.heading).toBe("What makes it frustrating today?");
+    expect(config.question2.options.map((o) => o.value)).toEqual([
+      "mostly-manual",
+      "fragmented-tools",
+      "works-but-slow",
+      "frequent-errors",
+    ]);
+  });
+});
+
+describe("Context State Transitions & Rules (Ticket 002 §13, §14, §16)", () => {
+  it("persists contextFocus and contextSituation into JourneyContext", () => {
+    const context: JourneyContext = {
+      version: 1,
+      stage: "context",
+      intent: "save-time",
+      contextFocus: "customer-communication",
+      contextSituation: "mostly-manual",
+      problems: [],
+      selectedSolutions: [],
+      viewedSolutions: [],
+      savedResources: [],
+      createdAt: "2026-09-22T18:00:00.000Z",
+      updatedAt: "2026-09-22T18:00:00.000Z",
+    };
+
+    const parsed = validateJourneyContext(context);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.contextFocus).toBe("customer-communication");
+    expect(parsed?.contextSituation).toBe("mostly-manual");
+  });
+
+  it("clears contextSituation when contextFocus changes (Ticket 002 §13)", () => {
+    const initial: JourneyContext = {
+      version: 1,
+      stage: "context",
+      intent: "save-time",
+      contextFocus: "customer-communication",
+      contextSituation: "mostly-manual",
+      problems: [],
+      selectedSolutions: [],
+      viewedSolutions: [],
+      savedResources: [],
+      createdAt: "2026-09-22T18:00:00.000Z",
+      updatedAt: "2026-09-22T18:00:00.000Z",
+    };
+
+    // Changing Question 1 to a new focus
+    const newFocus = "admin-data-entry";
+    const isChanging = initial.contextFocus !== newFocus;
+    const updated: JourneyContext = {
+      ...initial,
+      contextFocus: newFocus,
+      contextSituation: isChanging ? undefined : initial.contextSituation,
+      updatedAt: "2026-09-22T18:01:00.000Z",
+    };
+
+    expect(updated.contextFocus).toBe("admin-data-entry");
+    expect(updated.contextSituation).toBeUndefined();
+  });
+
+  it("clears intent and all context answers when Change Goal is selected (Ticket 002 §14)", () => {
+    const active: JourneyContext = {
+      version: 1,
+      stage: "context",
+      intent: "build",
+      contextFocus: "internal-tool",
+      contextSituation: "existing-system",
+      problems: [],
+      selectedSolutions: [],
+      viewedSolutions: [],
+      savedResources: ["sample-resource-1"],
+      createdAt: "2026-09-22T18:00:00.000Z",
+      updatedAt: "2026-09-22T18:00:00.000Z",
+    };
+
+    const changedGoal: JourneyContext = {
+      ...active,
+      stage: "new",
+      intent: undefined,
+      contextFocus: undefined,
+      contextSituation: undefined,
+      updatedAt: "2026-09-22T18:02:00.000Z",
+    };
+
+    expect(changedGoal.stage).toBe("new");
+    expect(changedGoal.intent).toBeUndefined();
+    expect(changedGoal.contextFocus).toBeUndefined();
+    expect(changedGoal.contextSituation).toBeUndefined();
+    // Unrelated resources are retained
+    expect(changedGoal.savedResources).toEqual(["sample-resource-1"]);
+  });
+
+  it("maintains backward compatibility with Ticket 001 stored state", () => {
+    // Ticket 001 state has NO contextFocus or contextSituation fields
+    const ticket001Stored = {
+      version: 1,
+      stage: "intent-selected",
+      intent: "learn",
+      freeformProblem: "Need team documentation system",
+      problems: [],
+      selectedSolutions: [],
+      viewedSolutions: [],
+      savedResources: [],
+      createdAt: "2026-09-22T18:00:00.000Z",
+      updatedAt: "2026-09-22T18:00:00.000Z",
+    };
+
+    const parsed = validateJourneyContext(ticket001Stored);
+    expect(parsed).not.toBeNull();
+    expect(parsed?.intent).toBe("learn");
+    expect(parsed?.contextFocus).toBeUndefined();
+    expect(parsed?.contextSituation).toBeUndefined();
+  });
+
+  it("safely rejects corrupt context values", () => {
+    const corruptFocus = {
+      version: 1,
+      stage: "context",
+      intent: "save-time",
+      contextFocus: "not-a-valid-focus-value",
+      problems: [],
+      selectedSolutions: [],
+      viewedSolutions: [],
+      savedResources: [],
+      createdAt: "2026-09-22T18:00:00.000Z",
+      updatedAt: "2026-09-22T18:00:00.000Z",
+    };
+
+    expect(validateJourneyContext(corruptFocus)).toBeNull();
+
+    const corruptSituation = {
+      version: 1,
+      stage: "context",
+      intent: "save-time",
+      contextFocus: "customer-communication",
+      contextSituation: "completely-fabricated-situation",
+      problems: [],
+      selectedSolutions: [],
+      viewedSolutions: [],
+      savedResources: [],
+      createdAt: "2026-09-22T18:00:00.000Z",
+      updatedAt: "2026-09-22T18:00:00.000Z",
+    };
+
+    expect(validateJourneyContext(corruptSituation)).toBeNull();
+  });
+});
+
+describe("Context Analytics Contract (Ticket 002 §24)", () => {
+  it("tracks valid focus, situation, and completed event payloads without freeform text", async () => {
+    const { track } = await import("@/lib/analytics");
+
+    // Mock window.plausible to verify payload
+    const plausibleCalls: Array<{ event: string; props: Record<string, string> }> = [];
+    (globalThis as unknown as { window: unknown }).window = {
+      plausible: (event: string, options: { props: Record<string, string> }) => {
+        plausibleCalls.push({ event, props: options.props });
+      },
+    };
+
+    // 1. Focus selected event
+    track("journey_context_focus_selected", {
+      intent: "save-time",
+      focus: "customer-communication",
+    });
+
+    expect(plausibleCalls[0]).toEqual({
+      event: "journey_context_focus_selected",
+      props: {
+        intent: "save-time",
+        focus: "customer-communication",
+      },
+    });
+
+    // 2. Situation selected event
+    track("journey_context_situation_selected", {
+      intent: "save-time",
+      focus: "customer-communication",
+      situation: "mostly-manual",
+    });
+
+    expect(plausibleCalls[1]).toEqual({
+      event: "journey_context_situation_selected",
+      props: {
+        intent: "save-time",
+        focus: "customer-communication",
+        situation: "mostly-manual",
+      },
+    });
+
+    // 3. Completed event
+    track("journey_context_completed", {
+      intent: "save-time",
+      focus: "customer-communication",
+      situation: "mostly-manual",
+    });
+
+    expect(plausibleCalls[2]).toEqual({
+      event: "journey_context_completed",
+      props: {
+        intent: "save-time",
+        focus: "customer-communication",
+        situation: "mostly-manual",
+      },
+    });
+
+    // Verify none of the calls contain freeform text
+    for (const call of plausibleCalls) {
+      expect(call.props.freeformProblem).toBeUndefined();
+      expect(call.props.problemText).toBeUndefined();
+    }
+  });
+});
