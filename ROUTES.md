@@ -14,12 +14,12 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
 | Route | File Path | Access | Purpose & Conversion Role |
 | :--- | :--- | :--- | :--- |
 | `/` | [`app/(marketing)/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/page.tsx) | Public | **Homepage**: Editorial Studio narrative (Global Masthead, Intent Router & Live Observed System, 02 System Studies, 03 How We Decide, 04 Founder POV, 05 Curated Explore, 06 Open Prompt, Minimal Footer). |
-| `/about` | [`app/(marketing)/about/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/about/page.tsx) | Public | **About Us**: Founder story, 15+ years engineering credentials, and company mission applied to local businesses and professional practices. |
+| `/about` | [`app/(marketing)/about/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/about/page.tsx) | Public | **About**: Founder story, practical engineering philosophy, and 5 operating principles applied to real work. |
 | `/how-it-works` | [`app/(marketing)/how-it-works/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/how-it-works/page.tsx) | Public | **Delivery Process**: Explicit 3-stage breakdown (*Audit → Build → Run*) detailing what The Skill Corner handles vs. what the client does to eliminate adoption friction. |
 | `/results` | [`app/(marketing)/results/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/results/page.tsx) | Public | **Results & Scenarios**: Illustrative problem/build/anticipated outcome scenarios with transparent non-fabricated claims. |
 | `/book` | [`app/(marketing)/book/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/book/page.tsx) | Public | **Audit Booking**: Top conversion rung. Embeds Cal.com calendar for a free 30-minute AI Automation Audit ("leave with 3 ideas whether you hire us or not"). |
 | `/contact` | [`app/(marketing)/contact/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/contact/page.tsx) | Public | **Quick Query & Contact**: Contact form + sidebar booking links for visitors with questions who aren't ready to book a live call. |
-| `/library` | [`app/(marketing)/library/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/library/page.tsx) | Public | **Public Library & Discovery Catalog**: Unified catalog of 30+ productized automations, digital services, market research feeds, and technical briefings with interactive goal wizard and search. |
+| `/library` | [`app/(marketing)/library/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/library/page.tsx) | Public | **Explore / Library**: Useful systems, tools, and field notes. Editorial publication index + technical catalog with outcome filters and dense listings. |
 | `/checklist` | [`app/(marketing)/checklist/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/checklist/page.tsx) | Public | **Lead Magnet**: Interactive Automation Opportunities Checklist covering 25 business tasks, calculating hours saved, gated by email capture. |
 | `/social` | [`app/(marketing)/social/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/social/page.tsx) | Public | **Physical Business Card Landing Page**: Mobile-first landing target for NFC cards and QR codes. Features quick messaging form and `/contact.vcf` download link. |
 
@@ -27,9 +27,11 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
 
 ### 1.2 Catalogs & Dynamic Landing Hubs
 
-#### A. Digital Services Hub
+#### A. Digital Services Hub (Work)
 * **Hub Route**: `/digital-services` — [`app/(marketing)/digital-services/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/digital-services/page.tsx)
+  * **Role**: **Work Hub**: Broad capability index organized across four editorial bands: `01 / AUTOMATE`, `02 / BUILD`, `03 / GROW`, `04 / OPERATE`, with a 4-step engagement methodology.
 * **Dynamic Route**: `/digital-services/[slug]` — [`app/(marketing)/digital-services/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/digital-services/[slug]/page.tsx)
+  * **Role**: Authored capability specification detailing the operational problem, outcome changes, execution pipeline, deliverables, and fit assessment.
 * **Source of Truth**: [`content/digital-services.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/content/digital-services.ts)
 * **Active Slugs (7 Pillars)**:
   1. `ai-agent-development`: Custom autonomous voice/chat AI agents & automation workflows.
@@ -40,25 +42,31 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
   6. `application-development`: Custom web and mobile software development.
   7. `rebranding`: Brand identity, visual design systems, and positioning.
 
-#### B. Automation Services Catalog
+#### B. Automation Services Catalog (Automation Index)
 * **Hub Route**: `/what-we-automate` — [`app/(marketing)/what-we-automate/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/what-we-automate/page.tsx)
+  * **Role**: **Automation Index**: Focused directory of concrete systems for communication, intake, scheduling, documents, and recurring operational work.
 * **Dynamic Route**: `/what-we-automate/[slug]` — [`app/(marketing)/what-we-automate/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/what-we-automate/[slug]/page.tsx)
+  * **Role**: Automation specification detailing the bottleneck, workflow pipeline, deliverables, and fit assessment.
 * **Source of Truth**: [`content/services.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/content/services.ts)
 * **Active Slugs (18 Canonical Automation Solutions)**:
   `ai-receptionist`, `booking-and-reminders`, `intake-and-documents`, `reviews-and-reputation`, `follow-up-automation`, `reporting-dashboards`, `inventory-and-supplier-ordering`, `client-onboarding-portals`, `dispatch-and-routing`, `invoice-and-payments`, `lead-qualification`, `social-media-automation`, `customer-win-back`, `newsletter-compiler`, `contract-automation`, `expense-matching`, `staff-scheduling`, `client-notifications`.
   *(Note: Legacy slug `feedback-and-reviews` is permanently redirected to canonical `reviews-and-reputation` via HTTP 308 permanent redirect).*
 
-#### C. Industry Solutions Catalog
+#### C. Industry Solutions Catalog (Sector Index)
 * **Hub Route**: `/industries` — [`app/(marketing)/industries/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/industries/page.tsx)
+  * **Role**: **Sector Index**: Systems tailored to how local businesses and professional practices operate.
 * **Dynamic Route**: `/industries/[slug]` — [`app/(marketing)/industries/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/industries/[slug]/page.tsx)
+  * **Role**: Sector narrative detailing the recurring week, where systems help, illustrative scenario, and prioritization.
 * **Source of Truth**: [`content/industries.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/content/industries.ts)
 * **Active Slugs (24 Industry Verticals)**:
   * **Local Businesses**: `retail-stores`, `restaurants`, `salons-spas`, `gyms-fitness`, `auto-repair`, `pet-grooming-boarding`, `residential-cleaning`, `boutique-retail`, `photography-studios`, `catering-services`, `landscaping-gardening`, `construction-trades`.
   * **Professional Practices**: `medical-clinics`, `dental-offices`, `law-firms`, `accounting-firms`, `real-estate`, `veterinary-clinics`, `physiotherapy-clinics`, `optometry-clinics`, `mental-health-practices`, `insurance-agencies`, `mortgage-brokerages`, `tutoring-centers`.
 
-#### D. Newsletters & Market Intelligence Hub
+#### D. Newsletters & Market Intelligence Hub (Briefings)
 * **Hub Route**: `/newsletters` — [`app/(marketing)/newsletters/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/newsletters/page.tsx)
+  * **Role**: **Briefings Hub**: Signal, without the feed. Curated technical briefings and recurring market radars.
 * **Dynamic Route**: `/newsletters/[slug]` — [`app/(marketing)/newsletters/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/newsletters/[slug]/page.tsx)
+  * **Role**: Briefing specification, subscription dispatch, sample issue reader, and methodology.
 * **Source of Truth**: [`features/newsletters/data/newsletters.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/features/newsletters/data/newsletters.ts)
 * **Active Publications (3 Canonical Radars)**:
   1. `tech-founder-briefing`: Actionable AI & engineering shifts, distilled weekly for founders and CTOs.
