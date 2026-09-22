@@ -37,19 +37,22 @@ export function JourneyProgress() {
   return (
     <nav
       aria-label="Journey progress"
-      className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] sm:text-xs text-[var(--tsc-muted)]"
+      className="flex flex-wrap items-center gap-x-1.5 sm:gap-x-2 gap-y-1 font-mono text-[10px] sm:text-xs text-[var(--tsc-muted)]"
     >
       {STAGES.map((stage, index) => {
         const isActive = stage.key === activeKey;
         return (
-          <span key={stage.key} className="inline-flex items-center gap-1.5 sm:gap-2">
+          <span key={stage.key} className="inline-flex items-center gap-1 sm:gap-2">
             {index > 0 && (
-              <span className="text-[var(--tsc-line)] select-none" aria-hidden="true">
+              <span
+                className="text-[var(--tsc-line)] select-none text-[9px] sm:text-xs"
+                aria-hidden="true"
+              >
                 ──
               </span>
             )}
             <span
-              className={`inline-flex items-center gap-1.5 transition-colors ${
+              className={`inline-flex items-center gap-1 sm:gap-1.5 transition-colors ${
                 isActive
                   ? "font-semibold text-[var(--tsc-ink)]"
                   : "text-[var(--tsc-muted)] opacity-70"

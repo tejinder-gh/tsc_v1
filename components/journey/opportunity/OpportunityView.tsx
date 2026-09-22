@@ -161,7 +161,7 @@ export function OpportunityView() {
           <OpportunityEvidence evidence={primaryDef.evidence} label={evidenceLabel} />
 
           {/* NOT YET / Strategic Editorial Note */}
-          <div className="rounded-[4px] border border-[var(--tsc-line)] bg-white/70 p-4 sm:p-5 flex flex-col space-y-2">
+          <div className="rounded-[4px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-4 sm:p-5 flex flex-col space-y-2">
             <div className="text-[11px] sm:text-xs font-mono font-semibold tracking-[0.14em] text-[var(--tsc-muted)] uppercase">
               NOT YET
             </div>
@@ -176,7 +176,7 @@ export function OpportunityView() {
           <button
             type="button"
             onClick={handleSolutionStart}
-            className="inline-flex items-center justify-center rounded-[4px] bg-[var(--tsc-ink)] px-6 py-3.5 text-sm sm:text-base font-semibold text-white transition-colors hover:bg-[var(--tsc-ink)]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center rounded-[4px] bg-[var(--tsc-ink)] px-6 py-3.5 text-sm sm:text-base font-semibold text-white transition-colors hover:bg-[var(--tsc-ink)]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] cursor-pointer"
           >
             <span>See how this would work →</span>
           </button>
@@ -184,7 +184,7 @@ export function OpportunityView() {
           <button
             type="button"
             onClick={handleReviewContext}
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-ink)] cursor-pointer py-2"
+            className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-medium text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-ink)] cursor-pointer py-2"
           >
             <span>← Review context</span>
           </button>

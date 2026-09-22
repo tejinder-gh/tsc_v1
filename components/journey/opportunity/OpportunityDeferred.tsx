@@ -14,7 +14,7 @@ export function OpportunityDeferred({ opportunityId }: OpportunityDeferredProps)
   if (!definition) return null;
 
   return (
-    <div className="flex flex-col space-y-2 opacity-80">
+    <div className="flex flex-col space-y-2">
       <div className="text-[11px] sm:text-xs font-mono font-semibold tracking-[0.14em] text-[var(--tsc-muted)] uppercase">
         LATER, IF IT EARNS ITS PLACE
       </div>
