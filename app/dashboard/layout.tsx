@@ -1,7 +1,6 @@
 import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Inbox, LayoutDashboard, Workflow } from "lucide-react";
-import Link from "next/link";
 import type { ReactNode } from "react";
+import { DashboardNav } from "./dashboard-nav";
 
 // Clerk-gated, per-session route tree - never a candidate for static generation,
 // and prerendering it at build time throws when Clerk env vars are unset.
@@ -26,31 +25,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 Workspace
               </span>
             </div>
-            <nav className="space-y-1">
-              <Link
-                href="/dashboard"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-              >
-                <LayoutDashboard size={18} />
-                <span className="font-medium text-sm">Overview</span>
-              </Link>
-              <Link
-                href="/dashboard/drafts"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-              >
-                <Inbox size={18} />
-                <span className="font-medium text-sm">Drafts</span>
-              </Link>
-              <Link
-                href="/dashboard/flows"
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 transition-colors"
-              >
-                <Workflow size={18} />
-                <span className="font-medium text-sm">Flows</span>
-              </Link>
-            </nav>
+            <DashboardNav />
           </aside>
-          <main className="flex-1 flex flex-col min-w-0">
+          <main id="main" tabIndex={-1} className="focus:outline-none flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b border-slate-200 bg-white flex items-center justify-between px-6 sticky top-0 z-10">
               <h2 className="font-semibold text-slate-800">Operator Portal</h2>
               <UserButton />

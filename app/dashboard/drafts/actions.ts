@@ -1,14 +1,15 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { buildSenders } from "../../../automations/channels";
-import { demoClients } from "../../../automations/clients";
-import { systemClock } from "../../../automations/core/clock";
-import { FileDraftStore } from "../../../automations/core/drafts";
-import { FileIdempotencyStore } from "../../../automations/core/idempotency";
-import { consoleLogger } from "../../../automations/core/logger";
-import type { DraftAction, SendAction } from "../../../automations/core/types";
-import { dispatch } from "../../../automations/runtime/dispatch";
+import { buildSenders } from "@/automations/channels";
+import { demoClients } from "@/automations/clients";
+import { systemClock } from "@/automations/core/clock";
+import { FileDraftStore } from "@/automations/core/drafts";
+import { FileIdempotencyStore } from "@/automations/core/idempotency";
+import { consoleLogger } from "@/automations/core/logger";
+import type { DraftAction, SendAction } from "@/automations/core/types";
+import { dispatch } from "@/automations/runtime/dispatch";
+import { assertOperatorAuthenticated, assertValidClientId } from "../auth-guard";
 
 function getClient(clientId: string) {
   const client = demoClients.find((c) => c.config.id === clientId);
@@ -17,13 +18,23 @@ function getClient(clientId: string) {
 }
 
 export async function getPendingDrafts(clientId: string): Promise<DraftAction[]> {
-  const store = new FileDraftStore(`.automations/drafts/${clientId}.json`);
+  await assertOperatorAuthenticated();
+  const validClientId = assertValidClientId(clientId);
+
+  const store = new FileDraftStore(`.automations/drafts/${validClientId}.json`);
   return store.getPending();
 }
 
 export async function approveDraft(clientId: string, draftId: string, editedBody: string) {
-  const client = getClient(clientId);
-  const draftStore = new FileDraftStore(`.automations/drafts/${clientId}.json`);
+  await assertOperatorAuthenticated();
+  const validClientId = assertValidClientId(clientId);
+
+  if (!draftId || typeof draftId !== "string") {
+    throw new Error("Invalid draft ID");
+  }
+
+  const client = getClient(validClientId);
+  const draftStore = new FileDraftStore(`.automations/drafts/${validClientId}.json`);
 
   const drafts = draftStore.getPending();
   const draft = drafts.find((d) => d.meta.idempotencyKey === draftId);
@@ -50,7 +61,7 @@ export async function approveDraft(clientId: string, draftId: string, editedBody
     },
   };
 
-  const idempotency = new FileIdempotencyStore(`.automations/idempotency/${clientId}.json`);
+  const idempotency = new FileIdempotencyStore(`.automations/idempotency/${validClientId}.json`);
   const senders = buildSenders(client.config, consoleLogger);
 
   await dispatch([sendAction], {
@@ -66,7 +77,19 @@ export async function approveDraft(clientId: string, draftId: string, editedBody
 }
 
 export async function rejectDraft(clientId: string, draftId: string) {
-  const draftStore = new FileDraftStore(`.automations/drafts/${clientId}.json`);
+  await assertOperatorAuthenticated();
+  const validClientId = assertValidClientId(clientId);
+
+  if (!draftId || typeof draftId !== "string") {
+    throw new Error("Invalid draft ID");
+  }
+
+  const draftStore = new FileDraftStore(`.automations/drafts/${validClientId}.json`);
+  const drafts = draftStore.getPending();
+  if (!drafts.some((d) => d.meta.idempotencyKey === draftId)) {
+    throw new Error("Draft not found or already processed.");
+  }
+
   draftStore.remove(draftId);
   revalidatePath("/dashboard/drafts");
 }
