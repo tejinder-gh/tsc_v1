@@ -1,19 +1,21 @@
 "use client";
 
 import { useJourney } from "@/lib/journey";
+import { ContextEngine } from "./context/ContextEngine";
+import { OpportunityTransitional } from "./context/OpportunityTransitional";
 import { IntentSelector } from "./IntentSelector";
 import { JourneyProgress } from "./JourneyProgress";
 import { LiveSystemExample } from "./LiveSystemExample";
 import { ProblemInput } from "./ProblemInput";
 
 export function JourneyHero() {
-  const { hasExistingProgress, journey, continueJourney, resetJourney } = useJourney();
+  const { hasExistingProgress, journey, continueJourney, resetJourney, setStage } = useJourney();
 
   return (
     <section
       id="start"
       aria-label="Studio introduction and intent router"
-      className="relative overflow-hidden bg-[var(--tsc-paper)] border-b border-[var(--tsc-line)] pt-6 pb-12 sm:pt-8 sm:pb-14 lg:pt-10 lg:pb-16 font-geist"
+      className="relative overflow-hidden bg-[var(--tsc-paper)] border-b border-[var(--tsc-line)] pt-6 pb-12 sm:pt-8 sm:pb-14 lg:pt-10 lg:pb-16 font-geist min-h-[520px]"
     >
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
         {/* Returning visitor continuation banner (Ticket 001 §27) */}
@@ -44,51 +46,64 @@ export function JourneyHero() {
           </div>
         )}
 
-        {/* 2-column Desktop (~58% / ~42%), single-column Mobile */}
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16 items-start">
-          {/* Left Column: Intent Router & Editorial Narrative (~58%) */}
-          <div className="lg:col-span-7 flex flex-col space-y-4 sm:space-y-5 lg:space-y-6">
-            {/* Eyebrow */}
-            <div className="text-[11px] sm:text-xs font-mono font-semibold tracking-[0.14em] text-[var(--tsc-muted)] uppercase">
-              A DIGITAL SYSTEMS STUDIO
+        {/* Stage 02: Context Engine (Ticket 002) */}
+        {journey.stage === "context" && <ContextEngine />}
+
+        {/* Stage 03: Opportunity Transitional State (Ticket 002 §16) */}
+        {journey.stage === "opportunity" && (
+          <OpportunityTransitional
+            onBackToContext={() => setStage("context")}
+            onReset={resetJourney}
+          />
+        )}
+
+        {/* Stage 01: Initial Arrival & Intent Selection Hero (Ticket 001) */}
+        {(journey.stage === "new" || journey.stage === "intent-selected") && (
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16 items-start">
+            {/* Left Column: Intent Router & Editorial Narrative (~58%) */}
+            <div className="lg:col-span-7 flex flex-col space-y-4 sm:space-y-5 lg:space-y-6">
+              {/* Eyebrow */}
+              <div className="text-[11px] sm:text-xs font-mono font-semibold tracking-[0.14em] text-[var(--tsc-muted)] uppercase">
+                A DIGITAL SYSTEMS STUDIO
+              </div>
+
+              {/* Main Headline (deliberate line break on desktop) */}
+              <h1
+                style={{ color: "var(--tsc-ink)" }}
+                className="text-[42px] sm:text-[58px] lg:text-[72px] xl:text-[80px] font-bold leading-[0.96] tracking-[-0.035em] text-[var(--tsc-ink)]"
+              >
+                Tell us what
+                <br className="hidden sm:inline" /> should work better.
+              </h1>
+
+              {/* Supporting Copy */}
+              <p className="max-w-[580px] text-base sm:text-[18px] lg:text-[19px] font-normal leading-[1.48] text-[var(--tsc-ink)]/80">
+                We design and build the systems behind growing businesses — but you shouldn&apos;t
+                need to understand our service catalog to know where to start.
+              </p>
+
+              {/* Journey Progress Indicator */}
+              <div className="pt-1">
+                <JourneyProgress />
+              </div>
+
+              {/* Intent Router (Choices or Post-Selection) */}
+              <div className="pt-1">
+                <IntentSelector />
+              </div>
+
+              {/* Natural-Language Input Field */}
+              <div className="pt-1">
+                <ProblemInput />
+              </div>
             </div>
 
-            {/* Main Headline (deliberate line break on desktop) */}
-            <h1
-              style={{ color: "var(--tsc-ink)" }}
-              className="text-[42px] sm:text-[58px] lg:text-[72px] xl:text-[80px] font-bold leading-[0.96] tracking-[-0.035em] text-[var(--tsc-ink)]"
-            >
-              Tell us what
-              <br className="hidden sm:inline" /> should work better.
-            </h1>
-
-            {/* Supporting Copy */}
-            <p className="max-w-[580px] text-base sm:text-[18px] lg:text-[19px] font-normal leading-[1.48] text-[var(--tsc-ink)]/80">
-              We design and build the systems behind growing businesses — but you shouldn&apos;t
-              need to understand our service catalog to know where to start.
-            </p>
-
-            {/* Journey Progress Indicator */}
-            <div className="pt-1">
-              <JourneyProgress />
-            </div>
-
-            {/* Intent Router (Choices or Post-Selection) */}
-            <div className="pt-1">
-              <IntentSelector />
-            </div>
-
-            {/* Natural-Language Input Field */}
-            <div className="pt-1">
-              <ProblemInput />
+            {/* Right Column: Live System Demonstration (~42%) - normal flow, not sticky (Ticket 001A §8) */}
+            <div className="lg:col-span-5">
+              <LiveSystemExample />
             </div>
           </div>
-
-          {/* Right Column: Live System Demonstration (~42%) - normal flow, not sticky (Ticket 001A §8) */}
-          <div className="lg:col-span-5">
-            <LiveSystemExample />
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );
