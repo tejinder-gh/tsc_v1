@@ -72,7 +72,7 @@ export function QuickActions() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-20 right-4 z-40 md:bottom-6 md:right-6">
+    <div className="hidden md:block fixed bottom-6 right-6 z-40">
       {open ? (
         <div className="mb-3 w-72 rounded-xl border border-navy/10 bg-white p-4 shadow-xl">
           <div className="flex items-start justify-between gap-2">

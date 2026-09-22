@@ -1,145 +1,99 @@
-/**
- * What: Site footer - service and industry link columns, contact details, compliance line.
- * Why: Footer links give every page paths to the conversion ladder and feed internal SEO
- *      links to the industry pages (the ad/SEO engine).
- * How: Server component; link lists derive from typed content so new industries appear
- *      automatically.
- * From Where: TheSkillCorner marketing site build brief, 2026-06.
- * When: 2026-06.
- */
-
-import Image from "next/image";
 import Link from "next/link";
-import { industries } from "@/content/industries";
-import { services } from "@/content/services";
 import { site } from "@/content/site";
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  const mainNav = [
+    { label: "Work", href: "/digital-services" },
+    { label: "Explore", href: "/library" },
+    { label: "Briefings", href: "/newsletters" },
+    { label: "About", href: "/about" },
+  ];
+
+  const legalNav = [
+    { label: "Privacy", href: "/legal/privacy" },
+    { label: "Terms", href: "/legal/terms" },
+  ];
+
   return (
-    <footer className="bg-navy text-white/80">
-      <div className="mx-auto grid max-w-site gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
-        <div>
-          <Image
-            src="/logo-full-on-navy.png"
-            alt={site.name}
-            width={160}
-            height={40}
-            className="h-8 w-auto"
-          />
-          <p className="mt-3 max-w-xs text-sm leading-relaxed">
-            AI automation and digital services for local businesses and professional practices -
-            automations, websites, apps, brand design, and marketing.
-          </p>
-          <p className="mt-4 flex flex-col gap-1 text-sm">
-            <a
-              href={`mailto:${site.email}`}
-              className="underline underline-offset-4 hover:text-white"
-            >
-              {site.email}
-            </a>
-            <a
-              href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}
-              className="underline underline-offset-4 hover:text-white"
-            >
-              {site.phone}
-            </a>
-            {/* <a
-              href={`tel:${site.phoneIndia.replace(/[^+\d]/g, "")}`}
-              className="underline underline-offset-4 hover:text-white"
-            >
-              {site.phoneIndia}
-            </a> */}
-          </p>
-        </div>
-
-        <nav aria-label="Services">
-          <p className="font-display font-semibold text-white">What we automate</p>
-          <ul className="mt-3 space-y-2 text-sm">
-            {services.map((s) => (
-              <li key={s.slug}>
-                <Link href={`/what-we-automate/${s.slug}`} className="hover:text-white">
-                  {s.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <nav aria-label="Industries">
-          <p className="font-display font-semibold text-white">Who we work with</p>
-          <ul className="mt-3 space-y-2 text-sm">
-            {industries.map((i) => (
-              <li key={i.slug}>
-                <Link href={`/industries/${i.slug}`} className="hover:text-white">
-                  {i.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <nav aria-label="Company">
-          <p className="font-display font-semibold text-white">Next step</p>
-          <ul className="mt-3 space-y-2 text-sm">
-            <li>
-              <Link href="/book" className="hover:text-white">
-                Book a free automation audit
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-white">
-                Send a quick query
-              </Link>
-            </li>
-            <li>
-              <Link href="/checklist" className="hover:text-white">
-                Free automation checklist
-              </Link>
-            </li>
-            <li>
-              <Link href="/digital-services" className="hover:text-white">
-                Digital services
-              </Link>
-            </li>
-            <li>
-              <Link href="/how-it-works" className="hover:text-white">
-                How it works
-              </Link>
-            </li>
-            <li>
-              <Link href="/results" className="hover:text-white">
-                Results
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="hover:text-white">
-                About
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-site flex-col gap-4 px-4 py-5 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <div className="flex flex-wrap gap-x-4 gap-y-1">
-            <p>
-              &copy; {new Date().getFullYear()} {site.legalName}. {site.address.locality},{" "}
-              {site.address.region}.
+    <footer className="border-t border-[var(--tsc-line)] bg-[var(--tsc-paper)] text-[var(--tsc-ink)] font-geist">
+      <div className="mx-auto max-w-[1440px] px-6 lg:px-16 py-12 sm:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Brand & Descriptor (Cols 1-6) */}
+          <div className="md:col-span-6 space-y-3">
+            <span className="text-sm font-semibold tracking-[0.14em] uppercase text-[var(--tsc-ink)]">
+              {site.name}
+            </span>
+            <p className="max-w-md text-sm text-[var(--tsc-muted)] leading-relaxed">
+              Systems, software, automation, and practical digital work.
             </p>
-            <Link href="/legal/privacy" className="hover:text-white underline underline-offset-2">
-              Privacy Policy
-            </Link>
-            <Link href="/legal/terms" className="hover:text-white underline underline-offset-2">
-              Terms of Service
-            </Link>
           </div>
-          <p>PIPEDA/PHIPA-aware data handling for clinics, dental offices, and law firms.</p>
+
+          {/* Navigation Columns (Cols 7-12) */}
+          <div className="md:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-6 text-sm">
+            {/* Primary Navigation */}
+            <div>
+              <div className="text-[11px] font-mono tracking-wider text-[var(--tsc-muted)] uppercase mb-3">
+                Index
+              </div>
+              <ul className="space-y-2">
+                {mainNav.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Legal Links */}
+            <div>
+              <div className="text-[11px] font-mono tracking-wider text-[var(--tsc-muted)] uppercase mb-3">
+                Legal
+              </div>
+              <ul className="space-y-2">
+                {legalNav.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact Email */}
+            <div className="col-span-2 sm:col-span-1">
+              <div className="text-[11px] font-mono tracking-wider text-[var(--tsc-muted)] uppercase mb-3">
+                Direct
+              </div>
+              <div>
+                <a
+                  href={`mailto:${site.email}`}
+                  className="font-mono text-xs sm:text-sm text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] underline underline-offset-4 transition-colors"
+                >
+                  {site.email}
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="bg-navy-900">
-        <p className="mx-auto max-w-site px-4 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-white sm:px-6">
-          {site.offices.map((office) => office.city).join(" · ")}
-        </p>
+
+        {/* Bottom Hairline & Copyright */}
+        <div className="mt-12 pt-6 border-t border-[var(--tsc-line)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-xs font-mono text-[var(--tsc-muted)]">
+          <div>
+            &copy; {currentYear} {site.legalName}
+          </div>
+          <div>ENGINEERING &middot; AUTOMATION &middot; SYSTEMS</div>
+        </div>
       </div>
     </footer>
   );
