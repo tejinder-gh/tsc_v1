@@ -89,8 +89,8 @@ export function ContextQuestionView<T extends string>({
           </p>
         )}
 
-        {/* Navigation Affordances */}
-        <div className="pt-3 flex flex-wrap items-center gap-5 text-xs sm:text-sm">
+        {/* Desktop Navigation Affordances (hidden on mobile, rendered below options on mobile) */}
+        <div className="hidden lg:flex pt-3 flex-wrap items-center gap-5 text-xs sm:text-sm">
           {onBack && (
             <button
               type="button"
@@ -138,6 +138,28 @@ export function ContextQuestionView<T extends string>({
               />
             ))}
           </div>
+        </div>
+
+        {/* Mobile Navigation Affordances (Ticket 002 §20: Options -> Back / Change goal) */}
+        <div className="flex lg:hidden pt-4 items-center gap-5 text-xs sm:text-sm">
+          {onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              className="inline-flex items-center gap-1.5 font-medium text-[var(--tsc-ink)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-ink)]"
+            >
+              <span aria-hidden="true">←</span>
+              <span>Back</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={onChangeGoal}
+            className="text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-ink)]"
+          >
+            Change goal
+          </button>
         </div>
       </div>
     </motion.div>

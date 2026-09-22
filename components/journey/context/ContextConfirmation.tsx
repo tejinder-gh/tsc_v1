@@ -2,6 +2,7 @@
 
 import { CONTEXT_COMPLETION_COPY, getContextConfig } from "@/lib/journey/context-config";
 import type { ContextFocus, ContextSituation, PrimaryIntent } from "@/lib/journey/types";
+import { JourneyProgress } from "../JourneyProgress";
 
 interface ContextConfirmationProps {
   intent: PrimaryIntent;
@@ -26,6 +27,11 @@ export function ContextConfirmation({
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 items-start font-geist">
       {/* Left Column: Confirmation Prompt & Actions */}
       <div className="lg:col-span-6 flex flex-col space-y-4 sm:space-y-5">
+        {/* Journey Progress */}
+        <div className="pb-1">
+          <JourneyProgress />
+        </div>
+
         {/* Eyebrow */}
         <div className="text-[11px] sm:text-xs font-mono font-semibold tracking-[0.14em] text-[var(--tsc-muted)] uppercase">
           {CONTEXT_COMPLETION_COPY.eyebrow}
