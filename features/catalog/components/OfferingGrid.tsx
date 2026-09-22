@@ -17,7 +17,7 @@ export function OfferingGrid({ offerings, recommendations }: OfferingGridProps) 
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="divide-y divide-[var(--tsc-line)] border-y border-[var(--tsc-line)]">
       {offerings.map((offering) => (
         <OfferingCard
           key={offering.id}

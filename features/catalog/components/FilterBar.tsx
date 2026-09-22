@@ -23,23 +23,23 @@ export function FilterBar({
   counts,
 }: FilterBarProps) {
   const kinds: { id: OfferingKind | "all"; label: string; count: number }[] = [
-    { id: "all", label: "All Offerings", count: counts.all },
+    { id: "all", label: "All Items", count: counts.all },
     { id: "automation", label: "Automations", count: counts.automation },
     { id: "service", label: "Digital Services", count: counts.service },
-    { id: "newsletter", label: "Newsletters & Intelligence", count: counts.newsletter },
+    { id: "newsletter", label: "Briefings", count: counts.newsletter },
   ];
 
   const deliveryOptions = [
     { id: "all", label: "All Delivery Models" },
     { id: "automation", label: "Fully Automated" },
     { id: "ai", label: "AI Generated" },
-    { id: "hybrid", label: "Human Verified / Hybrid" },
-    { id: "human", label: "Expert Consultative" },
+    { id: "hybrid", label: "Hybrid" },
+    { id: "human", label: "Consultative" },
   ];
 
   return (
-    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 py-4 border-b border-line">
-      {/* Offering Kind Pills */}
+    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 py-4 border-b border-[var(--tsc-line)] font-geist">
+      {/* Offering Kind Buttons */}
       <div className="flex flex-wrap items-center gap-2">
         {kinds.map((k) => {
           const isActive = selectedKind === k.id;
@@ -48,35 +48,36 @@ export function FilterBar({
               key={k.id}
               type="button"
               onClick={() => onSelectKind(k.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-[4px] text-xs font-mono transition-all flex items-center gap-1.5 ${
                 isActive
-                  ? "bg-navy text-white shadow-xs"
-                  : "bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                  ? "bg-[var(--tsc-ink)] text-[var(--tsc-paper)]"
+                  : "bg-[var(--tsc-surface)]/60 text-[var(--tsc-muted)] border border-[var(--tsc-line)] hover:text-[var(--tsc-ink)] hover:border-[var(--tsc-ink)]/30"
               }`}
             >
-              {k.label}
+              <span>{k.label}</span>
               <span
-                className={`ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] tabular-nums ${
-                  isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                className={`text-[10px] tabular-nums ${
+                  isActive ? "text-white/60" : "text-[var(--tsc-muted)]"
                 }`}
               >
-                {k.count}
+                ({k.count})
               </span>
             </button>
           );
         })}
       </div>
 
-      {/* Delivery filter dropdown */}
-      <div className="flex items-center gap-2 text-xs">
-        <label htmlFor="delivery-select" className="text-muted font-medium">
-          Format:
+      {/* Delivery Model Select */}
+      <div className="flex items-center gap-2 text-xs font-mono text-[var(--tsc-muted)]">
+        <label htmlFor="delivery-select" className="sr-only">
+          Filter by delivery model
         </label>
         <select
           id="delivery-select"
           value={selectedDelivery}
           onChange={(e) => onSelectDelivery(e.target.value)}
-          className="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 font-medium focus:outline-none focus:border-blue"
+          aria-label="Delivery model filter"
+          className="bg-[var(--tsc-paper)] text-[var(--tsc-ink)] border border-[var(--tsc-line)] rounded-[4px] px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-[var(--tsc-ink)]"
         >
           {deliveryOptions.map((opt) => (
             <option key={opt.id} value={opt.id}>

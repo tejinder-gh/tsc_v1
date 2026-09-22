@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowUpRight, Bot, Cpu, FileText, Sparkles, Workflow } from "lucide-react";
 import Link from "next/link";
 import type { Offering } from "../domain/types";
 
@@ -9,117 +8,89 @@ export interface OfferingCardProps {
   reasonText?: string;
 }
 
-function getKindIcon(kind: Offering["kind"], deliveryModel: Offering["deliveryModel"]) {
-  if (kind === "newsletter") {
-    return <FileText className="w-5 h-5 text-blue" strokeWidth={1.7} />;
-  }
-  if (kind === "automation") {
-    return <Workflow className="w-5 h-5 text-blue" strokeWidth={1.7} />;
-  }
-  if (deliveryModel === "ai") {
-    return <Bot className="w-5 h-5 text-blue" strokeWidth={1.7} />;
-  }
-  return <Cpu className="w-5 h-5 text-blue" strokeWidth={1.7} />;
-}
-
 function getKindBadge(kind: Offering["kind"]) {
   switch (kind) {
     case "automation":
-      return "Automation";
+      return "AUTOMATION";
     case "service":
-      return "Digital Service";
+      return "DIGITAL SERVICE";
     case "newsletter":
-      return "Newsletter";
+      return "BRIEFING";
     case "resource":
-      return "Resource";
+      return "RESOURCE";
     case "tool":
-      return "Tool";
+      return "TOOL";
     default:
-      return "Offering";
+      return "SYSTEM";
   }
 }
 
 export function OfferingCard({ offering, reasonText }: OfferingCardProps) {
-  const deliveryKicker = `${offering.deliveryModel.toUpperCase()} · ${getKindBadge(offering.kind).toUpperCase()}`;
+  const kindBadge = getKindBadge(offering.kind);
 
   return (
-    <article className="group relative flex flex-col justify-between bg-white rounded-xl border-2 border-navy/10 hover:border-blue transition-all duration-200 p-6 shadow-xs hover:shadow-md">
-      <div>
-        {/* Top bar: icon, kind badge, and optional status */}
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <div className="w-10 h-10 rounded-lg bg-blue-tint flex items-center justify-center">
-            {getKindIcon(offering.kind, offering.deliveryModel)}
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
-              {getKindBadge(offering.kind)}
+    <article className="group py-6 px-3 -mx-3 rounded-[4px] hover:bg-[var(--tsc-surface)]/70 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4 font-geist">
+      <div className="space-y-1.5 max-w-3xl">
+        {/* Top Badges / Monospace Label */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="font-mono text-[11px] font-semibold tracking-wider text-[var(--tsc-muted)] uppercase">
+            [{kindBadge}]
+          </span>
+          {offering.featured && (
+            <span className="font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)] text-[var(--tsc-ink)]">
+              Featured
             </span>
-            {offering.status === "beta" && (
-              <span className="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-                Beta
-              </span>
-            )}
-            {offering.featured && (
-              <span className="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full bg-blue-tint text-blue">
-                Featured
-              </span>
-            )}
-          </div>
+          )}
+          {offering.status === "beta" && (
+            <span className="font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)] text-[var(--tsc-muted)]">
+              Beta
+            </span>
+          )}
+          {offering.deliveryModel && (
+            <span className="font-mono text-[11px] text-[var(--tsc-muted)]">
+              {offering.deliveryModel}
+            </span>
+          )}
         </div>
 
-        {/* Kicker & Title */}
-        <p className="text-[12px] font-bold tracking-wider uppercase text-blue mb-1">
-          {deliveryKicker}
-        </p>
-        <h3 className="font-display font-semibold text-xl text-navy group-hover:text-blue transition-colors line-clamp-1">
-          <Link href={offering.canonicalUrl} className="focus:outline-none">
+        {/* Title & Tagline */}
+        <div className="space-y-0.5">
+          <Link
+            href={offering.canonicalUrl}
+            className="font-semibold text-lg sm:text-xl text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
+          >
             {offering.title}
           </Link>
-        </h3>
-        <p className="text-xs text-slate-500 font-medium mt-0.5 mb-3 line-clamp-1">
-          {offering.tagline}
-        </p>
+          {offering.tagline && (
+            <p className="text-xs sm:text-sm font-mono text-[var(--tsc-muted)]">
+              {offering.tagline}
+            </p>
+          )}
+        </div>
 
         {/* Description */}
-        <p className="text-sm text-slate leading-relaxed mb-4 line-clamp-3">
+        <p className="text-sm text-[var(--tsc-muted)] leading-relaxed line-clamp-2">
           {offering.shortDescription}
         </p>
 
         {/* Structured recommendation reason badge */}
         {reasonText && (
-          <div className="mb-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-tint/70 text-blue text-xs font-medium">
-            <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-            <span className="line-clamp-1">{reasonText}</span>
+          <div className="pt-1">
+            <span className="inline-block font-mono text-xs text-[var(--tsc-action)]">
+              Match: {reasonText}
+            </span>
           </div>
         )}
-
-        {/* Tags preview */}
-        <div className="flex flex-wrap gap-1.5 mb-6">
-          {offering.tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              className="text-[11px] px-2 py-0.5 rounded-md bg-slate-50 text-slate-600 border border-slate-200"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
       </div>
 
-      {/* Footer: Price / CTA */}
-      <div className="pt-4 border-t border-line flex items-center justify-between mt-auto">
-        <div>
-          <span className="text-xs text-muted block">Pricing</span>
-          <span className="text-sm font-semibold text-navy tabular-nums">
-            {offering.priceDisplay}
-          </span>
-        </div>
+      {/* Action / Arrow */}
+      <div className="flex items-center gap-4 shrink-0 pt-2 md:pt-0">
         <Link
           href={offering.canonicalUrl}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg bg-navy group-hover:bg-blue text-white transition-colors"
+          className="inline-flex items-center gap-2 font-mono text-xs font-medium text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)] group-hover:translate-x-1 transition-all select-none"
         >
-          <span>{offering.cta.label}</span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
+          <span>{offering.cta.label || "View details"}</span>
+          <span aria-hidden="true">&rarr;</span>
         </Link>
       </div>
     </article>

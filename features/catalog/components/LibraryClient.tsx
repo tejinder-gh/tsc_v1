@@ -168,21 +168,21 @@ export function LibraryClient({ initialOfferings }: LibraryClientProps) {
 
           {/* Progressive disclosure CTA when viewing initial curated highlights */}
           {isShowingCuratedSubset && (
-            <div className="rounded-2xl border border-slate-200/80 bg-gradient-to-b from-slate-50 to-white p-8 text-center space-y-3">
-              <h3 className="text-base font-semibold text-slate-900">
+            <div className="rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/30 p-8 text-center space-y-3 font-geist">
+              <h3 className="text-base font-semibold text-[var(--tsc-ink)]">
                 Looking for something specific?
               </h3>
-              <p className="text-sm text-slate-600 max-w-lg mx-auto">
-                Explore all {initialOfferings.length} automations, advisory services, and industry
-                monitors, or use the goal wizard and filters above to pinpoint exact capabilities.
+              <p className="text-sm text-[var(--tsc-muted)] max-w-lg mx-auto">
+                Explore all {initialOfferings.length} automations, digital services, and briefings,
+                or use the outcome filters above to refine your search.
               </p>
               <div className="pt-2">
                 <button
                   type="button"
                   onClick={() => setShowAll(true)}
-                  className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-slate-900 text-white font-medium text-sm hover:bg-slate-800 transition-colors shadow-sm cursor-pointer"
+                  className="inline-flex items-center justify-center px-5 py-2.5 rounded-[8px] bg-[var(--tsc-ink)] text-[var(--tsc-paper)] font-medium text-xs font-mono hover:bg-[var(--tsc-ink)]/90 transition-colors cursor-pointer"
                 >
-                  Explore All {initialOfferings.length} Offerings
+                  Explore All {initialOfferings.length} Systems &rarr;
                 </button>
               </div>
             </div>
