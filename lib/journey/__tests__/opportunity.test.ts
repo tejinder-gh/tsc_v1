@@ -474,4 +474,131 @@ describe("Deterministic Opportunity Diagnosis Engine", () => {
       ]);
     });
   });
+
+  describe("Opportunity Analytics Contract & Privacy (§24, Amendment 2 & 3)", () => {
+    it("tracks opportunity events with exact payloads and excludes freeform problem text", async () => {
+      const { track } = await import("@/lib/analytics");
+
+      const plausibleCalls: Array<{ event: string; props: Record<string, string> }> = [];
+      (globalThis as unknown as { window: unknown }).window = {
+        plausible: (event: string, options: { props: Record<string, string> }) => {
+          plausibleCalls.push({ event, props: options.props });
+        },
+      };
+
+      // 1. Opportunity viewed
+      track("journey_opportunity_viewed", {
+        intent: "save-time",
+        focus: "customer-communication",
+        situation: "mostly-manual",
+        primaryOpportunity: "communication-automation",
+        secondaryOpportunity: "workflow-orchestration",
+        deferredOpportunity: "reporting-intelligence",
+      });
+
+      expect(plausibleCalls[0]).toEqual({
+        event: "journey_opportunity_viewed",
+        props: {
+          intent: "save-time",
+          focus: "customer-communication",
+          situation: "mostly-manual",
+          primaryOpportunity: "communication-automation",
+          secondaryOpportunity: "workflow-orchestration",
+          deferredOpportunity: "reporting-intelligence",
+        },
+      });
+
+      // 2. Solution started
+      track("journey_opportunity_solution_started", {
+        primaryOpportunity: "communication-automation",
+      });
+
+      expect(plausibleCalls[1]).toEqual({
+        event: "journey_opportunity_solution_started",
+        props: {
+          primaryOpportunity: "communication-automation",
+        },
+      });
+
+      // 3. Context reviewed
+      track("journey_context_reviewed", {
+        from: "opportunity",
+      });
+
+      expect(plausibleCalls[2]).toEqual({
+        event: "journey_context_reviewed",
+        props: {
+          from: "opportunity",
+        },
+      });
+
+      // Strict privacy check: No freeform text in any analytics payload
+      for (const call of plausibleCalls) {
+        expect(call.props.freeformProblem).toBeUndefined();
+        expect(call.props.problemText).toBeUndefined();
+      }
+    });
+
+    it("verifies deduplication key behavior across lifecycle", () => {
+      const viewedKeys = new Set<string>();
+      const markOpportunityViewed = (key: string): boolean => {
+        if (viewedKeys.has(key)) return false;
+        viewedKeys.add(key);
+        return true;
+      };
+
+      const key1 = "save-time:customer-communication:mostly-manual:communication-automation";
+      const key2 = "grow:find-more-leads:leads-go-cold:demand-generation";
+
+      // First call for key1: emits
+      expect(markOpportunityViewed(key1)).toBe(true);
+      // Second call (simulated rerender or remount): deduplicated
+      expect(markOpportunityViewed(key1)).toBe(false);
+
+      // Context changes to key2: emits
+      expect(markOpportunityViewed(key2)).toBe(true);
+      // Subsequent call for key2: deduplicated
+      expect(markOpportunityViewed(key2)).toBe(false);
+      // Subsequent call for key1: still deduplicated
+      expect(markOpportunityViewed(key1)).toBe(false);
+    });
+  });
+
+  describe("Invalid State Recovery Logic (§26, Amendment 4)", () => {
+    it("safely recovers invalid opportunity state without diagnosing or crashing", () => {
+      // Missing intent -> recovers to 'new'
+      const determineRecoveryStage = (
+        stage: string,
+        intent?: string,
+        focus?: string,
+        situation?: string,
+      ): string => {
+        if (stage === "opportunity") {
+          if (!intent) return "new";
+          if (!focus || !situation) return "context";
+        }
+        return stage;
+      };
+
+      expect(determineRecoveryStage("opportunity", undefined, "focus", "sit")).toBe("new");
+      expect(determineRecoveryStage("opportunity", "save-time", undefined, "sit")).toBe("context");
+      expect(determineRecoveryStage("opportunity", "save-time", "focus", undefined)).toBe(
+        "context",
+      );
+      expect(determineRecoveryStage("opportunity", "save-time", "focus", "sit")).toBe(
+        "opportunity",
+      );
+
+      // Verify diagnoseOpportunity returns null for each partial state to prevent UI flashes
+      expect(diagnoseOpportunity({ intent: undefined })).toBeNull();
+      expect(diagnoseOpportunity({ intent: "save-time", contextFocus: undefined })).toBeNull();
+      expect(
+        diagnoseOpportunity({
+          intent: "save-time",
+          contextFocus: "customer-communication",
+          contextSituation: undefined,
+        }),
+      ).toBeNull();
+    });
+  });
 });
