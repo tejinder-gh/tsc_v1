@@ -11,8 +11,7 @@ import { OpportunityView } from "./opportunity";
 import { ProblemInput } from "./ProblemInput";
 
 const DemonstrationView = dynamic(
-  () =>
-    import("./demonstration/DemonstrationView").then((mod) => mod.DemonstrationView),
+  () => import("./demonstration/DemonstrationView").then((mod) => mod.DemonstrationView),
   {
     ssr: false,
     loading: () => (
