@@ -38,3 +38,5 @@
 | T-010 | ACCEPT | SENIOR | 2026-09-23 (review) | verified independently: DemonstrationView dynamically imported with skeleton, demonstration-config decoupled from root index barrel, 313/313 tests pass, build 90/90 clean, scope clean (2 IN files). Merged to main. |
 | T-011 | IMPLEMENTED | INTERMEDIATE | 2026-09-23 16:16 UTC | branch=main commit=9111a7c |
 | T-011 | ACCEPT | INTERMEDIATE | 2026-09-23 (review) | verified independently: --tsc-line-strong (#817e74) achieves 4.0:1 on white and 3.54:1 on paper (meets WCAG AA 3:1), default ProblemInput and SearchBar borders updated, 313/313 tests pass, build 90/90 clean, scope exactly 3 IN files. Merged to main. |
+| T-014 | IMPLEMENTED | INTERMEDIATE | 2026-09-23 16:18 UTC | branch=main commit=fc896a3 |
+| T-014 | ACCEPT | INTERMEDIATE | 2026-09-23 (review) | verified independently: DESIGN.md harmonized with canonical Geist typography and Phase 01 editorial tokens (including --tsc-line-strong), app/layout.tsx comment synchronized, 313/313 tests pass, build 90/90 clean, scope clean. Merged to main. |
