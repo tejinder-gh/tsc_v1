@@ -1,6 +1,14 @@
 "use client";
 
-import { Inbox, LayoutDashboard, Library, Newspaper, PlayCircle, Workflow } from "lucide-react";
+import {
+  Inbox,
+  LayoutDashboard,
+  Library,
+  Newspaper,
+  PlayCircle,
+  Users,
+  Workflow,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -60,6 +68,17 @@ export function DashboardNav({ onNavigate }: DashboardNavProps) {
           label: "Newsletters & Radar",
           icon: Newspaper,
           isActive: pathname.startsWith("/dashboard/newsletters"),
+        },
+      ],
+    },
+    {
+      heading: "Workspace & Access",
+      items: [
+        {
+          href: "/dashboard/team",
+          label: "Team & Invites",
+          icon: Users,
+          isActive: pathname.startsWith("/dashboard/team"),
         },
       ],
     },

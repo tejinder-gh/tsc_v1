@@ -88,6 +88,17 @@ Enforced via [`middleware.ts`](file:///Users/tejindersingh/dev/projects/TheSkill
 | `/dashboard/newsletters/[slug]` | [`app/dashboard/newsletters/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/newsletters/[slug]/page.tsx) | Operator Auth (Clerk) | Single newsletter management: compile new AI drafts, review takeaways, edit markdown body, and approve/publish editions. |
 | `/dashboard/flows` | [`app/dashboard/flows/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/flows/page.tsx) | Operator Auth (Clerk) | Manage and toggle client-specific agentic automation flows and recipe triggers. |
 | `/dashboard/drafts` | [`app/dashboard/drafts/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/drafts/page.tsx) | Operator Auth (Clerk) | Human-in-the-loop review queue to approve, edit, or reject AI-drafted customer outbound SMS/messages with multi-workspace switching. |
+| `/dashboard/team` | [`app/dashboard/team/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/team/page.tsx) | Operator Auth (Clerk) | **Team & Invitations Console**: Manage authorized operators, configure RBAC roles (Admin, Operator, Reviewer), and generate tokenized single-use onboarding invitations. |
+
+---
+
+### 1.4 Authentication & Onboarding Routes
+
+| Route | File Path | Access | Purpose |
+| :--- | :--- | :--- | :--- |
+| `/sign-in` | [`app/(auth)/sign-in/[[...sign-in]]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(auth)/sign-in/[[...sign-in]]/page.tsx) | Public / Operator | **Operator Sign In**: Branded authentication portal embedding Clerk `<SignIn />` in production or granting local dev operator session when API keys are unconfigured. |
+| `/login` | [`app/login/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/login/page.tsx) | Public | Redirects directly to `/sign-in`. |
+| `/invite/[token]` | [`app/invite/[token]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/invite/[token]/page.tsx) | Public (Token Gated) | **Invitation Redemption**: Accepts and validates cryptographic single-use invitation tokens, displays assigned role, and onboards the collaborator. |
 
 ---
 
