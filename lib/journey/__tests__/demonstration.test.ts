@@ -155,6 +155,47 @@ describe("Ticket 004: Interactive Demonstration Engine & Configuration", () => {
       expect(serialized).not.toContain("guaranteed 10x ROI");
       expect(serialized).not.toContain("guaranteed revenue");
     });
+
+    it("verifies prohibited unqualified operational claims are absent from the registry (T-023 / F-08 / AC1 / AC4)", () => {
+      const serialized = JSON.stringify(DEMONSTRATION_REGISTRY);
+
+      // Prohibited unverified claims (AC1 & AC4)
+      expect(serialized).not.toContain("rate_limit_active");
+      expect(serialized).not.toContain("100% delivered to inbox");
+      expect(serialized).not.toContain("450 regional operators");
+      expect(serialized).not.toContain("54% open rate");
+    });
+
+    it("verifies revised demonstration steps visibly carry illustrative and example markers (T-023 / AC2 / AC5)", () => {
+      const demandGenConfig = DEMONSTRATION_REGISTRY["demand-generation"];
+      const syndicationScenario = demandGenConfig.scenarios.find(
+        (s) => s.id === "syndication-engine",
+      );
+      expect(syndicationScenario).toBeDefined();
+      expect(syndicationScenario?.summaryOutcome.toLowerCase()).toContain("illustrative");
+
+      const step2 = syndicationScenario?.steps.find((s) => s.id === "step-2");
+      expect(step2?.description.toLowerCase()).toContain("illustrative");
+      expect(step2?.annotation?.toLowerCase()).toContain("illustrative");
+      expect(JSON.stringify(step2?.dataPayload).toLowerCase()).toContain("illustrative");
+
+      const step4 = syndicationScenario?.steps.find((s) => s.id === "step-4");
+      expect(step4?.description.toLowerCase()).toContain("illustrative");
+      expect(step4?.annotation?.toLowerCase()).toContain("illustrative");
+      expect(JSON.stringify(step4?.dataPayload).toLowerCase()).toContain("illustrative");
+
+      const learningGuideConfig = DEMONSTRATION_REGISTRY["learning-guide"];
+      const checklistScenario = learningGuideConfig.scenarios.find(
+        (s) => s.id === "guide-checklist",
+      );
+      expect(checklistScenario).toBeDefined();
+
+      const rateLimitStep = checklistScenario?.steps.find((s) => s.id === "step-3");
+      expect(rateLimitStep?.description.toLowerCase()).toContain("illustrative");
+      expect(rateLimitStep?.annotation?.toLowerCase()).toContain("illustrative");
+      expect(JSON.stringify(rateLimitStep?.dataPayload).toLowerCase()).toContain("illustrative");
+      expect(rateLimitStep?.statusTag).not.toBe("ACTIVE");
+    });
   });
 
   describe("Engine Determinism & Pure Function Invariants", () => {

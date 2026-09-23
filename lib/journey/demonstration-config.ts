@@ -2280,7 +2280,7 @@ const DEMAND_GENERATION_CONFIG: DemonstrationConfig = {
       description: "Automated distribution of weekly industry briefs to verified subscriber list.",
       isException: true,
       summaryOutcome:
-        "Briefing compiled, verified, and sent to 450 regional operators with 54% open rate.",
+        "Briefing compiled, verified, and modeled for sample distribution (illustrative demonstration scenario; not measured delivery metrics).",
       steps: [
         {
           id: "step-1",
@@ -2297,10 +2297,11 @@ const DEMAND_GENERATION_CONFIG: DemonstrationConfig = {
           id: "step-2",
           phase: "INTERPRETATION",
           title: "Subscriber Audience Filtering",
-          description: "Segments subscribers by industry tag to prevent irrelevant notifications.",
-          annotation: "Segment: Healthcare & Clinical Practice Owners",
+          description:
+            "Segments subscribers by industry tag to prevent irrelevant notifications (illustrative model).",
+          annotation: "Segment: Healthcare & Clinical Practice Owners (Illustrative Sample)",
           dataPayload: {
-            targeted_recipients: 450,
+            sample_cohort: "modeled industry subscriber segment (illustrative example)",
           },
           statusTag: "SEGMENTED",
         },
@@ -2319,10 +2320,11 @@ const DEMAND_GENERATION_CONFIG: DemonstrationConfig = {
           id: "step-4",
           phase: "SYSTEM ACTION",
           title: "Clean Plaintext-First Dispatch",
-          description: "Delivers clean, legible briefing with zero marketing fluff.",
-          annotation: "High deliverability, zero tracking bloat",
+          description:
+            "Simulates clean, legible briefing delivery with zero marketing fluff (illustrative dispatch).",
+          annotation: "Modeled deliverability (illustrative test dispatch)",
           dataPayload: {
-            delivery_status: "100% delivered to inbox",
+            dispatch_flow: "sample delivery simulation (illustrative)",
           },
           statusTag: "DISPATCHED",
         },
@@ -2330,10 +2332,11 @@ const DEMAND_GENERATION_CONFIG: DemonstrationConfig = {
           id: "step-5",
           phase: "EXCEPTION",
           title: "Sustained Editorial Trust",
-          description: "High authority established without aggressive outbound sales pitching.",
-          annotation: "Reputation-driven growth",
+          description:
+            "High authority established without aggressive outbound sales pitching (illustrative example).",
+          annotation: "Reputation-driven growth (Illustrative)",
           dataPayload: {
-            unsubscribes: 0,
+            modeled_retention: "simulated audience stability (illustrative)",
           },
           statusTag: "COMPLETED",
         },
@@ -2649,12 +2652,13 @@ const LEARNING_GUIDE_CONFIG: DemonstrationConfig = {
           id: "step-3",
           phase: "BUSINESS RULE",
           title: "Check 3: Rate Limiting & Abuse Protection",
-          description: "Endpoints rate limited to prevent runaway costs or denial of service.",
-          annotation: "Boundary Protection",
+          description:
+            "Recommended pattern: verify endpoints are rate limited before launch (illustrative checklist requirement).",
+          annotation: "Boundary Protection (Illustrative)",
           dataPayload: {
-            rate_limit_active: true,
+            rate_limit_policy: "illustrative deployment requirement (not active in demo)",
           },
-          statusTag: "ACTIVE",
+          statusTag: "SPECIFIED",
         },
         {
           id: "step-4",
