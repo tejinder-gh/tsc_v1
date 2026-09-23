@@ -4,11 +4,21 @@ import { demoClients } from "@/automations/clients";
 const ALLOWED_CLIENT_IDS = new Set(demoClients.map((c) => c.config.id));
 
 export async function assertOperatorAuthenticated(): Promise<{ userId: string }> {
-  const { userId } = await auth();
-  if (!userId) {
-    throw new Error("Unauthorized: Operator session required");
+  try {
+    const { userId } = await auth();
+    if (userId) {
+      return { userId };
+    }
+  } catch {
+    // Clerk auth() may throw when keys are unset
   }
-  return { userId };
+
+  // Gracefully allow local development operator access when Clerk is not configured
+  if (process.env.NODE_ENV === "development" || process.env.ALLOW_DEV_OPERATOR_AUTH === "true") {
+    return { userId: "dev_operator" };
+  }
+
+  throw new Error("Unauthorized: Operator session required");
 }
 
 export function assertValidClientId(clientId: string): string {

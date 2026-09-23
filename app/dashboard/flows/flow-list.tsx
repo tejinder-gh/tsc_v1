@@ -203,6 +203,9 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
                     {/* Custom Animated Toggle */}
                     <button
                       type="button"
+                      role="switch"
+                      aria-checked={auto.enabled}
+                      aria-label={`Toggle ${auto.id} for ${selectedClient.name}`}
                       onClick={() => handleToggle(auto.id, auto.enabled)}
                       disabled={isPending}
                       className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${

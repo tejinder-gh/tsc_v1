@@ -81,12 +81,13 @@ Enforced via [`middleware.ts`](file:///Users/tejindersingh/dev/projects/TheSkill
 
 | Route | File Path | Access | Purpose |
 | :--- | :--- | :--- | :--- |
-| `/dashboard` | [`app/dashboard/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/page.tsx) | Operator Auth (Clerk) | Dashboard entry point; automatically redirects to `/dashboard/flows`. |
+| `/dashboard` | [`app/dashboard/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/page.tsx) | Operator Auth (Clerk) | **Executive Command Center & Metrics Matrix**: System health matrix, client automation grid, draft queues, catalog status, and subsystem telemetry. |
+| `/dashboard/workflows` | [`app/dashboard/workflows/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/workflows/page.tsx) | Operator Auth (Clerk) | **Feature Workflows & Trigger Console**: Manually trigger and observe scheduler ticks, inbound SMS simulation, lead webhook pipeline, Second Brain RAG queries, and catalog integrity audits. |
 | `/dashboard/catalog` | [`app/dashboard/catalog/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/catalog/page.tsx) | Operator Auth (Clerk) | Unified catalog control plane: view, filter, and audit status, pricing, and visibility of all 34 canonical offerings. |
 | `/dashboard/newsletters` | [`app/dashboard/newsletters/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/newsletters/page.tsx) | Operator Auth (Clerk) | Newsletter operations control plane: manage subscribers, publication cadence, AI compilation schedules, and issue counts. |
 | `/dashboard/newsletters/[slug]` | [`app/dashboard/newsletters/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/newsletters/[slug]/page.tsx) | Operator Auth (Clerk) | Single newsletter management: compile new AI drafts, review takeaways, edit markdown body, and approve/publish editions. |
 | `/dashboard/flows` | [`app/dashboard/flows/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/flows/page.tsx) | Operator Auth (Clerk) | Manage and toggle client-specific agentic automation flows and recipe triggers. |
-| `/dashboard/drafts` | [`app/dashboard/drafts/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/drafts/page.tsx) | Operator Auth (Clerk) | Human-in-the-loop review queue to approve, edit, or reject AI-drafted customer outbound SMS/messages. |
+| `/dashboard/drafts` | [`app/dashboard/drafts/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/dashboard/drafts/page.tsx) | Operator Auth (Clerk) | Human-in-the-loop review queue to approve, edit, or reject AI-drafted customer outbound SMS/messages with multi-workspace switching. |
 
 ---
 
