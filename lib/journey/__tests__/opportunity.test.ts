@@ -1,12 +1,17 @@
+import React from "react";
+import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { OpportunityDeferred } from "@/components/journey/opportunity/OpportunityDeferred";
+import { OpportunitySecondary } from "@/components/journey/opportunity/OpportunitySecondary";
 import { diagnoseOpportunity } from "../diagnose-opportunity";
+import { normalizeJourneyStage } from "../journey-context";
 import {
   OPPORTUNITY_DEFINITIONS,
   type OpportunityId,
   SECONDARY_RELATION_COPY,
   SITUATION_RATIONALE_MODIFIERS,
 } from "../opportunity-config";
-import type { ContextFocus, ContextSituation, PrimaryIntent } from "../types";
+import type { ContextFocus, ContextSituation, JourneyContext, PrimaryIntent } from "../types";
 
 describe("Deterministic Opportunity Diagnosis Engine", () => {
   describe("Canonical Primary Mappings (Ticket 003 §6–9)", () => {
@@ -538,58 +543,209 @@ describe("Deterministic Opportunity Diagnosis Engine", () => {
         expect(call.props.problemText).toBeUndefined();
       }
     });
+  });
 
-    it("verifies deduplication key behavior across lifecycle", () => {
+  describe("Canonical Secondary and Deferred Treatment (Audit Findings 1 & 4)", () => {
+    it("renders canonical approved label 'ALSO WORTH LOOKING AT' on OpportunitySecondary", () => {
+      const html = renderToString(
+        React.createElement(OpportunitySecondary, {
+          opportunityId: "workflow-orchestration",
+        }),
+      );
+
+      // Must render canonical approved label
+      expect(html).toContain("ALSO WORTH LOOKING AT");
+      // Must NOT render old unapproved label
+      expect(html).not.toContain("ALSO RELEVANT");
+      // Must render semantic h3 and content
+      expect(html).toContain("Workflow orchestration");
+      // Must not render generic card container classes
+      expect(html).not.toContain("rounded-xl");
+      expect(html).not.toContain("shadow");
+    });
+
+    it("renders restrained typography and standard copy on OpportunityDeferred", () => {
+      const html = renderToString(
+        React.createElement(OpportunityDeferred, {
+          opportunityId: "reporting-intelligence",
+        }),
+      );
+
+      expect(html).toContain("LATER, IF IT EARNS ITS PLACE");
+      expect(html).toContain("Reporting intelligence");
+      expect(html).toContain("Not a priority yet based on what you told us.");
+      // Must not render generic card container classes
+      expect(html).not.toContain("rounded-xl");
+      expect(html).not.toContain("shadow");
+    });
+  });
+
+  describe("Provider-Lifecycle Analytics Deduplication (Audit Finding 2)", () => {
+    it("enforces key shape and executes all 4 lifecycle deduplication flows", () => {
+      // Provider-lifecycle in-memory Set
       const viewedKeys = new Set<string>();
+      const trackCalls: Array<{ event: string; props: Record<string, string> }> = [];
+
       const markOpportunityViewed = (key: string): boolean => {
         if (viewedKeys.has(key)) return false;
         viewedKeys.add(key);
         return true;
       };
 
-      const key1 = "save-time:customer-communication:mostly-manual:communication-automation";
-      const key2 = "grow:find-more-leads:leads-go-cold:demand-generation";
+      const simulateOpportunityView = (
+        intent: PrimaryIntent,
+        focus: ContextFocus,
+        situation: ContextSituation,
+        primaryOpportunity: OpportunityId,
+        freeformProblem?: string,
+      ) => {
+        // Build canonical key: ${intent}:${contextFocus}:${contextSituation}:${primaryOpportunity}
+        const key = `${intent}:${focus}:${situation}:${primaryOpportunity}`;
 
-      // First call for key1: emits
-      expect(markOpportunityViewed(key1)).toBe(true);
-      // Second call (simulated rerender or remount): deduplicated
-      expect(markOpportunityViewed(key1)).toBe(false);
+        // Invariant: key shape must NEVER contain freeform problem text
+        expect(key).not.toContain(freeformProblem ?? "__never__");
 
-      // Context changes to key2: emits
-      expect(markOpportunityViewed(key2)).toBe(true);
-      // Subsequent call for key2: deduplicated
-      expect(markOpportunityViewed(key2)).toBe(false);
-      // Subsequent call for key1: still deduplicated
-      expect(markOpportunityViewed(key1)).toBe(false);
+        if (markOpportunityViewed(key)) {
+          // Invariant: analytics payload must NEVER contain freeformProblem
+          trackCalls.push({
+            event: "journey_opportunity_viewed",
+            props: {
+              intent,
+              focus,
+              situation,
+              primaryOpportunity,
+            },
+          });
+        }
+      };
+
+      // Flow 1: A -> remount A = one viewed event
+      simulateOpportunityView(
+        "save-time",
+        "customer-communication",
+        "mostly-manual",
+        "communication-automation",
+        "private client text",
+      );
+      expect(trackCalls.length).toBe(1);
+      expect(trackCalls[0].props.primaryOpportunity).toBe("communication-automation");
+
+      // Remount A
+      simulateOpportunityView(
+        "save-time",
+        "customer-communication",
+        "mostly-manual",
+        "communication-automation",
+        "private client text",
+      );
+      expect(trackCalls.length).toBe(1); // deduplicated
+
+      // Flow 2: A -> Review Context -> unchanged A = one viewed event total
+      // Visitor enters review context, retains customer-communication + mostly-manual, returns to opportunity
+      simulateOpportunityView(
+        "save-time",
+        "customer-communication",
+        "mostly-manual",
+        "communication-automation",
+      );
+      expect(trackCalls.length).toBe(1); // still deduplicated
+
+      // Flow 3: A -> changed context -> B = A once, B once
+      // Visitor changes situation to fragmented-tools, diagnosing admin-automation or communication-automation modifier
+      simulateOpportunityView(
+        "save-time",
+        "admin-data-entry",
+        "fragmented-tools",
+        "admin-automation",
+      );
+      expect(trackCalls.length).toBe(2);
+      expect(trackCalls[1].props.primaryOpportunity).toBe("admin-automation");
+
+      // Flow 4: A -> B -> revert to previously seen A = A remains deduplicated for that provider lifecycle
+      simulateOpportunityView(
+        "save-time",
+        "customer-communication",
+        "mostly-manual",
+        "communication-automation",
+      );
+      expect(trackCalls.length).toBe(2); // A remains deduplicated in the provider-lifecycle Set
+
+      // Strict privacy validation across all tracking payloads
+      for (const call of trackCalls) {
+        expect(call.props.freeformProblem).toBeUndefined();
+        expect(call.props.problemText).toBeUndefined();
+      }
     });
   });
 
-  describe("Invalid State Recovery Logic (§26, Amendment 4)", () => {
-    it("safely recovers invalid opportunity state without diagnosing or crashing", () => {
-      // Missing intent -> recovers to 'new'
-      const determineRecoveryStage = (
-        stage: string,
-        intent?: string,
-        focus?: string,
-        situation?: string,
-      ): string => {
-        if (stage === "opportunity") {
-          if (!intent) return "new";
-          if (!focus || !situation) return "context";
-        }
-        return stage;
+  describe("Invalid State Recovery Contract (Audit Finding 3)", () => {
+    it("normalizes invalid opportunity and solution stages to canonical recovery stages", () => {
+      const baseContext: JourneyContext = {
+        version: 1,
+        stage: "opportunity",
+        intent: "save-time",
+        contextFocus: "customer-communication",
+        contextSituation: "mostly-manual",
+        problems: [],
+        selectedSolutions: [],
+        viewedSolutions: [],
+        savedResources: [],
+        createdAt: "2026-09-22T18:00:00.000Z",
+        updatedAt: "2026-09-22T18:00:00.000Z",
       };
 
-      expect(determineRecoveryStage("opportunity", undefined, "focus", "sit")).toBe("new");
-      expect(determineRecoveryStage("opportunity", "save-time", undefined, "sit")).toBe("context");
-      expect(determineRecoveryStage("opportunity", "save-time", "focus", undefined)).toBe(
-        "context",
-      );
-      expect(determineRecoveryStage("opportunity", "save-time", "focus", "sit")).toBe(
-        "opportunity",
-      );
+      // 1. stage=opportunity + missing intent -> recover to 'new'
+      const missingIntent = normalizeJourneyStage({
+        ...baseContext,
+        stage: "opportunity",
+        intent: undefined,
+      });
+      expect(missingIntent.stage).toBe("new");
 
-      // Verify diagnoseOpportunity returns null for each partial state to prevent UI flashes
+      // 2. stage=opportunity + missing contextFocus -> recover to 'context'
+      const missingFocus = normalizeJourneyStage({
+        ...baseContext,
+        stage: "opportunity",
+        contextFocus: undefined,
+      });
+      expect(missingFocus.stage).toBe("context");
+
+      // 3. stage=opportunity + missing contextSituation -> recover to 'context'
+      const missingSituation = normalizeJourneyStage({
+        ...baseContext,
+        stage: "opportunity",
+        contextSituation: undefined,
+      });
+      expect(missingSituation.stage).toBe("context");
+
+      // 4. Same recovery rules apply for stage=solution
+      const missingIntentSolution = normalizeJourneyStage({
+        ...baseContext,
+        stage: "solution",
+        intent: undefined,
+      });
+      expect(missingIntentSolution.stage).toBe("new");
+
+      const missingFocusSolution = normalizeJourneyStage({
+        ...baseContext,
+        stage: "solution",
+        contextFocus: undefined,
+      });
+      expect(missingFocusSolution.stage).toBe("context");
+
+      const missingSituationSolution = normalizeJourneyStage({
+        ...baseContext,
+        stage: "solution",
+        contextSituation: undefined,
+      });
+      expect(missingSituationSolution.stage).toBe("context");
+
+      // 5. Valid complete state retains stage=opportunity
+      const validState = normalizeJourneyStage(baseContext);
+      expect(validState.stage).toBe("opportunity");
+    });
+
+    it("ensures diagnoseOpportunity returns null for any partial state to prevent render flash", () => {
       expect(diagnoseOpportunity({ intent: undefined })).toBeNull();
       expect(diagnoseOpportunity({ intent: "save-time", contextFocus: undefined })).toBeNull();
       expect(

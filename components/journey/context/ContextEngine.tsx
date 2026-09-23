@@ -29,10 +29,10 @@ export function ContextEngine() {
 
   const [subStep, setSubStep] = useState<"question1" | "question2" | "confirmed">(getInitialStep);
 
-  // Sync subStep if journey changes externally (e.g. reload or reset)
+  // Sync subStep if journey is reset externally
   useEffect(() => {
-    if (journey.contextFocus && journey.contextSituation && subStep !== "confirmed") {
-      setSubStep("confirmed");
+    if (!journey.contextFocus && !journey.contextSituation && subStep !== "question1") {
+      setSubStep("question1");
     }
   }, [journey.contextFocus, journey.contextSituation, subStep]);
 
