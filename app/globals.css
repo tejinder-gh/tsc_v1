@@ -63,6 +63,7 @@
   --tsc-paper: #f4f1e9;
   --tsc-surface: #fbf9f3;
   --tsc-line: #d7d2c7;
+  --tsc-line-strong: #817e74;
   --tsc-muted: #6d6b63;
   --tsc-signal: #d5ff52;
   --tsc-action: #2d51ff;
@@ -76,6 +77,7 @@
   --color-tsc-paper: var(--tsc-paper);
   --color-tsc-surface: var(--tsc-surface);
   --color-tsc-line: var(--tsc-line);
+  --color-tsc-line-strong: var(--tsc-line-strong);
   --color-tsc-muted: var(--tsc-muted);
   --color-tsc-signal: var(--tsc-signal);
   --color-tsc-action: var(--tsc-action);

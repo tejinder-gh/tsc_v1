@@ -110,7 +110,7 @@ export function ProblemInput({
               className={`w-full min-h-[52px] rounded-[8px] border py-3 pl-4 pr-14 text-sm sm:text-base transition-colors focus:outline-none focus:ring-1 ${
                 isDark
                   ? "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:border-white focus:ring-white"
-                  : "border-[var(--tsc-line)] bg-white text-[var(--tsc-ink)] placeholder:text-[var(--tsc-muted)]/70 focus:border-[var(--tsc-ink)] focus:ring-[var(--tsc-ink)]"
+                  : "border-[var(--tsc-line-strong)] bg-white text-[var(--tsc-ink)] placeholder:text-[var(--tsc-muted)]/70 focus:border-[var(--tsc-ink)] focus:ring-[var(--tsc-ink)]"
               }`}
             />
             <button
