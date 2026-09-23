@@ -4,9 +4,8 @@
  *       (floating widget, exit-intent modal, mobile sticky bar).
  * Why: Capture surfaces and segment state must exist on every page so each page surfaces
  *      at least two rungs of the conversion ladder.
- * How: Poppins + DM Sans are self-hosted woff2 files (@font-face in globals.css, brief
- *      §4/§5.2); the two files used above the fold are preloaded here. Plausible or GA4
- *      loads only when its env var is set.
+ * How: Geist and Geist Mono load via next/font/google (--font-geist-sans and
+ *      --font-geist-mono variables). Plausible or GA4 loads only when its env var is set.
  * From Where: TheSkillCorner marketing site build brief, 2026-06.
  * When: 2026-06.
  */
