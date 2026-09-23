@@ -28,8 +28,8 @@ export default async function WorkflowsPage() {
             Manual Feature Workflows & Trigger Console
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-2xl">
-            Execute and verify application capabilities on-demand with live JSON telemetry:
-            Scheduler tick, Twilio SMS inbound simulation, lead capture delivery, Second Brain RAG
+            Execute and verify application capabilities on-demand with execution telemetry:
+            scheduler tick, Twilio SMS inbound simulation, lead intake simulation, Second Brain RAG
             knowledge queries, and catalog integrity audits.
           </p>
         </div>

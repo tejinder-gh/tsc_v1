@@ -437,13 +437,12 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
               <div>
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 mb-2">
                   <Shield size={12} />
-                  Engine: POST /api/lead & Honeypot Filter
+                  Engine: Lead Intake Simulation & Honeypot Filter
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">Lead Ingestion & Security Test</h3>
+                <h3 className="text-lg font-bold text-slate-900">Lead Intake Simulation & Security Test</h3>
                 <p className="text-xs text-slate-600 mt-1">
-                  Dispatches a controlled lead payload through the capture pipeline. Supports
-                  testing both genuine delivery to the HMAC relay webhook and silent honeypot
-                  rejection of spam bots.
+                  Validates lead capture payloads and bot trap defenses in simulation mode.
+                  Does not deliver to external webhooks.
                 </p>
               </div>
 
@@ -544,13 +543,13 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   {isPending ? (
                     <>
                       <RefreshCw size={16} className="animate-spin" />
-                      <span>Dispatching Test Lead...</span>
+                      <span>Validating Simulated Lead...</span>
                     </>
                   ) : (
                     <>
                       <Send size={16} />
                       <span>
-                        {isHoneypot ? "Test Honeypot Bot Trap" : "Dispatch Test Lead Webhook"}
+                        {isHoneypot ? "Test Honeypot Bot Trap" : "Simulate Lead Intake"}
                       </span>
                     </>
                   )}
@@ -699,13 +698,13 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           )}
         </div>
 
-        {/* Right Column: Live Telemetry Output Console */}
+        {/* Right Column: Telemetry Output Console */}
         <div className="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-slate-100 flex flex-col h-[520px]">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
             <div className="flex items-center gap-2">
               <Terminal size={16} className="text-emerald-400" />
               <span className="text-xs font-mono font-semibold tracking-wider text-slate-300 uppercase">
-                Live Execution Telemetry
+                Execution Telemetry
               </span>
             </div>
             {executionResult && (
@@ -737,10 +736,26 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
             ) : executionResult ? (
               <div className="space-y-4">
                 {/* Result Status Banner */}
-                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-xs font-semibold">
-                  <CheckCircle2 size={15} className="text-emerald-400" />
-                  <span>Workflow Execution Succeeded (200 OK)</span>
-                </div>
+                {executionResult.ok === false || executionResult.status === "unavailable" ? (
+                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-amber-950/40 border border-amber-800/60 text-amber-300 text-xs font-semibold">
+                    <AlertCircle size={15} className="text-amber-400" />
+                    <span>
+                      {typeof executionResult.message === "string"
+                        ? executionResult.message
+                        : "Subsystem Unavailable"}
+                    </span>
+                  </div>
+                ) : executionResult.simulation || executionResult.status === "simulated" ? (
+                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-blue-950/40 border border-blue-800/60 text-blue-300 text-xs font-semibold">
+                    <CheckCircle2 size={15} className="text-blue-400" />
+                    <span>Simulation Complete (Not Delivered to External Webhooks)</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-xs font-semibold">
+                    <CheckCircle2 size={15} className="text-emerald-400" />
+                    <span>Workflow Execution Completed</span>
+                  </div>
+                )}
 
                 {/* Preformatted JSON */}
                 <pre className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 overflow-x-auto text-[11px] leading-relaxed text-emerald-300/90 whitespace-pre">
@@ -752,8 +767,8 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                 <PlayCircle size={32} className="text-slate-600" />
                 <p className="text-slate-400 font-medium">Ready for Execution</p>
                 <p className="text-[11px] max-w-xs text-slate-500">
-                  Select a workflow on the left and trigger it to inspect live runtime telemetry and
-                  side effects.
+                  Select a workflow on the left and trigger it to inspect runtime telemetry and
+                  outcomes.
                 </p>
               </div>
             )}

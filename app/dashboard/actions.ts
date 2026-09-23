@@ -269,7 +269,8 @@ export async function triggerSimulatedInboundSms(payload: {
 }
 
 /**
- * Manual Trigger: Submits a controlled lead capture or tests the honeypot bot trap.
+ * Manual Trigger: Validates a simulated lead capture payload or tests the honeypot bot trap.
+ * Simulation only: does not deliver to external webhooks or invoke /api/lead.
  */
 export async function triggerSimulatedLead(payload: {
   name: string;
@@ -285,6 +286,7 @@ export async function triggerSimulatedLead(payload: {
       ok: true,
       delivered: false,
       status: "dropped",
+      simulation: true,
       message: "Lead dropped silently by honeypot bot trap (prevented spam contamination).",
       details: {
         payloadProvided: payload,
@@ -299,21 +301,24 @@ export async function triggerSimulatedLead(payload: {
 
   return {
     ok: true,
-    delivered: true,
-    status: "delivered",
-    message: "Test lead successfully validated and queued for webhook delivery.",
+    delivered: false,
+    status: "simulated",
+    simulation: true,
+    message:
+      "Test lead successfully validated in simulation mode (not delivered to external webhook).",
     details: {
       name: payload.name || "Test Operator",
       email: payload.email,
       company: payload.company || "Demo Enterprise",
-      notes: payload.notes || "Triggered manually from Operator Command Center",
+      notes: payload.notes || "Triggered manually from Operator Command Center (simulation)",
       timestamp: new Date().toISOString(),
     },
   };
 }
 
 /**
- * Manual Trigger: Executes a Second Brain Context RAG query or checks repository status.
+ * Manual Trigger: Executes a Second Brain Context RAG query against the database.
+ * If the database is unavailable, returns a safe unavailable state without raw errors.
  */
 export async function triggerSecondBrainContextSearch(payload: {
   domain: string;
@@ -337,6 +342,7 @@ export async function triggerSecondBrainContextSearch(payload: {
 
     return {
       ok: true,
+      status: "operational",
       source: "database",
       domain,
       subdomain: subdomain || null,
@@ -344,25 +350,17 @@ export async function triggerSecondBrainContextSearch(payload: {
       resultCount: results.length,
       results,
     };
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
-    // Graceful fallback when database connection is not configured locally
+  } catch {
     return {
-      ok: true,
-      source: "mock_registry_fallback",
-      notice:
-        "Database not connected locally. Demonstrating canonical registered endpoint context.",
+      ok: false,
+      status: "unavailable",
+      source: "unavailable",
+      message: "Second Brain database context search is currently unavailable.",
       domain,
       subdomain: subdomain || null,
       keywords,
-      registeredRoutes: SECOND_BRAIN_ROUTES.map((r) => ({
-        id: r.id,
-        path: r.path,
-        method: r.method,
-        actionRequired: r.actionRequired,
-        description: r.description,
-      })),
-      dbError: message,
+      resultCount: 0,
+      results: [],
     };
   }
 }

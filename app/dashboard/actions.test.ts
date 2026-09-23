@@ -21,6 +21,7 @@ import {
 } from "./actions";
 import { assertOperatorAuthenticated, assertValidClientId } from "./auth-guard";
 import { getClientsWithFlows, toggleFlow } from "./flows/actions";
+import { ContextRepository } from "../../lib/second-brain/repositories/ContextRepository";
 
 describe("Dashboard Server Action Authorization & Workflows", () => {
   const originalEnv = { ...process.env };
@@ -253,8 +254,10 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
         ).rejects.toThrow(/Unauthorized/);
       });
 
-      it("handles legitimate lead capture delivery simulation", async () => {
+      it("AC1 & AC2: handles legitimate lead capture as simulation with delivered: false and no external dispatch", async () => {
         mockUserId = "user_operator_123";
+        const fetchSpy = vi.spyOn(globalThis, "fetch");
+
         const result = await triggerSimulatedLead({
           name: "Dr. Jane Smith",
           email: "jane@clinic.ca",
@@ -262,11 +265,18 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
         });
 
         expect(result.ok).toBe(true);
-        expect(result.delivered).toBe(true);
-        expect(result.status).toBe("delivered");
+        expect(result.delivered).toBe(false);
+        expect(result.status).toBe("simulated");
+        expect(result.simulation).toBe(true);
+        expect(result.status).not.toBe("delivered");
+        expect(result.message).not.toMatch(/queued for webhook delivery/i);
+        expect(result.message).toMatch(/simulation/i);
+        expect(fetchSpy).not.toHaveBeenCalled();
+
+        fetchSpy.mockRestore();
       });
 
-      it("silently drops honeypot spam bot submissions", async () => {
+      it("silently drops honeypot spam bot submissions with delivered: false", async () => {
         mockUserId = "user_operator_123";
         const result = await triggerSimulatedLead({
           name: "Spam Bot",
@@ -277,6 +287,7 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
         expect(result.ok).toBe(true);
         expect(result.delivered).toBe(false);
         expect(result.status).toBe("dropped");
+        expect(result.simulation).toBe(true);
       });
     });
 
@@ -290,8 +301,31 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
         ).rejects.toThrow(/Unauthorized/);
       });
 
-      it("executes context search or provides graceful registry fallback", async () => {
+      it("executes context search when repository succeeds", async () => {
         mockUserId = "user_operator_123";
+        const searchSpy = vi.spyOn(ContextRepository, "searchContext").mockResolvedValueOnce([
+          {
+            indexId: "ctx-1",
+            domain: "strategy",
+            subdomain: "acquisition",
+            summary: "Acquisition Strategy",
+            priority: 1,
+            isPrimary: true,
+            routingKeywords: ["diligence"],
+            resource: {
+              resourceId: "res-1",
+              resourceKey: "res-strategy",
+              canonicalResourceKey: "canonical-strategy",
+              title: "Strategy Document",
+              resourceType: "DOC",
+              purpose: null,
+              accessMode: null,
+              sourcePageUrl: null,
+              locations: [],
+            },
+          },
+        ]);
+
         const result = await triggerSecondBrainContextSearch({
           domain: "strategy",
           subdomain: "acquisition",
@@ -299,7 +333,41 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
         });
 
         expect(result.ok).toBe(true);
-        expect(["database", "mock_registry_fallback"]).toContain(result.source);
+        expect(result.status).toBe("operational");
+        expect(result.source).toBe("database");
+        expect(result.resultCount).toBe(1);
+
+        searchSpy.mockRestore();
+      });
+
+      it("AC3: handles context repository failure with ok: false, safe message, and no dbError", async () => {
+        mockUserId = "user_operator_123";
+        const searchSpy = vi
+          .spyOn(ContextRepository, "searchContext")
+          .mockRejectedValueOnce(
+            new Error(
+              "FATAL: connection to server at secret-neon-host.internal failed: password authentication failed",
+            ),
+          );
+
+        const result = await triggerSecondBrainContextSearch({
+          domain: "strategy",
+          subdomain: "acquisition",
+          keywords: ["diligence"],
+        });
+
+        expect(result.ok).toBe(false);
+        expect(result.status).toBe("unavailable");
+        expect(result.source).toBe("unavailable");
+        expect(result.message).toBe(
+          "Second Brain database context search is currently unavailable.",
+        );
+        expect(result).not.toHaveProperty("dbError");
+        expect(result).not.toHaveProperty("registeredRoutes");
+        expect(JSON.stringify(result)).not.toContain("secret-neon-host");
+        expect(JSON.stringify(result)).not.toContain("password authentication failed");
+
+        searchSpy.mockRestore();
       });
     });
 
