@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock Clerk auth
 let mockUserId: string | null = null;
@@ -23,21 +23,69 @@ import { assertOperatorAuthenticated, assertValidClientId } from "./auth-guard";
 import { getClientsWithFlows, toggleFlow } from "./flows/actions";
 
 describe("Dashboard Server Action Authorization & Workflows", () => {
+  const originalEnv = { ...process.env };
+
   beforeEach(() => {
     mockUserId = null;
     vi.clearAllMocks();
+    process.env = { ...originalEnv };
+    process.env.DASHBOARD_OPERATOR_USER_IDS = "user_operator_123,user_allowed";
   });
 
-  describe("assertOperatorAuthenticated", () => {
-    it("throws Unauthorized if no Clerk user is authenticated", async () => {
+  afterEach(() => {
+    process.env = { ...originalEnv };
+  });
+
+  const setNodeEnv = (val: string) => {
+    (process.env as Record<string, string | undefined>).NODE_ENV = val;
+  };
+
+  describe("assertOperatorAuthenticated (T-016 Allowlist & Dev Bypass)", () => {
+    it("AC1: resolves userId when user is in DASHBOARD_OPERATOR_USER_IDS in production", async () => {
+      setNodeEnv("production");
+      process.env.DASHBOARD_OPERATOR_USER_IDS = "user_allowed,user_second";
+      mockUserId = "user_allowed";
+
+      const result = await assertOperatorAuthenticated();
+      expect(result.userId).toBe("user_allowed");
+    });
+
+    it("AC2: rejects with Forbidden when Clerk user is not in allowlist in production", async () => {
+      setNodeEnv("production");
+      process.env.DASHBOARD_OPERATOR_USER_IDS = "user_allowed";
+      mockUserId = "user_not_allowed";
+
+      await expect(assertOperatorAuthenticated()).rejects.toThrow(/Forbidden|Unauthorized/);
+    });
+
+    it("AC3: rejects signed-in Clerk user when DASHBOARD_OPERATOR_USER_IDS is missing or blank", async () => {
+      setNodeEnv("production");
+      process.env.DASHBOARD_OPERATOR_USER_IDS = "   ";
+      mockUserId = "user_allowed";
+
+      await expect(assertOperatorAuthenticated()).rejects.toThrow(/Forbidden|Unauthorized/);
+    });
+
+    it("AC4: ALLOW_DEV_OPERATOR_AUTH=true returns dev_operator only in development with no Clerk user", async () => {
+      // In development without Clerk user
+      setNodeEnv("development");
+      process.env.ALLOW_DEV_OPERATOR_AUTH = "true";
       mockUserId = null;
+
+      const result = await assertOperatorAuthenticated();
+      expect(result.userId).toBe("dev_operator");
+
+      // In production without Clerk user, identical flag MUST reject
+      setNodeEnv("production");
       await expect(assertOperatorAuthenticated()).rejects.toThrow(/Unauthorized/);
     });
 
-    it("returns userId when user is authenticated", async () => {
-      mockUserId = "user_operator_123";
-      const result = await assertOperatorAuthenticated();
-      expect(result.userId).toBe("user_operator_123");
+    it("throws Unauthorized if no Clerk user and dev bypass is not active", async () => {
+      setNodeEnv("development");
+      process.env.ALLOW_DEV_OPERATOR_AUTH = "false";
+      mockUserId = null;
+
+      await expect(assertOperatorAuthenticated()).rejects.toThrow(/Unauthorized/);
     });
   });
 
@@ -58,13 +106,19 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
     });
   });
 
-  describe("Flow Actions Guard Enforcement", () => {
+  describe("Flow Actions Guard Enforcement (T-016 AC5)", () => {
     it("rejects getClientsWithFlows if unauthenticated", async () => {
       mockUserId = null;
       await expect(getClientsWithFlows()).rejects.toThrow(/Unauthorized/);
     });
 
-    it("allows getClientsWithFlows if authenticated", async () => {
+    it("rejects getClientsWithFlows if authenticated but unallowlisted", async () => {
+      mockUserId = "user_unallowlisted";
+      process.env.DASHBOARD_OPERATOR_USER_IDS = "user_allowed";
+      await expect(getClientsWithFlows()).rejects.toThrow(/Forbidden/);
+    });
+
+    it("allows getClientsWithFlows if authenticated and allowlisted", async () => {
       mockUserId = "user_operator_123";
       const clients = await getClientsWithFlows();
       expect(clients.length).toBeGreaterThan(0);
@@ -79,7 +133,13 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
       );
     });
 
-    it("rejects toggleFlow with invalid client even if authenticated", async () => {
+    it("AC5: rejects toggleFlow if authenticated but unallowlisted", async () => {
+      mockUserId = "user_not_allowed";
+      process.env.DASHBOARD_OPERATOR_USER_IDS = "user_allowed";
+      await expect(toggleFlow("radiance-salon", "reminders", false)).rejects.toThrow(/Forbidden/);
+    });
+
+    it("rejects toggleFlow with invalid client even if authenticated and allowlisted", async () => {
       mockUserId = "user_operator_123";
       await expect(toggleFlow("../../malicious", "reminders", false)).rejects.toThrow(/Forbidden/);
     });
@@ -91,7 +151,7 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
       );
     });
 
-    it("succeeds toggleFlow with valid client, valid automation ID, and authenticated user", async () => {
+    it("AC5: succeeds toggleFlow with valid client, valid automation ID, and allowlisted user", async () => {
       mockUserId = "user_operator_123";
       await expect(toggleFlow("radiance-salon", "reminders", false)).resolves.not.toThrow();
     });
@@ -103,7 +163,13 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
       await expect(getDashboardOverviewMetrics()).rejects.toThrow(/Unauthorized/);
     });
 
-    it("returns comprehensive metrics when operator is authenticated", async () => {
+    it("rejects authenticated but unallowlisted requests to getDashboardOverviewMetrics", async () => {
+      mockUserId = "user_not_allowed";
+      process.env.DASHBOARD_OPERATOR_USER_IDS = "user_allowed";
+      await expect(getDashboardOverviewMetrics()).rejects.toThrow(/Forbidden/);
+    });
+
+    it("returns comprehensive metrics when operator is authenticated and allowlisted", async () => {
       mockUserId = "user_operator_123";
       const metrics = await getDashboardOverviewMetrics();
 
