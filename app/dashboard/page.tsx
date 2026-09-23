@@ -32,19 +32,19 @@ export default async function DashboardRootPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
-              Live Observability
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
+              Configuration Overview
             </span>
             <span className="text-xs text-slate-500 font-mono">
-              Synchronized: {new Date(metrics.lastUpdated).toLocaleTimeString()}
+              Rendered: {new Date(metrics.lastUpdated).toLocaleTimeString()}
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Executive Command Center
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-2xl">
-            Live cross-system telemetry, client automation health matrix, pending human-in-the-loop
+            System configuration overview, client automation recipe matrix, pending human-in-the-loop
             review queues, and manual execution triggers.
           </p>
         </div>
@@ -86,7 +86,7 @@ export default async function DashboardRootPage() {
           <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Automations Health
+                Configured Automations
               </span>
               <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
                 <Workflow size={18} />
@@ -98,7 +98,7 @@ export default async function DashboardRootPage() {
                   {summary.activeAutomations}
                 </span>
                 <span className="text-sm font-medium text-slate-500 font-mono">
-                  / {summary.totalAutomations} Active
+                  / {summary.totalAutomations} Enabled
                 </span>
               </div>
               <p className="text-xs text-slate-600">
@@ -107,9 +107,9 @@ export default async function DashboardRootPage() {
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-              <span className="inline-flex items-center gap-1 text-emerald-600 font-medium">
-                <CheckCircle2 size={13} />
-                Scheduler Healthy
+              <span className="inline-flex items-center gap-1 text-slate-600 font-medium">
+                <Clock size={13} />
+                Scheduled (Unprobed)
               </span>
               <Link
                 href="/dashboard/flows"
@@ -232,9 +232,9 @@ export default async function DashboardRootPage() {
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-              <span className="inline-flex items-center gap-1 text-emerald-600 font-medium">
-                <Activity size={13} />
-                IAM Authorized
+              <span className="inline-flex items-center gap-1 text-slate-600 font-medium">
+                <Shield size={13} />
+                Registry Configured
               </span>
               <Link
                 href="/dashboard/workflows"
@@ -370,15 +370,15 @@ export default async function DashboardRootPage() {
         </div>
       </section>
 
-      {/* Subsystem Capabilities & Protocol Matrix */}
+      {/* Subsystem Capabilities & Registry Matrix */}
       <section aria-labelledby="subsystems-heading" className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 id="subsystems-heading" className="text-lg font-bold text-slate-900 tracking-tight">
-              Platform Subsystems & Health Matrix
+              Platform Subsystems & Registry State
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Protocol specifications, runtime drivers, and operational status of backend services.
+              Protocol specifications, runtime drivers, and configuration status of backend services.
             </p>
           </div>
           <Link
@@ -401,8 +401,28 @@ export default async function DashboardRootPage() {
                   <span className="text-xs font-mono font-medium text-slate-500">
                     {sub.protocol}
                   </span>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border ${
+                      sub.status === "configured"
+                        ? "bg-slate-50 text-slate-700 border-slate-200"
+                        : sub.status === "registered"
+                          ? "bg-blue-50 text-blue-700 border-blue-200"
+                          : sub.status === "unverified"
+                            ? "bg-amber-50 text-amber-700 border-amber-200"
+                            : "bg-rose-50 text-rose-700 border-rose-200"
+                    }`}
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${
+                        sub.status === "configured"
+                          ? "bg-slate-400"
+                          : sub.status === "registered"
+                            ? "bg-blue-500"
+                            : sub.status === "unverified"
+                              ? "bg-amber-500"
+                              : "bg-rose-500"
+                      }`}
+                    />
                     {sub.status.toUpperCase()}
                   </span>
                 </div>
@@ -412,7 +432,7 @@ export default async function DashboardRootPage() {
 
               {sub.lastTelemetry && (
                 <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-1.5 text-[11px] text-slate-500 font-mono">
-                  <Activity size={12} className="text-blue-500" />
+                  <Activity size={12} className="text-slate-400" />
                   <span className="truncate">{sub.lastTelemetry}</span>
                 </div>
               )}
@@ -439,8 +459,8 @@ export default async function DashboardRootPage() {
               Execute & Inspect Features On-Demand
             </h2>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Trigger scheduler cycles, simulate inbound Twilio customer SMS replies, dispatch test
-              leads, query Second Brain RAG knowledge, or run deep catalog diagnostics with live
+              Trigger scheduler cycles, simulate inbound Twilio customer SMS replies, run simulated
+              lead intake, query Second Brain RAG knowledge, or run deep catalog diagnostics with execution
               telemetry.
             </p>
           </div>

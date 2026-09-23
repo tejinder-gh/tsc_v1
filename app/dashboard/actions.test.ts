@@ -182,6 +182,15 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
       expect(metrics.summary.offeringsBreakdown.newsletters).toBe(3);
       expect(metrics.summary.registeredInternalEndpoints).toBeGreaterThan(0);
       expect(metrics.subsystems.length).toBe(5);
+
+      // T-020 AC2 & AC5: Subsystems must reflect configuration/registered/unverified state, never false operational health
+      const validStates = ["configured", "registered", "unverified", "unavailable"];
+      for (const sub of metrics.subsystems) {
+        expect(validStates).toContain(sub.status);
+        expect(sub.status).not.toBe("operational");
+        expect(sub.status).not.toBe("active");
+        expect(sub.lastTelemetry).not.toMatch(/Ready for live customer inquiries/i);
+      }
     });
   });
 

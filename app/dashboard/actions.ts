@@ -49,7 +49,7 @@ export interface DashboardMetrics {
     id: string;
     name: string;
     protocol: string;
-    status: "operational" | "active" | "standby";
+    status: "configured" | "registered" | "unverified" | "unavailable";
     description: string;
     lastTelemetry?: string;
   }[];
@@ -57,8 +57,8 @@ export interface DashboardMetrics {
 }
 
 /**
- * Aggregates live operational metrics across all clients, automations,
- * pending review queues, offerings catalog, and Second Brain endpoints.
+ * Aggregates configuration and registry metrics across clients, automations,
+ * pending review queues, offerings catalog, and registered Second Brain endpoints.
  */
 export async function getDashboardOverviewMetrics(): Promise<DashboardMetrics> {
   await assertOperatorAuthenticated();
@@ -111,42 +111,43 @@ export async function getDashboardOverviewMetrics(): Promise<DashboardMetrics> {
       id: "scheduler",
       name: "Automation Scheduler Engine",
       protocol: "Cron / In-Process Worker",
-      status: "operational" as const,
+      status: "configured" as const,
       description: "Sequential client tick runner with file-backed state & opt-out coherence.",
-      lastTelemetry: "Next scheduled cycle on cron interval",
+      lastTelemetry:
+        "In-process configuration loaded (runtime unverified without manual tick or cron probe)",
     },
     {
       id: "inbound-sms",
       name: "Twilio Closed-Loop Inbound Gateway",
       protocol: "POST /api/inbound (Twilio Webhook)",
-      status: "active" as const,
+      status: "configured" as const,
       description:
         "Ingests SMS replies, evaluates intent via rules/LLM, dispatches auto-replies or drafts.",
-      lastTelemetry: "Listening for customer inbound webhooks",
+      lastTelemetry: "Webhook route mounted (external Twilio delivery unverified)",
     },
     {
       id: "lead-relay",
       name: "Lead Ingestion & HMAC Relay Webhook",
       protocol: "POST /api/lead & /api/v1/relay",
-      status: "active" as const,
+      status: "configured" as const,
       description: "Payload-bounded lead capture with honeypot bot trap and secure outbound relay.",
-      lastTelemetry: "Ready for live customer inquiries",
+      lastTelemetry: "Endpoints registered (external webhook delivery unverified)",
     },
     {
       id: "second-brain",
       name: "Second Brain Context RAG & IAM",
       protocol: "POST /api/internal/v1/context/search",
-      status: "operational" as const,
+      status: "registered" as const,
       description: "Dynamic route registry and hierarchical resource context indexing.",
-      lastTelemetry: `${SECOND_BRAIN_ROUTES.length} endpoints registered in IAM catalog`,
+      lastTelemetry: `${SECOND_BRAIN_ROUTES.length} endpoints registered in IAM catalog (DB connection unverified)`,
     },
     {
       id: "catalog-engine",
       name: "Unified Offerings & Recommendation Engine",
       protocol: "In-Memory Dynamic Service Repository",
-      status: "operational" as const,
+      status: "registered" as const,
       description: "34 canonical services, automations, and newsletters with 100% slug integrity.",
-      lastTelemetry: "All 34 canonical entities verified",
+      lastTelemetry: "34 canonical entities defined in local catalog",
     },
   ];
 
