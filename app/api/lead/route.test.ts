@@ -133,36 +133,76 @@ describe("POST /api/lead", () => {
     expect(body.error).toMatch(/email or a message/);
   });
 
-  it("drops a honeypot-filled submission with fake success and never calls the webhook", async () => {
+  it("AC1 & AC3: drops a honeypot-filled submission with fake success and never logs PII", async () => {
     process.env.LEAD_WEBHOOK_URL = WEBHOOK_URL;
-    const res = await POST(makeRequest({ ...validLead, website: "http://spam.example" }));
+    const sensitiveLead = {
+      ...validLead,
+      name: "Secret Person",
+      email: "secret@confidential.com",
+      company: "Classified Inc",
+      notes: "Extremely private notes",
+      website: "http://spam.example",
+    };
+    const res = await POST(makeRequest(sensitiveLead));
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body).toEqual({ ok: true, delivered: false });
     expect(fetchMock).not.toHaveBeenCalled();
     expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining("Honeypot"),
-      expect.any(String),
+      expect.stringContaining("Honeypot tripped; submission dropped"),
     );
+
+    // Verify no customer PII was logged
+    const loggedArgs = (console.warn as ReturnType<typeof vi.fn>).mock.calls.flat().join(" ");
+    expect(loggedArgs).not.toContain("Secret Person");
+    expect(loggedArgs).not.toContain("secret@confidential.com");
+    expect(loggedArgs).not.toContain("Classified Inc");
+    expect(loggedArgs).not.toContain("Extremely private notes");
+    expect(loggedArgs).not.toContain("http://spam.example");
   });
 
-  it("fails loud (503) when LEAD_WEBHOOK_URL is unset in production", async () => {
+  it("AC2 & AC3: fails loud (503) when LEAD_WEBHOOK_URL is unset in production and never logs PII", async () => {
     vi.stubEnv("VERCEL_ENV", "production");
-    const res = await POST(makeRequest(validLead));
+    const sensitiveLead = {
+      ...validLead,
+      name: "Production Lead Name",
+      email: "prod-lead@enterprise.com",
+      company: "Enterprise Corp",
+      notes: "Internal confidential requirement",
+    };
+    const res = await POST(makeRequest(sensitiveLead));
     expect(res.status).toBe(503);
     const body = await res.json();
     expect(body.ok).toBe(false);
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(console.error).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining("LEAD_WEBHOOK_URL is not set in production"),
+    );
+
+    // Verify no customer PII was logged
+    const loggedArgs = (console.error as ReturnType<typeof vi.fn>).mock.calls.flat().join(" ");
+    expect(loggedArgs).not.toContain("Production Lead Name");
+    expect(loggedArgs).not.toContain("prod-lead@enterprise.com");
+    expect(loggedArgs).not.toContain("Enterprise Corp");
+    expect(loggedArgs).not.toContain("Internal confidential requirement");
   });
 
   // REGRESSION (mandatory): the prod guard must not change the dev/preview path.
-  it("keeps the dev-friendly path when LEAD_WEBHOOK_URL is unset outside production", async () => {
-    const res = await POST(makeRequest(validLead));
+  it("keeps the dev-friendly path when LEAD_WEBHOOK_URL is unset outside production and does not log PII", async () => {
+    const sensitiveLead = {
+      ...validLead,
+      name: "Dev Lead Name",
+      email: "dev-lead@test.com",
+    };
+    const res = await POST(makeRequest(sensitiveLead));
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body).toEqual({ ok: true, delivered: false });
     expect(fetchMock).not.toHaveBeenCalled();
+
+    const loggedArgs = (console.warn as ReturnType<typeof vi.fn>).mock.calls.flat().join(" ");
+    expect(loggedArgs).not.toContain("Dev Lead Name");
+    expect(loggedArgs).not.toContain("dev-lead@test.com");
   });
 
   it("forwards a valid lead, strips the honeypot field, and stamps submitted_at", async () => {

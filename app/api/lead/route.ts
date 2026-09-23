@@ -9,8 +9,7 @@
  *        POST /api/lead
  *          ├─ invalid JSON ──────────────▶ 400
  *          ├─ schema fails ──────────────▶ 400 (first zod issue)
- *          ├─ honeypot filled ───────────▶ 200 {ok, delivered:false} - drop + warn
- *          │                               with payload (false-positive recovery);
+ *          ├─ honeypot filled ───────────▶ 200 {ok, delivered:false} - drop + warn;
  *          │                               webhook never called, bot sees success
  *          ├─ env unset, production ─────▶ 503 - loud misconfig (VERCEL_ENV, with
  *          │                               NODE_ENV fallback off-Vercel)
@@ -60,8 +59,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const { website, ...lead } = parsed.data;
   if (website) {
-    // Full payload logged so an autofill false positive is recoverable by hand.
-    console.warn("[lead] Honeypot tripped; submission dropped:", JSON.stringify(lead));
+    console.warn("[lead] Honeypot tripped; submission dropped silently");
     return NextResponse.json({ ok: true, delivered: false });
   }
 
@@ -74,13 +72,12 @@ export async function POST(request: Request): Promise<NextResponse> {
   if (!webhookUrl) {
     const env = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
     if (env === "production") {
-      console.error(
-        "[lead] LEAD_WEBHOOK_URL is not set in production; lead rejected:",
-        JSON.stringify(record),
-      );
+      console.error("[lead] LEAD_WEBHOOK_URL is not set in production; lead rejected");
       return NextResponse.json({ ok: false, error: DELIVERY_FAILED }, { status: 503 });
     }
-    console.warn("[lead] LEAD_WEBHOOK_URL is not set; lead accepted but not delivered:", record);
+    console.warn(
+      "[lead] LEAD_WEBHOOK_URL is not set; lead accepted but not delivered (non-production)",
+    );
     return NextResponse.json({ ok: true, delivered: false });
   }
 
