@@ -1,74 +1,10 @@
 /**
- * What: All home-page copy - hero, segment router cards, problem strips, and how-it-works steps.
- * Why: Keeps the highest-churn marketing copy in one editable file, separate from layout code.
- * How: Typed const objects; problem strips are keyed "neutral" | "local" | "practice" so the
- *      page can swap copy based on the visitor's chosen segment.
+ * What: How-it-works process steps copy.
+ * Why: Keeps the process marketing copy in one editable file, separate from layout code.
+ * How: Typed const objects consumed by /how-it-works.
  * From Where: TheSkillCorner marketing site build brief, 2026-06.
- * When: 2026-06; revisit after first round of message testing.
+ * When: 2026-06.
  */
-
-import type { Segment } from "./site";
-
-export const hero = {
-  eyebrow: "Full-service digital agency & AI development firm",
-  headline: "AI agent development, custom websites, marketing, staffing & SOP documentation.",
-  subhead:
-    "The Skill Corner delivers end-to-end digital services for growing businesses and professional practices - from custom AI voice and chat agents to high-performance website development, digital marketing (SEO & GEO), dedicated tech staffing, business SOP documentation, and workflow automations.",
-  primaryCta: { label: "Book a free audit", href: "/book" },
-  secondaryCta: { label: "Explore digital services", href: "/digital-services" },
-  trustLine:
-    "Serving businesses, clinics, and professional practices worldwide - engineered with precision.",
-} as const;
-
-export interface Problem {
-  title: string;
-  body: string;
-}
-
-export const problems: Record<"neutral" | Segment, readonly Problem[]> = {
-  neutral: [
-    {
-      title: "The phone rings at the worst times",
-      body: "Calls land while you are with a customer, a patient, or a client. Whoever does not get an answer calls the next place on the list.",
-    },
-    {
-      title: "Admin eats your evenings",
-      body: "Orders, paperwork, reviews, reminders - hours every week of work that keeps the lights on but never grows the business.",
-    },
-    {
-      title: "Follow-ups slip through the cracks",
-      body: "The quote you meant to chase, the lapsed customer you meant to win back. Nobody dropped the ball on purpose; there was just no system.",
-    },
-  ],
-  local: [
-    {
-      title: "Missed calls are missed sales",
-      body: "Every call that hits voicemail while you are at the register or on the floor is a customer who phones the place down the street.",
-    },
-    {
-      title: "Ordering and inventory eat your week",
-      body: "Supplier emails, stock counts, reorder spreadsheets - four to six hours every week that never grow the business.",
-    },
-    {
-      title: "Reviews and socials never get done",
-      body: "You know you should answer every review and post regularly. It is 9 p.m. and you still have not.",
-    },
-  ],
-  practice: [
-    {
-      title: "No-shows burn staffed hours",
-      body: "Every empty chair or unfilled slot is revenue you scheduled staff for and never see - often thousands of dollars a month.",
-    },
-    {
-      title: "Intake paperwork slows everyone down",
-      body: "Patients and clients fill out forms by hand; your staff re-types them into the system. Twice the work, double the errors.",
-    },
-    {
-      title: "After-hours inquiries go cold",
-      body: "People look for a doctor, dentist, or lawyer at 9 p.m. If nobody answers, they book whoever answers first.",
-    },
-  ],
-};
 
 export interface Step {
   number: number;

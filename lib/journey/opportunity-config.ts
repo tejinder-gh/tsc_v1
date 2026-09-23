@@ -1,7 +1,7 @@
 /**
  * What: Canonical definitions, typed models, and deterministic copy maps for Stage 03 (Opportunity Diagnostic).
  * Why: Keeps diagnostic copy, secondary relation mappings, and rationale modifiers strongly typed and
- *      immutable, separated from UI branches (Ticket 003 §3, §6–12, docs/design/ticket-003-opportunity-diagnostic.md).
+ *      immutable, separated from UI branches.
  * How: Readonly dictionaries with pure TypeScript types and strict runtime guarantees.
  */
 

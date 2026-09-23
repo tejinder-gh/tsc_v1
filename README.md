@@ -83,7 +83,7 @@ templated email using the `roi_*` fields).
 All copy lives in `/content` - no component changes needed:
 
 - `content/site.ts` - brand, nav, contact, **pricing anchors**, business-type options, checklist copy
-- `content/home.ts` - hero, segment router cards, problem strips, how-it-works
+- `content/home.ts` - how-it-works steps
 - `content/industries.ts` - the industry funnel pages
 - `content/services.ts` - the nine service pages
 - `content/proof.ts` - "Recent builds" grid (replace with testimonials when permissioned)

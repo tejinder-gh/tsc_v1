@@ -7,7 +7,6 @@
       "!node_modules",
       "!next-env.d.ts",
       "!app/globals.css",
-      "!tickets/*-report.json",
       "!.clerk",
       "!.automations"
     ]

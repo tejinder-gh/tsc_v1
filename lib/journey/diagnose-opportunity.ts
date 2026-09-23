@@ -1,7 +1,7 @@
 /**
  * What: Deterministic opportunity diagnostic engine.
  * Why: Transforms visitor intent, focus, and situation into an opinionated, prioritized diagnosis
- *      without network calls, AI, or runtime side effects (Ticket 003 §4–10, docs/design/ticket-003-opportunity-diagnostic.md).
+ *      without network calls, AI, or runtime side effects.
  * How: Pure function with strict 1:1 deterministic mapping, Growth conflict reconciliation,
  *      and guaranteed uniqueness of primary, secondary, and deferred recommendations.
  */
