@@ -576,7 +576,8 @@ const RESPONSE_CONVERSION_CONFIG: DemonstrationConfig = {
           id: "step-3",
           phase: "BUSINESS RULE",
           title: "Speed-to-Lead SLA Rule",
-          description: "High-intent inquiries receive tailored outreach before the lead goes unattended.",
+          description:
+            "High-intent inquiries receive tailored outreach before the lead goes unattended.",
           annotation: "SLA Rule: <180s response required",
           dataPayload: {
             response_state: "prepared",
@@ -822,7 +823,8 @@ const SYSTEMS_INTEGRATION_CONFIG: DemonstrationConfig = {
           id: "step-5",
           phase: "EXCEPTION",
           title: "Auto-Recovered on Retry",
-          description: "Secondary attempt succeeds when the upstream system recovers; the exception is recorded.",
+          description:
+            "Secondary attempt succeeds when the upstream system recovers; the exception is recorded.",
           annotation: "Succeeded at retry #2 (32s later)",
           dataPayload: {
             final_status: "SUCCESS_RECOVERED",
@@ -1152,7 +1154,7 @@ const REPORTING_INTELLIGENCE_CONFIG: DemonstrationConfig = {
     {
       id: "standard-summary",
       name: "Standard: Monday Morning Executive Digest",
-          description: "Aggregates operating, delivery, and pipeline signals across connected systems.",
+      description: "Aggregates operating, delivery, and pipeline signals across connected systems.",
       isException: false,
       summaryOutcome: "Unified executive brief is generated with the agreed anomaly checks.",
       steps: [
@@ -1172,8 +1174,7 @@ const REPORTING_INTELLIGENCE_CONFIG: DemonstrationConfig = {
           id: "step-2",
           phase: "INTERPRETATION",
           title: "Metric Normalization & Aggregation",
-          description:
-            "Calculates agreed billing, delivery, and operating measures.",
+          description: "Calculates agreed billing, delivery, and operating measures.",
           annotation: "Aggregator v3.0",
           dataPayload: {
             billing_signal: "available for comparison",
@@ -1276,8 +1277,7 @@ const REPORTING_INTELLIGENCE_CONFIG: DemonstrationConfig = {
           id: "step-5",
           phase: "EXCEPTION",
           title: "Early Containment Enabled",
-          description:
-            "Issue is surfaced for review before it is buried in a later report.",
+          description: "Issue is surfaced for review before it is buried in a later report.",
           annotation: "Churn risk prevented",
           dataPayload: {
             escalation_state: "review requested",
@@ -1321,8 +1321,7 @@ const RETENTION_SYSTEM_CONFIG: DemonstrationConfig = {
           id: "step-2",
           phase: "INTERPRETATION",
           title: "Quarterly Performance Compilation",
-          description:
-            "Collects the agreed call, booking, and availability signals for review.",
+          description: "Collects the agreed call, booking, and availability signals for review.",
           annotation: "Data synthesis complete",
           dataPayload: {
             calls_handled: 184,
@@ -2105,7 +2104,8 @@ const PRODUCT_MODERNIZATION_CONFIG: DemonstrationConfig = {
           id: "step-4",
           phase: "SYSTEM ACTION",
           title: "High-Performance Response",
-          description: "Modern endpoint responds through the supported contract instead of a legacy adapter.",
+          description:
+            "Modern endpoint responds through the supported contract instead of a legacy adapter.",
           annotation: "Compatibility path selected",
           dataPayload: {
             transport: "supported endpoint",
@@ -2845,7 +2845,8 @@ const LEARNING_TOOLKIT_CONFIG: DemonstrationConfig = {
           id: "step-5",
           phase: "EXCEPTION",
           title: "Honest Payback Horizon",
-          description: "Compare the measured operating cost against the change the team can verify.",
+          description:
+            "Compare the measured operating cost against the change the team can verify.",
           annotation: "Realistic, unexaggerated financial projection",
           dataPayload: {
             payback_window: "not assumed; measure before deciding",

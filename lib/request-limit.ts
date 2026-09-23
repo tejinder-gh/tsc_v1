@@ -33,25 +33,21 @@ export async function readBoundedBody(
     const chunks: Uint8Array[] = [];
     let totalBytes = 0;
 
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        if (value) {
-          totalBytes += value.byteLength;
-          if (totalBytes > maxBytes) {
-            try {
-              await reader.cancel();
-            } catch {
-              // ignore stream cancellation errors
-            }
-            return { ok: false, status: 413, error: "Payload too large" };
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (value) {
+        totalBytes += value.byteLength;
+        if (totalBytes > maxBytes) {
+          try {
+            await reader.cancel();
+          } catch {
+            // ignore stream cancellation errors
           }
-          chunks.push(value);
+          return { ok: false, status: 413, error: "Payload too large" };
         }
+        chunks.push(value);
       }
-    } catch (err) {
-      throw err;
     }
 
     const buffer = new Uint8Array(totalBytes);
