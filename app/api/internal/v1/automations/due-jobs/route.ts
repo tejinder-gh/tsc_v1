@@ -5,8 +5,9 @@
  */
 
 import { type NextRequest, NextResponse } from "next/server";
-import { AuthenticationError, authenticateAgent } from "@/lib/second-brain/auth/authenticate";
+import { authenticateAgent } from "@/lib/second-brain/auth/authenticate";
 import { authorize } from "@/lib/second-brain/auth/authorize";
+import { internalApiErrorResponse } from "@/lib/second-brain/http";
 import { AutomationRepository } from "@/lib/second-brain/repositories/AutomationRepository";
 
 export async function GET(request: NextRequest) {
@@ -33,14 +34,7 @@ export async function GET(request: NextRequest) {
       count: dueJobs.length,
       dueJobs,
     });
-  } catch (err: any) {
-    if (err instanceof AuthenticationError) {
-      return NextResponse.json({ error: err.message, code: err.code }, { status: err.statusCode });
-    }
-    console.error("Error in GET /api/internal/v1/automations/due-jobs", err);
-    return NextResponse.json(
-      { error: "Internal server error", message: err?.message },
-      { status: 500 },
-    );
+  } catch (error: unknown) {
+    return internalApiErrorResponse(error, "GET /api/internal/v1/automations/due-jobs");
   }
 }

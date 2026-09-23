@@ -4,12 +4,31 @@
  * and OpenAPI 3.0 schema generation.
  */
 
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { NextRequest } from "next/server";
 import { describe, expect, it } from "vitest";
 import { GET } from "../../../app/api/internal/v1/endpoints/route";
 import { setMockQueryHandler } from "../db/client";
+import { SECOND_BRAIN_ROUTES } from "../routes-registry";
 
 describe("GET /api/internal/v1/endpoints (Introspection Catalog)", () => {
+  it("has one unique registry operation for every implemented internal route", () => {
+    const registeredOperations = new Set<string>();
+
+    for (const route of SECOND_BRAIN_ROUTES) {
+      expect(route.actionRequired).toBeTruthy();
+      expect(registeredOperations.has(`${route.method} ${route.path}`)).toBe(false);
+      registeredOperations.add(`${route.method} ${route.path}`);
+
+      const implementationPath = route.path
+        .replace(/^\/api\//, "app/api/")
+        .replace(/\[key\]/g, "[key]");
+      expect(existsSync(resolve(process.cwd(), `${implementationPath}/route.ts`))).toBe(true);
+    }
+
+    expect(registeredOperations.size).toBe(11);
+  });
   it("returns 403 Forbidden when caller lacks meta.endpoints.read", async () => {
     // Mock authentication with no meta.endpoints.read grant
     setMockQueryHandler(async () => ({
@@ -155,7 +174,7 @@ describe("GET /api/internal/v1/endpoints (Introspection Catalog)", () => {
     expect(body.domain).toBe("Second Brain API");
     expect(body.caller.principal).toBe("claude");
     // Caller only has meta.endpoints.read and context.read, so only these two endpoints appear
-    const endpointIds = body.endpoints.map((e: any) => e.id);
+    const endpointIds = (body.endpoints as Array<{ id: string }>).map((endpoint) => endpoint.id);
     expect(endpointIds).toContain("endpoints-introspection");
     expect(endpointIds).toContain("context-search");
     // Automation OS endpoints should NOT be exposed to Claude

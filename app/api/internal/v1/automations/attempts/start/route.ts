@@ -5,8 +5,9 @@
  */
 
 import { type NextRequest, NextResponse } from "next/server";
-import { AuthenticationError, authenticateAgent } from "@/lib/second-brain/auth/authenticate";
+import { authenticateAgent } from "@/lib/second-brain/auth/authenticate";
 import { authorize } from "@/lib/second-brain/auth/authorize";
+import { internalApiErrorResponse } from "@/lib/second-brain/http";
 import { AutomationRepository } from "@/lib/second-brain/repositories/AutomationRepository";
 
 export async function POST(request: NextRequest) {
@@ -48,14 +49,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ attempt });
-  } catch (err: any) {
-    if (err instanceof AuthenticationError) {
-      return NextResponse.json({ error: err.message, code: err.code }, { status: err.statusCode });
-    }
-    console.error("Error in POST /api/internal/v1/automations/attempts/start", err);
-    return NextResponse.json(
-      { error: "Internal server error", message: err?.message },
-      { status: 500 },
-    );
+  } catch (error: unknown) {
+    return internalApiErrorResponse(error, "POST /api/internal/v1/automations/attempts/start");
   }
 }

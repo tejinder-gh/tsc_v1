@@ -20,7 +20,12 @@ export type AnalyticsEvent =
   | "journey_context_completed"
   | "journey_opportunity_viewed"
   | "journey_opportunity_solution_started"
-  | "journey_context_reviewed";
+  | "journey_context_reviewed"
+  | "journey_demonstration_viewed"
+  | "journey_demonstration_started"
+  | "journey_demonstration_scenario_changed"
+  | "journey_demonstration_completed"
+  | "journey_demonstration_returned_to_opportunity";
 
 export interface AnalyticsProps {
   location?: string;
@@ -37,6 +42,9 @@ export interface AnalyticsProps {
   characterBucket?: "<50" | "50-149" | "150+";
   from?: string;
   to?: string;
+  opportunityId?: string;
+  archetype?: string;
+  scenario?: string;
   [key: string]: string | number | boolean | undefined;
 }
 

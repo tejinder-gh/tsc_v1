@@ -11,8 +11,9 @@
  */
 
 import { type NextRequest, NextResponse } from "next/server";
-import { AuthenticationError, authenticateAgent } from "@/lib/second-brain/auth/authenticate";
+import { authenticateAgent } from "@/lib/second-brain/auth/authenticate";
 import { authorize } from "@/lib/second-brain/auth/authorize";
+import { internalApiErrorResponse } from "@/lib/second-brain/http";
 import { SECOND_BRAIN_ROUTES } from "@/lib/second-brain/routes-registry";
 
 export async function GET(request: NextRequest) {
@@ -58,7 +59,7 @@ export async function GET(request: NextRequest) {
 
     if (format === "openapi") {
       // Dynamic OpenAPI 3.0 export filtered to caller's permitted operations
-      const paths: Record<string, any> = {};
+      const paths: Record<string, Record<string, unknown>> = {};
 
       for (const route of authorizedRoutes) {
         if (!paths[route.path]) {
@@ -124,15 +125,7 @@ export async function GET(request: NextRequest) {
         sampleResponse: route.sampleResponse,
       })),
     });
-  } catch (err: any) {
-    if (err instanceof AuthenticationError) {
-      return NextResponse.json({ error: err.message, code: err.code }, { status: err.statusCode });
-    }
-
-    console.error("Error in GET /api/internal/v1/endpoints", err);
-    return NextResponse.json(
-      { error: "Internal server error", message: err?.message },
-      { status: 500 },
-    );
+  } catch (error: unknown) {
+    return internalApiErrorResponse(error, "GET /api/internal/v1/endpoints");
   }
 }

@@ -3,10 +3,11 @@
 import { SectionLabel } from "@/components/ui/editorial";
 import { useJourney } from "@/lib/journey";
 import { ContextEngine } from "./context/ContextEngine";
+import { DemonstrationView } from "./demonstration";
 import { IntentSelector } from "./IntentSelector";
 import { JourneyProgress } from "./JourneyProgress";
 import { LiveSystemExample } from "./LiveSystemExample";
-import { OpportunityView, SolutionPlaceholder } from "./opportunity";
+import { OpportunityView } from "./opportunity";
 import { ProblemInput } from "./ProblemInput";
 
 export function JourneyHero() {
@@ -53,8 +54,8 @@ export function JourneyHero() {
         {/* Stage 03: Opportunity Diagnostic (Ticket 003) */}
         {journey.stage === "opportunity" && <OpportunityView />}
 
-        {/* Stage 03 Substage: Solution Demonstration Placeholder (Ticket 003 §15) */}
-        {journey.stage === "solution" && <SolutionPlaceholder />}
+        {/* Stage 03 Substage: Solution Interactive Demonstration (Ticket 004) */}
+        {journey.stage === "solution" && <DemonstrationView />}
 
         {/* Stage 01: Initial Arrival & Intent Selection Hero (Ticket 001) */}
         {(journey.stage === "new" || journey.stage === "intent-selected") && (

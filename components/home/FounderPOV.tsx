@@ -36,7 +36,7 @@ export function FounderPOV() {
             {/* Signature & Role */}
             <div className="pt-4 border-t border-[var(--tsc-line)] inline-block">
               <div className="font-mono text-xs sm:text-[13px] font-semibold tracking-wider text-[var(--tsc-ink)] uppercase">
-                TEJINDER PAL SINGH &middot; FOUNDER + ENGINEER
+                Tejinder&middot; FOUNDER + ENGINEER
               </div>
               <div className="font-mono text-[11px] text-[var(--tsc-muted)] tracking-tight mt-1">
                 SYSTEMS ARCHITECTURE &middot; TORONTO

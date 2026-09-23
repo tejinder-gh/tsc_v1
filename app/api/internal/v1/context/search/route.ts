@@ -10,8 +10,9 @@
  */
 
 import { type NextRequest, NextResponse } from "next/server";
-import { AuthenticationError, authenticateAgent } from "@/lib/second-brain/auth/authenticate";
+import { authenticateAgent } from "@/lib/second-brain/auth/authenticate";
 import { authorize } from "@/lib/second-brain/auth/authorize";
+import { internalApiErrorResponse } from "@/lib/second-brain/http";
 import { ContextRepository } from "@/lib/second-brain/repositories/ContextRepository";
 
 export async function POST(request: NextRequest) {
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
     const authHeader = request.headers.get("authorization") || request.headers.get("x-api-key");
     const authContext = await authenticateAgent(authHeader);
 
-    let body: any;
+    let body: unknown;
     try {
       body = await request.json();
     } catch {
@@ -29,7 +30,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { domain, subdomain, keywords = [], limit = 2 } = body;
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json(
+        { error: "JSON body must be an object", code: "BAD_REQUEST" },
+        { status: 400 },
+      );
+    }
+
+    const { domain, subdomain, keywords = [], limit = 2 } = body as Record<string, unknown>;
 
     if (!domain || typeof domain !== "string") {
       return NextResponse.json(
@@ -37,6 +45,7 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
+    const normalizedSubdomain = typeof subdomain === "string" ? subdomain : undefined;
 
     // Authorize context.read for requested domain/subdomain
     const authResult = authorize({
@@ -46,7 +55,7 @@ export async function POST(request: NextRequest) {
       resourceKey: `domain:${domain}`,
       evalContext: {
         domain,
-        subdomain,
+        subdomain: normalizedSubdomain,
       },
     });
 
@@ -64,26 +73,21 @@ export async function POST(request: NextRequest) {
     // Authorization passed: execute canonical Context RAG search
     const matches = await ContextRepository.searchContext({
       domain,
-      subdomain,
-      keywords: Array.isArray(keywords) ? keywords : [],
-      limit: typeof limit === "number" ? Math.min(limit, 10) : 2,
+      subdomain: normalizedSubdomain,
+      keywords: Array.isArray(keywords)
+        ? keywords.filter((value): value is string => typeof value === "string")
+        : [],
+      limit:
+        typeof limit === "number" && Number.isInteger(limit) ? Math.max(1, Math.min(limit, 10)) : 2,
     });
 
     return NextResponse.json({
       domain,
-      subdomain: subdomain || null,
+      subdomain: normalizedSubdomain || null,
       count: matches.length,
       matches,
     });
-  } catch (err: any) {
-    if (err instanceof AuthenticationError) {
-      return NextResponse.json({ error: err.message, code: err.code }, { status: err.statusCode });
-    }
-
-    console.error("Error in POST /api/internal/v1/context/search", err);
-    return NextResponse.json(
-      { error: "Internal server error", message: err?.message },
-      { status: 500 },
-    );
+  } catch (error: unknown) {
+    return internalApiErrorResponse(error, "POST /api/internal/v1/context/search");
   }
 }

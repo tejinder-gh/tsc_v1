@@ -123,7 +123,7 @@ Gaps against the brief's §5.1 table:
 - Contact info is placeholder, not the owner's real numbers: `content/site.ts` has
   `phone: "+1-416-555-0184"` (a 555 number — recognizably fake) and `email: "hello@theskillcorner.com"`.
   The brief supplies real values: `+1 (437) 972-4379`, `+91-79733-93949`, `info@theskillcorner.com`,
-  and `Tejinder Pal Singh — Founder | Managing Director` as principal. None of this is in the repo
+  and `Tejinder— Founder | Managing Director` as principal. None of this is in the repo
   today. `content/about.ts` doesn't name the founder at all ("Built by an engineer who got tired
   of...", no name).
 - Pricing is published today (`$395/month` local anchor, `$7,500–$25,000` practice range) — this

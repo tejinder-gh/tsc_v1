@@ -33,6 +33,7 @@ interface JourneyActions {
   resetJourney: () => void;
   continueJourney: () => void;
   markOpportunityViewed: (key: string) => boolean;
+  markDemonstrationViewed: (key: string) => boolean;
 }
 
 interface JourneyStateAndActions extends JourneyActions {
@@ -160,6 +161,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [hasExistingProgress, setHasExistingProgress] = useState(false);
   const startedTrackedRef = useRef(false);
   const viewedOpportunityKeysRef = useRef(new Set<string>());
+  const viewedDemonstrationKeysRef = useRef(new Set<string>());
 
   // Initialize and safely hydrate from client storage
   useEffect(() => {
@@ -381,6 +383,14 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     return true;
   }, []);
 
+  const markDemonstrationViewed = useCallback((key: string): boolean => {
+    if (viewedDemonstrationKeysRef.current.has(key)) {
+      return false;
+    }
+    viewedDemonstrationKeysRef.current.add(key);
+    return true;
+  }, []);
+
   const value = useMemo(
     () => ({
       journey,
@@ -396,6 +406,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       resetJourney,
       continueJourney,
       markOpportunityViewed,
+      markDemonstrationViewed,
     }),
     [
       journey,
@@ -411,6 +422,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       resetJourney,
       continueJourney,
       markOpportunityViewed,
+      markDemonstrationViewed,
     ],
   );
 

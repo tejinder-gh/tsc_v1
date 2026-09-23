@@ -71,14 +71,14 @@ export function Footer() {
             </div>
 
             {/* Contact Email */}
-            <div className="col-span-2 sm:col-span-1">
+            <div className="col-span-2 min-w-0 sm:col-span-1">
               <div className="text-[11px] font-mono tracking-wider text-[var(--tsc-muted)] uppercase mb-3">
                 Direct
               </div>
               <div>
                 <a
                   href={`mailto:${site.email}`}
-                  className="font-mono text-xs sm:text-sm text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] underline underline-offset-4 transition-colors"
+                  className="break-all font-mono text-xs sm:text-sm text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] underline underline-offset-4 transition-colors"
                 >
                   {site.email}
                 </a>
