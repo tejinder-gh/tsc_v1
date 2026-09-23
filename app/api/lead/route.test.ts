@@ -199,4 +199,78 @@ describe("POST /api/lead", () => {
     const body = await res.json();
     expect(body.ok).toBe(false);
   });
+
+  it("forwards demonstration_architecture_request with validated journey_context to webhook", async () => {
+    process.env.LEAD_WEBHOOK_URL = WEBHOOK_URL;
+    const reqBody = {
+      lead_source: "demonstration_architecture_request",
+      email: "engineer@company.com",
+      name: "Jordan Lee",
+      business: "Acme Logistics",
+      journey_context: {
+        opportunityId: "systems-integration",
+        scenarioId: "sc-01",
+        scenarioTitle: "Legacy ERP Integration",
+      },
+    };
+    const res = await POST(makeRequest(reqBody));
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ ok: true, delivered: true });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe(WEBHOOK_URL);
+    const forwarded = JSON.parse(init.body);
+    expect(forwarded.lead_source).toBe("demonstration_architecture_request");
+    expect(forwarded.name).toBe("Jordan Lee");
+    expect(forwarded.email).toBe("engineer@company.com");
+    expect(forwarded.business).toBe("Acme Logistics");
+    expect(forwarded.journey_context).toEqual({
+      opportunityId: "systems-integration",
+      scenarioId: "sc-01",
+      scenarioTitle: "Legacy ERP Integration",
+    });
+    expect(forwarded.submitted_at).toBeDefined();
+  });
+
+  it("strips unsupported and undeclared fields (e.g. freeformProblem) from forwarded payload", async () => {
+    process.env.LEAD_WEBHOOK_URL = WEBHOOK_URL;
+    const reqBody = {
+      lead_source: "demonstration_architecture_request",
+      email: "engineer@company.com",
+      freeformProblem: "Internal user sensitive free-text problem description",
+      raw_steps: [{ step: 1, internalSecret: "hidden" }],
+      journey_context: {
+        opportunityId: "systems-integration",
+        scenarioId: "sc-01",
+        scenarioTitle: "Legacy ERP Integration",
+      },
+    };
+    const res = await POST(makeRequest(reqBody));
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ ok: true, delivered: true });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const forwarded = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect("freeformProblem" in forwarded).toBe(false);
+    expect("raw_steps" in forwarded).toBe(false);
+    expect(forwarded.journey_context).toBeDefined();
+  });
+
+  it("rejects schema-invalid journey_context with 400", async () => {
+    const res = await POST(
+      makeRequest({
+        lead_source: "demonstration_architecture_request",
+        email: "engineer@company.com",
+        journey_context: {
+          opportunityId: "",
+          scenarioId: "sc-01",
+          scenarioTitle: "Legacy ERP Integration",
+        },
+      }),
+    );
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.ok).toBe(false);
+  });
 });

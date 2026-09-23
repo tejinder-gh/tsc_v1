@@ -66,4 +66,37 @@ describe("submitLead", () => {
       segment: "unknown",
     });
   });
+
+  it("submits demonstration_architecture_request with validated journey_context", async () => {
+    fetchMock.mockResolvedValue(Response.json({ ok: true, delivered: true }));
+    const architectureLead = {
+      lead_source: "demonstration_architecture_request",
+      segment: "unknown" as const,
+      name: "Sam Builder",
+      email: "sam@builder.com",
+      business: "Builder Co",
+      journey_context: {
+        opportunityId: "systems-integration",
+        scenarioId: "sc-01",
+        scenarioTitle: "Legacy ERP Integration",
+      },
+    };
+    await submitLead(architectureLead);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe("/api/lead");
+    const body = JSON.parse(init.body);
+    expect(body.lead_source).toBe("demonstration_architecture_request");
+    expect(body.journey_context).toEqual({
+      opportunityId: "systems-integration",
+      scenarioId: "sc-01",
+      scenarioTitle: "Legacy ERP Integration",
+    });
+
+    expect(track).toHaveBeenCalledExactlyOnceWith("lead_captured", {
+      location: "demonstration_architecture_request",
+      segment: "unknown",
+    });
+  });
 });

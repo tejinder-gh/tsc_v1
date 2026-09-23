@@ -10,6 +10,7 @@
 
 import { describe, expect, it } from "vitest";
 import {
+  architectureRequestSchema,
   checklistFormSchema,
   contactFormSchema,
   leadSchema,
@@ -95,6 +96,85 @@ describe("leadSchema", () => {
     expect(result.success).toBe(true);
     if (result.success) expect(result.data.roi_annual_cost).toBe(18200);
   });
+
+  it("carries validated journey_context through when present", () => {
+    const result = leadSchema.safeParse({
+      lead_source: "demonstration_architecture_request",
+      email: "engineer@company.com",
+      journey_context: {
+        opportunityId: "admin-automation",
+        scenarioId: "sc-01",
+        scenarioTitle: "Document Pipeline Automation",
+      },
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.journey_context).toEqual({
+        opportunityId: "admin-automation",
+        scenarioId: "sc-01",
+        scenarioTitle: "Document Pipeline Automation",
+      });
+    }
+  });
+
+  it("rejects invalid journey_context shape (e.g. empty opportunityId)", () => {
+    const result = leadSchema.safeParse({
+      lead_source: "demonstration_architecture_request",
+      email: "engineer@company.com",
+      journey_context: {
+        opportunityId: "",
+        scenarioId: "sc-01",
+        scenarioTitle: "Document Pipeline Automation",
+      },
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("strips undeclared fields such as freeformProblem or raw payload", () => {
+    const result = leadSchema.safeParse({
+      lead_source: "demonstration_architecture_request",
+      email: "engineer@company.com",
+      freeformProblem: "Internal company prompt text that should not leak",
+      raw_payload: { malicious: true },
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect("freeformProblem" in result.data).toBe(false);
+      expect("raw_payload" in result.data).toBe(false);
+    }
+  });
+});
+
+describe("architectureRequestSchema", () => {
+  it("validates required name, email, and business", () => {
+    const valid = architectureRequestSchema.safeParse({
+      name: "Alex Smith",
+      email: "alex@enterprise.com",
+      business: "Smith Logistics Corp",
+    });
+    expect(valid.success).toBe(true);
+
+    const missingName = architectureRequestSchema.safeParse({
+      name: "",
+      email: "alex@enterprise.com",
+      business: "Smith Logistics Corp",
+    });
+    expect(missingName.success).toBe(false);
+
+    const invalidEmail = architectureRequestSchema.safeParse({
+      name: "Alex Smith",
+      email: "not-an-email",
+      business: "Smith Logistics Corp",
+    });
+    expect(invalidEmail.success).toBe(false);
+
+    const missingBusiness = architectureRequestSchema.safeParse({
+      name: "Alex Smith",
+      email: "alex@enterprise.com",
+      business: "",
+    });
+    expect(missingBusiness.success).toBe(false);
+  });
 });
 
 describe("contactFormSchema", () => {
@@ -179,6 +259,12 @@ describe("honeypot on form schemas", () => {
         website: "http://spam.example",
       }),
       roiReportSchema.safeParse({ email: "a@b.co", website: "http://spam.example" }),
+      architectureRequestSchema.safeParse({
+        name: "Alex Smith",
+        email: "alex@enterprise.com",
+        business: "Smith Logistics Corp",
+        website: "http://spam.example",
+      }),
     ];
     for (const result of cases) {
       expect(result.success).toBe(true);

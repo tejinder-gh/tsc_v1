@@ -9,6 +9,7 @@ import {
 import { diagnoseOpportunity } from "@/lib/journey/diagnose-opportunity";
 import { useJourney } from "@/lib/journey/journey-context";
 import { JourneyProgress } from "../JourneyProgress";
+import { BlueprintCaptureModal } from "./BlueprintCaptureModal";
 import { DecisionRouterRenderer } from "./DecisionRouterRenderer";
 import { EducationalArtifactRenderer } from "./EducationalArtifactRenderer";
 import { PipelineStreamRenderer } from "./PipelineStreamRenderer";
@@ -42,11 +43,15 @@ export function DemonstrationView() {
   }, [primaryOpportunity]);
 
   const [selectedScenarioIndex, setSelectedScenarioIndex] = useState<number>(0);
+  const [completedScenarioIds, setCompletedScenarioIds] = useState<Set<string>>(new Set());
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Reset scenario when diagnosis changes
   useEffect(() => {
     if (primaryOpportunity) {
       setSelectedScenarioIndex(0);
+      setCompletedScenarioIds(new Set());
+      setIsModalOpen(false);
     }
   }, [primaryOpportunity]);
 
@@ -86,6 +91,7 @@ export function DemonstrationView() {
   };
 
   const handleDemonstrationCompleted = () => {
+    setCompletedScenarioIds((prev) => new Set(prev).add(activeScenario.id));
     track("journey_demonstration_completed", {
       intent: journey.intent,
       opportunityId: primaryOpportunity,
@@ -227,6 +233,52 @@ export function DemonstrationView() {
           />
         )}
       </div>
+
+      {/* Prominent Completion Callout: Request this architecture (T-013) */}
+      {completedScenarioIds.has(activeScenario.id) && (
+        <div className="mt-8 rounded-[4px] border border-[var(--tsc-line-strong)] bg-white p-6 sm:p-7 shadow-[0_4px_20px_rgba(18,19,15,0.04)]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+            <div className="max-w-[560px]">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="font-mono text-[10px] sm:text-[11px] font-semibold tracking-wider text-[var(--tsc-positive)] uppercase flex items-center gap-1">
+                  <span>✓</span>
+                  <span>SPECIFICATION SIMULATION COMPLETED</span>
+                </span>
+                <span className="text-[var(--tsc-line)] select-none">──</span>
+                <span className="font-mono text-[10px] text-[var(--tsc-muted)] uppercase">
+                  READY FOR REVIEW
+                </span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-[var(--tsc-ink)]">
+                Need this architecture tailored to your systems?
+              </h3>
+              <p className="mt-1 text-xs sm:text-sm text-[var(--tsc-ink)]/80 leading-relaxed">
+                Request an engineering review for this specification. Our team will review your
+                workflow constraints, evaluate feasibility, and schedule a technical follow-up.
+              </p>
+            </div>
+
+            <div className="shrink-0">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="inline-flex items-center justify-center rounded-[3px] bg-[var(--tsc-ink)] px-5 py-3 text-xs sm:text-sm font-semibold text-white transition-colors hover:bg-[var(--tsc-ink)]/90 cursor-pointer shadow-sm"
+              >
+                Request this architecture →
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Blueprint Architecture Request Modal (T-013) */}
+      <BlueprintCaptureModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        opportunityId={primaryOpportunity}
+        scenarioId={activeScenario.id}
+        scenarioTitle={activeScenario.name}
+      />
 
       {/* Bottom Return Affordance */}
       <div className="mt-10 pt-6 border-t border-[var(--tsc-line)] flex items-center justify-between">

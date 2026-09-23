@@ -29,6 +29,14 @@ export function withHoneypot<T extends z.ZodRawShape>(schema: z.ZodObject<T>) {
   return schema.extend({ website: honeypotField });
 }
 
+export const journeyContextSchema = z.object({
+  opportunityId: z.string().trim().min(1).max(100),
+  scenarioId: z.string().trim().min(1).max(100),
+  scenarioTitle: z.string().trim().min(1).max(200),
+});
+
+export type JourneyContext = z.infer<typeof journeyContextSchema>;
+
 /** Server-side schema for every webhook submission. */
 export const leadSchema = z
   .object({
@@ -45,6 +53,7 @@ export const leadSchema = z
     roi_hours_per_week: z.number().min(0).max(200).optional(),
     roi_hourly_cost: z.number().min(0).max(1000).optional(),
     roi_annual_cost: z.number().min(0).max(10_000_000).optional(),
+    journey_context: journeyContextSchema.optional(),
     website: honeypotField,
   })
   .refine((data) => Boolean(data.email) || Boolean(data.message), {
@@ -100,3 +109,17 @@ export const roiReportSchema = withHoneypot(
 );
 
 export type RoiReportValues = z.infer<typeof roiReportSchema>;
+
+/**
+ * Demonstration completion - architecture request modal (brief §8.3 / T-013).
+ * Captures name, work email, business name / type, and honeypot.
+ */
+export const architectureRequestSchema = withHoneypot(
+  z.object({
+    name: z.string().trim().min(1, "Tell us your name").max(120),
+    email: email.min(1, "Enter your work email address"),
+    business: z.string().trim().min(1, "Tell us your business name or organization").max(120),
+  }),
+);
+
+export type ArchitectureRequestValues = z.infer<typeof architectureRequestSchema>;
