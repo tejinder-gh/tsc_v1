@@ -36,3 +36,5 @@
 | T-009 | ACCEPT | SENIOR | 2026-09-23 (review) | verified independently: production rejects unauthorized TLS by default, dev/test graceful fallback, explicit override supported, 6 new SSL unit tests (313 total), lint/build clean, scope exactly the 2 IN files. Merged to main. |
 | T-010 | IMPLEMENTED | SENIOR | 2026-09-23 16:15 UTC | branch=main commit=231292f |
 | T-010 | ACCEPT | SENIOR | 2026-09-23 (review) | verified independently: DemonstrationView dynamically imported with skeleton, demonstration-config decoupled from root index barrel, 313/313 tests pass, build 90/90 clean, scope clean (2 IN files). Merged to main. |
+| T-011 | IMPLEMENTED | INTERMEDIATE | 2026-09-23 16:16 UTC | branch=main commit=9111a7c |
+| T-011 | ACCEPT | INTERMEDIATE | 2026-09-23 (review) | verified independently: --tsc-line-strong (#817e74) achieves 4.0:1 on white and 3.54:1 on paper (meets WCAG AA 3:1), default ProblemInput and SearchBar borders updated, 313/313 tests pass, build 90/90 clean, scope exactly 3 IN files. Merged to main. |
