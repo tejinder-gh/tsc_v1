@@ -40,3 +40,6 @@
 | T-011 | ACCEPT | INTERMEDIATE | 2026-09-23 (review) | verified independently: --tsc-line-strong (#817e74) achieves 4.0:1 on white and 3.54:1 on paper (meets WCAG AA 3:1), default ProblemInput and SearchBar borders updated, 313/313 tests pass, build 90/90 clean, scope exactly 3 IN files. Merged to main. |
 | T-014 | IMPLEMENTED | INTERMEDIATE | 2026-09-23 16:18 UTC | branch=main commit=fc896a3 |
 | T-014 | ACCEPT | INTERMEDIATE | 2026-09-23 (review) | verified independently: DESIGN.md harmonized with canonical Geist typography and Phase 01 editorial tokens (including --tsc-line-strong), app/layout.tsx comment synchronized, 313/313 tests pass, build 90/90 clean, scope clean. Merged to main. |
+| T-013 | IMPLEMENTED | SENIOR | 2026-09-23 16:26 UTC | branch=main commit=0d8f71b |
+| T-013 | ACCEPT | SENIOR | 2026-09-23 (review) | verified independently: BlueprintCaptureModal created with accessible focus trap & ARIA dialog roles, DemonstrationView mounts CTA only on scenario completion, truthful copy (no automated PDF claims), validated journey_context schema with unrecognised fields stripped, 8 new unit/route tests (321 total pass), build 90/90 clean, scope clean. Merged to main. |
+
