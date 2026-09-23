@@ -32,3 +32,5 @@
 | T-007 | ACCEPT | INTERMEDIATE | 2026-08-08 (review) | verified independently: #848CA0 recomputed at 3.365:1 (matches claim), lint/test/build clean, scope exactly the 3 IN files, zero diff on every other border-line usage. Merged to main. Backlog complete — all 7 tickets accepted. |
 | T-008 | IMPLEMENTED | SENIOR | 2026-09-23 16:12 UTC | branch=main commit=c57e455 |
 | T-008 | ACCEPT | SENIOR | 2026-09-23 (review) | verified independently: npm audit reports 0 Critical/High (GHSA-2xp9-vwfh-vxw4, GHSA-p293-qw3h-jr36, GHSA-rgj7-g3m4-5g8c resolved), next 16.3.6, sharp 0.35.4, Turbopack build 90/90 clean, vitest 307/307 pass, scope clean (package-lock.json only). Merged to main. |
+| T-009 | IMPLEMENTED | SENIOR | 2026-09-23 16:14 UTC | branch=main commit=37fe6bd |
+| T-009 | ACCEPT | SENIOR | 2026-09-23 (review) | verified independently: production rejects unauthorized TLS by default, dev/test graceful fallback, explicit override supported, 6 new SSL unit tests (313 total), lint/build clean, scope exactly the 2 IN files. Merged to main. |
