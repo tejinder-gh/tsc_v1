@@ -98,7 +98,7 @@ Resolving these issues plus a targeted set of high-leverage fixes (code-splittin
 
 | ID | Description | Class | Sev | Conf | Location | Fix Effort |
 |---|---|---|---|---|---|---|
-| **CPO-01** | Demonstration experience lacks an "Export Blueprint / Email Me" capture step | MISSING | **P1** | `[HIGH]` | `components/journey/demonstration/DemonstrationView.tsx:210` | 3h |
+| **CPO-01** | Demonstration experience lacks a truthful architecture-request capture step | MISSING | **P1** | `[HIGH]` | `components/journey/demonstration/DemonstrationView.tsx:210` | 3h |
 | **CPO-02** | Operator dashboard disconnected from Second Brain database runtime | SUBOPTIMAL | **P2** | `[HIGH]` | `app/dashboard/flows/page.tsx:1`, `app/dashboard/drafts/page.tsx:1` | 4h |
 | **CPO-03** | Lack of verified client testimonials or case study attributions | SUBOPTIMAL | **P1** | `[HIGH]` | `app/(marketing)/results/page.tsx:1-50` | Ops/Copy |
 
@@ -106,9 +106,9 @@ Resolving these issues plus a targeted set of high-leverage fixes (code-splittin
 
 ##### CPO-01: Demonstration Experience Disconnects From Lead Capture (P1)
 - **User Journey Walkthrough:** A prospect arrives at `/`, clicks an Intent (e.g., "Answer every call & inquiry"), chooses Context Focus & Situation, receives a tailored diagnostic ("Live Intake & Booking Router"), and engages with the 3-step interactive simulation.
-- **The Gap:** Once the demonstration finishes, the only options are "Book 30-min Audit" or "Change Context". There is no lightweight capture mechanism such as *"Email me this system architecture blueprint"* or *"Download implementation spec"*.
+- **The Gap:** The current demonstration exposes scenario controls and return navigation, but no capture or booking action. There is no lightweight, truthful way to request staff follow-up for the illustrated architecture.
 - **Impact:** Prospects who are evaluating vendors or need internal stakeholder approval before booking a call have no way to save their customized result, causing immediate drop-off.
-- **Remediation:** Add a 1-click modal or inline input: *"Send this system specification to my inbox"* that submits to `/api/lead` with `lead_source: "demonstration_blueprint"`.
+- **Remediation:** Add an architecture-request form that submits a schema-validated scenario reference to `/api/lead`. Do not promise an emailed blueprint unless an actual document-generation and delivery path exists.
 
 ##### CPO-02: Dashboard Operates on Legacy File Store Instead of Database IAM (P2)
 - **Evidence:** `app/dashboard/flows/page.tsx` reads and toggles automations stored in `.automations/data/clients.json`. Meanwhile, the newly engineered Second Brain platform runs an enterprise-grade PostgreSQL schema (`public.jobs_automation`, `public.occurrences_automation`).
@@ -186,12 +186,12 @@ Live web search across Toronto AI automation agencies (Builts.ai, Ashavid, Makra
 
 | Opportunity / Leak | Root Cause | Severity | Est. Lost Revenue / Mo | Confidence |
 |---|---|---|---|---|
-| **Form Submissions 503 Failure** | `LEAD_WEBHOOK_URL` is placeholder in production | **P0** | **$12,000–$15,000** | `[HIGH]` |
-| **Demonstration Drop-off** | Zero blueprint capture or email follow-up in `/` | **P1** | **$3,600–$5,400** | `[MED]` |
-| **Checklist Nurture Decay** | Checklist captures email but lacks automated email drip | **P1** | **$2,400–$4,000** | `[MED]` |
+| **Form Submissions 503 Failure** | `LEAD_WEBHOOK_URL` is placeholder in production | **P0** | Unavailable — no measured production funnel | `[HIGH]` for the failure; `[LOW]` for revenue impact |
+| **Demonstration Drop-off** | No architecture-request capture in `/` | **P1** | Unavailable — no measured demonstration funnel | `[HIGH]` for the missing feature; `[LOW]` for revenue impact |
+| **Checklist Nurture Decay** | Checklist captures email but lacks automated email drip | **P1** | Unavailable — no measured nurture funnel | `[HIGH]` for the missing sequence; `[LOW]` for revenue impact |
 | **Unmeasured Marketing Spend** | Missing analytics prevents CAC calculation and paid ads | **P1** | Strategic Blocker | `[HIGH]` |
 
-#### Assumption Chains
+#### Unvalidated Scenario Models (not evidence)
 
 1. **Lead Webhook Failure:**
    - Traffic assumption: 500 targeted SMB visitors/month (via SEO, direct, GEO).
@@ -224,7 +224,7 @@ The application possesses clean code, a robust test suite (307 passing tests), a
 | **6** | Deploy Plausible / GA4 analytics tracking | CMO | **P1** | 7 | 8 | 8 | **448** | Intermediate Dev |
 | **7** | Populate `sameAs` array with Google Business Profile | CMO | **P2** | 6 | 8 | 9 | **432** | Founder / Ops |
 | **8** | Add IP rate limiting on public API submission routes | CTO | **P1** | 7 | 8 | 7 | **392** | Senior Dev |
-| **9** | Add "Email Me This Blueprint" to Demonstration | CPO | **P1** | 8 | 7 | 6 | **336** | Senior Dev |
+| **9** | Add a truthful architecture-request capture flow | CPO | **P1** | 8 | 7 | 6 | **336** | Senior Dev |
 | **10** | Synchronize `DESIGN.md` with active Geist system | Design | **P2** | 5 | 9 | 9 | **405** | Intermediate Dev |
 
 ### 6.3 30 / 60 / 90-Day Execution Roadmap
@@ -248,6 +248,12 @@ gantt
     Publish First 2 Verified Case Studies    :p9, 2026-11-01, 14d
     Implement Playwright E2E Test Suite      :p10, 2026-11-15, 10d
 ```
+
+### 6.3.1 Ticket coverage and external gates
+
+- T-008 maps CTO-01; T-009 maps CTO-02; T-010 maps CTO-03; T-011 maps DES-01; T-012 maps CTO-05; T-013 maps CPO-01; T-014 maps DES-02.
+- T-015 maps the P0 production `LEAD_WEBHOOK_URL` readiness gate. It requires founder-approved provider and deployment access; no secret belongs in the repository.
+- Analytics provisioning and public `sameAs` links remain unscheduled external decisions. They must be explicitly deferred or turned into owner-approved operational tickets before the roadmap is called complete.
 
 ### 6.4 Explicit Do-NOT-Build List
 - ❌ **Do NOT build a client-facing SaaS portal:** Managing customer logins before securing paying clients adds unnecessary maintenance and attack surface.
