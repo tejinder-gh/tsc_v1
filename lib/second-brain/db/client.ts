@@ -14,7 +14,28 @@ export function resolveDatabaseSslConfig(
   connectionString: string,
   env: NodeJS.ProcessEnv = process.env,
 ): boolean | { rejectUnauthorized: boolean } {
-  // If connection URL explicitly disables SSL or targets local loopback without override:
+  const isProd = env.NODE_ENV === "production" || env.VERCEL_ENV === "production";
+
+  if (isProd) {
+    if (connectionString.includes("sslmode=disable")) {
+      throw new Error(
+        "Insecure database SSL configuration: sslmode=disable cannot be used in production environments.",
+      );
+    }
+
+    if (env.SECOND_BRAIN_DB_SSL_REJECT_UNAUTHORIZED !== undefined) {
+      const override = env.SECOND_BRAIN_DB_SSL_REJECT_UNAUTHORIZED.toLowerCase().trim();
+      if (override === "false" || override === "0") {
+        throw new Error(
+          "Insecure database SSL configuration: SECOND_BRAIN_DB_SSL_REJECT_UNAUTHORIZED cannot be set to false in production environments.",
+        );
+      }
+    }
+
+    return { rejectUnauthorized: true };
+  }
+
+  // Non-production environments (development, test)
   const isLocalOrDisabled =
     connectionString.includes("sslmode=disable") ||
     connectionString.includes("localhost") ||
@@ -24,7 +45,7 @@ export function resolveDatabaseSslConfig(
     return false;
   }
 
-  // Explicit override takes precedence if set
+  // Explicit override takes precedence in non-production if set
   if (env.SECOND_BRAIN_DB_SSL_REJECT_UNAUTHORIZED !== undefined) {
     const override = env.SECOND_BRAIN_DB_SSL_REJECT_UNAUTHORIZED.toLowerCase().trim();
     if (override === "false" || override === "0") {
@@ -33,12 +54,6 @@ export function resolveDatabaseSslConfig(
     if (override === "true" || override === "1") {
       return { rejectUnauthorized: true };
     }
-  }
-
-  // Production environments enforce certificate authority verification by default
-  const isProd = env.NODE_ENV === "production" || env.VERCEL_ENV === "production";
-  if (isProd) {
-    return { rejectUnauthorized: true };
   }
 
   // Development and test defaults

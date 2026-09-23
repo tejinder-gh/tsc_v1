@@ -13,6 +13,7 @@
  */
 
 import { Pool } from "pg";
+import { resolveDatabaseSslConfig } from "../db/client";
 import type { CreateCredentialResult, CredentialScope, SafeCredentialMetadata } from "../types/iam";
 
 let adminPool: Pool | null = null;
@@ -28,9 +29,11 @@ export function getAdminPool(): Pool {
     );
   }
 
+  const ssl = resolveDatabaseSslConfig(adminUrl);
+
   adminPool = new Pool({
     connectionString: adminUrl,
-    ssl: { rejectUnauthorized: false },
+    ssl,
     max: 5,
     idleTimeoutMillis: 10000,
   });
