@@ -11,6 +11,7 @@ vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
 }));
 
+import { ContextRepository } from "../../lib/second-brain/repositories/ContextRepository";
 import {
   getDashboardOverviewMetrics,
   triggerCatalogDiagnostic,
@@ -21,7 +22,6 @@ import {
 } from "./actions";
 import { assertOperatorAuthenticated, assertValidClientId } from "./auth-guard";
 import { getClientsWithFlows, toggleFlow } from "./flows/actions";
-import { ContextRepository } from "../../lib/second-brain/repositories/ContextRepository";
 
 describe("Dashboard Server Action Authorization & Workflows", () => {
   const originalEnv = { ...process.env };

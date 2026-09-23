@@ -439,10 +439,12 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   <Shield size={12} />
                   Engine: Lead Intake Simulation & Honeypot Filter
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">Lead Intake Simulation & Security Test</h3>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Lead Intake Simulation & Security Test
+                </h3>
                 <p className="text-xs text-slate-600 mt-1">
-                  Validates lead capture payloads and bot trap defenses in simulation mode.
-                  Does not deliver to external webhooks.
+                  Validates lead capture payloads and bot trap defenses in simulation mode. Does not
+                  deliver to external webhooks.
                 </p>
               </div>
 
@@ -548,9 +550,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   ) : (
                     <>
                       <Send size={16} />
-                      <span>
-                        {isHoneypot ? "Test Honeypot Bot Trap" : "Simulate Lead Intake"}
-                      </span>
+                      <span>{isHoneypot ? "Test Honeypot Bot Trap" : "Simulate Lead Intake"}</span>
                     </>
                   )}
                 </button>

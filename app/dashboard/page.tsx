@@ -44,8 +44,8 @@ export default async function DashboardRootPage() {
             Executive Command Center
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-2xl">
-            System configuration overview, client automation recipe matrix, pending human-in-the-loop
-            review queues, and manual execution triggers.
+            System configuration overview, client automation recipe matrix, pending
+            human-in-the-loop review queues, and manual execution triggers.
           </p>
         </div>
 
@@ -378,7 +378,8 @@ export default async function DashboardRootPage() {
               Platform Subsystems & Registry State
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Protocol specifications, runtime drivers, and configuration status of backend services.
+              Protocol specifications, runtime drivers, and configuration status of backend
+              services.
             </p>
           </div>
           <Link
@@ -460,8 +461,8 @@ export default async function DashboardRootPage() {
             </h2>
             <p className="text-sm text-slate-300 leading-relaxed">
               Trigger scheduler cycles, simulate inbound Twilio customer SMS replies, run simulated
-              lead intake, query Second Brain RAG knowledge, or run deep catalog diagnostics with execution
-              telemetry.
+              lead intake, query Second Brain RAG knowledge, or run deep catalog diagnostics with
+              execution telemetry.
             </p>
           </div>
 

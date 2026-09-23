@@ -59,11 +59,11 @@ export default function PrivacyPage() {
               your customers, patients, or clients.
             </li>
             <li>
-              <strong>Transit-Focused Processing:</strong> Automations process data in transit (e.g.,
-              receiving a webhook payload from your booking system, formatting an SMS reminder, and
-              handing it to Twilio). Hosting server logs retain only bounded operational event metadata
-              (such as event status, delivery timestamps, and error codes) without persisting customer
-              lead bodies.
+              <strong>Transit-Focused Processing:</strong> Automations process data in transit
+              (e.g., receiving a webhook payload from your booking system, formatting an SMS
+              reminder, and handing it to Twilio). Hosting server logs retain only bounded
+              operational event metadata (such as event status, delivery timestamps, and error
+              codes) without persisting customer lead bodies.
             </li>
             <li>
               <strong>Use of Existing Systems:</strong> We configure AI models to read and write
