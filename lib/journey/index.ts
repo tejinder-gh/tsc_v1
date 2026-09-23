@@ -1,6 +1,4 @@
 export * from "./context-config";
-export * from "./demonstration-config";
-export * from "./demonstration-engine";
 export * from "./diagnose-opportunity";
 export * from "./journey-context";
 export * from "./opportunity-config";

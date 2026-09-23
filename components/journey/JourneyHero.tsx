@@ -1,14 +1,37 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { SectionLabel } from "@/components/ui/editorial";
 import { useJourney } from "@/lib/journey";
 import { ContextEngine } from "./context/ContextEngine";
-import { DemonstrationView } from "./demonstration";
 import { IntentSelector } from "./IntentSelector";
 import { JourneyProgress } from "./JourneyProgress";
 import { LiveSystemExample } from "./LiveSystemExample";
 import { OpportunityView } from "./opportunity";
 import { ProblemInput } from "./ProblemInput";
+
+const DemonstrationView = dynamic(
+  () =>
+    import("./demonstration/DemonstrationView").then((mod) => mod.DemonstrationView),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="w-full min-h-[420px] flex flex-col items-center justify-center p-8 rounded-[4px] border border-[var(--tsc-line)] bg-white/60 text-[var(--tsc-muted)]"
+        aria-busy="true"
+        aria-live="polite"
+      >
+        <span
+          className="inline-block h-3 w-3 rounded-full bg-[var(--tsc-ink)] ring-4 ring-[var(--tsc-line)] animate-pulse mb-3"
+          aria-hidden="true"
+        />
+        <p className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-ink)] font-semibold">
+          Loading System Demonstration…
+        </p>
+      </div>
+    ),
+  },
+);
 
 export function JourneyHero() {
   const { hasExistingProgress, journey, continueJourney, resetJourney } = useJourney();
