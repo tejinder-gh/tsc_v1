@@ -42,4 +42,6 @@
 | T-014 | ACCEPT | INTERMEDIATE | 2026-09-23 (review) | verified independently: DESIGN.md harmonized with canonical Geist typography and Phase 01 editorial tokens (including --tsc-line-strong), app/layout.tsx comment synchronized, 313/313 tests pass, build 90/90 clean, scope clean. Merged to main. |
 | T-013 | IMPLEMENTED | SENIOR | 2026-09-23 16:26 UTC | branch=main commit=0d8f71b |
 | T-013 | ACCEPT | SENIOR | 2026-09-23 (review) | verified independently: BlueprintCaptureModal created with accessible focus trap & ARIA dialog roles, DemonstrationView mounts CTA only on scenario completion, truthful copy (no automated PDF claims), validated journey_context schema with unrecognised fields stripped, 8 new unit/route tests (321 total pass), build 90/90 clean, scope clean. Merged to main. |
+| T-015 | VERIFIED | FOUNDER/OPS | 2026-09-23 16:32 UTC | verified end-to-end via local mock webhook receiver: valid architecture request receives 200 { ok: true, delivered: true } and payload confirmed received with lead_source, journey_context, and submitted_at; honeypot bot submission receives 200 { ok: true, delivered: false } and webhook call is dropped. Zero secrets or real PII exposed. |
+
 
