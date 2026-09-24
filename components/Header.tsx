@@ -97,10 +97,12 @@ export function Header() {
             <Link
               href="/#start"
               onClick={handleStartClick}
-              className="inline-flex items-center gap-2 rounded-[8px] border border-[var(--tsc-ink)]/30 px-4 py-2 text-[13px] font-medium text-[var(--tsc-ink)] transition-all hover:bg-[var(--tsc-ink)] hover:text-[var(--tsc-paper)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
+              className="group inline-flex items-center gap-2 rounded-[8px] border border-[var(--tsc-ink)]/30 bg-white/60 px-4 py-2 text-[13px] font-medium text-[var(--tsc-ink)] shadow-[var(--shadow-warm-sm)] transition-all hover:bg-[var(--tsc-ink)] hover:text-[var(--tsc-paper)] hover:shadow-[var(--shadow-warm-md)] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
             >
               <span>Start with a problem</span>
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
+                →
+              </span>
             </Link>
           </div>
 

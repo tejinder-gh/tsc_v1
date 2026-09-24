@@ -58,9 +58,12 @@ export function HowWeDecide() {
             <EditorialDivider />
             <div className="divide-y divide-[var(--tsc-line)]">
               {PRINCIPLES.map((principle) => (
-                <div key={principle.number} className="py-7 sm:py-8 space-y-3">
+                <div
+                  key={principle.number}
+                  className="group py-7 sm:py-8 space-y-3 px-3.5 -mx-3.5 rounded-[6px] transition-all duration-200 hover:bg-white hover:shadow-[var(--shadow-warm-sm)]"
+                >
                   <div className="flex items-baseline gap-3">
-                    <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)]">
+                    <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] group-hover:text-[var(--tsc-action)] transition-colors">
                       {principle.number}
                     </span>
                     <h3 className="font-mono text-xs sm:text-[13px] font-bold tracking-wider text-[var(--tsc-ink)] uppercase">

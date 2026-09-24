@@ -131,9 +131,9 @@
   --shadow-sm: 0 1px 2px rgb(8 33 91 / 0.06);
   --shadow-md: 0 4px 12px rgb(8 33 91 / 0.08);
   --shadow-lg: 0 16px 40px rgb(8 33 91 / 0.12);
-  /* Not in the brief's 3-step scale; kept for two existing home sections until they're
-     rebuilt in the home pass, at which point they move to sm/md/lg. */
-  --shadow-elevated: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 4px 8px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.04);
+  --shadow-warm-sm: 0 1px 3px 0 rgba(18, 19, 15, 0.04), 0 1px 2px -1px rgba(18, 19, 15, 0.03);
+  --shadow-warm-md: 0 4px 12px -2px rgba(18, 19, 15, 0.06), 0 2px 6px -1px rgba(18, 19, 15, 0.04);
+  --shadow-warm-lg: 0 14px 34px -4px rgba(18, 19, 15, 0.08), 0 4px 12px -2px rgba(18, 19, 15, 0.03);
 }
 
 @theme inline {
@@ -186,6 +186,20 @@ html:not(.js) [data-reveal] {
 
 .animate-pop {
   animation: pop-in 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes audio-pulse {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+
+@keyframes signal-glow {
+  0%, 100% { opacity: 0.4; transform: scale(0.96); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+.animate-signal-glow {
+  animation: signal-glow 2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
