@@ -32,6 +32,7 @@
 import { NextResponse } from "next/server";
 import { readBoundedBody } from "@/lib/request-limit";
 import { leadSchema } from "@/lib/schemas";
+import { captureError, trackEvent } from "@/lib/telemetry";
 
 const DELIVERY_FAILED = "Lead delivery failed. Please try again, or email us directly.";
 
@@ -73,6 +74,15 @@ export async function POST(request: Request): Promise<NextResponse> {
     const env = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
     if (env === "production") {
       console.error("[lead] LEAD_WEBHOOK_URL is not set in production; lead rejected");
+      trackEvent("lead_delivery_failed", {
+        location: lead.lead_source,
+        segment: lead.segment,
+        reason: "missing_webhook_url",
+      });
+      captureError(new Error("LEAD_WEBHOOK_URL is not set in production"), {
+        category: "lead_delivery",
+        route: "/api/lead",
+      });
       return NextResponse.json({ ok: false, error: DELIVERY_FAILED }, { status: 503 });
     }
     console.warn(
@@ -90,12 +100,36 @@ export async function POST(request: Request): Promise<NextResponse> {
     });
     if (!response.ok) {
       console.error("[lead] Webhook responded with status", response.status);
+      trackEvent("lead_delivery_failed", {
+        location: lead.lead_source,
+        segment: lead.segment,
+        reason: "webhook_status_error",
+      });
+      captureError(new Error(`Lead webhook delivery failed with HTTP ${response.status}`), {
+        category: "lead_delivery",
+        route: "/api/lead",
+        extra: { status: response.status },
+      });
       return NextResponse.json({ ok: false, error: DELIVERY_FAILED }, { status: 502 });
     }
   } catch (error) {
     console.error("[lead] Webhook delivery error:", error);
+    trackEvent("lead_delivery_failed", {
+      location: lead.lead_source,
+      segment: lead.segment,
+      reason: "webhook_network_error",
+    });
+    captureError(error, {
+      category: "lead_delivery",
+      route: "/api/lead",
+    });
     return NextResponse.json({ ok: false, error: DELIVERY_FAILED }, { status: 502 });
   }
+
+  trackEvent("lead_delivery_succeeded", {
+    location: lead.lead_source,
+    segment: lead.segment,
+  });
 
   return NextResponse.json({ ok: true, delivered: true });
 }

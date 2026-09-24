@@ -181,7 +181,8 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
       expect(metrics.summary.offeringsBreakdown.services).toBe(13);
       expect(metrics.summary.offeringsBreakdown.newsletters).toBe(3);
       expect(metrics.summary.registeredInternalEndpoints).toBeGreaterThan(0);
-      expect(metrics.subsystems.length).toBe(5);
+      expect(metrics.subsystems.length).toBe(6);
+      expect(metrics.subsystems.some((s) => s.id === "observability")).toBe(true);
 
       // T-020 AC2 & AC5: Subsystems must reflect configuration/registered/unverified state, never false operational health
       const validStates = ["configured", "registered", "unverified", "unavailable"];

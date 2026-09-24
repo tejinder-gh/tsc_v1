@@ -11,28 +11,68 @@
  * When: 2026-06.
  */
 
-import Cal from "@calcom/embed-react";
+import Cal, { getCalApi } from "@calcom/embed-react";
+import { useEffect } from "react";
 import { booking, site } from "@/content/site";
+import { trackEvent } from "@/lib/telemetry";
 import { CtaLink } from "./CtaLink";
 
 export function BookingEmbed() {
+  useEffect(() => {
+    if (!booking.calLink) return;
+
+    trackEvent("booking_viewed", { location: "booking_embed" });
+
+    let unmounted = false;
+    (async () => {
+      try {
+        const cal = await getCalApi();
+        if (unmounted) return;
+
+        // Interaction started: user selected an event type / slot
+        cal("on", {
+          action: "eventTypeSelected",
+          callback: () => {
+            trackEvent("booking_started", { location: "booking_embed" });
+          },
+        });
+
+        // Authoritative booking completion callback
+        cal("on", {
+          action: "bookingSuccessful",
+          callback: () => {
+            trackEvent("booking_completed", { location: "booking_embed" });
+          },
+        });
+      } catch {
+        // Fail-open: booking telemetry must never disrupt embed
+      }
+    })();
+
+    return () => {
+      unmounted = true;
+    };
+  }, []);
+
   if (!booking.calLink) {
     return (
-      <div className="rounded-xl border-2 border-dashed border-navy/20 bg-mist p-8 text-center">
-        <p className="font-display text-xl font-bold text-navy">Booking is almost ready</p>
-        <p className="mx-auto mt-2 max-w-md leading-relaxed">
-          Online scheduling is being set up (set NEXT_PUBLIC_CAL_LINK). In the meantime, email{" "}
+      <div className="rounded-[8px] border border-dashed border-[var(--tsc-line-strong)] bg-[var(--tsc-surface)]/50 p-8 text-center font-geist">
+        <p className="text-lg font-bold text-[var(--tsc-ink)]">
+          Booking calendar is being initialized
+        </p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-[var(--tsc-muted)] leading-relaxed">
+          Online scheduling is being configured. In the meantime, email{" "}
           <a
             href={`mailto:${site.email}`}
-            className="font-semibold text-blue underline underline-offset-4"
+            className="font-medium text-[var(--tsc-action)] underline underline-offset-4"
           >
             {site.email}
           </a>{" "}
-          and we will send you times within one business day.
+          and we will coordinate times with you directly.
         </p>
         <div className="mt-5">
           <CtaLink href="/contact" location="book_fallback" variant="secondary">
-            Send a quick query instead
+            Send a direct query instead
           </CtaLink>
         </div>
       </div>
@@ -40,7 +80,7 @@ export function BookingEmbed() {
   }
 
   return (
-    <div className="min-h-[640px] overflow-hidden rounded-xl border border-navy/10 bg-white">
+    <div className="min-h-[640px] overflow-hidden rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-sm">
       <Cal
         calLink={booking.calLink}
         style={{ width: "100%", height: "100%", minHeight: "640px" }}

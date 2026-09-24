@@ -11,6 +11,7 @@ import { runTick } from "@/automations/server/run-tick";
 import { getAllOfferings, getOfferingsByKind } from "@/features/catalog/data/registry";
 import { ContextRepository } from "@/lib/second-brain/repositories/ContextRepository";
 import { SECOND_BRAIN_ROUTES } from "@/lib/second-brain/routes-registry";
+import { getTelemetryStatus, type TelemetryStatus } from "@/lib/telemetry";
 import { assertOperatorAuthenticated, assertValidClientId } from "./auth-guard";
 
 export interface ClientMatrixItem {
@@ -53,6 +54,7 @@ export interface DashboardMetrics {
     description: string;
     lastTelemetry?: string;
   }[];
+  telemetry?: TelemetryStatus;
   lastUpdated: string;
 }
 
@@ -106,6 +108,8 @@ export async function getDashboardOverviewMetrics(): Promise<DashboardMetrics> {
   const servicesOfferings = getOfferingsByKind("service");
   const newslettersOfferings = getOfferingsByKind("newsletter");
 
+  const telemetryStatus = getTelemetryStatus();
+
   const subsystems = [
     {
       id: "scheduler",
@@ -149,6 +153,17 @@ export async function getDashboardOverviewMetrics(): Promise<DashboardMetrics> {
       description: "34 canonical services, automations, and newsletters with 100% slug integrity.",
       lastTelemetry: "34 canonical entities defined in local catalog",
     },
+    {
+      id: "observability",
+      name: "Observability & Error Telemetry",
+      protocol: "Plausible CE / GlitchTip / OpenReplay",
+      status:
+        telemetryStatus.analytics.configured || telemetryStatus.errorMonitoring.configured
+          ? ("configured" as const)
+          : ("unavailable" as const),
+      description: `Release ${telemetryStatus.releaseId} (${telemetryStatus.environment}). Analytics: ${telemetryStatus.analytics.status}, Errors: ${telemetryStatus.errorMonitoring.status}, Replay: ${telemetryStatus.sessionReplay.status}.`,
+      lastTelemetry: "Configuration loaded. Live totals require backend read adapters.",
+    },
   ];
 
   return {
@@ -168,6 +183,7 @@ export async function getDashboardOverviewMetrics(): Promise<DashboardMetrics> {
       registeredInternalEndpoints: SECOND_BRAIN_ROUTES.length,
     },
     subsystems,
+    telemetry: telemetryStatus,
     lastUpdated: new Date().toISOString(),
   };
 }

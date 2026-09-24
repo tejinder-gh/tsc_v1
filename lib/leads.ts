@@ -14,12 +14,18 @@
 
 import { track } from "./analytics";
 import type { LeadPayload } from "./schemas";
+import { captureError, trackEvent } from "./telemetry";
 
 export async function submitLead(payload: LeadPayload): Promise<void> {
   const body: LeadPayload = {
     ...payload,
     page: typeof window === "undefined" ? undefined : window.location.pathname,
   };
+
+  trackEvent("lead_submit_attempted", {
+    location: payload.lead_source,
+    segment: payload.segment ?? "unknown",
+  });
 
   let response: Response;
   try {
@@ -28,13 +34,26 @@ export async function submitLead(payload: LeadPayload): Promise<void> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-  } catch {
+  } catch (error) {
+    captureError(error, {
+      category: "lead_delivery",
+      route: typeof window === "undefined" ? undefined : window.location.pathname,
+    });
     throw new Error("Could not reach the server. Check your connection and try again.");
   }
 
   if (!response.ok) {
+    captureError(new Error(`Lead submission failed with HTTP ${response.status}`), {
+      category: "lead_delivery",
+      route: typeof window === "undefined" ? undefined : window.location.pathname,
+    });
     throw new Error("Something went wrong sending that. Please try again, or email us directly.");
   }
+
+  trackEvent("lead_submit_accepted", {
+    location: payload.lead_source,
+    segment: payload.segment ?? "unknown",
+  });
 
   let delivered = true;
   try {

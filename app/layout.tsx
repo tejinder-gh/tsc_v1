@@ -14,8 +14,10 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
+import { TelemetryClient } from "@/components/telemetry/TelemetryClient";
 import { site } from "@/content/site";
 import { BUSINESS_ID } from "@/lib/structured-data";
+import { getTelemetryConfig } from "@/lib/telemetry/config";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08215B",
+  themeColor: "#12130f",
 };
 
 const localBusinessJsonLd = {
@@ -120,31 +122,14 @@ const localBusinessJsonLd = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const { analytics, ga } = getTelemetryConfig();
 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <head>
-        <link
-          rel="preload"
-          href="/fonts/poppins-600-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/dm-sans-400-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <body className="font-body antialiased">
+      <body className="font-geist bg-[var(--tsc-paper)] text-[var(--tsc-ink)] antialiased">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-white focus:px-4 focus:py-3 focus:font-display focus:text-sm focus:font-medium focus:text-navy-700 focus:shadow-lg focus:outline focus:outline-2 focus:outline-blue-500"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-[4px] focus:bg-[var(--tsc-surface)] focus:px-4 focus:py-3 focus:font-geist focus:text-sm focus:font-medium focus:text-[var(--tsc-ink)] focus:shadow-md focus:border focus:border-[var(--tsc-line-strong)] focus:outline focus:outline-2 focus:outline-[var(--tsc-action)]"
         >
           Skip to content
         </a>
@@ -159,28 +144,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           // biome-ignore lint/security/noDangerouslySetInnerHtml: static, locally-defined JSON
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
-        {plausibleDomain ? (
+        {analytics.enabled && analytics.domain && analytics.scriptUrl ? (
           <Script
             defer
-            data-domain={plausibleDomain}
-            src="https://plausible.io/js/script.js"
+            data-domain={analytics.domain}
+            src={analytics.scriptUrl}
+            {...(analytics.apiHost ? { "data-api": `${analytics.apiHost}/api/event` } : {})}
             strategy="afterInteractive"
           />
         ) : null}
-        {!plausibleDomain && gaId ? (
+        {ga.enabled && ga.measurementId ? (
           <>
             <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              src={`https://www.googletagmanager.com/gtag/js?id=${ga.measurementId}`}
               strategy="afterInteractive"
             />
             <Script id="ga-init" strategy="afterInteractive">
               {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${gaId}');`}
+gtag('config', '${ga.measurementId}');`}
             </Script>
           </>
         ) : null}
+        <TelemetryClient />
         {children}
       </body>
     </html>
