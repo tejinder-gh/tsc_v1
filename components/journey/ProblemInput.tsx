@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { type FormEvent, useEffect, useState } from "react";
+import { Magnetic } from "@/components/ui/MagneticButton";
 import { useJourney } from "@/lib/journey";
 
 interface ProblemInputProps {
@@ -107,25 +108,48 @@ export function ProblemInput({
                 if (error) setError(null);
               }}
               placeholder={placeholder}
-              className={`w-full min-h-[52px] rounded-[8px] border py-3 pl-4 pr-14 text-sm sm:text-base transition-colors focus:outline-none focus:ring-1 ${
+              className={`w-full min-h-[52px] rounded-[8px] border py-3 pl-4 pr-20 text-sm sm:text-base transition-colors focus:outline-none focus:ring-1 ${
                 isDark
                   ? "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:border-white focus:ring-white"
                   : "border-[var(--tsc-line-strong)] bg-white text-[var(--tsc-ink)] placeholder:text-[var(--tsc-muted)]/70 focus:border-[var(--tsc-ink)] focus:ring-[var(--tsc-ink)]"
               }`}
             />
-            <button
-              type="submit"
-              aria-label="Submit problem description"
-              className={`absolute right-1.5 top-1.5 bottom-1.5 flex h-[40px] w-[40px] items-center justify-center rounded-[6px] transition-all focus-visible:outline focus-visible:outline-2 ${
-                isDark
-                  ? "bg-[var(--tsc-paper)] text-[var(--tsc-ink)] hover:bg-white focus-visible:outline-white"
-                  : "bg-[var(--tsc-ink)] text-[var(--tsc-paper)] hover:opacity-90 focus-visible:outline-[var(--tsc-action)]"
-              }`}
-            >
-              <span className="text-base font-semibold leading-none" aria-hidden="true">
-                →
-              </span>
-            </button>
+            {value.trim().length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setValue("");
+                  setError(null);
+                  const inputEl = document.getElementById(id);
+                  inputEl?.focus();
+                }}
+                aria-label="Clear input text"
+                className={`absolute right-13 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full transition-colors ${
+                  isDark
+                    ? "text-white/40 hover:text-white hover:bg-white/10"
+                    : "text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] hover:bg-[var(--tsc-line)]/50"
+                }`}
+              >
+                <span className="text-xs">✕</span>
+              </button>
+            )}
+            <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center">
+              <Magnetic pullFactor={0.15}>
+                <button
+                  type="submit"
+                  aria-label="Submit problem description"
+                  className={`flex h-[40px] w-[40px] items-center justify-center rounded-[6px] transition-all focus-visible:outline focus-visible:outline-2 ${
+                    isDark
+                      ? "bg-[var(--tsc-paper)] text-[var(--tsc-ink)] hover:bg-white focus-visible:outline-white"
+                      : "bg-[var(--tsc-ink)] text-[var(--tsc-paper)] hover:opacity-90 focus-visible:outline-[var(--tsc-action)]"
+                  }`}
+                >
+                  <span className="text-base font-semibold leading-none" aria-hidden="true">
+                    →
+                  </span>
+                </button>
+              </Magnetic>
+            </div>
           </div>
 
           {error && (

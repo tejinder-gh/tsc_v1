@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PageEyebrow } from "@/components/public/PageEyebrow";
+import { Magnetic } from "@/components/ui/MagneticButton";
 
 type WorkflowMode = "automated" | "legacy";
 
@@ -563,15 +564,17 @@ export function ArchitectureVisualizer() {
             {mode === "automated" ? "Engineered Event Sequence" : "Legacy Friction Sequence"}
           </span>
           {mode === "automated" && (
-            <button
-              type="button"
-              onClick={handleSimulate}
-              disabled={simulating}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[4px] bg-[var(--tsc-action)] text-white hover:bg-[var(--tsc-ink)] transition-colors cursor-pointer text-xs font-mono font-semibold"
-            >
-              <Play className="h-3 w-3 fill-current" />
-              <span>{simulating ? "Simulating Event Ingest..." : "Run Live Trace"}</span>
-            </button>
+            <Magnetic pullFactor={0.16}>
+              <button
+                type="button"
+                onClick={handleSimulate}
+                disabled={simulating}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[6px] bg-[var(--tsc-action)] text-white hover:bg-[var(--tsc-ink)] transition-colors cursor-pointer text-xs font-mono font-semibold shadow-[var(--shadow-warm-xs)]"
+              >
+                <Play className="h-3 w-3 fill-current" />
+                <span>{simulating ? "Simulating Event Ingest..." : "Run Live Trace"}</span>
+              </button>
+            </Magnetic>
           )}
         </div>
 

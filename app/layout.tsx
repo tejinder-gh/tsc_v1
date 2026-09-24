@@ -15,6 +15,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { TelemetryClient } from "@/components/telemetry/TelemetryClient";
+import { PaperGrain } from "@/components/ui/PaperGrain";
 import { site } from "@/content/site";
 import { BUSINESS_ID } from "@/lib/structured-data";
 import { getTelemetryConfig } from "@/lib/telemetry/config";
@@ -142,6 +143,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="font-geist bg-[var(--tsc-paper)] text-[var(--tsc-ink)] antialiased">
+        <PaperGrain />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-[4px] focus:bg-[var(--tsc-surface)] focus:px-4 focus:py-3 focus:font-geist focus:text-sm focus:font-medium focus:text-[var(--tsc-ink)] focus:shadow-md focus:border focus:border-[var(--tsc-line-strong)] focus:outline focus:outline-2 focus:outline-[var(--tsc-action)]"

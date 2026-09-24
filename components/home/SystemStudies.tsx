@@ -4,6 +4,7 @@ import { Check, Play, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { EditorialDivider, SectionLabel } from "@/components/ui/editorial";
+import { Magnetic } from "@/components/ui/MagneticButton";
 
 interface SystemStudy {
   id: string;
@@ -249,24 +250,26 @@ export function SystemStudies() {
                 </div>
 
                 {/* Simulation Control */}
-                <button
-                  type="button"
-                  onClick={triggerSimulation}
-                  disabled={isSimulating}
-                  className="flex items-center gap-1.5 px-2 py-1 rounded-[4px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] hover:bg-[var(--tsc-paper)] text-[10px] font-mono uppercase text-[var(--tsc-ink)] transition-colors disabled:opacity-50 cursor-pointer"
-                >
-                  {isSimulating ? (
-                    <>
-                      <RotateCcw className="h-2.5 w-2.5 animate-spin text-[var(--tsc-action)]" />
-                      <span>Running…</span>
-                    </>
-                  ) : (
-                    <>
-                      <Play className="h-2.5 w-2.5 fill-current text-[var(--tsc-action)]" />
-                      <span>Simulate Flow</span>
-                    </>
-                  )}
-                </button>
+                <Magnetic pullFactor={0.16}>
+                  <button
+                    type="button"
+                    onClick={triggerSimulation}
+                    disabled={isSimulating}
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] hover:bg-[var(--tsc-paper)] text-[10px] font-mono uppercase text-[var(--tsc-ink)] transition-colors disabled:opacity-50 cursor-pointer shadow-[var(--shadow-warm-xs)]"
+                  >
+                    {isSimulating ? (
+                      <>
+                        <RotateCcw className="h-2.5 w-2.5 animate-spin text-[var(--tsc-action)]" />
+                        <span>Running…</span>
+                      </>
+                    ) : (
+                      <>
+                        <Play className="h-2.5 w-2.5 fill-current text-[var(--tsc-action)]" />
+                        <span>Simulate Flow</span>
+                      </>
+                    )}
+                  </button>
+                </Magnetic>
               </div>
 
               {/* Animated Pipeline Nodes */}
