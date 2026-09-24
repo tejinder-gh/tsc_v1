@@ -15,7 +15,7 @@ This document records the exact relationship, boundaries, operational state, and
 | **Scheduler** | In-process timer (`automations:scheduler`), external Vercel Cron pinging `GET /api/cron`, manual trigger via operator dashboard (`triggerManualSchedulerTick`) | Autonomous external machine runner loop polling `GET /due-jobs` and managing lifecycle via `acquire`, `start`, `finish`, `release` |
 | **State owned** | Client marketing recipes, appointment reminders, review requests, no-show re-engagement, customer opt-outs, pending review drafts, operator runtime flow toggles | Machine job registry, recurring schedules, execution policies, distributed execution claims with TTL, occurrence attempt records, runner cycle logs |
 | **Consumers** | Operator Command Center dashboard (`/dashboard`), marketing site demonstration clients (`radiance-salon`, `brightsmile-dental`), local SMB end customers | External autonomous runner agents, machine orchestrators, background workers authenticated via IAM credentials (`X-Agent-Key` or Bearer) |
-| **External callers** | Twilio webhook (`POST /api/inbound/sms`), Vercel Cron (`GET /api/cron`) | Autonomous agent runners (`EXTERNAL CONSUMER VERIFIED` via 9 internal API contract routes and IAM security definer functions) |
+| **External callers** | Twilio webhook (`POST /api/inbound/sms`), Vercel Cron (`GET /api/cron`) | Autonomous agent runners (`EXTERNAL CONSUMER UNVERIFIED` — contracts verified via 9 internal API routes and IAM security definer functions, but no external runner configuration is checked into this repository) |
 | **Persistence** | Local JSON files in `.automations/` (`.automations/optouts.json`, `.automations/history.json`, `.automations/drafts/<clientId>.json`, `.automations/overrides/<clientId>.json`) | PostgreSQL / Neon relational database (`public.jobs_automation`, `schedules_automation`, `execution_claims_automation`, `occurrences_automation`, etc.) |
 | **Source of truth** | Git-versioned TypeScript configs in `automations/clients/` merged at runtime with `.automations/overrides/<clientId>.json` | Neon database tables managed by PostgreSQL migrations (`db/migrations/001_second_brain_security.sql`, `002_security_definer_functions.sql`) |
 | **Overlap** | None in runtime data or state. Shared conceptual domain of "scheduled work", but file engine executes SMB client customer messaging, while Neon OS executes multi-agent runner coordination | None in runtime data or state. Both subsystems currently operate as independent parallel architectures |
@@ -36,14 +36,15 @@ This document records the exact relationship, boundaries, operational state, and
 - **Constraint:** Retains file-based storage (`.automations/*.json`) which requires persistent disk in long-running container deployments or will reset ephemeral serverless instances on Vercel unless migrated to durable database storage.
 
 ### Neon Automation OS
-- **Status:** `ACTIVE` / `EXTERNAL CONSUMER VERIFIED`
+- **Status:** `ACTIVE` / `EXTERNAL CONSUMER UNVERIFIED`
 - **Justification:**
   - Actively exposed via 9 authenticated internal routes under `/api/internal/v1/automations/*`.
   - Protected by strict Zod input validation schemas and machine IAM authorization (`withAgentApi`).
   - Backed by relational state tables in PostgreSQL (`jobs_automation`, `execution_claims_automation`).
   - Tested by contract verification suites (`lib/second-brain/__tests__/automations-http.test.ts`, `automation-os.test.ts`, 24 passing contract tests).
+  - External caller status is `EXTERNAL CONSUMER UNVERIFIED` because while the API contract is maintained and verified, no positive evidence of a specific external runner invocation or production caller configuration is stored inside this repository.
 - **Internal Reference Status:** `UNREFERENCED INTERNALLY` (by frontend pages and dashboard actions).
-  - Note: In accordance with global architectural rules, `UNREFERENCED INTERNALLY` **MUST NOT** be equated with `SAFE TO REMOVE`. The API contract serves external autonomous agents and worker runners operating outside the Next.js process boundary.
+  - Note: In accordance with global architectural rules, `UNREFERENCED INTERNALLY` **MUST NOT** be equated with `SAFE TO REMOVE`. The API contract is designed for external autonomous agents and worker runners operating outside the Next.js process boundary.
 
 ---
 
