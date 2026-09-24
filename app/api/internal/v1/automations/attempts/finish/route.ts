@@ -4,47 +4,29 @@
  * Required Action: automation.attempt.write
  */
 
-import { type NextRequest, NextResponse } from "next/server";
-import { authenticateAgent } from "@/lib/second-brain/auth/authenticate";
-import { authorize } from "@/lib/second-brain/auth/authorize";
-import { internalApiErrorResponse } from "@/lib/second-brain/http";
+import { NextResponse } from "next/server";
+import { withAgentApi } from "@/lib/second-brain/auth/withAgentApi";
 import { AutomationRepository } from "@/lib/second-brain/repositories/AutomationRepository";
+import {
+  type FinishAttemptInput,
+  finishAttemptSchema,
+} from "@/lib/second-brain/validation/schemas";
 
-export async function POST(request: NextRequest) {
-  try {
-    const authHeader = request.headers.get("authorization") || request.headers.get("x-api-key");
-    const authContext = await authenticateAgent(authHeader);
-
-    const authResult = authorize({
-      context: authContext,
-      action: "automation.attempt.write",
-      resourceType: "AUTOMATION_OPERATION",
-      resourceKey: "attempts",
-    });
-
-    if (!authResult.authorized) {
-      return NextResponse.json(
-        { error: "Forbidden", code: "FORBIDDEN", reason: authResult.reason },
-        { status: 403 },
-      );
-    }
-
-    const body = await request.json();
-    const { attemptId, status, error, schedulerDisposition, schedulerReason } = body;
-
-    if (!attemptId || !status) {
-      return NextResponse.json(
-        { error: "Missing required parameters: attemptId and status", code: "BAD_REQUEST" },
-        { status: 400 },
-      );
-    }
-
+export const POST = withAgentApi<FinishAttemptInput>({
+  operation: "POST /api/internal/v1/automations/attempts/finish",
+  schema: finishAttemptSchema,
+  permission: {
+    action: "automation.attempt.write",
+    resourceType: "AUTOMATION_OPERATION",
+    resourceKey: "attempts",
+  },
+  handler: async ({ body }) => {
     const attempt = await AutomationRepository.finishAttempt({
-      attemptId,
-      status,
-      error,
-      schedulerDisposition,
-      schedulerReason,
+      attemptId: body.attemptId,
+      status: body.status,
+      error: body.error,
+      schedulerDisposition: body.schedulerDisposition,
+      schedulerReason: body.schedulerReason,
     });
 
     if (!attempt) {
@@ -52,7 +34,5 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ attempt });
-  } catch (error: unknown) {
-    return internalApiErrorResponse(error, "POST /api/internal/v1/automations/attempts/finish");
-  }
-}
+  },
+});
