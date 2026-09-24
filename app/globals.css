@@ -93,8 +93,8 @@
   --font-geist: var(--font-geist-sans), system-ui, sans-serif;
   --font-geist-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  /* Legacy names - mapped to the editorial palette (ink/forest/surface) */
-  --color-navy: #12130f; /* headings, footer, icon ground - the logo's ink */
+  /* Legacy names - kept so existing markup keeps working */
+  --color-navy: #08215B; /* headings, footer, icon ground - the logo's ink */
   --color-blue: #2e694e; /* links, primary actions, accent per view */
   --color-blue-pressed: #1e4a36; /* hover/pressed */
   --color-blue-tint: #fbf9f3; /* soft surface backgrounds */
@@ -105,10 +105,10 @@
   --color-border-input: #848CA0; /* form input borders, meets WCAG 1.4.11 3:1 contrast on white */
   --color-muted: #97A0B8; /* de-emphasized text/icons */
 
-  /* Spec-named tokens - mapped to editorial palette */
-  --color-navy-900: #12130f; /* pressed ink, deep footers */
-  --color-navy-700: #12130f; /* = --color-navy */
-  --color-navy-500: #1a1b16; /* ink hover on dark surfaces */
+  /* Spec-named tokens */
+  --color-navy-900: #06183F; /* pressed navy, deep footers */
+  --color-navy-700: #08215B; /* = --color-navy */
+  --color-navy-500: #1B3A80; /* navy hover on navy surfaces */
   --color-blue-700: #1e4a36; /* = --color-blue-pressed */
   --color-blue-500: #2e694e; /* = --color-blue */
   --color-blue-100: #fbf9f3; /* = --color-blue-tint */

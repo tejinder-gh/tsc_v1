@@ -168,7 +168,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("scheduler")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "scheduler"
-              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
+              ? "border-[var(--tsc-action)] text-[var(--tsc-action)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -183,7 +183,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("inbound")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "inbound"
-              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
+              ? "border-[var(--tsc-action)] text-[var(--tsc-action)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -198,7 +198,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("lead")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "lead"
-              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
+              ? "border-[var(--tsc-action)] text-[var(--tsc-action)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -213,7 +213,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("second-brain")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "second-brain"
-              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
+              ? "border-[var(--tsc-action)] text-[var(--tsc-action)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -228,7 +228,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("catalog")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "catalog"
-              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
+              ? "border-[var(--tsc-action)] text-[var(--tsc-action)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -285,7 +285,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   type="button"
                   onClick={handleRunScheduler}
                   disabled={isPending}
-                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-ink)] hover:opacity-90 disabled:opacity-50 text-[var(--tsc-paper)] font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
+                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-action)] hover:opacity-90 disabled:opacity-50 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
                 >
                   {isPending ? (
                     <>
@@ -413,7 +413,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   type="button"
                   onClick={handleRunInbound}
                   disabled={isPending || !inboundMessageBody.trim()}
-                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-ink)] hover:opacity-90 disabled:opacity-50 text-[var(--tsc-paper)] font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
+                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-action)] hover:opacity-90 disabled:opacity-50 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
                 >
                   {isPending ? (
                     <>
@@ -540,7 +540,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   type="button"
                   onClick={handleRunLead}
                   disabled={isPending}
-                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-ink)] hover:opacity-90 disabled:opacity-50 text-[var(--tsc-paper)] font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
+                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-action)] hover:opacity-90 disabled:opacity-50 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
                 >
                   {isPending ? (
                     <>

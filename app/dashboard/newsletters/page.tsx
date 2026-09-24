@@ -136,7 +136,7 @@ export default function DashboardNewslettersPage() {
                   </Link>
                   <Link
                     href={`/dashboard/newsletters/${newsletter.slug}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-[var(--tsc-paper)] bg-[var(--tsc-ink)] hover:opacity-90 rounded-lg transition-all shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[var(--tsc-action)] hover:opacity-90 rounded-lg transition-all shadow-xs"
                   >
                     <span>Manage Issues &amp; Drafts</span>
                     <ArrowRight className="w-3.5 h-3.5" />

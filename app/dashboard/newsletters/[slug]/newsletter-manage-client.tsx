@@ -109,7 +109,7 @@ export function NewsletterManageClient({ newsletter }: { newsletter: Newsletter 
               type="button"
               disabled={isGenerating}
               onClick={handleSimulateAiGeneration}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-[var(--tsc-paper)] bg-[var(--tsc-ink)] hover:opacity-90 rounded-lg transition-all shadow-xs disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-[var(--tsc-action)] hover:opacity-90 rounded-lg transition-all shadow-xs disabled:opacity-50 cursor-pointer"
             >
               {isGenerating ? (
                 <>
@@ -158,7 +158,7 @@ export function NewsletterManageClient({ newsletter }: { newsletter: Newsletter 
                   }}
                   className={`w-full text-left p-3.5 rounded-xl border transition-all ${
                     isSelected
-                      ? "bg-white border-[var(--tsc-ink)] shadow-xs ring-1 ring-[var(--tsc-ink)]"
+                      ? "bg-white border-[var(--tsc-action)] shadow-xs ring-1 ring-[var(--tsc-action)]"
                       : "bg-white border-slate-200 hover:border-slate-300"
                   }`}
                 >

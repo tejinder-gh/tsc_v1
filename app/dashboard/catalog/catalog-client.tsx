@@ -136,7 +136,7 @@ export function CatalogClient({ offerings }: { offerings: readonly Offering[] })
                       href={item.canonicalUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--tsc-ink)] hover:text-[var(--tsc-positive)]"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--tsc-action)] hover:underline"
                     >
                       <span>Public</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />

@@ -52,7 +52,7 @@ export default async function DashboardRootPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/workflows"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--tsc-ink)] text-[var(--tsc-paper)] font-medium text-sm hover:opacity-90 shadow-sm transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--tsc-action)] text-white font-medium text-sm hover:opacity-90 shadow-sm transition-all"
           >
             <PlayCircle size={16} />
             <span>Workflow Triggers</span>

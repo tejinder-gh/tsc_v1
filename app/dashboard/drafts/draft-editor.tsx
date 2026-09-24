@@ -81,9 +81,7 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
               <div className="flex items-center gap-2 mb-2">
                 <span
                   className={`text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                    isSelected
-                      ? "bg-[var(--tsc-ink)] text-[var(--tsc-paper)]"
-                      : "bg-slate-100 text-slate-600"
+                    isSelected ? "bg-[var(--tsc-action)] text-white" : "bg-slate-100 text-slate-600"
                   }`}
                 >
                   {draft.purpose}
@@ -150,7 +148,7 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
             type="button"
             onClick={handleApprove}
             disabled={isPending}
-            className="flex items-center gap-2 px-6 py-2.5 bg-[var(--tsc-ink)] hover:opacity-90 text-[var(--tsc-paper)] rounded-xl transition-all font-medium disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-2.5 bg-[var(--tsc-action)] hover:opacity-90 text-white rounded-xl transition-all font-medium disabled:opacity-50"
           >
             {isPending ? <Clock size={18} className="animate-spin" /> : <Send size={18} />}
             Approve & Send

@@ -27,7 +27,7 @@ Retained in `@theme` in `app/globals.css` to support existing component markups 
 
 | Token | Hex | Role |
 | --- | --- | --- |
-| `navy` | `#12130f` | Legacy headings, footer, icon ground (mapped to ink) |
+| `navy` | `#08215B` | Legacy headings, footer, icon ground |
 | `blue` | `#2e694e` | Legacy button and accent alias (mapped to action forest) |
 | `blue-pressed` | `#1e4a36` | Forest hover/pressed |
 | `blue-tint` | `#fbf9f3` | Soft surface backgrounds (mapped to surface) |
