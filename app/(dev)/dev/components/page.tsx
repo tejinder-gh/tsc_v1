@@ -1,54 +1,96 @@
 /**
- * What: Isolated component gallery - every real primitive on the site, at real size,
- *       with its states (brief §16 step 3).
+ * What: Isolated component gallery - canonical editorial primitives at real size with states.
  * Why: A review surface for the design system separate from any marketing page, so
- *      tokens/components can be checked without hunting through nine different routes.
- * How: Server page reusing the actual components (CtaLink, Faq) rather than redrawing
- *      them, so the gallery can never drift from what ships. noindex'd and disallowed in
- *      robots.txt - this is a working document, not a page for visitors.
- * From Where: Brief working order step 3, 2026-08.
- * When: 2026-08.
+ *      tokens/components can be audited against DESIGN.md without route hunting.
+ * How: Server page reusing actual design tokens and components (CtaLink, EditorialFaq).
+ *      noindex'd and disallowed in robots.txt - working document only.
+ * From Where: DESIGN.md - "approachable precision" editorial redesign.
+ * When: 2026.
  */
 
 import type { Metadata } from "next";
 import { CtaLink } from "@/components/CtaLink";
 import { EditorialFaq } from "@/components/public/EditorialFaq";
+import { PageEyebrow } from "@/components/public/PageEyebrow";
 
 export const metadata: Metadata = {
-  title: "Component gallery (internal)",
+  title: "Component Gallery (Internal) | The Skill Corner",
   robots: { index: false, follow: false },
 };
 
-const colorTokens = [
-  { name: "navy-900", cls: "bg-navy-900", hex: "#06183F" },
-  { name: "navy-700", cls: "bg-navy-700", hex: "#08215B" },
-  { name: "navy-500", cls: "bg-navy-500", hex: "#1B3A80" },
-  { name: "blue-700", cls: "bg-blue-700", hex: "#1B49B8" },
-  { name: "blue-500", cls: "bg-blue-500", hex: "#2563EB" },
-  { name: "blue-100", cls: "bg-blue-100", hex: "#EAF0FE" },
-  { name: "slate-600", cls: "bg-slate-600", hex: "#5A6480" },
-  { name: "slate-400", cls: "bg-slate-400", hex: "#97A0B8" },
-  { name: "line", cls: "bg-line", hex: "#DDE3EE" },
-  { name: "mist", cls: "bg-mist", hex: "#F2F5FA" },
-  { name: "paper", cls: "bg-paper border border-line", hex: "#FFFFFF" },
-  { name: "success", cls: "bg-success", hex: "#0F7B4F" },
-  { name: "warning", cls: "bg-warning", hex: "#9A5B00" },
-  { name: "danger", cls: "bg-danger", hex: "#B42318" },
+const canonicalPalette = [
+  {
+    name: "ink",
+    variable: "--tsc-ink",
+    hex: "#12130f",
+    cls: "bg-[var(--tsc-ink)] text-[var(--tsc-paper)]",
+  },
+  {
+    name: "paper",
+    variable: "--tsc-paper",
+    hex: "#f4f1e9",
+    cls: "bg-[var(--tsc-paper)] border border-[var(--tsc-line)]",
+  },
+  {
+    name: "surface",
+    variable: "--tsc-surface",
+    hex: "#fbf9f3",
+    cls: "bg-[var(--tsc-surface)] border border-[var(--tsc-line)]",
+  },
+  { name: "line", variable: "--tsc-line", hex: "#d7d2c7", cls: "bg-[var(--tsc-line)]" },
+  {
+    name: "line-strong",
+    variable: "--tsc-line-strong",
+    hex: "#817e74",
+    cls: "bg-[var(--tsc-line-strong)] text-white",
+  },
+  {
+    name: "muted",
+    variable: "--tsc-muted",
+    hex: "#6d6b63",
+    cls: "bg-[var(--tsc-muted)] text-white",
+  },
+  {
+    name: "signal",
+    variable: "--tsc-signal",
+    hex: "#d5ff52",
+    cls: "bg-[var(--tsc-signal)] text-[var(--tsc-ink)]",
+  },
+  {
+    name: "action",
+    variable: "--tsc-action",
+    hex: "#2d51ff",
+    cls: "bg-[var(--tsc-action)] text-white",
+  },
+  {
+    name: "positive",
+    variable: "--tsc-positive",
+    hex: "#2e694e",
+    cls: "bg-[var(--tsc-positive)] text-white",
+  },
+  {
+    name: "white",
+    variable: "--tsc-white",
+    hex: "#ffffff",
+    cls: "bg-white border border-[var(--tsc-line)]",
+  },
 ];
 
 const demoFaq = [
   {
-    q: "Is this a real question?",
-    a: "It's demo content for the gallery, but the component rendering it is the real Faq component used on every page.",
+    q: "How does the editorial system establish visual hierarchy?",
+    a: "Roughly 70% warm paper canvas, 20% carbon ink typography, and 10% signal / action accents. One primary action per view.",
   },
-  { q: "Does it really allow only one item open?", a: "Yes - try opening this one." },
-  { q: "Third item", a: "Third answer, for a normal-length accordion." },
+  {
+    q: "Why Geist Sans and Geist Mono?",
+    a: "Geist provides geometric precision and disciplined tracking for technical journalism, while Geist Mono brings dense tabular readability to metadata and status tags.",
+  },
 ];
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="border-t border-line py-12 first:border-t-0 first:pt-0">
-      <h2 className="font-display text-2xl font-semibold text-navy-700">{title}</h2>
+    <section className="border-t border-[var(--tsc-line)] py-12 first:border-t-0 first:pt-0">
+      <h2 className="text-xl font-bold tracking-tight text-[var(--tsc-ink)]">{title}</h2>
       <div className="mt-6">{children}</div>
     </section>
   );
@@ -56,188 +98,206 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function ComponentGalleryPage() {
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
-      <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-500">Internal</p>
-      <h1 className="mt-2 font-display text-4xl font-semibold text-navy-700">Component gallery</h1>
-      <p className="mt-3 max-w-2xl text-slate-600">
-        Every primitive actually used on the site, rendered at real size with its real states. Not
-        indexed, not linked from navigation.
+    <div className="mx-auto max-w-4xl px-6 py-16 font-geist text-[var(--tsc-ink)]">
+      <PageEyebrow>INTERNAL AUDIT SURFACE</PageEyebrow>
+      <h1 className="mt-2 text-4xl font-bold tracking-tight text-[var(--tsc-ink)]">
+        Editorial Design System Gallery
+      </h1>
+      <p className="mt-3 max-w-2xl text-[var(--tsc-muted)] leading-relaxed">
+        Canonical semantic tokens, typography hierarchy, input primitives, and buttons meeting WCAG
+        AA 3:1 contrast guidelines under DESIGN.md.
       </p>
 
-      <Section title="Color tokens">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {colorTokens.map((c) => (
-            <div key={c.name}>
-              <div className={`h-16 rounded-card ${c.cls}`} />
-              <p className="mt-2 text-sm font-semibold text-navy-700">{c.name}</p>
-              <p className="text-xs text-slate-400">{c.hex}</p>
+      {/* Semantic Palette */}
+      <Section title="01 / Canonical Palette (DESIGN.md §1.1)">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+          {canonicalPalette.map((c) => (
+            <div key={c.name} className="space-y-1.5">
+              <div
+                className={`h-16 rounded-[6px] p-2 flex items-end justify-start font-mono text-[10px] font-semibold ${c.cls}`}
+              >
+                {c.hex}
+              </div>
+              <p className="font-semibold text-xs text-[var(--tsc-ink)]">{c.name}</p>
+              <p className="font-mono text-[10px] text-[var(--tsc-muted)]">{c.variable}</p>
             </div>
           ))}
         </div>
       </Section>
 
-      <Section title="Type scale">
-        <div className="flex flex-col gap-4">
-          <p className="font-display text-[62px] font-semibold leading-[1.05] tracking-[-0.03em] text-navy-700">
-            Display
-          </p>
-          <h3 className="font-display text-[46px] font-semibold leading-[1.13] tracking-[-0.03em] text-navy-700">
-            H1 heading
-          </h3>
-          <h3 className="font-display text-[38px] font-semibold leading-[1.16] tracking-[-0.02em] text-navy-700">
-            H2 heading
-          </h3>
-          <h3 className="font-display text-[26px] font-semibold leading-[1.3] tracking-[-0.02em] text-navy-700">
-            H3 card title
-          </h3>
-          <p className="text-[21px] leading-[1.6] text-slate-600">
-            Lead paragraph, used once under the hero H1.
-          </p>
-          <p className="text-[18px] leading-[1.67] text-slate-600">
-            Body copy, the default size for running text anywhere on the site.
-          </p>
-          <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-500">
-            Eyebrow label
-          </p>
+      {/* Typography Scale */}
+      <Section title="02 / Typography Scale (Geist Sans & Mono)">
+        <div className="flex flex-col gap-5">
+          <div>
+            <span className="font-mono text-[10px] text-[var(--tsc-muted)] uppercase block mb-1">
+              Hero Cover H1 (62–84px, leading-[0.95], tracking-[-0.035em])
+            </span>
+            <p className="text-4xl sm:text-5xl font-bold tracking-[-0.035em] text-[var(--tsc-ink)]">
+              Operational Systems
+            </p>
+          </div>
+          <div>
+            <span className="font-mono text-[10px] text-[var(--tsc-muted)] uppercase block mb-1">
+              Section Title H2 (36–48px, leading-[1.05], tracking-[-0.025em])
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-bold tracking-[-0.025em] text-[var(--tsc-ink)]">
+              Autonomous Software Engineering
+            </h3>
+          </div>
+          <div>
+            <span className="font-mono text-[10px] text-[var(--tsc-muted)] uppercase block mb-1">
+              Card Title H3 (18–24px, leading-[1.2])
+            </span>
+            <h4 className="text-lg font-semibold text-[var(--tsc-ink)]">
+              AI Receptionist & Inbound Coordinator
+            </h4>
+          </div>
+          <div>
+            <span className="font-mono text-[10px] text-[var(--tsc-muted)] uppercase block mb-1">
+              Body Copy (15–18px, leading-[1.6])
+            </span>
+            <p className="text-base text-[var(--tsc-muted)] leading-relaxed max-w-xl">
+              Skilled people should spend less of their attention moving information, repeating
+              routine decisions, and compensating for disconnected software systems.
+            </p>
+          </div>
+          <div>
+            <span className="font-mono text-[10px] text-[var(--tsc-muted)] uppercase block mb-1">
+              Monospace Technical Label (Geist Mono, tracking-[0.14em])
+            </span>
+            <span className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--tsc-muted)] font-semibold">
+              01 / SPECIFICATION DELIVERABLE
+            </span>
+          </div>
         </div>
       </Section>
 
-      <Section title="Button">
+      {/* Interactive Controls & Buttons */}
+      <Section title="03 / Action Controls & CTA Primitives">
         <div className="flex flex-wrap items-center gap-4">
           <CtaLink href="#" location="gallery" variant="primary">
-            Primary
+            Primary (Ink)
           </CtaLink>
           <CtaLink href="#" location="gallery" variant="secondary">
-            Secondary
+            Secondary (Border)
+          </CtaLink>
+          <CtaLink href="#" location="gallery" variant="action">
+            Action (Signal Blue)
           </CtaLink>
           <CtaLink href="#" location="gallery" variant="text">
-            Text link CTA
+            Text Link CTA &rarr;
           </CtaLink>
-          <button
-            type="button"
-            disabled
-            className="inline-flex min-h-12 items-center justify-center rounded-control bg-blue-500 px-6 font-display text-[15px] font-medium text-white opacity-60"
-          >
-            Disabled
-          </button>
         </div>
-        <div className="mt-4 rounded-card bg-navy-700 p-6">
+
+        <div className="mt-4 rounded-[8px] bg-[var(--tsc-ink)] p-6">
           <div className="flex flex-wrap items-center gap-4">
             <CtaLink href="#" location="gallery" variant="primaryOnDark">
-              Primary on dark
+              Primary on Dark
             </CtaLink>
             <CtaLink href="#" location="gallery" variant="secondaryOnDark">
-              Secondary on dark
+              Secondary on Dark
             </CtaLink>
           </div>
         </div>
       </Section>
 
-      <Section title="Inputs">
+      {/* Form Inputs */}
+      <Section title="04 / High-Contrast Inputs (WCAG AA 3:1)">
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label htmlFor="gallery-input-default" className="block font-medium text-navy">
-              Default
+            <label
+              htmlFor="gallery-input-default"
+              className="block text-xs font-mono uppercase text-[var(--tsc-muted)] mb-1"
+            >
+              Standard Input
             </label>
             <input
               id="gallery-input-default"
               type="text"
-              placeholder="Type here"
-              className="mt-1 w-full rounded-control border-[1.5px] border-border-input px-4 py-3.5 text-base focus:border-blue-500 focus:outline-none focus:ring-[3px] focus:ring-blue-100"
+              placeholder="e.g. you@organization.ca"
+              className="w-full rounded-[6px] border border-[var(--tsc-line-strong)] bg-white px-3.5 py-2.5 text-sm text-[var(--tsc-ink)] placeholder-[var(--tsc-muted)] focus:outline-none focus:border-[var(--tsc-ink)] focus:ring-1 focus:ring-[var(--tsc-ink)]"
             />
           </div>
           <div>
-            <label htmlFor="gallery-input-error" className="block font-medium text-navy">
-              Error
+            <label
+              htmlFor="gallery-input-error"
+              className="block text-xs font-mono uppercase text-[var(--tsc-muted)] mb-1"
+            >
+              Error State
             </label>
             <input
               id="gallery-input-error"
               type="text"
-              defaultValue="not-an-email"
+              defaultValue="invalid-format"
               aria-invalid="true"
               aria-describedby="gallery-input-error-msg"
-              className="mt-1 w-full rounded-control border-[1.5px] border-danger px-4 py-3.5 text-base focus:border-danger focus:outline-none focus:ring-[3px] focus:ring-danger/20"
+              className="w-full rounded-[6px] border border-red-500 bg-white px-3.5 py-2.5 text-sm text-[var(--tsc-ink)] focus:outline-none focus:ring-1 focus:ring-red-500"
             />
-            <p id="gallery-input-error-msg" className="mt-1 text-sm text-danger" role="alert">
-              Enter an email we can reply to
+            <p
+              id="gallery-input-error-msg"
+              className="mt-1 text-xs font-mono text-red-600"
+              role="alert"
+            >
+              Enter a valid work email address
             </p>
           </div>
         </div>
       </Section>
 
-      <Section title="Tag / pill">
-        <div className="flex flex-wrap gap-2">
-          {["Twilio", "Cal.com", "Make", "Claude API"].map((tool) => (
-            <span
-              key={tool}
-              className="rounded-pill bg-mist px-3 py-1 text-sm font-medium text-navy-700"
-            >
-              {tool}
-            </span>
-          ))}
+      {/* Graphical Indicators & Tags */}
+      <Section title="05 / Technical Indicators & Pills">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-[var(--tsc-signal)] ring-4 ring-[var(--tsc-line)]" />
+            <span className="font-mono text-xs text-[var(--tsc-ink)]">Live System Observed</span>
+          </div>
+
+          <span className="font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)] text-[var(--tsc-ink)]">
+            [FEATURED SPEC]
+          </span>
+
+          <span className="font-mono text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)] text-[var(--tsc-muted)]">
+            BETA ARCHITECTURE
+          </span>
         </div>
       </Section>
 
-      <Section title="Card">
+      {/* Cards */}
+      <Section title="06 / Cards & Surface Hierarchy">
         <div className="grid gap-6 sm:grid-cols-2">
-          <div className="rounded-card border-[1.5px] border-line bg-white p-6 shadow-sm">
-            <h3 className="font-display text-lg font-semibold text-navy-700">Static card</h3>
-            <p className="mt-2 text-sm text-slate-600">Hairline border, sm elevation, at rest.</p>
+          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 shadow-sm space-y-2">
+            <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] block">
+              ELEVATED SURFACE
+            </span>
+            <h3 className="text-lg font-bold text-[var(--tsc-ink)]">Static Card Container</h3>
+            <p className="text-sm text-[var(--tsc-muted)] leading-relaxed">
+              White background floating on warm paper canvas with disciplined 8px radius and
+              hairline rule.
+            </p>
           </div>
+
           <a
             href="#interactive-card-demo"
             id="interactive-card-demo"
-            className="group rounded-card border-[1.5px] border-line bg-white p-6 shadow-sm transition-all duration-220 hover:-translate-y-0.5 hover:shadow-md"
+            className="group rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 shadow-sm transition-all hover:border-[var(--tsc-ink)]/40 hover:bg-[var(--tsc-surface)]/40 space-y-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
           >
-            <h3 className="font-display text-lg font-semibold text-navy-700 underline-offset-4 group-hover:underline">
-              Interactive card
+            <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] block">
+              HOVER ACTIVE
+            </span>
+            <h3 className="text-lg font-bold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
+              Interactive Card Link &rarr;
             </h3>
-            <p className="mt-2 text-sm text-slate-600">Whole card is one link; hover lifts.</p>
+            <p className="text-sm text-[var(--tsc-muted)] leading-relaxed">
+              Responds with subtle border darkening and background tint without exaggerated 3D
+              lifts.
+            </p>
           </a>
         </div>
       </Section>
 
-      <Section title="Stat block">
-        <div className="flex gap-10">
-          <div>
-            <p className="font-display text-5xl font-semibold text-navy-700">25</p>
-            <p className="mt-1 text-sm font-bold uppercase tracking-[0.16em] text-blue-500">
-              Tasks on the checklist
-            </p>
-          </div>
-        </div>
-      </Section>
-
-      <Section title="Accordion (live EditorialFaq component)">
-        <EditorialFaq items={demoFaq} title="Demo questions" />
-      </Section>
-
-      <Section title="Not built - no current use case">
-        <ul className="list-disc space-y-2 pl-5 text-slate-600">
-          <li>
-            <strong className="text-navy-700">Toast</strong> - nothing on the site currently
-            triggers a transient notification; forms show inline success/error states in place
-            instead.
-          </li>
-          <li>
-            <strong className="text-navy-700">Table, tabs, pagination</strong> - no tabular or
-            paginated content exists anywhere in the IA.
-          </li>
-          <li>
-            <strong className="text-navy-700">Skeleton loader</strong> - every public route is
-            static or server-rendered; the only async UI is form submission, already covered by each
-            button's aria-busy "Sending..." state.
-          </li>
-          <li>
-            <strong className="text-navy-700">Breadcrumb, logo strip, testimonial block</strong> -
-            breadcrumb data exists only as JSON-LD (no visible client name/logo/testimonial data
-            exists yet to render honestly).
-          </li>
-          <li>
-            <strong className="text-navy-700">Modal</strong> - avoided in favor of quiet,
-            non-intrusive in-page editorial journeys and quiet sticky actions.
-          </li>
-        </ul>
+      {/* Accordion Component */}
+      <Section title="07 / Accordion Primitive">
+        <EditorialFaq items={demoFaq} title="System Frequently Asked Questions" />
       </Section>
     </div>
   );
