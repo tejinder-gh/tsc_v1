@@ -125,7 +125,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const { analytics, ga } = getTelemetryConfig();
 
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
       <body className="font-geist bg-[var(--tsc-paper)] text-[var(--tsc-ink)] antialiased">
         <a
           href="#main"
