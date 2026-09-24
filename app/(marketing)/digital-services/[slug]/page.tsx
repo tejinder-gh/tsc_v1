@@ -99,7 +99,7 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-            <div className="lg:col-span-5 space-y-3">
+            <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-28 lg:self-start">
               <PageEyebrow>THE PROBLEM</PageEyebrow>
               <h2
                 id="problem-heading"
@@ -127,7 +127,7 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
             {/* Left Column: Eyebrow & Title */}
-            <div className="lg:col-span-5 space-y-3">
+            <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-28 lg:self-start">
               <PageEyebrow>CORE CAPABILITIES</PageEyebrow>
               <h2
                 id="capabilities-heading"

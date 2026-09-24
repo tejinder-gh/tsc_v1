@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Magnetic } from "@/components/ui/MagneticButton";
 import { PageEyebrow } from "./PageEyebrow";
 
 export interface MetadataItem {
@@ -84,12 +85,14 @@ export function EditorialHero({
           {(primaryAction || secondaryAction) && (
             <div className="pt-2 flex flex-wrap items-center gap-4">
               {primaryAction && (
-                <Link
-                  href={primaryAction.href}
-                  className="inline-flex items-center gap-2 rounded-[8px] bg-[var(--tsc-ink)] px-5 py-2.5 text-sm font-medium text-[var(--tsc-paper)] transition-all hover:bg-[var(--tsc-ink)]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
-                >
-                  {primaryAction.label}
-                </Link>
+                <Magnetic pullFactor={0.16}>
+                  <Link
+                    href={primaryAction.href}
+                    className="inline-flex items-center gap-2 rounded-[8px] bg-[var(--tsc-ink)] px-5 py-2.5 text-sm font-medium text-[var(--tsc-paper)] transition-all hover:bg-[var(--tsc-ink)]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
+                  >
+                    {primaryAction.label}
+                  </Link>
+                </Magnetic>
               )}
               {secondaryAction && (
                 <Link

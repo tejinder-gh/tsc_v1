@@ -133,7 +133,7 @@ export default function HowItWorksPage() {
                 className="py-10 sm:py-14 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start"
               >
                 {/* Phase Identification */}
-                <div className="lg:col-span-4 space-y-3">
+                <div className="lg:col-span-4 space-y-3 lg:sticky lg:top-28 lg:self-start">
                   <div className="flex items-center gap-3">
                     <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
                       {phase.index}

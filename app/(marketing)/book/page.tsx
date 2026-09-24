@@ -54,7 +54,7 @@ export default function BookPage() {
 
         {/* What to expect briefing grid */}
         <div className="mb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-4 space-y-2">
+          <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-28 lg:self-start">
             <PageEyebrow>01 / CALL STRUCTURE</PageEyebrow>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]">
               What to expect on the call.

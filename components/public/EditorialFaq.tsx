@@ -24,7 +24,7 @@ export function EditorialFaq({
     <section className={`py-14 sm:py-20 border-b border-[var(--tsc-line)] font-geist ${className}`}>
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div className="lg:col-span-5 space-y-3">
+          <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-28 lg:self-start">
             <PageEyebrow>{eyebrow}</PageEyebrow>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]">
               {title}

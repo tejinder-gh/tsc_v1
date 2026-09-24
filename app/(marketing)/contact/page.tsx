@@ -23,8 +23,10 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-site px-4 py-10 sm:px-6 font-geist">
-      <ActiveJourneyBanner className="mb-6" />
+    <>
+      <div className="mx-auto max-w-[1440px] px-6 lg:px-16 pt-6 font-geist">
+        <ActiveJourneyBanner className="mb-6" />
+      </div>
 
       <EditorialHero
         eyebrow="CONTACT &amp; DIRECT INQUIRY"
@@ -38,58 +40,60 @@ export default function ContactPage() {
         </div>
       </EditorialHero>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8">
-          <h2 className="text-lg font-bold text-[var(--tsc-ink)] mb-4">
-            Send an engineering query
-          </h2>
-          <ContactForm />
+      <div className="mx-auto max-w-[1440px] px-6 lg:px-16 py-12 sm:py-16 font-geist">
+        <div className="grid gap-8 lg:grid-cols-3 items-start">
+          <div className="lg:col-span-2 rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8">
+            <h2 className="text-lg font-bold text-[var(--tsc-ink)] mb-4">
+              Send an engineering query
+            </h2>
+            <ContactForm />
+          </div>
+
+          <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
+            <div className="rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6">
+              <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block mb-1">
+                THE FASTER PATH
+              </span>
+              <h3 className="font-bold text-[var(--tsc-ink)] text-base mb-2">
+                Book a live 30-minute audit
+              </h3>
+              <p className="text-sm text-[var(--tsc-muted)] leading-relaxed mb-4">
+                A 30-minute technical scoping call answers in one session what email takes a week to
+                cover &mdash; and you leave with an architecture roadmap either way.
+              </p>
+              <CtaLink href="/book" location="contact_sidebar" variant="primary">
+                Schedule free audit &rarr;
+              </CtaLink>
+            </div>
+
+            <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6">
+              <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block mb-1">
+                SELF-ASSESSMENT
+              </span>
+              <h3 className="font-bold text-[var(--tsc-ink)] text-base mb-2">
+                Automation Opportunities Checklist
+              </h3>
+              <p className="text-sm text-[var(--tsc-muted)] leading-relaxed mb-4">
+                Review 25 common operational and engineering processes businesses stop running
+                manually.
+              </p>
+              <CtaLink href="/checklist" location="contact_sidebar" variant="text">
+                View the checklist &rarr;
+              </CtaLink>
+            </div>
+
+            <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 text-sm text-[var(--tsc-muted)]">
+              <p className="font-medium text-[var(--tsc-ink)] mb-1">Direct email inquiries:</p>
+              <a
+                href={`mailto:${site.email}`}
+                className="font-mono text-xs text-[var(--tsc-ink)] underline underline-offset-4 hover:opacity-80"
+              >
+                {site.email}
+              </a>
+            </div>
+          </aside>
         </div>
-
-        <aside className="space-y-6">
-          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6">
-            <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block mb-1">
-              THE FASTER PATH
-            </span>
-            <h3 className="font-bold text-[var(--tsc-ink)] text-base mb-2">
-              Book a live 30-minute audit
-            </h3>
-            <p className="text-sm text-[var(--tsc-muted)] leading-relaxed mb-4">
-              A 30-minute technical scoping call answers in one session what email takes a week to
-              cover &mdash; and you leave with an architecture roadmap either way.
-            </p>
-            <CtaLink href="/book" location="contact_sidebar" variant="primary">
-              Schedule free audit &rarr;
-            </CtaLink>
-          </div>
-
-          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6">
-            <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block mb-1">
-              SELF-ASSESSMENT
-            </span>
-            <h3 className="font-bold text-[var(--tsc-ink)] text-base mb-2">
-              Automation Opportunities Checklist
-            </h3>
-            <p className="text-sm text-[var(--tsc-muted)] leading-relaxed mb-4">
-              Review 25 common operational and engineering processes businesses stop running
-              manually.
-            </p>
-            <CtaLink href="/checklist" location="contact_sidebar" variant="text">
-              View the checklist &rarr;
-            </CtaLink>
-          </div>
-
-          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 text-sm text-[var(--tsc-muted)]">
-            <p className="font-medium text-[var(--tsc-ink)] mb-1">Direct email inquiries:</p>
-            <a
-              href={`mailto:${site.email}`}
-              className="font-mono text-xs text-[var(--tsc-ink)] underline underline-offset-4 hover:opacity-80"
-            >
-              {site.email}
-            </a>
-          </div>
-        </aside>
       </div>
-    </div>
+    </>
   );
 }

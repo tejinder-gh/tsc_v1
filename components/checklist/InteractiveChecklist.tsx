@@ -219,7 +219,7 @@ ${formattedPriority || "None selected"}
       </div>
 
       {/* Sticky Calculations and Form Side: 5 Columns */}
-      <div className="space-y-6 lg:sticky lg:top-24 lg:col-span-5 print:hidden">
+      <div className="space-y-6 lg:sticky lg:top-28 lg:self-start lg:col-span-5 print:hidden">
         {/* Live Calculation Panel */}
         <div className="rounded-[8px] bg-[var(--tsc-ink)] p-6 text-[var(--tsc-paper)] border border-[var(--tsc-ink)]">
           <div className="flex items-center justify-between border-b border-white/15 pb-4">

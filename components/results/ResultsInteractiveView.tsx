@@ -284,7 +284,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
           </div>
 
           {/* Right Column: Dynamic Impact Telemetry Card (5 cols) */}
-          <div className="lg:col-span-5 rounded-[12px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 sm:p-7 space-y-6">
+          <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start rounded-[12px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 sm:p-7 space-y-6">
             <div className="flex items-center justify-between border-b border-[var(--tsc-line)] pb-3">
               <span className="font-mono text-[11px] font-semibold text-[var(--tsc-ink)] uppercase tracking-wider">
                 ESTIMATED ANNUAL IMPACT

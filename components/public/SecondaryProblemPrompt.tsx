@@ -29,7 +29,7 @@ export function SecondaryProblemPrompt({
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14 xl:gap-16 items-start">
           {/* Left Column: Heading & Body */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-28 lg:self-start">
             <PageEyebrow dark>{eyebrow}</PageEyebrow>
             <h2
               id="secondary-problem-heading"

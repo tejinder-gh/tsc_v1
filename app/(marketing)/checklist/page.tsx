@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function ChecklistPage() {
   return (
-    <div className="mx-auto max-w-site px-4 py-10 sm:px-6 font-geist">
+    <>
       <EditorialHero
         eyebrow="INTERACTIVE AUDIT &amp; SELF-ASSESSMENT"
         headline={checklist.title}
@@ -31,9 +31,9 @@ export default function ChecklistPage() {
         </div>
       </EditorialHero>
 
-      <div className="mt-8">
+      <div className="mx-auto max-w-[1440px] px-6 lg:px-16 py-12 sm:py-16 font-geist">
         <InteractiveChecklist />
       </div>
-    </div>
+    </>
   );
 }

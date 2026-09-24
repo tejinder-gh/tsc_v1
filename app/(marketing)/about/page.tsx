@@ -47,13 +47,13 @@ export default function AboutPage() {
       />
 
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16 py-16 sm:py-24 font-geist">
-        <div className="max-w-4xl space-y-20">
+        <div className="space-y-20">
           {/* Section A: Why This Exists */}
           <section
             aria-labelledby="why-exists-heading"
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start"
           >
-            <div className="lg:col-span-4 space-y-2">
+            <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-28 lg:self-start">
               <PageEyebrow>01 / WHY THIS EXISTS</PageEyebrow>
               <h2
                 id="why-exists-heading"
@@ -73,7 +73,7 @@ export default function AboutPage() {
             aria-labelledby="pov-heading"
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start pt-16 border-t border-[var(--tsc-line)]"
           >
-            <div className="lg:col-span-4 space-y-2">
+            <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-28 lg:self-start">
               <PageEyebrow>02 / POINT OF VIEW</PageEyebrow>
               <h2
                 id="pov-heading"
@@ -92,7 +92,7 @@ export default function AboutPage() {
             aria-labelledby="principles-heading"
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start pt-16 border-t border-[var(--tsc-line)]"
           >
-            <div className="lg:col-span-4 space-y-2">
+            <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-28 lg:self-start">
               <PageEyebrow>03 / HOW WE WORK</PageEyebrow>
               <h2
                 id="principles-heading"
@@ -128,7 +128,7 @@ export default function AboutPage() {
             aria-labelledby="founder-heading"
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start pt-16 border-t border-[var(--tsc-line)]"
           >
-            <div className="lg:col-span-4 space-y-2">
+            <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-28 lg:self-start">
               <PageEyebrow>04 / LEADERSHIP</PageEyebrow>
               <h2
                 id="founder-heading"

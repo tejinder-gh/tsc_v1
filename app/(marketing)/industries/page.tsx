@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { EditorialHero } from "@/components/public/EditorialHero";
-import { PageEyebrow } from "@/components/public/PageEyebrow";
 import { SecondaryProblemPrompt } from "@/components/public/SecondaryProblemPrompt";
 import { industriesBySegment } from "@/content/industries";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
@@ -81,7 +80,7 @@ export default function IndustriesIndexPage() {
               className="scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start"
             >
               {/* Left Column: Group Description */}
-              <div className="lg:col-span-4 space-y-3 lg:sticky lg:top-28">
+              <div className="lg:col-span-4 space-y-3 lg:sticky lg:top-28 lg:self-start">
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
                     {group.index}

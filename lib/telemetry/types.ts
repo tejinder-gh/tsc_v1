@@ -42,7 +42,8 @@ export type TelemetryEvent =
   | "journey_demonstration_started"
   | "journey_demonstration_scenario_changed"
   | "journey_demonstration_completed"
-  | "journey_demonstration_returned_to_opportunity";
+  | "journey_demonstration_returned_to_opportunity"
+  | "journey_architecture_spec_exported";
 
 /**
  * Prohibited properties denylist: Payment data, credit card numbers, personal contact details,

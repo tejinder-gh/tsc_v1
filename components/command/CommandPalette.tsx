@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { digitalServices } from "@/content/digital-services";
 import { industries } from "@/content/industries";
+import { services as automationServices } from "@/content/services";
 
 export interface CommandItem {
   id: string;
@@ -139,6 +140,16 @@ export function CommandPalette() {
         href: `/digital-services/${ds.slug}`,
         badge: "SYSTEM",
         icon: Layers,
+      })),
+      // Automation Offerings
+      ...automationServices.map((srv) => ({
+        id: `auto-${srv.slug}`,
+        category: "CAPABILITY" as const,
+        title: srv.name,
+        description: srv.excerpt,
+        href: `/what-we-automate/${srv.slug}`,
+        badge: "AUTOMATION",
+        icon: Workflow,
       })),
       // Industry Playbooks
       ...industries.map((ind) => ({
