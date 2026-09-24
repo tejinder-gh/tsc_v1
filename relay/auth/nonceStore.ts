@@ -10,6 +10,7 @@
  */
 
 import { dbQuery } from "@/lib/second-brain/db/client";
+import { AuthenticationError } from "../errors/RelayError";
 
 export interface NonceDeduplicator {
   /**
@@ -67,6 +68,7 @@ export class InMemoryNonceDeduplicator implements NonceDeduplicator {
 export class PostgresNonceDeduplicator implements NonceDeduplicator {
   private localL1 = new InMemoryNonceDeduplicator();
   private tableEnsured = false;
+  private lastCleanup = 0;
 
   constructor(private readonly queryFn = dbQuery) {}
 
@@ -86,6 +88,21 @@ export class PostgresNonceDeduplicator implements NonceDeduplicator {
     }
   }
 
+  private async opportunisticCleanup(): Promise<void> {
+    const now = Date.now();
+    if (now - this.lastCleanup < 60_000) return;
+    this.lastCleanup = now;
+
+    try {
+      await this.queryFn(`
+        DELETE FROM public.relay_nonces
+        WHERE expires_at < now() - INTERVAL '5 minutes';
+      `);
+    } catch {
+      // Best-effort non-blocking cleanup
+    }
+  }
+
   async claimNonce(key: string, ttlSeconds: number): Promise<boolean> {
     await this.ensureTable();
 
@@ -99,6 +116,8 @@ export class PostgresNonceDeduplicator implements NonceDeduplicator {
     `;
 
     const res = await this.queryFn(query, [key, ttlSeconds]);
+    this.opportunisticCleanup().catch(() => {});
+
     const claimed = (res.rowCount ?? res.rows?.length ?? 0) > 0;
 
     if (claimed) {
@@ -109,14 +128,31 @@ export class PostgresNonceDeduplicator implements NonceDeduplicator {
   }
 }
 
+/**
+ * Fail-closed deduplicator for production environments where database configuration is missing.
+ * Prevents silent fallback to process-local state across multi-instance serverless deployments.
+ */
+export class FailClosedNonceDeduplicator implements NonceDeduplicator {
+  async claimNonce(_key: string, _ttlSeconds: number): Promise<boolean> {
+    throw new AuthenticationError(
+      "Distributed replay protection database is unconfigured in production",
+    );
+  }
+}
+
 let defaultDeduplicator: NonceDeduplicator | null = null;
 
 export function getDefaultNonceDeduplicator(): NonceDeduplicator {
   if (defaultDeduplicator) return defaultDeduplicator;
 
+  const isProd = process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
   const hasDb = Boolean(process.env.SECOND_BRAIN_DATABASE_URL || process.env.DATABASE_URL);
+
   if (hasDb && process.env.NODE_ENV !== "test") {
     defaultDeduplicator = new PostgresNonceDeduplicator();
+  } else if (isProd && process.env.NODE_ENV !== "test") {
+    // In production, never silently fall back to in-memory process-local state
+    defaultDeduplicator = new FailClosedNonceDeduplicator();
   } else {
     defaultDeduplicator = new InMemoryNonceDeduplicator();
   }

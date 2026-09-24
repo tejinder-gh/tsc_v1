@@ -63,6 +63,7 @@ export class InMemoryRateLimiter implements RateLimiter {
 
 export class PostgresRateLimiter implements RateLimiter {
   private tableEnsured = false;
+  private lastCleanup = 0;
 
   constructor(private readonly queryFn = dbQuery) {}
 
@@ -80,6 +81,21 @@ export class PostgresRateLimiter implements RateLimiter {
       this.tableEnsured = true;
     } catch {
       // Handled by migration or exists
+    }
+  }
+
+  private async opportunisticCleanup(): Promise<void> {
+    const now = Date.now();
+    if (now - this.lastCleanup < 60_000) return;
+    this.lastCleanup = now;
+
+    try {
+      await this.queryFn(`
+        DELETE FROM public.rate_limits
+        WHERE reset_at < now() - INTERVAL '5 minutes';
+      `);
+    } catch {
+      // Best-effort non-blocking maintenance
     }
   }
 
@@ -103,6 +119,8 @@ export class PostgresRateLimiter implements RateLimiter {
     `;
 
     const res = await this.queryFn(query, [key, windowSeconds]);
+    this.opportunisticCleanup().catch(() => {});
+
     const row = res.rows[0];
     const count = Number(row?.count || 1);
     const resetAfterSeconds = Math.max(1, Number(row?.retry_after || windowSeconds));
@@ -118,13 +136,27 @@ export class PostgresRateLimiter implements RateLimiter {
   }
 }
 
+/**
+ * Forwarded IP extraction with platform trust boundaries.
+ * 1. Checks 'x-real-ip': Injected authoritatively by Vercel edge / reverse proxy (cannot be spoofed by callers).
+ * 2. Checks 'x-vercel-ip': Vercel edge IP header.
+ * 3. Falls back to first entry of 'x-forwarded-for' for standard reverse proxy setups and local test suites.
+ * 4. Defaults to '127.0.0.1'.
+ */
 export function getClientIp(request: Request): string {
+  const realIp = request.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+
+  const vercelIp = request.headers.get("x-vercel-ip")?.trim();
+  if (vercelIp) return vercelIp;
+
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
     const first = forwarded.split(",")[0].trim();
     if (first) return first;
   }
-  return request.headers.get("x-real-ip")?.trim() || "127.0.0.1";
+
+  return "127.0.0.1";
 }
 
 export function hashIdentifier(val: string): string {
@@ -172,7 +204,8 @@ export async function checkPublicRateLimit(
   const windowSeconds = options.windowSeconds ?? 60;
   const limiter = options.limiter ?? getDefaultRateLimiter();
 
-  let key = `ratelimit:${route}:${clientIp}`;
+  // One-way SHA256 truncated hash of client IP ensures NO raw IP address is stored in the database
+  let key = `ratelimit:${route}:${hashIdentifier(clientIp)}`;
   if (options.targetIdentity) {
     key = `${key}:${hashIdentifier(options.targetIdentity)}`;
   }

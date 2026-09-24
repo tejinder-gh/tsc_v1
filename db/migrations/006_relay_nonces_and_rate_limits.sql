@@ -20,3 +20,13 @@ CREATE TABLE IF NOT EXISTS public.rate_limits (
 );
 
 CREATE INDEX IF NOT EXISTS idx_rate_limits_reset_at ON public.rate_limits (reset_at);
+
+-- 3. Grant Least-Privilege Access to Web Runtime Role (skill_corner_runtime)
+DO $$
+BEGIN
+  IF EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'skill_corner_runtime') THEN
+    GRANT SELECT, INSERT, UPDATE, DELETE ON public.relay_nonces TO skill_corner_runtime;
+    GRANT SELECT, INSERT, UPDATE, DELETE ON public.rate_limits TO skill_corner_runtime;
+  END IF;
+END
+$$;

@@ -202,4 +202,75 @@ describe("SMS Relay Nonce Deduplication & Replay Protection (P0)", () => {
       expect(verified.nonce).toBe(nonce1);
     });
   });
+
+  describe("FailClosedNonceDeduplicator & Production Safety", () => {
+    it("FailClosedNonceDeduplicator always throws AuthenticationError", async () => {
+      const { FailClosedNonceDeduplicator } = await import("../auth/nonceStore");
+      const failClosed = new FailClosedNonceDeduplicator();
+      let caught: any;
+      try {
+        await failClosed.claimNonce("test-key", 300);
+      } catch (err) {
+        caught = err;
+      }
+      expect(caught).toBeDefined();
+      expect(caught.name).toBe("AuthenticationError");
+      expect(caught.message).toBe("Authentication failed");
+      expect(caught.internalReason).toMatch(/Distributed replay protection database is unconfigured in production/);
+    });
+
+    it("prevents silent in-memory fallback in production when database is unconfigured", async () => {
+      const {
+        getDefaultNonceDeduplicator,
+        resetDefaultNonceDeduplicator,
+        FailClosedNonceDeduplicator,
+      } = await import("../auth/nonceStore");
+      resetDefaultNonceDeduplicator();
+
+      const originalEnv = process.env.NODE_ENV;
+      const originalVercel = process.env.VERCEL_ENV;
+      const originalDb = process.env.DATABASE_URL;
+      const originalSbDb = process.env.SECOND_BRAIN_DATABASE_URL;
+
+      try {
+        process.env.NODE_ENV = "production";
+        process.env.VERCEL_ENV = "production";
+        delete process.env.DATABASE_URL;
+        delete process.env.SECOND_BRAIN_DATABASE_URL;
+
+        const deduplicator = getDefaultNonceDeduplicator();
+        expect(deduplicator).toBeInstanceOf(FailClosedNonceDeduplicator);
+      } finally {
+        process.env.NODE_ENV = originalEnv;
+        process.env.VERCEL_ENV = originalVercel;
+        if (originalDb) process.env.DATABASE_URL = originalDb;
+        if (originalSbDb) process.env.SECOND_BRAIN_DATABASE_URL = originalSbDb;
+        resetDefaultNonceDeduplicator();
+      }
+    });
+
+    it("opportunistic cleanup deletes expired rows asynchronously", async () => {
+      let cleanupRan = false;
+      const mockQuery = vi.fn().mockImplementation(async (sql: string, params?: unknown[]) => {
+        if (sql.includes("CREATE TABLE")) {
+          return { rows: [], rowCount: 0 };
+        }
+        if (sql.includes("DELETE FROM public.relay_nonces")) {
+          cleanupRan = true;
+          return { rows: [], rowCount: 5 };
+        }
+        return { rows: [{ nonce_key: params?.[0] }], rowCount: 1 };
+      });
+
+      const store = new PostgresNonceDeduplicator(
+        mockQuery as unknown as typeof import("../../lib/second-brain/db/client").dbQuery,
+      );
+      const key = buildRelayNonceKey(relayId, deviceId1, nonce1);
+      await store.claimNonce(key, 300);
+
+      // Wait a tick for async non-blocking cleanup
+      await new Promise((resolve) => setTimeout(resolve, 10));
+      expect(cleanupRan).toBe(true);
+    });
+  });
 });
