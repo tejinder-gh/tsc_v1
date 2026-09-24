@@ -62,12 +62,16 @@ describe("Delivery Adapters", () => {
     });
 
     it("sends via SendGrid and parses message ID on 202", async () => {
-      globalThis.fetch = vi.fn().mockResolvedValue(
-        new Response(null, {
-          status: 202,
-          headers: { "x-message-id": "sg-msg-999" },
-        }),
-      );
+      let sentPayload: any;
+      globalThis.fetch = vi.fn().mockImplementation((_url, init) => {
+        sentPayload = JSON.parse(init.body as string);
+        return Promise.resolve(
+          new Response(null, {
+            status: 202,
+            headers: { "x-message-id": "sg-msg-999" },
+          }),
+        );
+      });
 
       const adapter = new EmailDeliveryAdapter({
         to: "recipient@example.com",
@@ -82,6 +86,39 @@ describe("Delivery Adapters", () => {
         expect(result.provider).toBe("sendgrid");
         expect(result.providerMessageId).toBe("sg-msg-999");
       }
+
+      // Assert non-sensitive subject contract
+      expect(sentPayload.subject).toBe("[SMS Relay] New message from VM-HDFCBK [SIM 1]");
+      expect(sentPayload.subject).not.toContain("OTP");
+      expect(sentPayload.subject).not.toContain("123456");
+      // Assert SMS body remains in textContent
+      expect(sentPayload.content[0].value).toContain("OTP is 123456");
+    });
+
+    it("sanitizes CRLF and control characters from sender in subject", async () => {
+      let sentPayload: any;
+      globalThis.fetch = vi.fn().mockImplementation((_url, init) => {
+        sentPayload = JSON.parse(init.body as string);
+        return Promise.resolve(new Response(null, { status: 202 }));
+      });
+
+      const adapter = new EmailDeliveryAdapter({
+        to: "recipient@example.com",
+        from: "sms-relay@theskillcorner.com",
+        apiKey: "SG.test-key",
+        provider: "sendgrid",
+      });
+
+      const maliciousSenderMessage: RelayMessage = {
+        ...sampleMessage,
+        sender: "Sender\r\nBcc: evil@attacker.com\nAnotherLine",
+        sim: undefined,
+      };
+
+      await adapter.deliver(maliciousSenderMessage, sampleContext);
+      expect(sentPayload.subject).toBe("[SMS Relay] New message from Sender Bcc: evil@attacker.com AnotherLine");
+      expect(sentPayload.subject).not.toContain("\r");
+      expect(sentPayload.subject).not.toContain("\n");
     });
 
     it("classifies SendGrid 500 as retryable", async () => {

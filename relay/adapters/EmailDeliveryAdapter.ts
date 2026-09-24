@@ -40,10 +40,11 @@ export class EmailDeliveryAdapter implements DeliveryAdapter {
   }
 
   async deliver(message: RelayMessage, context: DeliveryContext): Promise<DeliveryResult> {
+    // biome-ignore lint/suspicious/noControlCharactersInRegex: Required for email header injection protection
+    const sanitizedSender = message.sender.replace(/[\r\n\x00-\x1f\x7f]+/g, " ").trim();
     const simText =
       message.sim?.slotIndex !== undefined ? ` [SIM ${message.sim.slotIndex + 1}]` : "";
-    const cleanPreview = message.body.split("\n")[0].trim().slice(0, 40);
-    const subject = `[SMS] ${message.sender}${simText}: ${cleanPreview}${message.body.length > 40 ? "..." : ""}`;
+    const subject = `[SMS Relay] New message from ${sanitizedSender}${simText}`;
 
     const textContent = [
       `Sender:   ${message.sender}`,

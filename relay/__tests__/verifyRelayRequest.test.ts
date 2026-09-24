@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { buildCanonicalRequest, computeHmacSignature, hashRawBody } from "../auth/canonicalRequest";
+import { resetDefaultNonceDeduplicator } from "../auth/nonceStore";
 import { verifyRelayRequest } from "../auth/verifyRelayRequest";
 import type { RelayConfig } from "../config/relayConfig";
 import {
@@ -11,6 +12,9 @@ import {
 } from "../errors/RelayError";
 
 describe("verifyRelayRequest", () => {
+  beforeEach(() => {
+    resetDefaultNonceDeduplicator();
+  });
   const DEFAULT_CONFIG: RelayConfig = {
     relayId: "india-sms",
     allowedDeviceIds: ["phone-primary", "phone-secondary"],
@@ -41,7 +45,7 @@ describe("verifyRelayRequest", () => {
     const relayId = overrides.relayId ?? DEFAULT_CONFIG.relayId;
     const deviceId = overrides.deviceId ?? DEFAULT_CONFIG.allowedDeviceIds[0];
     const timestamp = overrides.timestamp ?? String(Math.floor(Date.now() / 1000));
-    const nonce = overrides.nonce ?? "a1c49f6f02d64bcbbca124310e785bc4";
+    const nonce = overrides.nonce ?? crypto.randomUUID().replace(/-/g, "");
     const secret = overrides.secret ?? DEFAULT_CONFIG.hmacSecret;
     const body =
       overrides.body ??

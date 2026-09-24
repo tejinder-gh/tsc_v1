@@ -1,15 +1,19 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import type { DeliveryAdapter } from "@/relay/adapters/DeliveryAdapter";
 import {
   buildCanonicalRequest,
   computeHmacSignature,
   hashRawBody,
 } from "@/relay/auth/canonicalRequest";
+import { resetDefaultNonceDeduplicator } from "@/relay/auth/nonceStore";
 import type { RelayConfig } from "@/relay/config/relayConfig";
 import { handleRelayRequest } from "@/relay/handler";
 import { DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from "./route";
 
 describe("POST /api/v1/relay Route Handler", () => {
+  beforeEach(() => {
+    resetDefaultNonceDeduplicator();
+  });
   const TEST_CONFIG: RelayConfig = {
     relayId: "india-sms",
     allowedDeviceIds: ["primary-phone"],
@@ -32,6 +36,7 @@ describe("POST /api/v1/relay Route Handler", () => {
       method?: string;
       body?: string;
       timestamp?: string;
+      nonce?: string;
       secret?: string;
       headers?: Record<string, string>;
       contentType?: string;
@@ -44,7 +49,7 @@ describe("POST /api/v1/relay Route Handler", () => {
     const relayId = TEST_CONFIG.relayId;
     const deviceId = TEST_CONFIG.allowedDeviceIds[0];
     const timestamp = options.timestamp ?? String(Math.floor(Date.now() / 1000));
-    const nonce = "a1c49f6f02d64bcbbca124310e785bc4";
+    const nonce = options.nonce ?? crypto.randomUUID().replace(/-/g, "");
     const secret = options.secret ?? TEST_CONFIG.hmacSecret;
 
     const bodyHash = hashRawBody(body);

@@ -14,6 +14,11 @@ import {
   TimestampError,
 } from "../errors/RelayError";
 import { buildCanonicalRequest, computeHmacSignature, hashRawBody } from "./canonicalRequest";
+import {
+  buildRelayNonceKey,
+  getDefaultNonceDeduplicator,
+  type NonceDeduplicator,
+} from "./nonceStore";
 import { safeEqualHex } from "./safeEqualHex";
 
 const NONCE_REGEX = /^[0-9a-fA-F]{32}$/;
@@ -34,6 +39,8 @@ export interface VerifiedRelayRequest {
 
 export interface VerifyOptions {
   nowSeconds?: number;
+  nonceDeduplicator?: NonceDeduplicator;
+  failClosed?: boolean;
 }
 
 /**
@@ -158,6 +165,27 @@ export async function verifyRelayRequest(
   const expectedSignature = computeHmacSignature(canonical, config.hmacSecret);
   if (!safeEqualHex(expectedSignature, signature)) {
     throw new AuthenticationError("HMAC signature verification failed");
+  }
+
+  // 12. Atomic Distributed Nonce Replay Check (P0)
+  const deduplicator = options.nonceDeduplicator ?? getDefaultNonceDeduplicator();
+  const nonceKey = buildRelayNonceKey(relayId, deviceId, nonce);
+  const ttlSeconds = config.timestampWindowSeconds;
+  const failClosed = options.failClosed ?? true;
+
+  try {
+    const isNew = await deduplicator.claimNonce(nonceKey, ttlSeconds);
+    if (!isNew) {
+      throw new AuthenticationError("Replay detected: duplicate nonce");
+    }
+  } catch (error) {
+    if (error instanceof AuthenticationError) {
+      throw error;
+    }
+    if (failClosed) {
+      throw new AuthenticationError("Nonce deduplication backend failed");
+    }
+    console.warn("[relay] Nonce deduplication failed in fail-open mode; permitting request", error);
   }
 
   return {
