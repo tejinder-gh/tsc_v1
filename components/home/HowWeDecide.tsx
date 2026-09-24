@@ -38,7 +38,7 @@ export function HowWeDecide() {
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14 xl:gap-16 items-start">
           {/* Left Column: Manifesto Headline & Overview (~5 cols) */}
-          <div className="lg:col-span-5 space-y-4 sm:space-y-5">
+          <div className="lg:col-span-5 space-y-4 sm:space-y-5 lg:sticky lg:top-28 lg:self-start">
             <SectionLabel>03 / HOW WE DECIDE</SectionLabel>
             <h2
               id="how-we-decide-heading"
