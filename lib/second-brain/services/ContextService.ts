@@ -75,12 +75,12 @@ export class ContextService {
    * Register a subscriber for context search audit events (used for audit tracking & test verification).
    */
   public static addAuditListener(listener: ContextAuditListener): () => void {
-    this.auditListeners.add(listener);
-    return () => this.auditListeners.delete(listener);
+    ContextService.auditListeners.add(listener);
+    return () => ContextService.auditListeners.delete(listener);
   }
 
   private static emitAudit(record: ContextAuditRecord): void {
-    for (const listener of this.auditListeners) {
+    for (const listener of ContextService.auditListeners) {
       try {
         listener(record);
       } catch {
@@ -121,8 +121,7 @@ export class ContextService {
       .slice(0, 20);
 
     const limit = Math.min(Math.max(1, params.limit ?? 2), 10);
-    const actorId =
-      caller.type === "agent" ? caller.authContext.principal.id : caller.userId;
+    const actorId = caller.type === "agent" ? caller.authContext.principal.id : caller.userId;
     const resource = `domain:${domain}`;
 
     // 2. Authorization Verification
@@ -136,7 +135,7 @@ export class ContextService {
       });
 
       if (!authResult.authorized) {
-        this.emitAudit({
+        ContextService.emitAudit({
           timestamp: new Date().toISOString(),
           actorType: "agent",
           actorId,
@@ -155,7 +154,7 @@ export class ContextService {
       }
     } else if (caller.type === "operator") {
       if (!isAuthorizedOperator(caller.userId)) {
-        this.emitAudit({
+        ContextService.emitAudit({
           timestamp: new Date().toISOString(),
           actorType: "operator",
           actorId,
@@ -168,7 +167,9 @@ export class ContextService {
           reason: "Forbidden: Operator not in authorized allowlist",
         });
 
-        throw new ContextAuthorizationError("Forbidden: User is not an authorized dashboard operator");
+        throw new ContextAuthorizationError(
+          "Forbidden: User is not an authorized dashboard operator",
+        );
       }
     } else {
       throw new ContextAuthorizationError("Unknown caller context type");
@@ -183,7 +184,7 @@ export class ContextService {
     });
 
     // 4. Audit Log Emission
-    this.emitAudit({
+    ContextService.emitAudit({
       timestamp: new Date().toISOString(),
       actorType: caller.type,
       actorId,

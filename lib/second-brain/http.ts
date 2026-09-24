@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 import { AuthenticationError } from "./auth/authenticate";
-import {
-  ContextAuthorizationError,
-  ContextValidationError,
-} from "./services/ContextService";
+import { ContextAuthorizationError, ContextValidationError } from "./services/ContextService";
 
 /**
  * Keeps private-machine failures observable to operators without disclosing

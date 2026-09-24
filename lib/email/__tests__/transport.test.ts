@@ -1,9 +1,21 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  sanitizeEmailHeader,
-  sendResendEmail,
-  sendSendGridEmail,
-} from "../transport";
+import { sanitizeEmailHeader, sendResendEmail, sendSendGridEmail } from "../transport";
+
+interface SendGridTestPayload {
+  subject?: string;
+  personalizations?: Array<{ to: Array<{ email: string; name?: string }> }>;
+  reply_to?: { email: string };
+  custom_args?: Record<string, string>;
+  headers?: Record<string, string>;
+}
+
+interface ResendTestPayload {
+  from?: string;
+  to?: string[];
+  subject?: string;
+  text?: string;
+  headers?: Record<string, string>;
+}
 
 describe("Shared Email Transport Infrastructure", () => {
   const originalFetch = globalThis.fetch;
@@ -30,12 +42,12 @@ describe("Shared Email Transport Infrastructure", () => {
   describe("sendSendGridEmail", () => {
     it("successfully sends an email and extracts x-message-id", async () => {
       let requestUrl: string | undefined;
-      let requestBody: any;
+      let requestBody: SendGridTestPayload = {};
       let authHeader: string | null = null;
 
       globalThis.fetch = vi.fn().mockImplementation((url, init) => {
         requestUrl = url.toString();
-        requestBody = JSON.parse(init.body as string);
+        requestBody = JSON.parse(init.body as string) as SendGridTestPayload;
         authHeader = init.headers?.Authorization;
         return Promise.resolve(
           new Response(null, {
@@ -65,7 +77,7 @@ describe("Shared Email Transport Infrastructure", () => {
       expect(requestUrl).toBe("https://api.sendgrid.com/v3/mail/send");
       expect(authHeader).toBe("Bearer SG.secret-key");
       expect(requestBody.subject).toBe("Test Subject");
-      expect(requestBody.personalizations[0].to).toEqual([
+      expect(requestBody.personalizations?.[0]?.to).toEqual([
         { email: "client@example.com", name: "Client" },
       ]);
       expect(requestBody.reply_to).toEqual({ email: "support@theskillcorner.com" });
@@ -139,11 +151,11 @@ describe("Shared Email Transport Infrastructure", () => {
   describe("sendResendEmail", () => {
     it("successfully sends an email and extracts json id", async () => {
       let requestUrl: string | undefined;
-      let requestBody: any;
+      let requestBody: ResendTestPayload = {};
 
       globalThis.fetch = vi.fn().mockImplementation((url, init) => {
         requestUrl = url.toString();
-        requestBody = JSON.parse(init.body as string);
+        requestBody = JSON.parse(init.body as string) as ResendTestPayload;
         return Promise.resolve(
           new Response(JSON.stringify({ id: "resend-msg-777" }), {
             status: 200,
