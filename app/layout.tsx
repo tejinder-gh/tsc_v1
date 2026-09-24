@@ -130,13 +130,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="font-geist bg-[var(--tsc-paper)] text-[var(--tsc-ink)] antialiased">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-[4px] focus:bg-[var(--tsc-surface)] focus:px-4 focus:py-3 focus:font-geist focus:text-sm focus:font-medium focus:text-[var(--tsc-ink)] focus:shadow-md focus:border focus:border-[var(--tsc-line-strong)] focus:outline focus:outline-2 focus:outline-[var(--tsc-action)]"
-        >
-          Skip to content
-        </a>
+      <head>
         {/* Flags JS availability before first paint so scroll-reveal hidden states
             never apply for no-JS visitors or crawlers. */}
         <script
@@ -146,6 +140,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             __html: 'document.documentElement.classList.add("js");',
           }}
         />
+      </head>
+      <body className="font-geist bg-[var(--tsc-paper)] text-[var(--tsc-ink)] antialiased">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-[4px] focus:bg-[var(--tsc-surface)] focus:px-4 focus:py-3 focus:font-geist focus:text-sm focus:font-medium focus:text-[var(--tsc-ink)] focus:shadow-md focus:border focus:border-[var(--tsc-line-strong)] focus:outline focus:outline-2 focus:outline-[var(--tsc-action)]"
+        >
+          Skip to content
+        </a>
         <script
           type="application/ld+json"
           // JSON-LD must be embedded as a raw script tag for crawlers.
