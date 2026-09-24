@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { BookingEmbed } from "@/components/BookingEmbed";
+import { PreFlightBlueprint } from "@/components/booking/PreFlightBlueprint";
 import { CtaLink } from "@/components/CtaLink";
 import { JsonLd } from "@/components/JsonLd";
 import { ActiveJourneyBanner } from "@/components/journey";
 import { EditorialHero } from "@/components/public/EditorialHero";
 import { PageEyebrow } from "@/components/public/PageEyebrow";
-import { booking, site } from "@/content/site";
+import { booking } from "@/content/site";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
@@ -91,8 +92,11 @@ export default function BookPage() {
           </div>
         </div>
 
+        {/* Pre-Flight Architecture Blueprint Configurator */}
+        <PreFlightBlueprint />
+
         {/* Cal.com Embed */}
-        <div className="space-y-4">
+        <div id="booking-calendar" className="space-y-4 scroll-mt-8">
           <div className="flex items-center justify-between text-xs font-mono text-[var(--tsc-muted)] uppercase border-b border-[var(--tsc-line)] pb-3">
             <span>SELECT AUDIT DATE &amp; TIME</span>
             <span>TIMEZONE: LOCAL</span>
