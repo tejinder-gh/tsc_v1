@@ -72,7 +72,7 @@ export function Header() {
   return (
     <>
       <CommandPalette />
-      <header className="sticky top-0 z-40 bg-[var(--tsc-paper)] border-b border-[var(--tsc-line)] font-geist">
+      <header className="sticky top-0 z-40 bg-[var(--tsc-paper)]/90 backdrop-blur-md border-b border-[var(--tsc-line)] font-geist transition-colors duration-200">
         <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between gap-4 px-6 lg:px-16">
           {/* Brand / Logo */}
           <Link
@@ -218,9 +218,47 @@ export function Header() {
                 role="dialog"
                 aria-modal="true"
                 aria-label="Mobile navigation"
-                className="fixed inset-x-0 top-20 bottom-0 z-50 flex flex-col bg-[var(--tsc-paper)] border-t border-[var(--tsc-line)] md:hidden font-geist"
+                className="fixed inset-x-0 top-20 bottom-0 z-50 flex flex-col bg-[var(--tsc-paper)] border-t border-[var(--tsc-line)] md:hidden font-geist overflow-y-auto"
               >
-                <nav aria-label="Mobile" className="flex-1 px-6 py-8">
+                <div className="p-6 border-b border-[var(--tsc-line)] space-y-3 bg-[var(--tsc-surface)]">
+                  {/* Studio Telemetry Pill on Mobile */}
+                  <div className="flex items-center justify-between text-xs font-mono text-[var(--tsc-muted)]">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--tsc-action)] opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--tsc-action)]" />
+                      </span>
+                      <span className="tabular-nums font-medium text-[var(--tsc-ink)]">
+                        {mounted ? studioTime : "TORONTO"}
+                      </span>
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wider text-[var(--tsc-action)] font-semibold">
+                      OPERATIONAL
+                    </span>
+                  </div>
+
+                  {/* Search trigger button on Mobile */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpen(false);
+                      setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent("open-command-palette"));
+                      }, 100);
+                    }}
+                    className="w-full flex items-center justify-between gap-2 rounded-[8px] border border-[var(--tsc-line)] bg-white px-3.5 py-2.5 text-xs text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors shadow-xs"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Search className="h-4 w-4 text-[var(--tsc-muted)]" />
+                      <span>Search playbooks & capabilities...</span>
+                    </div>
+                    <kbd className="rounded border border-[var(--tsc-line)] bg-[var(--tsc-surface)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--tsc-muted)]">
+                      ⌘K
+                    </kbd>
+                  </button>
+                </div>
+
+                <nav aria-label="Mobile" className="flex-1 px-6 py-6">
                   <ul className="flex flex-col divide-y divide-[var(--tsc-line)]">
                     {primaryNav.map((item) => (
                       <li key={item.href}>

@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { Check, FileText } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Magnetic } from "@/components/ui/MagneticButton";
 import { track } from "@/lib/analytics";
 import { diagnoseOpportunity } from "@/lib/journey/diagnose-opportunity";
 import { useJourney } from "@/lib/journey/journey-context";
@@ -13,6 +15,7 @@ import { OpportunitySecondary } from "./OpportunitySecondary";
 export function OpportunityView() {
   const { journey, setStage, markOpportunityViewed } = useJourney();
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const [specCopied, setSpecCopied] = useState(false);
 
   // Safe invalid-state recovery (Ticket 003 amendment 4 & §26)
   // Evaluated in an effect to avoid setting state during render
@@ -96,6 +99,49 @@ export function OpportunityView() {
     setStage("context");
   };
 
+  const handleExportSpec = () => {
+    const spec = [
+      `# THE SKILL CORNER // TECHNICAL ARCHITECTURE SPECIFICATION`,
+      `Reference: TSC-ARCH-${Date.now().toString(36).toUpperCase()}`,
+      `Environment: Production Scoped Blueprint`,
+      `Timestamp: ${new Date().toISOString()}`,
+      ``,
+      `## 1. Context & Operational Diagnosis`,
+      `- Strategic Intent: ${journey.intent || "Not specified"}`,
+      `- Domain Focus: ${journey.contextFocus || "General Business"}`,
+      `- Current Situation: ${journey.contextSituation || "Operational Workflow Optimization"}`,
+      ``,
+      `## 2. Primary Architectural System`,
+      `- System Name: ${primaryDef.title}`,
+      `- Primary Target Outcome: ${primaryDef.outcome}`,
+      `- Architectural Rationale: ${fullRationale}`,
+      ``,
+      `## 3. Implementation Deliverables & Capabilities`,
+      ...primaryDef.evidence.map((item) => `- ${item}`),
+      ``,
+      `## 4. Operational Boundaries & Guardrails ("Not Yet")`,
+      `${primaryDef.avoidForNow}`,
+      ``,
+      `## 5. Horizon Roadmap`,
+      `- Secondary Priority: ${diagnosis.secondary}`,
+      `- Deferred System: ${diagnosis.deferred}`,
+      ``,
+      `---`,
+      `Engineered by TheSkillCorner Studio Engine. Deterministic Architecture Map v2.4.`,
+    ].join("\n");
+
+    try {
+      navigator.clipboard?.writeText(spec);
+      setSpecCopied(true);
+      setTimeout(() => setSpecCopied(false), 2000);
+      track("journey_architecture_spec_exported", {
+        primaryOpportunity: diagnosis.primary,
+      });
+    } catch {
+      // fallback
+    }
+  };
+
   return (
     <div className="w-full font-geist">
       {/* Aria live announcement for screen readers */}
@@ -171,22 +217,43 @@ export function OpportunityView() {
           </div>
         </div>
 
-        {/* Section C: Actions (Primary CTA + Review Context) */}
-        <div className="order-3 lg:col-span-7 lg:row-start-2 pt-2 sm:pt-4 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+        {/* Section C: Actions (Primary CTA + Export Spec + Review Context) */}
+        <div className="order-3 lg:col-span-7 lg:row-start-2 pt-2 sm:pt-4 flex flex-wrap items-center gap-3 sm:gap-4">
+          <Magnetic pullFactor={0.16}>
+            <button
+              type="button"
+              onClick={handleSolutionStart}
+              className="inline-flex items-center justify-center rounded-[4px] bg-[var(--tsc-ink)] px-6 py-3.5 text-sm sm:text-base font-semibold text-white transition-colors hover:bg-[var(--tsc-ink)]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] cursor-pointer"
+            >
+              <span>See how this would work &rarr;</span>
+            </button>
+          </Magnetic>
+
           <button
             type="button"
-            onClick={handleSolutionStart}
-            className="w-full sm:w-auto inline-flex items-center justify-center rounded-[4px] bg-[var(--tsc-ink)] px-6 py-3.5 text-sm sm:text-base font-semibold text-white transition-colors hover:bg-[var(--tsc-ink)]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] cursor-pointer"
+            onClick={handleExportSpec}
+            className="inline-flex items-center gap-2 rounded-[4px] border border-[var(--tsc-line)] bg-white px-4 py-3.5 text-xs sm:text-sm font-mono text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] hover:border-[var(--tsc-ink)]/30 transition-colors cursor-pointer shadow-xs"
+            title="Export full technical specification as Markdown"
           >
-            <span>See how this would work →</span>
+            {specCopied ? (
+              <>
+                <Check className="h-4 w-4 text-[var(--tsc-positive)]" />
+                <span className="text-[var(--tsc-positive)] font-semibold">Spec Copied</span>
+              </>
+            ) : (
+              <>
+                <FileText className="h-4 w-4 text-[var(--tsc-muted)]" />
+                <span>Export Arch Spec</span>
+              </>
+            )}
           </button>
 
           <button
             type="button"
             onClick={handleReviewContext}
-            className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-medium text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-ink)] cursor-pointer py-2"
+            className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-medium text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-ink)] cursor-pointer py-2 px-2"
           >
-            <span>← Review context</span>
+            <span>&larr; Review context</span>
           </button>
         </div>
 
