@@ -4,6 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { EditorialHero } from "@/components/public/EditorialHero";
 import { PageEyebrow } from "@/components/public/PageEyebrow";
 import { SecondaryProblemPrompt } from "@/components/public/SecondaryProblemPrompt";
+import { ArchitectureVisualizer } from "@/components/services/ArchitectureVisualizer";
 import { digitalServices } from "@/content/digital-services";
 import { services as automationServices } from "@/content/services";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
@@ -197,6 +198,16 @@ export default function DigitalServicesPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Interactive System Architecture Comparison */}
+      <section
+        aria-label="System Architecture Comparison"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+      >
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
+          <ArchitectureVisualizer />
         </div>
       </section>
 
