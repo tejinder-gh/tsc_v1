@@ -30,6 +30,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { checkPublicRateLimit } from "@/lib/rate-limit";
 import { readBoundedBody } from "@/lib/request-limit";
 import { leadSchema } from "@/lib/schemas";
 import { captureError, trackEvent } from "@/lib/telemetry";
@@ -37,6 +38,23 @@ import { captureError, trackEvent } from "@/lib/telemetry";
 const DELIVERY_FAILED = "Lead delivery failed. Please try again, or email us directly.";
 
 export async function POST(request: Request): Promise<NextResponse> {
+  const rateLimit = await checkPublicRateLimit(request, {
+    route: "/api/lead",
+    limit: 10,
+    windowSeconds: 60,
+  });
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { ok: false, error: "Too many requests. Please try again later." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(rateLimit.resetAfterSeconds),
+        },
+      },
+    );
+  }
+
   const bounded = await readBoundedBody(request, 32 * 1024);
   if (!bounded.ok) {
     return NextResponse.json({ ok: false, error: bounded.error }, { status: bounded.status });

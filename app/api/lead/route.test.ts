@@ -13,14 +13,15 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { resetDefaultRateLimiter } from "@/lib/rate-limit";
 import { POST } from "./route";
 
 const WEBHOOK_URL = "https://hooks.example.com/catch";
 
-function makeRequest(body: unknown): Request {
+function makeRequest(body: unknown, headers?: Record<string, string>): Request {
   return new Request("http://localhost/api/lead", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...headers },
     body: typeof body === "string" ? body : JSON.stringify(body),
   });
 }
@@ -31,6 +32,7 @@ let fetchMock: ReturnType<typeof vi.fn>;
 let savedWebhookUrl: string | undefined;
 
 beforeEach(() => {
+  resetDefaultRateLimiter();
   fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 200 }));
   vi.stubGlobal("fetch", fetchMock);
   vi.spyOn(console, "warn").mockImplementation(() => {});
@@ -312,5 +314,44 @@ describe("POST /api/lead", () => {
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.ok).toBe(false);
+  });
+
+  it("throttles excessive requests with 429 and Retry-After header without logging PII", async () => {
+    process.env.LEAD_WEBHOOK_URL = WEBHOOK_URL;
+    const testIp = "203.0.113.42";
+    const headers = { "x-forwarded-for": testIp };
+
+    // Send 10 allowed requests
+    for (let i = 0; i < 10; i++) {
+      const res = await POST(makeRequest({ ...validLead, email: `user${i}@example.com` }, headers));
+      expect(res.status).toBe(200);
+    }
+
+    // 11th request should be throttled
+    const throttledRes = await POST(
+      makeRequest(
+        { ...validLead, email: "victim@example.com", name: "Confidential Person" },
+        headers,
+      ),
+    );
+    expect(throttledRes.status).toBe(429);
+    expect(throttledRes.headers.get("Retry-After")).toBeDefined();
+    const throttledBody = await throttledRes.json();
+    expect(throttledBody).toEqual({
+      ok: false,
+      error: "Too many requests. Please try again later.",
+    });
+
+    // Verify raw PII was not logged during throttling
+    const warnLogs = (console.warn as ReturnType<typeof vi.fn>).mock.calls.flat().join(" ");
+    const errorLogs = (console.error as ReturnType<typeof vi.fn>).mock.calls.flat().join(" ");
+    expect(warnLogs).not.toContain("victim@example.com");
+    expect(warnLogs).not.toContain("Confidential Person");
+    expect(errorLogs).not.toContain("victim@example.com");
+    expect(errorLogs).not.toContain("Confidential Person");
+
+    // Request from a different IP is still permitted
+    const diffIpRes = await POST(makeRequest(validLead, { "x-forwarded-for": "198.51.100.99" }));
+    expect(diffIpRes.status).toBe(200);
   });
 });

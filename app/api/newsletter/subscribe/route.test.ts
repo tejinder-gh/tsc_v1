@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { resetDefaultRateLimiter } from "@/lib/rate-limit";
 import { POST } from "./route";
 
 function makeRequest(body: unknown, headers?: Record<string, string>): Request {
@@ -14,6 +15,7 @@ describe("POST /api/newsletter/subscribe", () => {
   let savedWebhookUrl: string | undefined;
 
   beforeEach(() => {
+    resetDefaultRateLimiter();
     fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 200 }));
     vi.stubGlobal("fetch", fetchMock);
     vi.spyOn(console, "info").mockImplementation(() => {});
@@ -110,5 +112,50 @@ describe("POST /api/newsletter/subscribe", () => {
     expect(res.status).toBe(400);
     const data = await res.json();
     expect(data.error).toBe("Malformed JSON payload");
+  });
+
+  it("throttles excessive requests with 429 and Retry-After header", async () => {
+    const testIp = "198.51.100.12";
+    const headers = { "x-forwarded-for": testIp };
+
+    for (let i = 0; i < 10; i++) {
+      const res = await POST(
+        makeRequest(
+          {
+            email: `operator${i}@example.com`,
+            newsletterSlug: "tech-founder-briefing",
+          },
+          headers,
+        ),
+      );
+      expect(res.status).toBe(200);
+    }
+
+    const throttledRes = await POST(
+      makeRequest(
+        {
+          email: "victim@example.com",
+          newsletterSlug: "tech-founder-briefing",
+        },
+        headers,
+      ),
+    );
+    expect(throttledRes.status).toBe(429);
+    expect(throttledRes.headers.get("Retry-After")).toBeDefined();
+    const throttledData = await throttledRes.json();
+    expect(throttledData.success).toBe(false);
+    expect(throttledData.error).toContain("Too many requests");
+
+    // Request from another IP should still pass
+    const diffIpRes = await POST(
+      makeRequest(
+        {
+          email: "another@example.com",
+          newsletterSlug: "tech-founder-briefing",
+        },
+        { "x-forwarded-for": "203.0.113.88" },
+      ),
+    );
+    expect(diffIpRes.status).toBe(200);
   });
 });

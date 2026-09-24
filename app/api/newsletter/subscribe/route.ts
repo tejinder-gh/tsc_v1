@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getNewsletterBySlug } from "@/features/newsletters/data/newsletters";
+import { checkPublicRateLimit } from "@/lib/rate-limit";
 import { readBoundedBody } from "@/lib/request-limit";
 
 export const runtime = "nodejs";
@@ -14,6 +15,23 @@ const SubscribeSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    const rateLimit = await checkPublicRateLimit(request, {
+      route: "/api/newsletter/subscribe",
+      limit: 10,
+      windowSeconds: 60,
+    });
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { success: false, error: "Too many requests. Please try again later." },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimit.resetAfterSeconds),
+          },
+        },
+      );
+    }
+
     // Enforce 32KB payload boundary against oversized requests
     const bounded = await readBoundedBody(request, 32 * 1024);
     if (!bounded.ok) {
