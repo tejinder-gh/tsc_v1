@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Play, RotateCcw } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { EditorialDivider, SectionLabel } from "@/components/ui/editorial";
 
@@ -133,20 +134,36 @@ export function SystemStudies() {
     >
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 lg:mb-16">
-          <SectionLabel className="mb-4">02 / SYSTEM STUDIES</SectionLabel>
-          <h2
-            id="system-studies-heading"
-            className="text-[32px] sm:text-[44px] lg:text-[52px] font-bold leading-[1.04] tracking-[-0.03em] text-[var(--tsc-ink)]"
-          >
-            A few examples of where
-            <br className="hidden sm:inline" /> small systems change the work.
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed">
-            These are illustrative scenarios, not client case studies. The point is the shape of the
-            problem: repetitive work, a clear trigger, and a system that handles the predictable
-            part.
-          </p>
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-16">
+          <div className="max-w-3xl">
+            <SectionLabel className="mb-4">02 / SYSTEM STUDIES</SectionLabel>
+            <h2
+              id="system-studies-heading"
+              className="text-[32px] sm:text-[44px] lg:text-[52px] font-bold leading-[1.04] tracking-[-0.03em] text-[var(--tsc-ink)]"
+            >
+              A few examples of where
+              <br className="hidden sm:inline" /> small systems change the work.
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed">
+              These are illustrative scenarios, not client case studies. The point is the shape of
+              the problem: repetitive work, a clear trigger, and a system that handles the
+              predictable part.
+            </p>
+          </div>
+          <div className="shrink-0 lg:pb-1">
+            <Link
+              href="/industries"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] transition-colors group"
+            >
+              <span>See more examples</span>
+              <span
+                className="font-mono transition-transform duration-150 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                &rarr;
+              </span>
+            </Link>
+          </div>
         </div>
 
         {/* Desktop Layout: Asymmetric 7 / 5 Editorial Index */}
@@ -415,6 +432,30 @@ export function SystemStudies() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Section Footer: See more examples across industries */}
+        <div className="mt-12 lg:mt-16 pt-8 border-t border-[var(--tsc-line)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1">
+            <div className="font-mono text-xs font-semibold tracking-wider text-[var(--tsc-muted)] uppercase">
+              SECTOR DIRECTORY &middot; 24 INDUSTRIES
+            </div>
+            <p className="text-sm text-[var(--tsc-muted)]">
+              Explore concrete systems tailored for local businesses and professional practices.
+            </p>
+          </div>
+          <Link
+            href="/industries"
+            className="inline-flex items-center justify-center gap-2 self-start sm:self-auto px-5 py-2.5 rounded-[4px] bg-[var(--tsc-ink)] text-white text-xs sm:text-sm font-semibold tracking-wide hover:bg-[var(--tsc-action)] transition-colors group shadow-sm"
+          >
+            <span>See more examples</span>
+            <span
+              className="font-mono transition-transform duration-150 group-hover:translate-x-1"
+              aria-hidden="true"
+            >
+              &rarr;
+            </span>
+          </Link>
         </div>
       </div>
     </section>

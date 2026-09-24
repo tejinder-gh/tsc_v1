@@ -167,6 +167,8 @@ Maintained for URL stability and legacy link preservation (permanent redirects, 
 * `/services/:slug` $\rightarrow$ `/what-we-automate/:slug`
 * `/for` $\rightarrow$ `/industries`
 * `/for/:slug` $\rightarrow$ `/industries/:slug`
+* `/industry` $\rightarrow$ `/industries`
+* `/industry/:slug` $\rightarrow$ `/industries/:slug`
 * `/privacy` $\rightarrow$ `/legal/privacy`
 * `/terms` $\rightarrow$ `/legal/terms`
 * `/what-we-automate/feedback-and-reviews` $\rightarrow$ `/what-we-automate/reviews-and-reputation`
