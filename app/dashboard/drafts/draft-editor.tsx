@@ -61,7 +61,7 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
       <div className="w-full lg:w-80 flex flex-col gap-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm overflow-y-auto">
         <h3 className="font-semibold text-slate-900 px-2 pb-2 border-b border-slate-100 flex items-center justify-between">
           <span>Needs Review</span>
-          <span className="bg-blue-100 text-blue-700 text-xs py-0.5 px-2 rounded-full font-medium">
+          <span className="bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border border-[var(--tsc-line)] text-xs py-0.5 px-2 rounded-full font-medium">
             {drafts.length}
           </span>
         </h3>
@@ -74,21 +74,23 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
               onClick={() => setSelectedIndex(idx)}
               className={`text-left p-4 rounded-xl transition-all border ${
                 isSelected
-                  ? "bg-blue-50 border-blue-200 shadow-sm ring-1 ring-blue-500/20"
+                  ? "bg-[var(--tsc-surface)] border-[var(--tsc-line-strong)] shadow-xs ring-1 ring-[var(--tsc-ink)]/10"
                   : "bg-white border-transparent hover:border-slate-200 hover:bg-slate-50"
               }`}
             >
               <div className="flex items-center gap-2 mb-2">
                 <span
                   className={`text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                    isSelected ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-600"
+                    isSelected
+                      ? "bg-[var(--tsc-ink)] text-[var(--tsc-paper)]"
+                      : "bg-slate-100 text-slate-600"
                   }`}
                 >
                   {draft.purpose}
                 </span>
               </div>
               <p
-                className={`text-sm line-clamp-2 ${isSelected ? "text-blue-900 font-medium" : "text-slate-600"}`}
+                className={`text-sm line-clamp-2 ${isSelected ? "text-[var(--tsc-ink)] font-semibold" : "text-slate-600"}`}
               >
                 {draft.content.body}
               </p>
@@ -129,7 +131,7 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
             value={editedBody}
             onChange={(e) => setEditedBody(e.target.value)}
             disabled={isPending}
-            className="flex-1 w-full p-4 rounded-xl border border-slate-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-shadow text-slate-700 text-base leading-relaxed bg-white"
+            className="flex-1 w-full p-4 rounded-xl border border-slate-200 shadow-sm focus:ring-2 focus:ring-[var(--tsc-ink)] focus:border-[var(--tsc-ink)] resize-none transition-shadow text-slate-700 text-base leading-relaxed bg-white"
             placeholder="Edit the message..."
           />
         </div>
@@ -148,7 +150,7 @@ export function DraftEditor({ drafts, clientId }: { drafts: DraftAction[]; clien
             type="button"
             onClick={handleApprove}
             disabled={isPending}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm shadow-blue-500/20 transition-all font-medium disabled:opacity-50 hover:shadow-md"
+            className="flex items-center gap-2 px-6 py-2.5 bg-[var(--tsc-ink)] hover:opacity-90 text-[var(--tsc-paper)] rounded-xl transition-all font-medium disabled:opacity-50"
           >
             {isPending ? <Clock size={18} className="animate-spin" /> : <Send size={18} />}
             Approve & Send

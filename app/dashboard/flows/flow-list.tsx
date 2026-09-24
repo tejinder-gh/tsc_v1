@@ -17,9 +17,9 @@ function getRecipeDetails(recipe: string) {
     case "booking-reminders":
       return {
         icon: Clock,
-        color: "from-blue-500 to-cyan-500",
-        bg: "bg-blue-50",
-        text: "text-blue-600",
+        color: "from-emerald-500 to-teal-600",
+        bg: "bg-emerald-50",
+        text: "text-emerald-700",
       };
     case "review-booster":
       return {
@@ -94,23 +94,21 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
               whileTap={{ scale: 0.98 }}
               className={`relative text-left px-5 py-4 rounded-2xl transition-all font-medium overflow-hidden ${
                 isSelected
-                  ? "bg-white shadow-lg shadow-blue-500/10 text-slate-900 ring-1 ring-slate-200/50"
+                  ? "bg-white shadow-md text-slate-900 ring-1 ring-[var(--tsc-line)]"
                   : "bg-transparent text-slate-500 hover:bg-white/60 hover:text-slate-700"
               }`}
             >
               {isSelected && (
                 <motion.div
                   layoutId="active-client-bg"
-                  className="absolute inset-0 bg-gradient-to-br from-blue-50/80 to-transparent z-0"
+                  className="absolute inset-0 bg-gradient-to-br from-[var(--tsc-surface)] to-transparent z-0"
                   initial={false}
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
               <div className="relative z-10 flex items-center justify-between">
                 <span>{client.name}</span>
-                {isSelected && (
-                  <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
-                )}
+                {isSelected && <div className="w-2 h-2 rounded-full bg-[var(--tsc-positive)]" />}
               </div>
             </motion.button>
           );
@@ -125,8 +123,8 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="flex-1 bg-white/80 backdrop-blur-xl border border-white/40 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 lg:p-10 relative overflow-hidden"
       >
-        {/* Decorative background glow */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Decorative background subtle glow */}
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-slate-200/20 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-slate-100/60 relative z-10">
           <div>
@@ -143,7 +141,7 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
               animate={{ opacity: 1, rotate: 0 }}
               className="bg-white p-2 rounded-full shadow-sm border border-slate-100"
             >
-              <RefreshCw size={20} className="text-blue-500 animate-spin" />
+              <RefreshCw size={20} className="text-[var(--tsc-ink)] animate-spin" />
             </motion.div>
           )}
         </div>
@@ -208,7 +206,7 @@ export function FlowList({ clients }: { clients: ClientData[] }) {
                       aria-label={`Toggle ${auto.id} for ${selectedClient.name}`}
                       onClick={() => handleToggle(auto.id, auto.enabled)}
                       disabled={isPending}
-                      className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${
+                      className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-ink)] focus-visible:ring-offset-2 ${
                         auto.enabled ? "bg-slate-800" : "bg-slate-200"
                       }`}
                     >

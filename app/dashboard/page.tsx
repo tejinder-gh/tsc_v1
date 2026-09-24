@@ -52,7 +52,7 @@ export default async function DashboardRootPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/workflows"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white font-medium text-sm hover:bg-blue-700 shadow-sm hover:shadow transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--tsc-ink)] text-[var(--tsc-paper)] font-medium text-sm hover:opacity-90 shadow-sm transition-all"
           >
             <PlayCircle size={16} />
             <span>Workflow Triggers</span>
@@ -88,7 +88,7 @@ export default async function DashboardRootPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Configured Automations
               </span>
-              <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+              <div className="p-2 rounded-lg bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border border-[var(--tsc-line)]">
                 <Workflow size={18} />
               </div>
             </div>
@@ -113,7 +113,7 @@ export default async function DashboardRootPage() {
               </span>
               <Link
                 href="/dashboard/flows"
-                className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                className="text-[var(--tsc-ink)] hover:text-[var(--tsc-positive)] font-medium flex items-center gap-1"
               >
                 <span>Flows</span>
                 <ArrowRight size={12} />
@@ -164,7 +164,7 @@ export default async function DashboardRootPage() {
               )}
               <Link
                 href="/dashboard/drafts"
-                className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                className="text-[var(--tsc-ink)] hover:text-[var(--tsc-positive)] font-medium flex items-center gap-1"
               >
                 <span>Review</span>
                 <ArrowRight size={12} />
@@ -202,7 +202,7 @@ export default async function DashboardRootPage() {
               </span>
               <Link
                 href="/dashboard/catalog"
-                className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                className="text-[var(--tsc-ink)] hover:text-[var(--tsc-positive)] font-medium flex items-center gap-1"
               >
                 <span>Catalog</span>
                 <ArrowRight size={12} />
@@ -238,7 +238,7 @@ export default async function DashboardRootPage() {
               </span>
               <Link
                 href="/dashboard/workflows"
-                className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                className="text-[var(--tsc-ink)] hover:text-[var(--tsc-positive)] font-medium flex items-center gap-1"
               >
                 <span>Test RAG</span>
                 <ArrowRight size={12} />
@@ -268,7 +268,7 @@ export default async function DashboardRootPage() {
           </div>
           <Link
             href="/dashboard/flows"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--tsc-ink)] hover:text-[var(--tsc-positive)]"
           >
             <span>Configure All Flows</span>
             <ArrowRight size={14} />
@@ -328,7 +328,7 @@ export default async function DashboardRootPage() {
                           key={a.id}
                           className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium ${
                             a.enabled
-                              ? "bg-blue-50 text-blue-700 border border-blue-200"
+                              ? "bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border border-[var(--tsc-line)]"
                               : "bg-slate-100 text-slate-400 border border-slate-200 line-through"
                           }`}
                         >
@@ -384,7 +384,7 @@ export default async function DashboardRootPage() {
           </div>
           <Link
             href="/dashboard/workflows"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--tsc-ink)] hover:text-[var(--tsc-positive)]"
           >
             <span>Open Feature Trigger Console</span>
             <ArrowRight size={14} />
@@ -407,7 +407,7 @@ export default async function DashboardRootPage() {
                       sub.status === "configured"
                         ? "bg-slate-50 text-slate-700 border-slate-200"
                         : sub.status === "registered"
-                          ? "bg-blue-50 text-blue-700 border-blue-200"
+                          ? "bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border-[var(--tsc-line-strong)]"
                           : sub.status === "unverified"
                             ? "bg-amber-50 text-amber-700 border-amber-200"
                             : "bg-rose-50 text-rose-700 border-rose-200"
@@ -418,7 +418,7 @@ export default async function DashboardRootPage() {
                         sub.status === "configured"
                           ? "bg-slate-400"
                           : sub.status === "registered"
-                            ? "bg-blue-500"
+                            ? "bg-[var(--tsc-positive)]"
                             : sub.status === "unverified"
                               ? "bg-amber-500"
                               : "bg-rose-500"
@@ -449,8 +449,8 @@ export default async function DashboardRootPage() {
       >
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div className="space-y-2 max-w-xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/30">
-              <Zap size={13} className="text-blue-400" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/20">
+              <Zap size={13} className="text-[var(--tsc-signal)]" />
               Manual Feature Workflows
             </div>
             <h2
@@ -469,7 +469,7 @@ export default async function DashboardRootPage() {
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/dashboard/workflows"
-              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-500/20 transition-all flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-white hover:bg-white/90 text-[var(--tsc-ink)] font-semibold text-sm transition-all flex items-center gap-2"
             >
               <PlayCircle size={16} />
               <span>Open Workflows Console</span>

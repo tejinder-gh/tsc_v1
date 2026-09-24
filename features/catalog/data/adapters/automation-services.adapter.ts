@@ -18,7 +18,7 @@ export function adaptAutomationService(service: Service): AutomationOffering {
     shortDescription: service.excerpt,
     longDescription: service.problem,
     icon: "bolt",
-    accent: "blue",
+    accent: "green",
 
     status: "active",
     visibility: "public",

@@ -88,7 +88,7 @@ export function NewsletterManageClient({ newsletter }: { newsletter: Newsletter 
               <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                 {newsletter.name}
               </h1>
-              <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">
+              <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border border-[var(--tsc-line)]">
                 {newsletter.cadence}
               </span>
             </div>
@@ -109,7 +109,7 @@ export function NewsletterManageClient({ newsletter }: { newsletter: Newsletter 
               type="button"
               disabled={isGenerating}
               onClick={handleSimulateAiGeneration}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-[var(--tsc-paper)] bg-[var(--tsc-ink)] hover:opacity-90 rounded-lg transition-all shadow-xs disabled:opacity-50 cursor-pointer"
             >
               {isGenerating ? (
                 <>
@@ -158,7 +158,7 @@ export function NewsletterManageClient({ newsletter }: { newsletter: Newsletter 
                   }}
                   className={`w-full text-left p-3.5 rounded-xl border transition-all ${
                     isSelected
-                      ? "bg-white border-blue-600 shadow-xs ring-1 ring-blue-600"
+                      ? "bg-white border-[var(--tsc-ink)] shadow-xs ring-1 ring-[var(--tsc-ink)]"
                       : "bg-white border-slate-200 hover:border-slate-300"
                   }`}
                 >

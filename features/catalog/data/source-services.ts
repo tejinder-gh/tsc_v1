@@ -15,7 +15,7 @@ export const CANONICAL_SERVICES: readonly CanonicalService[] = [
     longDescription:
       "Lead Finder researches public business directories, registry filings, local chambers, and corporate websites to build a weekly, human-verified shortlist of high-fit prospects for your specific offer.",
     icon: "search",
-    accent: "blue",
+    accent: "green",
 
     visibility: "public",
     commerceStatus: "purchasable",
@@ -448,7 +448,7 @@ export const CANONICAL_SERVICES: readonly CanonicalService[] = [
     longDescription:
       "Aggregates franchisor disclosures and broker resales across Canada to highlight cash-flowing franchise opportunities with proven unit economics.",
     icon: "radar",
-    accent: "blue",
+    accent: "green",
 
     visibility: "public",
     commerceStatus: "waitlist",
@@ -606,7 +606,7 @@ export const CANONICAL_SERVICES: readonly CanonicalService[] = [
     longDescription:
       "Written for technical founders, operators, and engineering leads who need signal without sensationalism. Delivers concise architectural breakdowns every Monday morning.",
     icon: "file-text",
-    accent: "blue",
+    accent: "green",
 
     visibility: "public",
     commerceStatus: "free",

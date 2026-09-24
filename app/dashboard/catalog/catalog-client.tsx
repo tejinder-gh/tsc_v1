@@ -38,7 +38,7 @@ export function CatalogClient({ offerings }: { offerings: readonly Offering[] })
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search offerings by title, slug, category..."
-            className="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600 focus:bg-white transition-colors"
+            className="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[var(--tsc-ink)] focus:bg-white transition-colors"
           />
         </div>
 
@@ -48,7 +48,7 @@ export function CatalogClient({ offerings }: { offerings: readonly Offering[] })
             <select
               value={kindFilter}
               onChange={(e) => setKindFilter(e.target.value as OfferingKind | "all")}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 font-medium text-xs focus:outline-none focus:border-blue-600"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 font-medium text-xs focus:outline-none focus:border-[var(--tsc-ink)]"
             >
               <option value="all">All Kinds</option>
               <option value="automation">Automations</option>
@@ -62,7 +62,7 @@ export function CatalogClient({ offerings }: { offerings: readonly Offering[] })
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 font-medium text-xs focus:outline-none focus:border-blue-600"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 font-medium text-xs focus:outline-none focus:border-[var(--tsc-ink)]"
             >
               <option value="all">All Statuses</option>
               <option value="active">Active</option>
@@ -136,7 +136,7 @@ export function CatalogClient({ offerings }: { offerings: readonly Offering[] })
                       href={item.canonicalUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-800"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--tsc-ink)] hover:text-[var(--tsc-positive)]"
                     >
                       <span>Public</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />

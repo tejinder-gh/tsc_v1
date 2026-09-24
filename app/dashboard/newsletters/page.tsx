@@ -41,7 +41,7 @@ export default function DashboardNewslettersPage() {
         <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-2xs">
           <div className="flex items-center justify-between text-slate-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Publications</span>
-            <Newspaper className="w-4 h-4 text-blue-600" />
+            <Newspaper className="w-4 h-4 text-[var(--tsc-ink)]" />
           </div>
           <p className="text-2xl font-bold text-slate-900 tabular-nums">{newsletters.length}</p>
           <span className="text-xs text-slate-400">Active automated radars</span>
@@ -93,7 +93,7 @@ export default function DashboardNewslettersPage() {
                           ? "bg-purple-50 text-purple-700 border border-purple-200"
                           : isHybrid
                             ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                            : "bg-blue-50 text-blue-700 border border-blue-200"
+                            : "bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border border-[var(--tsc-line)]"
                       }`}
                     >
                       {newsletter.generationMode.toUpperCase()}
@@ -136,7 +136,7 @@ export default function DashboardNewslettersPage() {
                   </Link>
                   <Link
                     href={`/dashboard/newsletters/${newsletter.slug}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-[var(--tsc-paper)] bg-[var(--tsc-ink)] hover:opacity-90 rounded-lg transition-all shadow-xs"
                   >
                     <span>Manage Issues &amp; Drafts</span>
                     <ArrowRight className="w-3.5 h-3.5" />

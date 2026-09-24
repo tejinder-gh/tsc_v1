@@ -51,7 +51,7 @@ export default async function DraftsPage({ searchParams }: DraftsPageProps) {
               aria-selected={isSelected}
               className={`py-2.5 px-4 text-sm font-semibold rounded-t-xl border-b-2 transition-colors whitespace-nowrap ${
                 isSelected
-                  ? "border-blue-600 text-blue-600 bg-blue-50/50"
+                  ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] bg-[var(--tsc-surface)]"
                   : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >

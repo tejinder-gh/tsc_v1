@@ -168,7 +168,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("scheduler")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "scheduler"
-              ? "border-blue-600 text-blue-600 font-semibold"
+              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -183,7 +183,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("inbound")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "inbound"
-              ? "border-blue-600 text-blue-600 font-semibold"
+              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -198,7 +198,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("lead")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "lead"
-              ? "border-blue-600 text-blue-600 font-semibold"
+              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -213,7 +213,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("second-brain")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "second-brain"
-              ? "border-blue-600 text-blue-600 font-semibold"
+              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -228,7 +228,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           onClick={() => setActiveTab("catalog")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "catalog"
-              ? "border-blue-600 text-blue-600 font-semibold"
+              ? "border-[var(--tsc-ink)] text-[var(--tsc-ink)] font-semibold"
               : "border-transparent text-slate-600 hover:text-slate-900"
           }`}
           role="tab"
@@ -246,7 +246,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           {activeTab === "scheduler" && (
             <div className="space-y-5">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 mb-2">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border border-[var(--tsc-line)] mb-2">
                   <Clock size={12} />
                   Engine: runTick()
                 </div>
@@ -269,7 +269,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   id="scheduler-target"
                   value={selectedSchedulerClient}
                   onChange={(e) => setSelectedSchedulerClient(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                 >
                   <option value="all">All Configured Workspaces ({clients.length} Clients)</option>
                   {clients.map((c) => (
@@ -285,7 +285,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   type="button"
                   onClick={handleRunScheduler}
                   disabled={isPending}
-                  className="w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-ink)] hover:opacity-90 disabled:opacity-50 text-[var(--tsc-paper)] font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
                 >
                   {isPending ? (
                     <>
@@ -331,7 +331,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                     id="inbound-client"
                     value={selectedInboundClient}
                     onChange={(e) => setSelectedInboundClient(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                   >
                     {clients.map((c) => (
                       <option key={c.id} value={c.id}>
@@ -354,7 +354,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                     value={inboundFromPhone}
                     onChange={(e) => setInboundFromPhone(e.target.value)}
                     placeholder="+14165550114"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                   />
                 </div>
 
@@ -370,7 +370,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                     rows={3}
                     value={inboundMessageBody}
                     onChange={(e) => setInboundMessageBody(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                   />
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     <span className="text-[11px] text-slate-400 self-center mr-1">Presets:</span>
@@ -400,7 +400,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                       onClick={() =>
                         setInboundMessageBody("Can I whiten my teeth before my dental cleaning?")
                       }
-                      className="px-2 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-medium cursor-pointer"
+                      className="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium cursor-pointer"
                     >
                       Inquiry (Review Draft)
                     </button>
@@ -413,7 +413,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   type="button"
                   onClick={handleRunInbound}
                   disabled={isPending || !inboundMessageBody.trim()}
-                  className="w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-ink)] hover:opacity-90 disabled:opacity-50 text-[var(--tsc-paper)] font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
                 >
                   {isPending ? (
                     <>
@@ -462,7 +462,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                       type="text"
                       value={leadName}
                       onChange={(e) => setLeadName(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                     />
                   </div>
                   <div className="space-y-1">
@@ -477,7 +477,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                       type="email"
                       value={leadEmail}
                       onChange={(e) => setLeadEmail(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                     />
                   </div>
                 </div>
@@ -494,7 +494,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                     type="text"
                     value={leadCompany}
                     onChange={(e) => setLeadCompany(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                   />
                 </div>
 
@@ -510,7 +510,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                     rows={2}
                     value={leadNotes}
                     onChange={(e) => setLeadNotes(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                   />
                 </div>
 
@@ -520,7 +520,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                     type="checkbox"
                     checked={isHoneypot}
                     onChange={(e) => setIsHoneypot(e.target.checked)}
-                    className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
+                    className="w-4 h-4 rounded text-[var(--tsc-ink)] focus:ring-[var(--tsc-ink)] border-slate-300"
                   />
                   <label
                     htmlFor="honeypot-toggle"
@@ -540,7 +540,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   type="button"
                   onClick={handleRunLead}
                   disabled={isPending}
-                  className="w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-ink)] hover:opacity-90 disabled:opacity-50 text-[var(--tsc-paper)] font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
                 >
                   {isPending ? (
                     <>
@@ -588,7 +588,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                       value={ragDomain}
                       onChange={(e) => setRagDomain(e.target.value)}
                       placeholder="strategy"
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                     />
                   </div>
                   <div className="space-y-1">
@@ -604,7 +604,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                       value={ragSubdomain}
                       onChange={(e) => setRagSubdomain(e.target.value)}
                       placeholder="acquisition"
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                     />
                   </div>
                 </div>
@@ -622,7 +622,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                     value={ragKeywords}
                     onChange={(e) => setRagKeywords(e.target.value)}
                     placeholder="diligence, financial, valuation"
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
                   />
                 </div>
               </div>
@@ -722,7 +722,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           <div className="flex-1 overflow-auto mt-4 font-mono text-xs text-slate-300">
             {isPending ? (
               <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-3">
-                <RefreshCw size={24} className="animate-spin text-blue-400" />
+                <RefreshCw size={24} className="animate-spin text-emerald-400" />
                 <p>Executing workflow server action...</p>
               </div>
             ) : executionError ? (
@@ -746,8 +746,8 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                     </span>
                   </div>
                 ) : executionResult.simulation || executionResult.status === "simulated" ? (
-                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-blue-950/40 border border-blue-800/60 text-blue-300 text-xs font-semibold">
-                    <CheckCircle2 size={15} className="text-blue-400" />
+                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200 text-xs font-semibold">
+                    <CheckCircle2 size={15} className="text-slate-300" />
                     <span>Simulation Complete (Not Delivered to External Webhooks)</span>
                   </div>
                 ) : (
@@ -779,7 +779,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
               <span>Timestamp: {new Date().toLocaleTimeString()}</span>
               <Link
                 href="/dashboard"
-                className="text-blue-400 hover:text-blue-300 flex items-center gap-1 font-sans"
+                className="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-sans"
               >
                 <span>Command Center</span>
                 <ArrowRight size={12} />

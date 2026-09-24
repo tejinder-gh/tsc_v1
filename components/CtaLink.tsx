@@ -4,10 +4,10 @@
  * What: The site's Button/Link primitive (brief §6) - styled variants plus automatic
  *       cta_clicked analytics with location and segment.
  * Why: Every CTA click must fire an event with consistent properties; one primitive
- *      guarantees no CTA ships untracked and the blue accent stays CTA-only.
+ *      guarantees no CTA ships untracked and the accent stays CTA-only.
  * How: Wraps next/link; fires track() in onClick (navigation proceeds normally). Button
  *      variants (primary/secondary/onDark) match brief §6's radius/height/weight spec;
- *      "text" is the brief's separate Link style (underlined, blue, hover navy) for CTAs
+ *      "text" is the brief's separate Link style (underlined, action hover) for CTAs
  *      that read as inline text rather than a button.
  * From Where: TheSkillCorner marketing site build brief (analytics + design spec), 2026-06;
  *             brought to the §6 button/link spec 2026-08.

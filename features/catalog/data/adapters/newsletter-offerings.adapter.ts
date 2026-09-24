@@ -27,7 +27,7 @@ export function adaptNewsletter(newsletter: Newsletter): NewsletterOffering {
     shortDescription: newsletter.description,
     longDescription: newsletter.description,
     icon: "file-text",
-    accent: "blue",
+    accent: "green",
 
     status: newsletter.status,
     visibility: newsletter.visibility,

@@ -59,7 +59,7 @@ const canonicalPalette = [
   {
     name: "action",
     variable: "--tsc-action",
-    hex: "#2d51ff",
+    hex: "#2e694e",
     cls: "bg-[var(--tsc-action)] text-white",
   },
   {
@@ -182,7 +182,7 @@ export default function ComponentGalleryPage() {
             Secondary (Border)
           </CtaLink>
           <CtaLink href="#" location="gallery" variant="action">
-            Action (Signal Blue)
+            Action (Forest Green)
           </CtaLink>
           <CtaLink href="#" location="gallery" variant="text">
             Text Link CTA &rarr;

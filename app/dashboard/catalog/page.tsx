@@ -32,7 +32,7 @@ export default function CatalogManagementPage() {
         <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-2xs">
           <div className="flex items-center justify-between text-slate-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Total Offerings</span>
-            <Layers className="w-4 h-4 text-blue-600" />
+            <Layers className="w-4 h-4 text-[var(--tsc-ink)]" />
           </div>
           <p className="text-2xl font-bold text-slate-900 tabular-nums">{totalCount}</p>
           <span className="text-xs text-slate-400">Canonical registry</span>

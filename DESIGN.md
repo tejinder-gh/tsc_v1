@@ -18,7 +18,7 @@ Defined in `app/globals.css` under `:root` and `@theme`. These tokens represent 
 | `line-strong` | `--tsc-line-strong` | `#817e74` | High-contrast interactive borders (inputs, search, controls) meeting WCAG AA 3:1 |
 | `muted` | `--tsc-muted` | `#6d6b63` | Secondary text, section eyebrows, metadata labels, search icons |
 | `signal` | `--tsc-signal` | `#d5ff52` | Accent lime signal for high-urgency status, active pills, and live indicators |
-| `action` | `--tsc-action` | `#2d51ff` | Primary interactive blue for focused actions, active links, and focus rings |
+| `action` | `--tsc-action` | `#2e694e` | Primary interactive forest for focused actions, active links, and focus rings |
 | `positive` | `--tsc-positive` | `#2e694e` | Verified outcomes, completed progress, and positive metrics |
 | `white` | `--tsc-white` | `#ffffff` | Pure white for crisp contrast accents, elevated cards, and input grounds |
 
@@ -27,17 +27,17 @@ Retained in `@theme` in `app/globals.css` to support existing component markups 
 
 | Token | Hex | Role |
 | --- | --- | --- |
-| `navy` | `#08215B` | Legacy headings, footer, icon ground |
-| `blue` | `#2563EB` | Legacy button and accent alias |
-| `blue-pressed` | `#1B49B8` | Blue hover/pressed |
-| `blue-tint` | `#EAF0FE` | Soft blue backgrounds, selected states |
+| `navy` | `#12130f` | Legacy headings, footer, icon ground (mapped to ink) |
+| `blue` | `#2e694e` | Legacy button and accent alias (mapped to action forest) |
+| `blue-pressed` | `#1e4a36` | Forest hover/pressed |
+| `blue-tint` | `#fbf9f3` | Soft surface backgrounds (mapped to surface) |
 | `slate` | `#5A6480` | Legacy body copy on white |
 | `border-input` | `#848CA0` | Legacy form input borders (WCAG AA compliant on white) |
 | `mist` | `#F2F5FA` | Alternating section background |
 | `line` | `#DDE3EE` | Legacy hairline borders/dividers |
 | `muted` | `#97A0B8` | Legacy de-emphasized text/icons |
 
-**Composition Rule:** The eye learns **action blue / ink = one primary action per screen**. Roughly 70% warm paper canvas, 20% ink typography, 10% signal / action / surface accents on any given page.
+**Composition Rule:** The eye learns **action forest / ink = one primary action per screen**. Roughly 70% warm paper canvas, 20% ink typography, 10% signal / action / surface accents on any given page.
 
 ---
 

@@ -4,7 +4,7 @@
  * Why: Link previews in social feeds, chat apps, and AI-assistant citations were falling
  *      back to no image at all; a branded card makes every shared link legible.
  * How: next/og ImageResponse rendered at build time; colors mirror the globals.css theme
- *      tokens (paper/navy/blue), inlined because the satori renderer cannot read
+ *      tokens (paper/ink/positive), inlined because the satori renderer cannot read
  *      CSS variables.
  * From Where: SEO + AI-indexing pass (LLM recommendation readiness), 2026-06.
  * When: 2026-08; revisit if the palette or tagline changes.
@@ -18,10 +18,11 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const COLORS = {
-  paper: "#FFFFFF",
-  navy: "#08215B",
-  slate: "#5A6480",
-  blue: "#2563EB",
+  paper: "#f4f1e9",
+  ink: "#12130f",
+  muted: "#6d6b63",
+  signal: "#d5ff52",
+  positive: "#2e694e",
 } as const;
 
 export default function OpenGraphImage() {
@@ -44,28 +45,29 @@ export default function OpenGraphImage() {
             width: 28,
             height: 28,
             borderRadius: 9999,
-            backgroundColor: COLORS.blue,
+            backgroundColor: COLORS.signal,
+            border: `2px solid ${COLORS.ink}`,
           }}
         />
-        <div style={{ fontSize: 36, fontWeight: 700, color: COLORS.blue }}>{site.name}</div>
+        <div style={{ fontSize: 36, fontWeight: 700, color: COLORS.ink }}>{site.name}</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <div
           style={{
             fontSize: 72,
             fontWeight: 700,
-            color: COLORS.navy,
+            color: COLORS.ink,
             lineHeight: 1.1,
             letterSpacing: "-0.02em",
           }}
         >
           AI automation for local businesses and professional practices
         </div>
-        <div style={{ fontSize: 32, color: COLORS.slate }}>
+        <div style={{ fontSize: 32, color: COLORS.muted }}>
           Missed calls answered. No-shows reminded. Paperwork that files itself.
         </div>
       </div>
-      <div style={{ fontSize: 28, fontWeight: 600, color: COLORS.blue }}>
+      <div style={{ fontSize: 28, fontWeight: 600, color: COLORS.positive }}>
         Free 30-minute automation audit - theskillcorner.com/book
       </div>
     </div>,

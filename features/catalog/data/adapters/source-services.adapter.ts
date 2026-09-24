@@ -23,7 +23,7 @@ export function adaptSourceService(service: CanonicalService): Offering {
     shortDescription: service.shortDescription,
     longDescription: service.longDescription || service.shortDescription,
     icon: service.icon,
-    accent: service.accent ?? "blue",
+    accent: service.accent ?? "green",
 
     status: (service.commerceStatus === "unavailable"
       ? "paused"
