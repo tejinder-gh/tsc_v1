@@ -23,7 +23,7 @@ export function NewsletterSubscribeForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !email.includes("@")) {
+    if (!email?.includes("@")) {
       setErrorMessage("Please provide a valid email address.");
       setStatus("error");
       return;
@@ -60,11 +60,11 @@ export function NewsletterSubscribeForm({
 
   if (status === "success") {
     return (
-      <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm">
-        <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-emerald-600" />
+      <div className="flex items-center gap-3 p-4 rounded-[6px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)] text-xs font-mono">
+        <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-[var(--tsc-positive)]" />
         <div>
-          <p className="font-semibold">You're subscribed!</p>
-          <p className="text-xs text-emerald-700 mt-0.5">
+          <p className="font-semibold text-sm text-[var(--tsc-ink)]">You are subscribed.</p>
+          <p className="text-xs text-[var(--tsc-muted)] mt-0.5">
             The next edition will arrive directly in your inbox.
           </p>
         </div>
@@ -73,7 +73,7 @@ export function NewsletterSubscribeForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2">
+    <form onSubmit={handleSubmit} className="space-y-3 font-geist">
       {/* Honeypot field */}
       <div className="hidden" aria-hidden="true">
         <input
@@ -93,16 +93,16 @@ export function NewsletterSubscribeForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 bg-white px-4 py-2.5 rounded-xl border border-slate-200 text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-blue focus:ring-1 focus:ring-blue shadow-2xs"
+          className="flex-1 bg-white px-3.5 py-2.5 rounded-[6px] border border-[var(--tsc-line-strong)] text-[var(--tsc-ink)] text-sm placeholder-[var(--tsc-muted)] focus:outline-none focus:border-[var(--tsc-ink)] focus:ring-1 focus:ring-[var(--tsc-ink)]"
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue hover:bg-blue-pressed text-white text-sm font-semibold transition-colors disabled:opacity-50 shadow-xs cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-[6px] bg-[var(--tsc-ink)] hover:opacity-90 text-[var(--tsc-paper)] text-xs font-mono font-medium transition-all disabled:opacity-50 select-none cursor-pointer"
         >
           {status === "loading" ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
               <span>Joining...</span>
             </>
           ) : (
@@ -114,8 +114,10 @@ export function NewsletterSubscribeForm({
         </button>
       </div>
 
-      {status === "error" && <p className="text-xs text-red-600 font-medium">{errorMessage}</p>}
-      <p className="text-[11px] text-muted">No spam, ever. Unsubscribe anytime with one click.</p>
+      {status === "error" && <p className="text-xs font-mono text-red-600">{errorMessage}</p>}
+      <p className="text-[11px] font-mono text-[var(--tsc-muted)]">
+        No spam, ever. Unsubscribe anytime with one click.
+      </p>
     </form>
   );
 }

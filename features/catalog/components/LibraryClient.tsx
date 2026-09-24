@@ -126,20 +126,29 @@ export function LibraryClient({ initialOfferings }: LibraryClientProps) {
             }}
             placeholder="Search by keywords, outcome, industry, or technology..."
           />
-          <div className="text-xs text-muted font-medium self-end md:self-center">
+          <div className="text-xs font-mono text-[var(--tsc-muted)] self-end md:self-center">
             {isShowingCuratedSubset ? (
               <span>
                 Showing{" "}
-                <span className="font-semibold text-slate-800">{displayedOfferings.length}</span>{" "}
+                <span className="font-semibold text-[var(--tsc-ink)]">
+                  {displayedOfferings.length}
+                </span>{" "}
                 curated highlights of{" "}
-                <span className="font-semibold text-slate-800">{initialOfferings.length}</span>{" "}
+                <span className="font-semibold text-[var(--tsc-ink)]">
+                  {initialOfferings.length}
+                </span>{" "}
                 total
               </span>
             ) : (
               <span>
                 Showing{" "}
-                <span className="font-semibold text-slate-800">{filteredOfferings.length}</span> of{" "}
-                <span className="font-semibold text-slate-800">{initialOfferings.length}</span>{" "}
+                <span className="font-semibold text-[var(--tsc-ink)]">
+                  {filteredOfferings.length}
+                </span>{" "}
+                of{" "}
+                <span className="font-semibold text-[var(--tsc-ink)]">
+                  {initialOfferings.length}
+                </span>{" "}
                 offerings
               </span>
             )}

@@ -282,7 +282,7 @@ ${formattedPriority || "None selected"}
               <ul className="mt-3 space-y-3">
                 {priorityItems.map((p, index) => (
                   <li key={p.item.id} className="flex gap-3 text-xs items-start leading-relaxed">
-                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded bg-[var(--tsc-accent)] text-[10px] font-mono font-bold text-white">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded bg-[var(--tsc-action)] text-[10px] font-mono font-bold text-white">
                       {index + 1}
                     </span>
                     <div className="flex-1">

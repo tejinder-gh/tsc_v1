@@ -84,7 +84,7 @@ export default function SocialPage() {
 
         {/* Card 2: Engineering Process */}
         <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6">
-          <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-accent)] font-semibold block mb-2">
+          <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block mb-2">
             METHODOLOGY
           </span>
           <h2 className="text-lg font-bold text-[var(--tsc-ink)] mb-4">4-Phase Delivery</h2>

@@ -23,7 +23,7 @@ export default function PrivacyPage() {
         </p>
       </header>
 
-      <div className="space-y-6 text-sm leading-relaxed text-[var(--tsc-ink-subtle)]">
+      <div className="space-y-6 text-sm leading-relaxed text-[var(--tsc-ink)]/85">
         <p>
           At <strong className="text-[var(--tsc-ink)]">{site.name}</strong>, we build AI automations
           that connect your existing business tools. Data privacy, confidentiality, and compliance
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
           </ul>
         </section>
 
-        <section className="space-y-3 font-normal border-l-2 border-[var(--tsc-accent)] bg-[var(--tsc-surface)] p-4 rounded-[6px]">
+        <section className="space-y-3 font-normal border-l-2 border-[var(--tsc-action)] bg-[var(--tsc-surface)] p-4 rounded-[6px]">
           <h2 className="text-base font-bold text-[var(--tsc-ink)]">
             3. PIPEDA &amp; PHIPA Compliance
           </h2>

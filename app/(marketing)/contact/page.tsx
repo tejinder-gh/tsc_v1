@@ -48,7 +48,7 @@ export default function ContactPage() {
 
         <aside className="space-y-6">
           <div className="rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6">
-            <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-accent)] font-semibold block mb-1">
+            <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block mb-1">
               THE FASTER PATH
             </span>
             <h3 className="font-bold text-[var(--tsc-ink)] text-base mb-2">

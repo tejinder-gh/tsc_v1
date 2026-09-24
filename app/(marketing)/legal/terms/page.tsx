@@ -23,7 +23,7 @@ export default function TermsPage() {
         </p>
       </header>
 
-      <div className="space-y-6 text-sm leading-relaxed text-[var(--tsc-ink-subtle)]">
+      <div className="space-y-6 text-sm leading-relaxed text-[var(--tsc-ink)]/85">
         <p>
           Welcome to the website of <strong className="text-[var(--tsc-ink)]">{site.name}</strong>.
           By accessing this site, requesting our checklist, or scheduling an audit, you agree to
