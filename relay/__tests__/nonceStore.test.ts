@@ -233,7 +233,7 @@ describe("SMS Relay Nonce Deduplication & Replay Protection (P0)", () => {
       const originalSbDb = process.env.SECOND_BRAIN_DATABASE_URL;
 
       try {
-        process.env.NODE_ENV = "production";
+        (process.env as Record<string, string | undefined>).NODE_ENV = "production";
         process.env.VERCEL_ENV = "production";
         delete process.env.DATABASE_URL;
         delete process.env.SECOND_BRAIN_DATABASE_URL;
@@ -241,7 +241,7 @@ describe("SMS Relay Nonce Deduplication & Replay Protection (P0)", () => {
         const deduplicator = getDefaultNonceDeduplicator();
         expect(deduplicator).toBeInstanceOf(FailClosedNonceDeduplicator);
       } finally {
-        process.env.NODE_ENV = originalEnv;
+        (process.env as Record<string, string | undefined>).NODE_ENV = originalEnv;
         process.env.VERCEL_ENV = originalVercel;
         if (originalDb) process.env.DATABASE_URL = originalDb;
         if (originalSbDb) process.env.SECOND_BRAIN_DATABASE_URL = originalSbDb;
