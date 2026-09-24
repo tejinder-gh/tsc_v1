@@ -11,7 +11,7 @@
 
 import { NextResponse } from "next/server";
 import { withAgentApi } from "@/lib/second-brain/auth/withAgentApi";
-import { ContextRepository } from "@/lib/second-brain/repositories/ContextRepository";
+import { ContextService } from "@/lib/second-brain/services/ContextService";
 import {
   type ContextSearchInput,
   contextSearchSchema,
@@ -29,15 +29,21 @@ export const POST = withAgentApi<ContextSearchInput>({
       subdomain: body?.subdomain,
     }),
   },
-  handler: async ({ body }) => {
+  handler: async ({ body, authContext }) => {
     const { domain, subdomain, keywords = [], limit = 2 } = body;
 
-    const matches = await ContextRepository.searchContext({
-      domain,
-      subdomain,
-      keywords,
-      limit,
-    });
+    const matches = await ContextService.search(
+      {
+        domain,
+        subdomain,
+        keywords,
+        limit,
+      },
+      {
+        type: "agent",
+        authContext,
+      },
+    );
 
     return NextResponse.json({
       domain,

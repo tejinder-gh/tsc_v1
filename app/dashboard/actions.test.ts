@@ -13,6 +13,10 @@ vi.mock("next/cache", () => ({
 
 import { ContextRepository } from "../../lib/second-brain/repositories/ContextRepository";
 import {
+  ContextService,
+  type ContextAuditRecord,
+} from "../../lib/second-brain/services/ContextService";
+import {
   getDashboardOverviewMetrics,
   triggerCatalogDiagnostic,
   triggerManualSchedulerTick,
@@ -348,6 +352,66 @@ describe("Dashboard Server Action Authorization & Workflows", () => {
         expect(result.resultCount).toBe(1);
 
         searchSpy.mockRestore();
+      });
+
+      it("blocks authenticated but unallowlisted dashboard operators", async () => {
+        mockUserId = "unauthorized_user_clerk";
+        await expect(
+          triggerSecondBrainContextSearch({
+            domain: "strategy",
+          }),
+        ).rejects.toThrow(/Forbidden/);
+      });
+
+      it("exercises ContextService audit boundary during authorized execution", async () => {
+        mockUserId = "user_operator_123";
+        const recordedAudits: ContextAuditRecord[] = [];
+        const unsubscribe = ContextService.addAuditListener((rec) => {
+          recordedAudits.push(rec);
+        });
+
+        const repoSpy = vi.spyOn(ContextRepository, "searchContext").mockResolvedValueOnce([]);
+
+        const result = await triggerSecondBrainContextSearch({
+          domain: "strategy",
+          keywords: ["architecture"],
+        });
+
+        unsubscribe();
+        repoSpy.mockRestore();
+
+        expect(result.ok).toBe(true);
+        expect(recordedAudits.length).toBeGreaterThan(0);
+        expect(recordedAudits[0]).toMatchObject({
+          actorType: "operator",
+          actorId: "user_operator_123",
+          action: "context.read",
+          domain: "strategy",
+          decision: "allow",
+        });
+      });
+
+      it("proves triggerSecondBrainContextSearch routes through ContextService boundary", async () => {
+        mockUserId = "user_operator_123";
+        const serviceSpy = vi.spyOn(ContextService, "search").mockResolvedValueOnce([]);
+
+        await triggerSecondBrainContextSearch({
+          domain: "strategy",
+          keywords: ["architecture"],
+        });
+
+        expect(serviceSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            domain: "strategy",
+            keywords: ["architecture"],
+          }),
+          expect.objectContaining({
+            type: "operator",
+            userId: "user_operator_123",
+          }),
+        );
+
+        serviceSpy.mockRestore();
       });
 
       it("AC3: handles context repository failure with ok: false, safe message, and no dbError", async () => {

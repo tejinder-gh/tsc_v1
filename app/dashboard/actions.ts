@@ -9,7 +9,10 @@ import type { InboundMessage } from "@/automations/inbound/types";
 import { processInbound } from "@/automations/server/process-inbound";
 import { runTick } from "@/automations/server/run-tick";
 import { getAllOfferings, getOfferingsByKind } from "@/features/catalog/data/registry";
-import { ContextRepository } from "@/lib/second-brain/repositories/ContextRepository";
+import {
+  ContextService,
+  ContextAuthorizationError,
+} from "@/lib/second-brain/services/ContextService";
 import { SECOND_BRAIN_ROUTES } from "@/lib/second-brain/routes-registry";
 import { getTelemetryStatus, type TelemetryStatus } from "@/lib/telemetry";
 import { assertOperatorAuthenticated, assertValidClientId } from "./auth-guard";
@@ -342,7 +345,7 @@ export async function triggerSecondBrainContextSearch(payload: {
   subdomain?: string;
   keywords?: string[];
 }) {
-  await assertOperatorAuthenticated();
+  const operator = await assertOperatorAuthenticated();
 
   const domain = payload.domain?.trim() || "strategy";
   const subdomain = payload.subdomain?.trim() || undefined;
@@ -350,12 +353,18 @@ export async function triggerSecondBrainContextSearch(payload: {
     payload.keywords && payload.keywords.length > 0 ? payload.keywords : ["architecture"];
 
   try {
-    const results = await ContextRepository.searchContext({
-      domain,
-      subdomain,
-      keywords,
-      limit: 3,
-    });
+    const results = await ContextService.search(
+      {
+        domain,
+        subdomain,
+        keywords,
+        limit: 3,
+      },
+      {
+        type: "operator",
+        userId: operator.userId,
+      },
+    );
 
     return {
       ok: true,
@@ -367,7 +376,10 @@ export async function triggerSecondBrainContextSearch(payload: {
       resultCount: results.length,
       results,
     };
-  } catch {
+  } catch (error: unknown) {
+    if (error instanceof ContextAuthorizationError) {
+      throw error;
+    }
     return {
       ok: false,
       status: "unavailable",
