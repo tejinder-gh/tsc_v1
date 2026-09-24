@@ -15,7 +15,7 @@ export function DashboardHeader({ isDevMode = false, hasClerk = false }: Dashboa
 
   return (
     <>
-      <header className="h-16 border-b border-slate-200 bg-white flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30 shadow-2xs">
+      <header className="h-16 border-b border-[var(--tsc-line)] bg-white flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30 font-geist">
         <div className="flex items-center gap-3">
           {/* Mobile hamburger menu toggle */}
           <button
@@ -24,23 +24,23 @@ export function DashboardHeader({ isDevMode = false, hasClerk = false }: Dashboa
             aria-expanded={mobileNavOpen}
             aria-controls="mobile-dashboard-drawer"
             aria-label={mobileNavOpen ? "Close dashboard navigation" : "Open dashboard navigation"}
-            className="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+            className="md:hidden p-2 rounded-[6px] text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] transition-colors cursor-pointer"
           >
             {mobileNavOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
 
-          <div className="flex items-center gap-2">
-            <h1 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+          <div className="flex items-center gap-3">
+            <h1 className="text-base sm:text-lg font-bold text-[var(--tsc-ink)] tracking-tight">
               Operator Command Center
             </h1>
             {isDevMode ? (
-              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200 px-2.5 py-0.5 text-[11px] font-mono font-medium text-amber-800">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+              <span className="hidden sm:inline-flex items-center gap-1.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)] px-2.5 py-0.5 text-[11px] font-mono text-[var(--tsc-ink)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--tsc-signal)] ring-2 ring-[var(--tsc-line)]" />
                 Dev Session
               </span>
             ) : (
-              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-mono font-medium text-emerald-800">
-                <Shield size={12} className="text-emerald-600" />
+              <span className="hidden sm:inline-flex items-center gap-1.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)] px-2.5 py-0.5 text-[11px] font-mono text-[var(--tsc-positive)]">
+                <Shield size={12} className="text-[var(--tsc-positive)]" />
                 Clerk Verified
               </span>
             )}
@@ -51,8 +51,8 @@ export function DashboardHeader({ isDevMode = false, hasClerk = false }: Dashboa
           {hasClerk ? (
             <UserButton afterSignOutUrl="/" />
           ) : (
-            <div className="flex items-center gap-2 text-xs text-slate-600 font-mono bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-              <span className="w-2 h-2 rounded-full bg-blue-600" />
+            <div className="flex items-center gap-2 text-xs text-[var(--tsc-muted)] font-mono bg-[var(--tsc-surface)] px-3 py-1.5 rounded-[4px] border border-[var(--tsc-line)]">
+              <span className="w-2 h-2 rounded-full bg-[var(--tsc-signal)] ring-2 ring-[var(--tsc-line)]" />
               <span>operator@local</span>
             </div>
           )}
@@ -66,29 +66,29 @@ export function DashboardHeader({ isDevMode = false, hasClerk = false }: Dashboa
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Dashboard Navigation"
-          className="fixed inset-0 z-40 md:hidden flex"
+          className="fixed inset-0 z-40 md:hidden flex font-geist"
         >
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileNavOpen(false)}
             aria-hidden="true"
           />
 
           {/* Drawer Content */}
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white border-r border-slate-200 p-6 shadow-2xl">
-            <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
-              <div className="flex items-center gap-2 font-semibold text-lg tracking-tight">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white border-r border-[var(--tsc-line)] p-6 shadow-xl">
+            <div className="flex items-center justify-between pb-6 mb-6 border-b border-[var(--tsc-line)]">
+              <div className="flex items-center gap-2.5 font-semibold text-sm tracking-[0.14em] uppercase text-[var(--tsc-ink)]">
+                <div className="w-7 h-7 rounded-[4px] bg-[var(--tsc-ink)] flex items-center justify-center text-[var(--tsc-paper)] font-mono font-bold text-xs">
                   TSC
                 </div>
-                <span className="text-slate-900">Workspace</span>
+                <span>Workspace</span>
               </div>
               <button
                 type="button"
                 onClick={() => setMobileNavOpen(false)}
                 aria-label="Close menu"
-                className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+                className="p-1.5 rounded-[4px] text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] cursor-pointer"
               >
                 <X size={18} />
               </button>

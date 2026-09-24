@@ -66,10 +66,10 @@ export function DashboardNav({ onNavigate }: DashboardNavProps) {
   ];
 
   return (
-    <nav className="space-y-6" aria-label="Dashboard Navigation">
+    <nav className="space-y-6 font-geist" aria-label="Dashboard Navigation">
       {primarySections.map((section) => (
         <div key={section.heading}>
-          <p className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+          <p className="px-3 text-[11px] font-mono font-semibold uppercase tracking-wider text-[var(--tsc-muted)] mb-2">
             {section.heading}
           </p>
           <div className="space-y-1">
@@ -81,13 +81,13 @@ export function DashboardNav({ onNavigate }: DashboardNavProps) {
                   href={item.href}
                   onClick={onNavigate}
                   aria-current={item.isActive ? "page" : undefined}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`flex items-center gap-3 px-3 py-2 rounded-[6px] text-xs font-mono transition-colors select-none ${
                     item.isActive
-                      ? "bg-blue-50 text-blue-700 font-semibold"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 font-medium"
+                      ? "bg-[var(--tsc-ink)] text-[var(--tsc-paper)] font-semibold"
+                      : "text-[var(--tsc-muted)] hover:bg-[var(--tsc-surface)] hover:text-[var(--tsc-ink)]"
                   }`}
                 >
-                  <Icon size={18} aria-hidden="true" />
+                  <Icon size={16} aria-hidden="true" />
                   <span>{item.label}</span>
                 </Link>
               );

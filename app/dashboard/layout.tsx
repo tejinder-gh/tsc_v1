@@ -15,15 +15,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   );
 
   const dashboardShell = (
-    <div className="flex min-h-screen w-full bg-slate-50 text-slate-900 font-sans">
-      <aside className="w-64 flex-shrink-0 border-r border-slate-200 bg-white p-6 hidden md:block">
-        <div className="flex items-center gap-2 mb-8 font-semibold text-xl tracking-tight">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
+    <div className="flex min-h-screen w-full bg-[var(--tsc-paper)] text-[var(--tsc-ink)] font-geist">
+      <aside className="w-64 flex-shrink-0 border-r border-[var(--tsc-line)] bg-white p-6 hidden md:block">
+        <div className="flex items-center gap-3 mb-8 font-semibold text-sm tracking-[0.14em] uppercase text-[var(--tsc-ink)]">
+          <div className="w-7 h-7 rounded-[4px] bg-[var(--tsc-ink)] flex items-center justify-center text-[var(--tsc-paper)] font-mono font-bold text-xs">
             TSC
           </div>
-          <span className="bg-gradient-to-br from-slate-900 to-slate-600 bg-clip-text text-transparent">
-            Workspace
-          </span>
+          <span>Workspace</span>
         </div>
         <DashboardNav />
       </aside>
