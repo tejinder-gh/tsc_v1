@@ -5,6 +5,7 @@
  *      without requiring external SDK dependencies.
  */
 
+import { sendResendEmail, sendSendGridEmail } from "@/lib/email/transport";
 import { ConfigurationError } from "../errors/RelayError";
 import type {
   DeliveryAdapter,
@@ -71,123 +72,57 @@ export class EmailDeliveryAdapter implements DeliveryAdapter {
     }
 
     if (this.config.provider === "sendgrid") {
-      return this.sendViaSendGrid(subject, textContent, context.eventId);
-    }
-
-    return this.sendViaResend(subject, textContent, context.eventId);
-  }
-
-  private async sendViaSendGrid(
-    subject: string,
-    textContent: string,
-    eventId: string,
-  ): Promise<DeliveryResult> {
-    const payload = {
-      personalizations: [{ to: [{ email: this.config.to }] }],
-      from: { email: this.config.from, name: "SMS Relay" },
-      subject,
-      content: [{ type: "text/plain", value: textContent }],
-      custom_args: { eventId },
-    };
-
-    try {
-      const response = await fetch("https://api.sendgrid.com/v3/mail/send", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${this.config.apiKey}`,
-          "Content-Type": "application/json",
+      const result = await sendSendGridEmail(
+        {
+          from: { email: this.config.from, name: "SMS Relay" },
+          to: this.config.to,
+          subject,
+          text: textContent,
+          customArgs: { eventId: context.eventId },
         },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(10000),
-      });
+        { apiKey: this.config.apiKey! },
+      );
 
-      if (response.ok) {
-        const messageId = response.headers.get("x-message-id") || undefined;
+      if (result.ok) {
         return {
           success: true,
           provider: "sendgrid",
-          providerMessageId: messageId,
-        };
-      }
-
-      // Downstream classification
-      if (response.status === 429 || response.status >= 500) {
-        return {
-          success: false,
-          retryable: true,
-          code: "DELIVERY_TEMPORARILY_UNAVAILABLE",
+          providerMessageId: result.messageId,
         };
       }
 
       return {
         success: false,
-        retryable: false,
-        code: "DELIVERY_REJECTED",
-      };
-    } catch {
-      // Network timeouts, connection resets, DNS failures are safe to retry
-      return {
-        success: false,
-        retryable: true,
-        code: "DELIVERY_TEMPORARILY_UNAVAILABLE",
+        retryable: result.retryable ?? false,
+        code: result.retryable ? "DELIVERY_TEMPORARILY_UNAVAILABLE" : "DELIVERY_REJECTED",
       };
     }
-  }
 
-  private async sendViaResend(
-    subject: string,
-    textContent: string,
-    eventId: string,
-  ): Promise<DeliveryResult> {
-    const payload = {
-      from: this.config.from,
-      to: [this.config.to],
-      subject,
-      text: textContent,
-      headers: {
-        "X-Event-ID": eventId,
-      },
-    };
-
-    try {
-      const response = await fetch("https://api.resend.com/emails", {
-        method: "POST",
+    const result = await sendResendEmail(
+      {
+        from: this.config.from,
+        to: this.config.to,
+        subject,
+        text: textContent,
         headers: {
-          Authorization: `Bearer ${this.config.apiKey}`,
-          "Content-Type": "application/json",
+          "X-Event-ID": context.eventId,
         },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(10000),
-      });
+      },
+      { apiKey: this.config.apiKey! },
+    );
 
-      if (response.ok) {
-        const json = (await response.json().catch(() => ({}))) as { id?: string };
-        return {
-          success: true,
-          provider: "resend",
-          providerMessageId: json.id,
-        };
-      }
-
-      if (response.status === 429 || response.status >= 500) {
-        return {
-          success: false,
-          retryable: true,
-          code: "DELIVERY_TEMPORARILY_UNAVAILABLE",
-        };
-      }
-
+    if (result.ok) {
       return {
-        success: false,
-        retryable: false,
-        code: "DELIVERY_REJECTED",
-      };
-    } catch {
-      return {
-        success: false,
-        retryable: true,
-        code: "DELIVERY_TEMPORARILY_UNAVAILABLE",
+        success: true,
+        provider: "resend",
+        providerMessageId: result.messageId,
       };
     }
+
+    return {
+      success: false,
+      retryable: result.retryable ?? false,
+      code: result.retryable ? "DELIVERY_TEMPORARILY_UNAVAILABLE" : "DELIVERY_REJECTED",
+    };
   }
 }

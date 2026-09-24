@@ -10,6 +10,7 @@
  * When: 2026-06; an SMTP transport (nodemailer) can implement the same ChannelSender later.
  */
 
+import { sendSendGridEmail } from "@/lib/email/transport";
 import type { DeliveryResult, OutboundMessage } from "../core/types";
 import type { ChannelSender } from "./types";
 
@@ -23,56 +24,31 @@ export class SendGridEmailSender implements ChannelSender {
   constructor(private readonly creds: SendGridCredentials) {}
 
   async send(message: OutboundMessage): Promise<DeliveryResult> {
-    const payload = {
-      personalizations: [{ to: [{ email: message.to }] }],
-      from: { email: this.creds.fromAddress, name: this.creds.fromName },
-      reply_to: message.replyTo ? { email: message.replyTo } : undefined,
-      subject: message.subject ?? "(no subject)",
-      content: [{ type: "text/plain", value: message.body }],
-    };
+    const result = await sendSendGridEmail(
+      {
+        from: { email: this.creds.fromAddress, name: this.creds.fromName },
+        to: message.to,
+        replyTo: message.replyTo,
+        subject: message.subject ?? "(no subject)",
+        text: message.body,
+      },
+      { apiKey: this.creds.apiKey },
+    );
 
-    try {
-      const response = await fetch("https://api.sendgrid.com/v3/mail/send", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${this.creds.apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const detail = await safeText(response);
-        return {
-          ok: false,
-          channel: "email",
-          to: message.to,
-          error: `SendGrid responded ${response.status}: ${detail}`,
-        };
-      }
-
-      // SendGrid returns the message id in a response header on success.
+    if (result.ok) {
       return {
         ok: true,
         channel: "email",
         to: message.to,
-        providerId: response.headers.get("x-message-id") ?? undefined,
-      };
-    } catch (error: unknown) {
-      return {
-        ok: false,
-        channel: "email",
-        to: message.to,
-        error: error instanceof Error ? error.message : "Network error reaching SendGrid",
+        providerId: result.messageId,
       };
     }
-  }
-}
 
-async function safeText(response: Response): Promise<string> {
-  try {
-    return (await response.text()).slice(0, 300);
-  } catch {
-    return "(no body)";
+    return {
+      ok: false,
+      channel: "email",
+      to: message.to,
+      error: result.error ?? "Failed to send email via SendGrid",
+    };
   }
 }
