@@ -295,23 +295,21 @@ export function SystemStudies() {
     >
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12 lg:mb-16">
-          <div className="max-w-3xl">
-            <SectionLabel className="mb-4">02 / SYSTEM STUDIES</SectionLabel>
-            <h2
-              id="system-studies-heading"
-              className="text-[32px] sm:text-[44px] lg:text-[52px] font-bold leading-[1.04] tracking-[-0.03em] text-[var(--tsc-ink)]"
-            >
-              A few examples of where
-              <br className="hidden sm:inline" /> small systems change the work.
-            </h2>
-            <p className="mt-4 text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed">
-              These are illustrative scenarios, not client case studies. The point is the shape of
-              the problem: repetitive work, a clear trigger, and a system that handles the
-              predictable part.
-            </p>
-          </div>
-          <div className="shrink-0 lg:pb-1">
+        <div className="max-w-3xl mb-12 lg:mb-16">
+          <SectionLabel className="mb-4">02 / SYSTEM STUDIES</SectionLabel>
+          <h2
+            id="system-studies-heading"
+            className="text-[32px] sm:text-[44px] lg:text-[52px] font-bold leading-[1.04] tracking-[-0.03em] text-[var(--tsc-ink)]"
+          >
+            A few examples of where
+            <br className="hidden sm:inline" /> small systems change the work.
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed">
+            These are illustrative scenarios, not client case studies. The point is the shape of
+            the problem: repetitive work, a clear trigger, and a system that handles the
+            predictable part.
+          </p>
+          <div className="mt-6">
             <Link
               href="/industries"
               className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] transition-colors group"
