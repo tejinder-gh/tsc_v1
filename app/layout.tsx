@@ -139,9 +139,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
         {/* Flags JS availability before first paint so scroll-reveal hidden states
             never apply for no-JS visitors or crawlers. */}
-        <Script id="js-flag" strategy="beforeInteractive">
-          {`document.documentElement.classList.add("js");`}
-        </Script>
+        <script
+          id="js-flag"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static inline script to detect JS before paint
+          dangerouslySetInnerHTML={{
+            __html: 'document.documentElement.classList.add("js");',
+          }}
+        />
         <script
           type="application/ld+json"
           // JSON-LD must be embedded as a raw script tag for crawlers.
