@@ -4,6 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { EditorialHero, type MetadataItem } from "@/components/public/EditorialHero";
 import { PageEyebrow } from "@/components/public/PageEyebrow";
 import { SecondaryProblemPrompt } from "@/components/public/SecondaryProblemPrompt";
+import { NewsletterContentRenderer } from "@/features/newsletters/components/NewsletterContentRenderer";
 import { NewsletterSubscribeForm } from "@/features/newsletters/components/NewsletterSubscribeForm";
 import { getAllNewsletters, getNewsletterBySlug } from "@/features/newsletters/data/newsletters";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
@@ -168,9 +169,12 @@ export default async function NewsletterDetailPage({ params }: Props) {
                   </div>
                 )}
 
-                {/* Issue Content Markdown */}
-                <div className="p-6 sm:p-8 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/20 whitespace-pre-line text-sm sm:text-base text-[var(--tsc-ink)] leading-relaxed font-sans">
-                  {latestIssue.contentMarkdown}
+                {/* Issue Rendered Content */}
+                <div className="p-6 sm:p-8 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/20">
+                  <NewsletterContentRenderer
+                    content={latestIssue.contentMarkdown}
+                    variant="editorial"
+                  />
                 </div>
               </div>
             ) : (

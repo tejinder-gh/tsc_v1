@@ -1,22 +1,9 @@
 "use client";
 
-import {
-  ArrowLeft,
-  Bot,
-  Calendar,
-  Check,
-  CheckCircle2,
-  Clock,
-  ExternalLink,
-  Eye,
-  FileText,
-  Loader2,
-  Send,
-  Sparkles,
-  Users,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, ExternalLink, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { NewsletterDeliveryPreview } from "@/features/newsletters/components/NewsletterDeliveryPreview";
 import type { Newsletter, NewsletterIssue } from "@/features/newsletters/domain/types";
 
 export function NewsletterManageClient({ newsletter }: { newsletter: Newsletter }) {
@@ -211,78 +198,15 @@ export function NewsletterManageClient({ newsletter }: { newsletter: Newsletter 
         </div>
 
         {/* Selected Issue Preview & Controls */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-6 space-y-6 shadow-2xs">
+        <div className="lg:col-span-2 space-y-6">
           {selectedIssue ? (
-            <>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
-                      Issue #{selectedIssue.issueNumber}
-                    </span>
-                    <span className="text-slate-300">•</span>
-                    <span className="text-xs font-medium text-slate-500 capitalize">
-                      {selectedIssue.generatedBy} Generated
-                    </span>
-                    {selectedIssue.isSample && (
-                      <>
-                        <span className="text-slate-300">•</span>
-                        <span className="text-xs font-semibold text-amber-600">Sample Preview</span>
-                      </>
-                    )}
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900">{selectedIssue.title}</h3>
-                </div>
-
-                {selectedIssue.status !== "published" && (
-                  <button
-                    type="button"
-                    onClick={() => handleApproveAndPublish(selectedIssue.id)}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors cursor-pointer"
-                  >
-                    <Check className="w-3.5 h-3.5" />
-                    <span>Approve &amp; Publish (In-Memory Preview)</span>
-                  </button>
-                )}
-              </div>
-
-              {/* Summary */}
-              <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Executive Summary
-                </span>
-                <p className="text-sm text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-100 leading-relaxed">
-                  {selectedIssue.summary}
-                </p>
-              </div>
-
-              {/* Takeaways */}
-              <div className="space-y-2">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Key Takeaways
-                </span>
-                <ul className="space-y-1.5 text-xs text-slate-700">
-                  {selectedIssue.keyTakeaways.map((t) => (
-                    <li key={t} className="flex items-start gap-2 bg-slate-50/50 p-2 rounded-md">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 flex-shrink-0 mt-0.5" />
-                      <span>{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Markdown Content */}
-              <div className="space-y-2">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Content Body (Markdown)
-                </span>
-                <div className="p-4 bg-slate-900 text-slate-200 text-xs font-mono rounded-lg overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto">
-                  {selectedIssue.contentMarkdown}
-                </div>
-              </div>
-            </>
+            <NewsletterDeliveryPreview
+              newsletter={newsletter}
+              issue={selectedIssue}
+              onApproveAndPublish={handleApproveAndPublish}
+            />
           ) : (
-            <div className="py-20 text-center text-slate-400 text-sm">
+            <div className="bg-white rounded-xl border border-slate-200 p-20 text-center text-slate-400 text-sm shadow-2xs">
               Select an edition from the list to view and manage.
             </div>
           )}
