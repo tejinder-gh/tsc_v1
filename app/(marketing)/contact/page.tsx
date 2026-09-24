@@ -1,17 +1,17 @@
 /**
  * What: Quick query page - the contact form plus the faster-path booking card.
  * Why: Second rung of the conversion ladder for visitors with a question but no
- *      appetite for a call yet.
- * How: Server page composing the client ContactForm; sidebar surfaces booking and the
- *      checklist so two more rungs are always visible.
- * From Where: TheSkillCorner marketing site build brief (quick query spec), 2026-06.
- * When: 2026-06.
+ *      appetite for a call yet. Hydrates from visitor journey if active.
+ * How: Editorial hero, ActiveJourneyBanner for carried context, ContactForm with
+ *      sidebar offering the faster-path 30-min audit and checklist.
+ * From Where: TheSkillCorner marketing site editorial redesign, 2026.
  */
 
 import type { Metadata } from "next";
-import { AbstractVisual } from "@/components/AbstractVisual";
 import { CtaLink } from "@/components/CtaLink";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { ActiveJourneyBanner } from "@/components/journey";
+import { EditorialHero } from "@/components/public/EditorialHero";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -23,62 +23,71 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-site px-4 py-14 sm:px-6">
-      <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-        <div>
-          <h1 className="max-w-3xl font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
-            Tell us what&apos;s eating your time
-          </h1>
-          <p className="mt-4 text-lg text-slate">
-            Two sentences is plenty. We reply within one business day with a straight answer: what
-            can be automated, roughly what it saves, and what it costs.
-          </p>
+    <div className="mx-auto max-w-site px-4 py-10 sm:px-6 font-geist">
+      <ActiveJourneyBanner className="mb-6" />
+
+      <EditorialHero
+        eyebrow="CONTACT &amp; DIRECT INQUIRY"
+        headline="Tell us what's eating your operational time"
+        supportingCopy="Two sentences is plenty. We reply within one business day with technical feasibility, estimated operational impact, and architecture scope."
+      >
+        <div className="flex items-center gap-2 text-xs font-mono text-[var(--tsc-muted)] uppercase tracking-wider">
+          <span>Guaranteed 1-business-day turnaround</span>
+          <span>&bull;</span>
+          <span>Direct engineer response</span>
         </div>
-        <div className="hidden lg:flex justify-end">
-          <AbstractVisual variant="contact" />
-        </div>
-      </div>
-      <div className="mt-10 grid gap-10 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      </EditorialHero>
+
+      <div className="mt-8 grid gap-8 lg:grid-cols-3">
+        <div className="lg:col-span-2 rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8">
+          <h2 className="text-lg font-bold text-[var(--tsc-ink)] mb-4">
+            Send an engineering query
+          </h2>
           <ContactForm />
         </div>
-        <aside className="space-y-5">
-          <div className="rounded-xl bg-mist p-6 shadow-sm border-2 border-navy/10">
-            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-navy">
-              The faster path
-            </h2>
-            <p className="mt-2 leading-relaxed">
-              The free 30-minute audit usually answers in one call what email takes a week to cover
-              - and you leave with three automation ideas either way.
+
+        <aside className="space-y-6">
+          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6">
+            <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-accent)] font-semibold block mb-1">
+              THE FASTER PATH
+            </span>
+            <h3 className="font-bold text-[var(--tsc-ink)] text-base mb-2">
+              Book a live 30-minute audit
+            </h3>
+            <p className="text-sm text-[var(--tsc-muted)] leading-relaxed mb-4">
+              A 30-minute technical scoping call answers in one session what email takes a week to
+              cover &mdash; and you leave with an architecture roadmap either way.
             </p>
-            <div className="mt-4">
-              <CtaLink href="/book" location="contact_sidebar">
-                Book the free audit
-              </CtaLink>
-            </div>
+            <CtaLink href="/book" location="contact_sidebar" variant="primary">
+              Schedule free audit &rarr;
+            </CtaLink>
           </div>
-          <div className="rounded-xl bg-white p-6 shadow-sm border-2 border-navy/10">
-            <h2 className="font-display text-lg font-bold tracking-[-0.02em] text-navy">
-              Just browsing?
-            </h2>
-            <p className="mt-2 leading-relaxed">
-              The Automation Opportunities Checklist lists 25 tasks businesses stop doing by hand.
+
+          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6">
+            <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block mb-1">
+              SELF-ASSESSMENT
+            </span>
+            <h3 className="font-bold text-[var(--tsc-ink)] text-base mb-2">
+              Automation Opportunities Checklist
+            </h3>
+            <p className="text-sm text-[var(--tsc-muted)] leading-relaxed mb-4">
+              Review 25 common operational and engineering processes businesses stop running
+              manually.
             </p>
-            <div className="mt-4">
-              <CtaLink href="/checklist" location="contact_sidebar" variant="text">
-                Get the free checklist
-              </CtaLink>
-            </div>
+            <CtaLink href="/checklist" location="contact_sidebar" variant="text">
+              View the checklist &rarr;
+            </CtaLink>
           </div>
-          <p className="text-sm">
-            Prefer plain email?{" "}
+
+          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 text-sm text-[var(--tsc-muted)]">
+            <p className="font-medium text-[var(--tsc-ink)] mb-1">Direct email inquiries:</p>
             <a
               href={`mailto:${site.email}`}
-              className="font-semibold text-blue underline underline-offset-4"
+              className="font-mono text-xs text-[var(--tsc-ink)] underline underline-offset-4 hover:opacity-80"
             >
               {site.email}
             </a>
-          </p>
+          </div>
         </aside>
       </div>
     </div>

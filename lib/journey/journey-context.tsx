@@ -17,6 +17,7 @@ import {
   type ContextFocus,
   type ContextSituation,
   INITIAL_JOURNEY_CONTEXT,
+  INTENT_LABELS,
   type JourneyContext,
   type JourneyStage,
   type PrimaryIntent,
@@ -435,4 +436,19 @@ export function useJourney(): JourneyStateAndActions {
     throw new Error("useJourney must be used within a JourneyProvider");
   }
   return context;
+}
+
+export function useActiveJourneySummary() {
+  const { journey, isReady, hasExistingProgress } = useJourney();
+  const hasActiveProblem = Boolean(journey.freeformProblem?.trim());
+  const intentLabel = journey.intent ? INTENT_LABELS[journey.intent] : undefined;
+
+  return {
+    isReady,
+    hasActiveJourney: hasExistingProgress || hasActiveProblem,
+    problemText: journey.freeformProblem?.trim(),
+    intent: journey.intent,
+    intentLabel,
+    stage: journey.stage,
+  };
 }

@@ -9,18 +9,18 @@ export interface ZeroResultsStateProps {
 
 export function ZeroResultsState({ onReset, query }: ZeroResultsStateProps) {
   return (
-    <div className="text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-slate-200">
-      <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4 text-slate-400">
+    <div className="text-center py-16 px-4 bg-white rounded-[8px] border border-dashed border-[var(--tsc-line-strong)] font-geist">
+      <div className="w-12 h-12 rounded-full bg-[var(--tsc-surface)] flex items-center justify-center mx-auto mb-4 text-[var(--tsc-muted)]">
         <SearchX className="w-6 h-6" strokeWidth={1.5} />
       </div>
-      <h3 className="font-display font-semibold text-lg text-navy mb-1">
+      <h3 className="font-geist font-bold text-lg text-[var(--tsc-ink)] mb-1">
         No matching offerings found
       </h3>
-      <p className="text-sm text-slate max-w-md mx-auto mb-6">
+      <p className="text-sm text-[var(--tsc-muted)] max-w-md mx-auto mb-6">
         {query ? (
           <>
-            We couldn't find any services or automations matching{" "}
-            <span className="font-semibold text-slate-800">"{query}"</span>.
+            We couldn&apos;t find any services or automations matching{" "}
+            <span className="font-semibold text-[var(--tsc-ink)]">&ldquo;{query}&rdquo;</span>.
           </>
         ) : (
           "No offerings match the current filter criteria."
@@ -29,7 +29,7 @@ export function ZeroResultsState({ onReset, query }: ZeroResultsStateProps) {
       <button
         type="button"
         onClick={onReset}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-navy hover:bg-blue text-white text-xs font-semibold transition-colors"
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[var(--tsc-ink)] hover:opacity-90 text-[var(--tsc-paper)] text-xs font-medium transition-colors"
       >
         <RotateCcw className="w-3.5 h-3.5" />
         <span>Reset Filters</span>

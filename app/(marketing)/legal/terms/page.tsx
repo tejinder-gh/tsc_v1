@@ -10,46 +10,51 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <article className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
-      <header className="mb-10">
-        <p className="font-body font-bold text-sm uppercase tracking-widest text-blue">Agreement</p>
-        <h1 className="mt-3 font-display text-4xl font-bold tracking-[-0.02em] text-navy sm:text-5xl">
+    <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 font-geist">
+      <header className="mb-10 pb-6 border-b border-[var(--tsc-line)]">
+        <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block mb-2">
+          AGREEMENT &amp; TERMS
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--tsc-ink)]">
           Terms of Service
         </h1>
-        <p className="mt-3 text-sm text-slate">Last updated: June 12, 2026</p>
+        <p className="mt-2 font-mono text-xs text-[var(--tsc-muted)]">
+          Last updated: June 12, 2026
+        </p>
       </header>
 
-      <div className="prose prose-slate max-w-none space-y-6 leading-relaxed text-slate">
+      <div className="space-y-6 text-sm leading-relaxed text-[var(--tsc-ink-subtle)]">
         <p>
-          Welcome to the website of <strong>{site.name}</strong>. By accessing this site, requesting
-          our checklist, or scheduling an audit, you agree to comply with and be bound by the
-          following terms and conditions.
+          Welcome to the website of <strong className="text-[var(--tsc-ink)]">{site.name}</strong>.
+          By accessing this site, requesting our checklist, or scheduling an audit, you agree to
+          comply with and be bound by the following terms and conditions.
         </p>
 
-        <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-navy">
-            1. Service Scope & Engagements
+        <section className="space-y-3 pt-4">
+          <h2 className="text-xl font-bold text-[var(--tsc-ink)]">
+            1. Service Scope &amp; Engagements
           </h2>
           <p>
-            {site.name} is an AI automation agency providing consulting, software configuration, and
-            integration services.
+            {site.name} is an automation and systems engineering agency providing software
+            development, configuration, and integration services.
           </p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
-              <strong>Starter Packages:</strong> Provided on a month-to-month basis. Setup is
-              included as part of onboarding. You may cancel at any time prior to your next monthly
-              billing cycle.
+              <strong className="text-[var(--tsc-ink)]">Starter Packages:</strong> Provided on a
+              month-to-month basis. Setup is included as part of onboarding. You may cancel at any
+              time prior to your next monthly billing cycle.
             </li>
             <li>
-              <strong>Custom Practice Builds:</strong> Scoped, quoted, and governed by a separate
-              signed Statement of Work (SOW). Custom engagements require explicit client approval of
-              the scope and deliverables before development begins.
+              <strong className="text-[var(--tsc-ink)]">Custom Practice Builds:</strong> Scoped,
+              quoted, and governed by a separate signed Statement of Work (SOW). Custom engagements
+              require explicit client approval of the scope and deliverables before development
+              begins.
             </li>
           </ul>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-navy">2. Client Responsibilities</h2>
+        <section className="space-y-3 pt-4">
+          <h2 className="text-xl font-bold text-[var(--tsc-ink)]">2. Client Responsibilities</h2>
           <p>To deploy and run our automation systems, you agree to:</p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
@@ -67,8 +72,8 @@ export default function TermsPage() {
           </ul>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-navy">3. Intellectual Property</h2>
+        <section className="space-y-3 pt-4">
+          <h2 className="text-xl font-bold text-[var(--tsc-ink)]">3. Intellectual Property</h2>
           <p>
             All custom components, custom configurations, and integrations built specifically for
             your business under a paid SOW belong to you upon final payment, unless otherwise
@@ -77,8 +82,8 @@ export default function TermsPage() {
           </p>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-navy">4. Limitation of Liability</h2>
+        <section className="space-y-3 pt-4">
+          <h2 className="text-xl font-bold text-[var(--tsc-ink)]">4. Limitation of Liability</h2>
           <p>While we build, test, and monitor all automations to ensure stability and accuracy:</p>
           <ul className="list-disc pl-5 space-y-2">
             <li>
@@ -88,27 +93,28 @@ export default function TermsPage() {
             </li>
             <li>
               We do not guarantee specific monetary gains or business outcomes. Case studies and
-              statistics shown on this site represent individual client cases or generalized
-              industry meta-analyses and do not constitute direct guarantees.
+              scenarios shown on this site represent modeled estimates or specific historical cases
+              and do not constitute direct guarantees.
             </li>
           </ul>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-navy">5. Governing Law</h2>
+        <section className="space-y-3 pt-4">
+          <h2 className="text-xl font-bold text-[var(--tsc-ink)]">5. Governing Law</h2>
           <p>
             These Terms of Service and any separate agreements under which we provide you services
-            shall be governed by and construed in accordance with the laws of the **Province of
-            Ontario** and the federal laws of Canada applicable therein.
+            shall be governed by and construed in accordance with the laws of the{" "}
+            <strong className="text-[var(--tsc-ink)]">Province of Ontario</strong> and the federal
+            laws of Canada applicable therein.
           </p>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="font-display text-2xl font-bold text-navy">6. Modifications</h2>
+        <section className="space-y-3 pt-4">
+          <h2 className="text-xl font-bold text-[var(--tsc-ink)]">6. Modifications</h2>
           <p>
             We reserve the right to modify these terms at any time. Changes will be posted to this
-            page with an updated "Last updated" date. Your continued use of the website or our
-            services following modifications constitutes acceptance of the updated terms.
+            page with an updated &ldquo;Last updated&rdquo; date. Your continued use of the website
+            or our services following modifications constitutes acceptance of the updated terms.
           </p>
         </section>
       </div>

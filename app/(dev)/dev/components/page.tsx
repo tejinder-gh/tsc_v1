@@ -12,7 +12,7 @@
 
 import type { Metadata } from "next";
 import { CtaLink } from "@/components/CtaLink";
-import { Faq } from "@/components/Faq";
+import { EditorialFaq } from "@/components/public/EditorialFaq";
 
 export const metadata: Metadata = {
   title: "Component gallery (internal)",
@@ -208,8 +208,8 @@ export default function ComponentGalleryPage() {
         </div>
       </Section>
 
-      <Section title="Accordion (live Faq component)">
-        <Faq items={demoFaq} title="Demo questions" />
+      <Section title="Accordion (live EditorialFaq component)">
+        <EditorialFaq items={demoFaq} title="Demo questions" />
       </Section>
 
       <Section title="Not built - no current use case">
@@ -234,11 +234,8 @@ export default function ComponentGalleryPage() {
             exists yet to render honestly).
           </li>
           <li>
-            <strong className="text-navy-700">Modal</strong> - not duplicated here; see{" "}
-            <code className="rounded bg-mist px-1.5 py-0.5 text-sm">
-              components/capture/ExitIntentModal.tsx
-            </code>{" "}
-            for the real implementation (focus trap, Escape, backdrop click, focus return).
+            <strong className="text-navy-700">Modal</strong> - avoided in favor of quiet,
+            non-intrusive in-page editorial journeys and quiet sticky actions.
           </li>
         </ul>
       </Section>

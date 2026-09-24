@@ -139,9 +139,9 @@
 
 @layer base {
   body {
-    background-color: var(--color-paper);
-    color: var(--color-slate);
-    font-family: var(--font-body), system-ui, sans-serif;
+    background-color: var(--tsc-paper);
+    color: var(--tsc-ink);
+    font-family: var(--font-geist), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -149,14 +149,15 @@
   h2,
   h3,
   h4 {
-    color: var(--color-navy);
+    color: var(--tsc-ink);
+    font-family: var(--font-geist), system-ui, sans-serif;
   }
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-blue);
+  outline: 2px solid var(--tsc-action);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 /* Framer Motion serializes its hidden initial state (opacity:0, translateY) into the

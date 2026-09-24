@@ -19,17 +19,18 @@ import type { ReactNode } from "react";
 import { track } from "@/lib/analytics";
 import { useSegment } from "@/lib/segment-context";
 
-type Variant = "primary" | "secondary" | "primaryOnDark" | "secondaryOnDark" | "text";
+type Variant = "primary" | "secondary" | "primaryOnDark" | "secondaryOnDark" | "action" | "text";
 
 const buttonBase =
-  "inline-flex min-h-12 items-center justify-center rounded-control px-6 font-display text-[15px] font-medium leading-5 transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500";
+  "inline-flex min-h-11 items-center justify-center rounded-[8px] px-5 font-geist text-sm font-medium transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tsc-action)] select-none";
 
 const variantClasses: Record<Variant, string> = {
-  primary: `${buttonBase} bg-blue-500 text-white shadow-sm hover:bg-blue-700 hover:shadow-md active:bg-navy-700`,
-  secondary: `${buttonBase} border-2 border-navy-700 bg-transparent text-navy-700 hover:bg-mist active:bg-line`,
-  primaryOnDark: `${buttonBase} bg-blue-500 text-white shadow-sm hover:bg-blue-700 hover:shadow-md active:bg-navy-900`,
-  secondaryOnDark: `${buttonBase} border-2 border-white/70 bg-transparent text-white hover:bg-white/10 active:bg-white/20`,
-  text: "font-semibold text-blue-500 underline underline-offset-[3px] decoration-[1.5px] transition-colors hover:text-navy-700",
+  primary: `${buttonBase} bg-[var(--tsc-ink)] text-[var(--tsc-paper)] hover:opacity-90 active:scale-[0.99]`,
+  secondary: `${buttonBase} border border-[var(--tsc-line-strong)] bg-transparent text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] active:bg-[var(--tsc-line)]`,
+  primaryOnDark: `${buttonBase} bg-[var(--tsc-paper)] text-[var(--tsc-ink)] hover:bg-white active:scale-[0.99]`,
+  secondaryOnDark: `${buttonBase} border border-white/40 bg-transparent text-white hover:bg-white/10 active:bg-white/20`,
+  action: `${buttonBase} bg-[var(--tsc-action)] text-white hover:opacity-95 active:scale-[0.99]`,
+  text: "font-mono text-xs text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] underline underline-offset-4 transition-colors",
 };
 
 interface CtaLinkProps {

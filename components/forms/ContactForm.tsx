@@ -25,12 +25,14 @@
  */
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { businessTypes, segmentForBusinessType } from "@/content/site";
+import { useActiveJourneySummary } from "@/lib/journey";
 import { submitLead } from "@/lib/leads";
 import { type ContactFormValues, contactFormSchema } from "@/lib/schemas";
 import { useSegment } from "@/lib/segment-context";
+import { trackEvent } from "@/lib/telemetry";
 import { CtaLink } from "../CtaLink";
 import { HoneypotField } from "./HoneypotField";
 
@@ -45,8 +47,8 @@ const budgetOptions = [
 const STEP_ONE_FIELDS = ["name", "business", "email", "businessType"] as const;
 
 const fieldBaseClass =
-  "mt-1 w-full rounded-control border-[1.5px] border-border-input px-4 py-3.5 text-base transition-colors focus:border-blue-500 focus:outline-none focus:ring-[3px] focus:ring-blue-100";
-const fieldErrorClass = "border-danger focus:border-danger focus:ring-danger/20";
+  "mt-1 w-full rounded-[6px] border border-[var(--tsc-line-strong)] bg-white px-3.5 py-2.5 text-sm text-[var(--tsc-ink)] transition-colors focus:border-[var(--tsc-ink)] focus:outline-none focus:ring-1 focus:ring-[var(--tsc-ink)] font-geist";
+const fieldErrorClass = "border-red-500 focus:border-red-500 focus:ring-red-200";
 
 export function ContactForm() {
   const ids = {
@@ -59,15 +61,35 @@ export function ContactForm() {
     budget: useId(),
   };
   const { setSegment } = useSegment();
+  const { problemText } = useActiveJourneySummary();
   const [step, setStep] = useState<1 | 2>(1);
   const [sent, setSent] = useState(false);
   const [sendError, setSendError] = useState("");
+  const startedRef = useRef(false);
+
+  function handleInteraction() {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      trackEvent("form_started", { form: "contact_form", location: "contact_page" });
+      trackEvent("contact_started", { location: "contact_page" });
+    }
+  }
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     mode: "onBlur",
+    defaultValues: {
+      message: problemText ?? "",
+    },
   });
   const errors = form.formState.errors;
+
+  // Hydrate problem from journey context if visitor navigated with an active problem
+  useEffect(() => {
+    if (problemText && !form.getValues("message")) {
+      form.setValue("message", problemText);
+    }
+  }, [problemText, form]);
 
   // Clears an error the moment the user starts fixing that field (brief §8.4). Submission
   // is gated by a manual trigger() below rather than RHF's handleSubmit, so RHF's own
@@ -99,6 +121,7 @@ export function ContactForm() {
         website: values.website,
       });
       setSent(true);
+      trackEvent("form_completed", { form: "contact_form", location: "contact_page" });
     } catch (error) {
       setSendError(error instanceof Error ? error.message : "Something went wrong.");
     }
@@ -116,15 +139,23 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div className="rounded-card border-[1.5px] border-blue-100 bg-mist p-7" role="status">
-        <h2 className="font-display text-2xl font-bold">Got it. We reply within 1 business day.</h2>
-        <p className="mt-3 leading-relaxed">
-          Want answers faster? The free audit call usually beats email by a couple of days - and you
-          leave with three automation ideas either way.
+      <div
+        className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-8 font-geist space-y-4"
+        role="status"
+      >
+        <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-positive)] font-semibold block">
+          INQUIRY RECEIVED
+        </span>
+        <h2 className="text-xl sm:text-2xl font-bold text-[var(--tsc-ink)]">
+          Got it. We reply within one business day.
+        </h2>
+        <p className="text-sm text-[var(--tsc-muted)] leading-relaxed">
+          Want answers faster? A discovery audit call directly maps automation opportunities without
+          waiting for email rounds.
         </p>
-        <div className="mt-5">
-          <CtaLink href="/book" location="contact_success">
-            Book the free audit instead
+        <div className="pt-2">
+          <CtaLink href="/book" location="contact_success" variant="primary">
+            Schedule a free audit instead &rarr;
           </CtaLink>
         </div>
       </div>
@@ -132,25 +163,41 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(submit)} className="flex flex-col gap-5" noValidate>
-      <ol aria-label="Progress" className="flex items-center gap-3 text-sm font-medium text-slate">
-        <li className={`flex items-center gap-2 ${step === 1 ? "text-navy" : ""}`}>
+    <form
+      onSubmit={form.handleSubmit(submit)}
+      onFocusCapture={handleInteraction}
+      className="flex flex-col gap-5"
+      noValidate
+    >
+      <ol
+        aria-label="Progress"
+        className="flex items-center gap-3 text-xs sm:text-sm font-medium text-[var(--tsc-muted)] font-geist"
+      >
+        <li
+          className={`flex items-center gap-2 ${step === 1 ? "text-[var(--tsc-ink)] font-semibold" : ""}`}
+        >
           <span
             aria-hidden="true"
-            className={`grid h-6 w-6 place-items-center rounded-pill text-xs font-bold ${
-              step === 1 ? "bg-blue-500 text-white" : "bg-blue-100 text-navy"
+            className={`grid h-5 w-5 place-items-center rounded-full text-[11px] font-bold ${
+              step === 1
+                ? "bg-[var(--tsc-ink)] text-[var(--tsc-paper)]"
+                : "bg-[var(--tsc-surface)] text-[var(--tsc-muted)] border border-[var(--tsc-line)]"
             }`}
           >
             1
           </span>
           Your details
         </li>
-        <li aria-hidden="true" className="h-px w-8 bg-line" />
-        <li className={`flex items-center gap-2 ${step === 2 ? "text-navy" : ""}`}>
+        <li aria-hidden="true" className="h-px w-6 bg-[var(--tsc-line)]" />
+        <li
+          className={`flex items-center gap-2 ${step === 2 ? "text-[var(--tsc-ink)] font-semibold" : ""}`}
+        >
           <span
             aria-hidden="true"
-            className={`grid h-6 w-6 place-items-center rounded-pill text-xs font-bold ${
-              step === 2 ? "bg-blue-500 text-white" : "bg-line text-slate"
+            className={`grid h-5 w-5 place-items-center rounded-full text-[11px] font-bold ${
+              step === 2
+                ? "bg-[var(--tsc-ink)] text-[var(--tsc-paper)]"
+                : "bg-[var(--tsc-surface)] text-[var(--tsc-muted)] border border-[var(--tsc-line)]"
             }`}
           >
             2
@@ -161,9 +208,12 @@ export function ContactForm() {
 
       <fieldset hidden={step !== 1} className="flex flex-col gap-5">
         <legend className="sr-only">Step 1: your details</legend>
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor={ids.name} className="block font-medium text-navy">
+            <label
+              htmlFor={ids.name}
+              className="block font-medium text-xs sm:text-sm text-[var(--tsc-ink)]"
+            >
               Your name
             </label>
             <input
@@ -176,13 +226,20 @@ export function ContactForm() {
               {...form.register("name")}
             />
             {errors.name ? (
-              <p id={`${ids.name}-error`} className="mt-1 text-sm text-danger" role="alert">
+              <p
+                id={`${ids.name}-error`}
+                className="mt-1 text-xs font-mono text-red-600"
+                role="alert"
+              >
                 {errors.name.message}
               </p>
             ) : null}
           </div>
           <div>
-            <label htmlFor={ids.business} className="block font-medium text-navy">
+            <label
+              htmlFor={ids.business}
+              className="block font-medium text-xs sm:text-sm text-[var(--tsc-ink)]"
+            >
               Business name
             </label>
             <input
@@ -195,7 +252,11 @@ export function ContactForm() {
               {...form.register("business")}
             />
             {errors.business ? (
-              <p id={`${ids.business}-error`} className="mt-1 text-sm text-danger" role="alert">
+              <p
+                id={`${ids.business}-error`}
+                className="mt-1 text-xs font-mono text-red-600"
+                role="alert"
+              >
                 {errors.business.message}
               </p>
             ) : null}
@@ -203,7 +264,10 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor={ids.email} className="block font-medium text-navy">
+          <label
+            htmlFor={ids.email}
+            className="block font-medium text-xs sm:text-sm text-[var(--tsc-ink)]"
+          >
             Email
           </label>
           <input
@@ -216,14 +280,21 @@ export function ContactForm() {
             {...form.register("email")}
           />
           {errors.email ? (
-            <p id={`${ids.email}-error`} className="mt-1 text-sm text-danger" role="alert">
+            <p
+              id={`${ids.email}-error`}
+              className="mt-1 text-xs font-mono text-red-600"
+              role="alert"
+            >
               {errors.email.message}
             </p>
           ) : null}
         </div>
 
         <div>
-          <label htmlFor={ids.type} className="block font-medium text-navy">
+          <label
+            htmlFor={ids.type}
+            className="block font-medium text-xs sm:text-sm text-[var(--tsc-ink)]"
+          >
             What kind of business do you run?
           </label>
           <select
@@ -244,23 +315,27 @@ export function ContactForm() {
             ))}
           </select>
           {errors.businessType ? (
-            <p id={`${ids.type}-error`} className="mt-1 text-sm text-danger" role="alert">
+            <p
+              id={`${ids.type}-error`}
+              className="mt-1 text-xs font-mono text-red-600"
+              role="alert"
+            >
               {errors.businessType.message}
             </p>
           ) : null}
         </div>
 
         {sendError ? (
-          <p className="text-sm text-danger" role="alert">
+          <p className="text-xs font-mono text-red-600" role="alert">
             {sendError}
           </p>
         ) : null}
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3 pt-2">
           <button
             type="button"
             onClick={goToStepTwo}
-            className="inline-flex min-h-12 items-center justify-center rounded-control border-2 border-navy-700 bg-transparent px-6 font-display text-[15px] font-medium text-navy-700 transition-colors hover:bg-mist"
+            className="inline-flex min-h-11 items-center justify-center rounded-[8px] border border-[var(--tsc-line-strong)] bg-transparent px-5 font-geist text-sm font-medium text-[var(--tsc-ink)] transition-colors hover:bg-[var(--tsc-surface)]"
           >
             Add phone &amp; detail
           </button>
@@ -268,10 +343,10 @@ export function ContactForm() {
             type="button"
             onClick={sendFromStepOne}
             disabled={form.formState.isSubmitting}
-            className="inline-flex min-h-12 items-center justify-center rounded-control bg-blue-500 px-6 font-display text-[15px] font-medium text-white shadow-sm transition-all hover:bg-blue-700 disabled:opacity-60"
+            className="inline-flex min-h-11 items-center justify-center rounded-[8px] bg-[var(--tsc-ink)] px-5 font-geist text-sm font-medium text-[var(--tsc-paper)] transition-all hover:opacity-90 disabled:opacity-60"
             aria-busy={form.formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? "Sending..." : "Send without extra details"}
+            {form.formState.isSubmitting ? "Sending..." : "Send direct inquiry"}
           </button>
         </div>
       </fieldset>
@@ -279,8 +354,11 @@ export function ContactForm() {
       <fieldset hidden={step !== 2} className="flex flex-col gap-5">
         <legend className="sr-only">Step 2: phone and free text (optional)</legend>
         <div>
-          <label htmlFor={ids.phone} className="block font-medium text-navy">
-            Phone <span className="font-normal text-slate">(optional)</span>
+          <label
+            htmlFor={ids.phone}
+            className="block font-medium text-xs sm:text-sm text-[var(--tsc-ink)]"
+          >
+            Phone <span className="font-normal text-[var(--tsc-muted)]">(optional)</span>
           </label>
           <input
             id={ids.phone}
@@ -292,8 +370,12 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor={ids.message} className="block font-medium text-navy">
-            What&apos;s eating your time? <span className="font-normal text-slate">(optional)</span>
+          <label
+            htmlFor={ids.message}
+            className="block font-medium text-xs sm:text-sm text-[var(--tsc-ink)]"
+          >
+            What&apos;s eating your time?{" "}
+            <span className="font-normal text-[var(--tsc-muted)]">(optional)</span>
           </label>
           <textarea
             id={ids.message}
@@ -305,8 +387,11 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor={ids.budget} className="block font-medium text-navy">
-            Budget range <span className="font-normal text-slate">(optional)</span>
+          <label
+            htmlFor={ids.budget}
+            className="block font-medium text-xs sm:text-sm text-[var(--tsc-ink)]"
+          >
+            Budget range <span className="font-normal text-[var(--tsc-muted)]">(optional)</span>
           </label>
           <select
             id={ids.budget}
@@ -324,26 +409,26 @@ export function ContactForm() {
         </div>
 
         {sendError ? (
-          <p className="text-sm text-danger" role="alert">
+          <p className="text-xs font-mono text-red-600" role="alert">
             {sendError}
           </p>
         ) : null}
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3 pt-2">
           <button
             type="button"
             onClick={() => setStep(1)}
-            className="inline-flex min-h-12 items-center justify-center rounded-control border-2 border-navy-700 bg-transparent px-6 font-display text-[15px] font-medium text-navy-700 transition-colors hover:bg-mist"
+            className="inline-flex min-h-11 items-center justify-center rounded-[8px] border border-[var(--tsc-line)] bg-transparent px-5 font-geist text-sm font-medium text-[var(--tsc-ink)] transition-colors hover:border-[var(--tsc-line-strong)] hover:bg-[var(--tsc-surface)]"
           >
             Back
           </button>
           <button
             type="submit"
             disabled={form.formState.isSubmitting}
-            className="inline-flex min-h-12 items-center justify-center rounded-control bg-blue-500 px-6 font-display text-[15px] font-medium text-white shadow-sm transition-all hover:bg-blue-700 disabled:opacity-60"
+            className="inline-flex min-h-11 items-center justify-center rounded-[8px] bg-[var(--tsc-ink)] px-5 font-geist text-sm font-medium text-[var(--tsc-paper)] transition-all hover:opacity-90 disabled:opacity-60"
             aria-busy={form.formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? "Sending..." : "Send my question"}
+            {form.formState.isSubmitting ? "Sending..." : "Send direct inquiry"}
           </button>
         </div>
       </fieldset>

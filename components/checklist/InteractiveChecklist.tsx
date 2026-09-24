@@ -122,18 +122,18 @@ ${formattedPriority || "None selected"}
   };
 
   return (
-    <div className="grid items-start gap-8 lg:grid-cols-12">
+    <div className="grid items-start gap-8 lg:grid-cols-12 font-geist">
       {/* Checklist Side: 7 Columns */}
-      <div className="space-y-8 lg:col-span-7 print:w-full">
+      <div className="space-y-6 lg:col-span-7 print:w-full">
         {checklistData.map((category) => (
           <div
             key={category.title}
-            className="rounded-xl border border-navy/10 bg-white p-6 shadow-sm"
+            className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6"
           >
-            <h2 className="font-display text-xl font-bold tracking-tight text-navy border-b border-navy/10 pb-3">
+            <h2 className="font-geist text-lg font-bold text-[var(--tsc-ink)] border-b border-[var(--tsc-line)] pb-3">
               {category.title}
             </h2>
-            <ul className="mt-4 divide-y divide-navy/5">
+            <ul className="mt-4 divide-y divide-[var(--tsc-line)]">
               {category.items.map((item) => {
                 const isSelected = selections[item.id] !== undefined;
                 const selectedDread = selections[item.id] || 1;
@@ -145,10 +145,10 @@ ${formattedPriority || "None selected"}
                       <button
                         type="button"
                         onClick={() => handleToggleTask(item.id)}
-                        className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded border-2 transition-all ${
+                        className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border transition-all ${
                           isSelected
-                            ? "border-blue bg-blue text-white"
-                            : "border-navy/15 bg-white hover:border-blue"
+                            ? "border-[var(--tsc-ink)] bg-[var(--tsc-ink)] text-[var(--tsc-paper)]"
+                            : "border-[var(--tsc-line-strong)] bg-white hover:border-[var(--tsc-ink)]"
                         }`}
                         aria-label={`Select task: ${item.task}`}
                         aria-pressed={isSelected}
@@ -164,22 +164,26 @@ ${formattedPriority || "None selected"}
                           <span
                             onClick={() => handleToggleTask(item.id)}
                             className={`cursor-pointer text-[15px] font-semibold leading-snug transition-colors ${
-                              isSelected ? "text-navy" : "text-slate hover:text-navy"
+                              isSelected
+                                ? "text-[var(--tsc-ink)]"
+                                : "text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)]"
                             }`}
                           >
                             {item.task}
                           </span>
-                          <span className="shrink-0 tabular-nums text-xs font-semibold text-slate">
+                          <span className="shrink-0 font-mono text-xs font-semibold text-[var(--tsc-muted)]">
                             {item.hoursDisplay} hrs/wk
                           </span>
                         </div>
 
-                        <p className="mt-1 text-sm text-slate leading-relaxed">{item.automation}</p>
+                        <p className="mt-1 text-sm text-[var(--tsc-muted)] leading-relaxed">
+                          {item.automation}
+                        </p>
 
                         {/* Dread Selector (reveals when selected) */}
                         {isSelected && (
-                          <div className="mt-3 animate-pop rounded-lg bg-mist/60 p-3 border border-navy/5">
-                            <span className="block text-xs font-semibold uppercase tracking-wider text-slate">
+                          <div className="mt-3 rounded-[6px] bg-[var(--tsc-surface)] p-3 border border-[var(--tsc-line)]">
+                            <span className="block font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--tsc-muted)]">
                               How draining is this task?
                             </span>
                             <div className="mt-2 flex gap-2">
@@ -192,10 +196,10 @@ ${formattedPriority || "None selected"}
                                   key={option.val}
                                   type="button"
                                   onClick={() => handleSetDread(item.id, option.val)}
-                                  className={`flex-1 rounded-md py-1.5 text-xs font-bold border transition-all ${
+                                  className={`flex-1 rounded-[4px] py-1.5 text-xs font-medium border transition-all ${
                                     selectedDread === option.val
-                                      ? "bg-blue text-white border-blue shadow-sm"
-                                      : "bg-white text-slate border-navy/10 hover:bg-mist"
+                                      ? "bg-[var(--tsc-ink)] text-[var(--tsc-paper)] border-[var(--tsc-ink)]"
+                                      : "bg-white text-[var(--tsc-muted)] border-[var(--tsc-line)] hover:bg-[var(--tsc-surface)]"
                                   }`}
                                 >
                                   {option.val}: {option.label}
@@ -217,16 +221,16 @@ ${formattedPriority || "None selected"}
       {/* Sticky Calculations and Form Side: 5 Columns */}
       <div className="space-y-6 lg:sticky lg:top-24 lg:col-span-5 print:hidden">
         {/* Live Calculation Panel */}
-        <div className="rounded-xl bg-navy p-6 text-white shadow-lg border border-white/5">
-          <div className="flex items-center justify-between border-b border-white/10 pb-4">
-            <h3 className="font-display text-lg font-bold tracking-tight text-white">
+        <div className="rounded-[8px] bg-[var(--tsc-ink)] p-6 text-[var(--tsc-paper)] border border-[var(--tsc-ink)]">
+          <div className="flex items-center justify-between border-b border-white/15 pb-4">
+            <h3 className="font-geist text-base font-bold text-[var(--tsc-paper)]">
               Your Automation Score
             </h3>
             <button
               type="button"
               onClick={() => setSelections({})}
               disabled={selectedCount === 0}
-              className="flex items-center gap-1.5 text-xs font-medium text-slate hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex items-center gap-1.5 font-mono text-xs font-medium text-white/70 hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               title="Reset checklist"
             >
               <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.7} />
@@ -236,11 +240,11 @@ ${formattedPriority || "None selected"}
 
           {/* Large Live Counters */}
           <div className="mt-6 grid grid-cols-2 gap-4">
-            <div className="border-r border-white/10 pr-2">
-              <span className="block text-[11px] font-semibold uppercase tracking-wider text-slate">
+            <div className="border-r border-white/15 pr-2">
+              <span className="block font-mono text-[11px] font-semibold uppercase tracking-wider text-white/70">
                 Hours Wasted / Wk
               </span>
-              <span className="mt-1 block font-display text-3xl font-extrabold text-[#2FB97E]">
+              <span className="mt-1 block font-mono text-3xl font-bold text-[var(--tsc-positive)]">
                 {selectedCount === 0
                   ? "0"
                   : minHours === maxHours
@@ -249,41 +253,41 @@ ${formattedPriority || "None selected"}
               </span>
             </div>
             <div className="pl-2">
-              <span className="block text-[11px] font-semibold uppercase tracking-wider text-slate">
+              <span className="block font-mono text-[11px] font-semibold uppercase tracking-wider text-white/70">
                 Pain Index Score
               </span>
-              <span className="mt-1 block font-display text-3xl font-extrabold text-white">
+              <span className="mt-1 block font-mono text-3xl font-bold text-white">
                 {totalDreadScore.toFixed(0)}
               </span>
             </div>
           </div>
 
           {/* Dynamic Diagnosis */}
-          <div className="mt-6 rounded-lg bg-white/5 p-4 border border-white/5">
+          <div className="mt-6 rounded-[6px] bg-white/10 p-4 border border-white/10">
             <div className="flex items-center gap-2">
               <AlertCircle className={`h-4.5 w-4.5 ${diagnosis.color}`} strokeWidth={1.7} />
-              <span className={`font-display font-bold text-sm ${diagnosis.color}`}>
+              <span className={`font-geist font-bold text-sm ${diagnosis.color}`}>
                 {diagnosis.title}
               </span>
             </div>
-            <p className="mt-2 text-xs text-slate leading-relaxed">{diagnosis.body}</p>
+            <p className="mt-2 text-xs text-white/80 leading-relaxed">{diagnosis.body}</p>
           </div>
 
           {/* Top 3 Priorities */}
           {selectedCount > 0 && (
             <div className="mt-6">
-              <span className="block text-[11px] font-semibold uppercase tracking-wider text-slate border-b border-white/5 pb-2">
+              <span className="block font-mono text-[11px] font-semibold uppercase tracking-wider text-white/70 border-b border-white/15 pb-2">
                 Top Automation Priorities
               </span>
               <ul className="mt-3 space-y-3">
                 {priorityItems.map((p, index) => (
                   <li key={p.item.id} className="flex gap-3 text-xs items-start leading-relaxed">
-                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded bg-blue text-[10px] font-bold text-white">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded bg-[var(--tsc-accent)] text-[10px] font-mono font-bold text-white">
                       {index + 1}
                     </span>
                     <div className="flex-1">
                       <p className="font-semibold text-white/95">{p.item.task}</p>
-                      <p className="text-[10px] text-slate mt-0.5">
+                      <p className="text-[10px] font-mono text-white/70 mt-0.5">
                         Saves {p.item.hoursDisplay} hrs/wk · Dread: {p.dread}/3
                       </p>
                     </div>
@@ -297,7 +301,7 @@ ${formattedPriority || "None selected"}
           <button
             type="button"
             onClick={handlePrint}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-white/10"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-[8px] border border-white/20 bg-white/10 py-2.5 font-geist text-xs font-semibold text-white transition-all hover:bg-white/20"
           >
             <Printer className="h-4 w-4" strokeWidth={1.7} />
             Print Checklist Results
@@ -305,21 +309,24 @@ ${formattedPriority || "None selected"}
         </div>
 
         {/* Lead Capture Form */}
-        <div className="rounded-xl border border-navy/10 bg-white p-6 shadow-sm">
-          <h3 className="font-display text-lg font-bold tracking-tight text-navy">
+        <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6">
+          <h3 className="font-geist text-base font-bold text-[var(--tsc-ink)]">
             Get Your Results by Email
           </h3>
-          <p className="mt-1.5 text-xs leading-relaxed">
+          <p className="mt-1.5 text-xs text-[var(--tsc-muted)] leading-relaxed">
             Submit your scores and we&apos;ll email your results - your top opportunities with the
             hours each gives back - along with the full 25-item checklist.
           </p>
 
           {sent ? (
-            <div className="mt-4 rounded-lg bg-mist p-4 border border-navy/5" role="status">
-              <p className="font-display font-bold text-navy text-sm">
+            <div
+              className="mt-4 rounded-[6px] bg-[var(--tsc-surface)] p-4 border border-[var(--tsc-line)]"
+              role="status"
+            >
+              <p className="font-geist font-bold text-[var(--tsc-ink)] text-sm">
                 Your results are on the way.
               </p>
-              <p className="mt-1 text-xs leading-relaxed text-slate">
+              <p className="mt-1 text-xs leading-relaxed text-[var(--tsc-muted)]">
                 Your scored results and the checklist are headed to your inbox. Check spam if they
                 haven&apos;t arrived in a few minutes.
               </p>
@@ -339,11 +346,11 @@ ${formattedPriority || "None selected"}
                   type="email"
                   placeholder="you@yourbusiness.ca"
                   autoComplete="email"
-                  className="w-full rounded-lg border border-navy/15 px-3 py-2 text-sm focus:border-blue focus:outline-none"
+                  className="w-full rounded-[6px] border border-[var(--tsc-line-strong)] px-3 py-2 text-sm text-[var(--tsc-ink)] focus:border-[var(--tsc-ink)] focus:outline-none font-geist"
                   {...form.register("email")}
                 />
                 {form.formState.errors.email ? (
-                  <p className="mt-1 text-xs text-danger" role="alert">
+                  <p className="mt-1 text-xs font-mono text-red-600" role="alert">
                     {form.formState.errors.email.message}
                   </p>
                 ) : null}
@@ -355,7 +362,7 @@ ${formattedPriority || "None selected"}
                 </label>
                 <select
                   id={typeId}
-                  className="w-full rounded-lg border border-navy/15 bg-white px-3 py-2 text-sm focus:border-blue focus:outline-none"
+                  className="w-full rounded-[6px] border border-[var(--tsc-line-strong)] bg-white px-3 py-2 text-sm text-[var(--tsc-ink)] focus:border-[var(--tsc-ink)] focus:outline-none font-geist"
                   defaultValue=""
                   {...form.register("businessType")}
                 >
@@ -369,14 +376,14 @@ ${formattedPriority || "None selected"}
                   ))}
                 </select>
                 {form.formState.errors.businessType ? (
-                  <p className="mt-1 text-xs text-danger" role="alert">
+                  <p className="mt-1 text-xs font-mono text-red-600" role="alert">
                     {form.formState.errors.businessType.message}
                   </p>
                 ) : null}
               </div>
 
               {sendError ? (
-                <p className="text-xs text-danger" role="alert">
+                <p className="text-xs font-mono text-red-600" role="alert">
                   {sendError}
                 </p>
               ) : null}
@@ -384,7 +391,7 @@ ${formattedPriority || "None selected"}
               <button
                 type="submit"
                 disabled={form.formState.isSubmitting || selectedCount === 0}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-pressed disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex w-full items-center justify-center gap-2 rounded-[8px] bg-[var(--tsc-ink)] py-2.5 text-sm font-medium font-geist text-[var(--tsc-paper)] transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {form.formState.isSubmitting ? (
                   "Sending..."
@@ -396,7 +403,7 @@ ${formattedPriority || "None selected"}
                 )}
               </button>
               {selectedCount === 0 && (
-                <span className="block text-center text-[10px] text-slate">
+                <span className="block text-center font-mono text-[10px] text-[var(--tsc-muted)]">
                   Select at least one task to generate report
                 </span>
               )}
@@ -404,7 +411,7 @@ ${formattedPriority || "None selected"}
             </form>
           )}
 
-          <div className="mt-4 border-t border-navy/10 pt-4 text-center">
+          <div className="mt-4 border-t border-[var(--tsc-line)] pt-4 text-center">
             <CtaLink
               href="/book"
               location="checklist_interactive_summary"
