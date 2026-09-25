@@ -11,7 +11,8 @@ import { submitLead } from "@/lib/leads";
 import type { ChecklistFormValues } from "@/lib/schemas";
 import { useFocusTrap } from "@/lib/use-focus-trap";
 
-const STORAGE_KEY = "tsc_exit_intent_dismissed";
+const STORAGE_KEY = "tsc_exit_intent_dismissed_at";
+const DISMISS_DURATION_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 const MIN_DWELL_TIME_MS = 12000;
 
 export function ExitIntentModal() {
@@ -37,7 +38,7 @@ export function ExitIntentModal() {
   const dismiss = useCallback(() => {
     setIsOpen(false);
     try {
-      sessionStorage.setItem(STORAGE_KEY, "true");
+      localStorage.setItem(STORAGE_KEY, Date.now().toString());
     } catch {
       // Ignore storage access errors
     }
@@ -46,9 +47,20 @@ export function ExitIntentModal() {
   useFocusTrap(isOpen, modalRef, dismiss);
 
   useEffect(() => {
+    if (
+      process.env.NODE_ENV === "development" &&
+      !window.location.search.includes("preview_exit=1")
+    ) {
+      return;
+    }
+
     try {
-      if (sessionStorage.getItem(STORAGE_KEY) === "true") {
-        return;
+      const dismissedAt = localStorage.getItem(STORAGE_KEY);
+      if (dismissedAt) {
+        const timestamp = Number.parseInt(dismissedAt, 10);
+        if (!Number.isNaN(timestamp) && Date.now() - timestamp < DISMISS_DURATION_MS) {
+          return;
+        }
       }
     } catch {
       return;
@@ -83,7 +95,7 @@ export function ExitIntentModal() {
 
       setSubmitted(true);
       try {
-        sessionStorage.setItem(STORAGE_KEY, "true");
+        localStorage.setItem(STORAGE_KEY, Date.now().toString());
       } catch {
         // Ignore
       }
