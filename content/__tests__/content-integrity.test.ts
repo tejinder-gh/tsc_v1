@@ -3,6 +3,7 @@ import { digitalServices } from "../digital-services";
 import { industries } from "../industries";
 import { PRINCIPLES } from "../principles";
 import { services } from "../services";
+import { SYSTEM_STUDIES } from "../system-studies";
 
 describe("Content Slug and Reference Integrity", () => {
   const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -80,6 +81,37 @@ describe("Content Slug and Reference Integrity", () => {
         expect(p.metric.length).toBeGreaterThan(0);
         expect(p.tags.length).toBeGreaterThanOrEqual(1);
         expect(["Target", "Workflow", "ShieldCheck", "LineChart"]).toContain(p.iconName);
+      }
+    });
+  });
+
+  describe("System Studies Catalog", () => {
+    it("has 5 sequentially indexed studies with valid operational schemas", () => {
+      expect(SYSTEM_STUDIES).toHaveLength(5);
+
+      const indices = SYSTEM_STUDIES.map((s) => s.index);
+      expect(indices).toEqual(["01", "02", "03", "04", "05"]);
+
+      const ids = SYSTEM_STUDIES.map((s) => s.id);
+      expect(new Set(ids).size).toBe(ids.length);
+
+      for (const study of SYSTEM_STUDIES) {
+        expect(study.id).toMatch(SLUG_REGEX);
+        expect(study.title.length).toBeGreaterThan(0);
+        expect(study.location.length).toBeGreaterThan(0);
+        expect(study.problem.length).toBeGreaterThan(0);
+        expect(study.system.length).toBeGreaterThan(0);
+        expect(study.expectedChange.length).toBeGreaterThan(0);
+        expect(study.diagramSteps.length).toBeGreaterThanOrEqual(4);
+
+        for (const step of study.diagramSteps) {
+          expect(step.name.length).toBeGreaterThan(0);
+          expect(step.latency.length).toBeGreaterThan(0);
+          expect(step.subtext.length).toBeGreaterThan(0);
+          if (step.telemetryPayload) {
+            expect(Object.keys(step.telemetryPayload).length).toBeGreaterThanOrEqual(3);
+          }
+        }
       }
     });
   });
