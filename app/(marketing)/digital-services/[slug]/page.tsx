@@ -5,8 +5,8 @@ import { DeliverableIndex } from "@/components/public/DeliverableIndex";
 import { EditorialFaq } from "@/components/public/EditorialFaq";
 import { EditorialHero, type MetadataItem } from "@/components/public/EditorialHero";
 import { FitSection } from "@/components/public/FitSection";
-import { PageEyebrow } from "@/components/public/PageEyebrow";
 import { SecondaryProblemPrompt } from "@/components/public/SecondaryProblemPrompt";
+import { ServiceArchitectureSchematic } from "@/components/services/ServiceArchitectureSchematic";
 import { digitalServices, getDigitalServiceBySlug } from "@/content/digital-services";
 import { site } from "@/content/site";
 import { breadcrumbJsonLd, digitalServiceJsonLd } from "@/lib/structured-data";
@@ -54,16 +54,17 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
 
   const breadcrumbs = breadcrumbJsonLd([
     { name: "Home", path: "/" },
-    { name: "Work", path: "/digital-services" },
+    { name: "Digital Services", path: "/digital-services" },
     { name: service.name, path: `/digital-services/${service.slug}` },
   ]);
 
   const serviceSchema = digitalServiceJsonLd(service);
 
-  // Metadata bar items (Only verified data per Amendment 6)
   const metadataItems: MetadataItem[] = [
-    { label: "CAPABILITY", value: service.name },
-    { label: "DELIVERY", value: "Custom Architecture & Deployment" },
+    { label: "PILLAR", value: service.categoryLabel },
+    { label: "GUARANTEE", value: service.primaryMetric },
+    { label: "DELIVERY", value: "Production Deployment" },
+    { label: "OWNERSHIP", value: "100% Client Source Code" },
   ];
 
   return (
@@ -73,12 +74,12 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
 
       {/* Hero Section */}
       <EditorialHero
-        eyebrow="SERVICE SPECIFICATION"
+        eyebrow="CAPABILITY SPECIFICATION"
         headline={service.name}
         supportingCopy={`${service.tagline} ${service.description}`}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "Work", href: "/digital-services" },
+          { label: "Digital Services", href: "/digital-services" },
           { label: service.name, href: `/digital-services/${service.slug}` },
         ]}
         metadata={metadataItems}
@@ -87,26 +88,37 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
           href: "/#start",
         }}
         secondaryAction={{
-          label: "View deliverables ↓",
-          href: "#deliverables",
+          label: "Inspect architecture ↓",
+          href: "#architecture",
         }}
       />
 
-      {/* Section B: The Problem */}
+      {/* Section 01: The Bottleneck */}
       <section
         aria-labelledby="problem-heading"
-        className="py-14 sm:py-20 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
             <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-28 lg:self-start">
-              <PageEyebrow>THE PROBLEM</PageEyebrow>
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
+                  01
+                </span>
+                <span className="font-mono text-xs text-[var(--tsc-line)]">/</span>
+                <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] tracking-wider uppercase">
+                  THE OPERATIONAL BOTTLENECK
+                </span>
+              </div>
               <h2
                 id="problem-heading"
                 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
               >
-                Where standard operations break down.
+                Where standard workflows break down.
               </h2>
+              <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                Why off-the-shelf tools and manual administrative burden constrain performance.
+              </p>
             </div>
             <div className="lg:col-span-7 space-y-5 text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
               {service.overviewText.map((paragraph) => (
@@ -119,22 +131,69 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Section C: Core Capabilities */}
+      {/* Section 02: Deep System Architecture Diagram & Event Flow */}
+      <section
+        id="architecture"
+        aria-label="System Architecture Pipeline"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+      >
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-16 space-y-6">
+          <div className="max-w-3xl space-y-2">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
+                02
+              </span>
+              <span className="font-mono text-xs text-[var(--tsc-line)]">/</span>
+              <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] tracking-wider uppercase">
+                ENGINEERED PIPELINE SCHEMATIC
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]">
+              Architecture &amp; execution flow.
+            </h2>
+            <p className="text-sm text-[var(--tsc-muted)] leading-relaxed">
+              Every system is engineered as an event-driven state machine with strict exception
+              isolation and human escalation fallback.
+            </p>
+          </div>
+
+          <ServiceArchitectureSchematic
+            serviceName={service.name}
+            primaryMetric={service.primaryMetric}
+            techStack={service.techStack}
+            flow={service.architectureFlow}
+          />
+        </div>
+      </section>
+
+      {/* Section 03: Core Capabilities & Tool Integrations */}
       <section
         aria-labelledby="capabilities-heading"
-        className="py-14 sm:py-20 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
             {/* Left Column: Eyebrow & Title */}
             <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-28 lg:self-start">
-              <PageEyebrow>CORE CAPABILITIES</PageEyebrow>
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
+                  03
+                </span>
+                <span className="font-mono text-xs text-[var(--tsc-line)]">/</span>
+                <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] tracking-wider uppercase">
+                  SYSTEM SPECIFICATIONS
+                </span>
+              </div>
               <h2
                 id="capabilities-heading"
                 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
               >
-                Key system specifications.
+                Core technical capabilities.
               </h2>
+              <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                Functional components, API tool executions, and security guardrails included in this
+                service.
+              </p>
             </div>
 
             {/* Right Column: Dense Editorial Index */}
@@ -143,7 +202,7 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
                 {service.features.map((feature, idx) => {
                   const num = String(idx + 1).padStart(2, "0");
                   return (
-                    <div key={feature.title} className="py-6 sm:py-7 space-y-2">
+                    <div key={feature.title} className="py-7 sm:py-8 space-y-2">
                       <div className="flex items-baseline gap-3">
                         <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
                           {num}
@@ -164,14 +223,22 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Section D: System / Approach */}
+      {/* Section 04: System / Approach */}
       <section
         aria-labelledby="process-heading"
-        className="py-14 sm:py-20 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
           <div className="max-w-3xl mb-12 space-y-3">
-            <PageEyebrow>SYSTEM &amp; APPROACH</PageEyebrow>
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
+                04
+              </span>
+              <span className="font-mono text-xs text-[var(--tsc-line)]">/</span>
+              <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] tracking-wider uppercase">
+                ENGINEERING EXECUTION
+              </span>
+            </div>
             <h2
               id="process-heading"
               className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
@@ -179,8 +246,8 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
               How we execute the build.
             </h2>
             <p className="text-sm text-[var(--tsc-muted)] leading-relaxed">
-              A structured four-phase engineering methodology focused on stability and clean
-              handoffs.
+              A structured four-phase engineering methodology focused on stability, automated
+              testing, and clean client handoffs.
             </p>
           </div>
 
@@ -190,10 +257,10 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
               return (
                 <div
                   key={step.title}
-                  className="p-6 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/40 space-y-3"
+                  className="p-6 rounded-[10px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/40 space-y-3 shadow-xs"
                 >
-                  <div className="font-mono text-xs font-semibold text-[var(--tsc-muted)] tracking-wider">
-                    {num}
+                  <div className="font-mono text-xs font-semibold text-[var(--tsc-action)] tracking-wider">
+                    PHASE {num}
                   </div>
                   <h3 className="font-semibold text-base text-[var(--tsc-ink)]">{step.title}</h3>
                   <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
@@ -206,30 +273,30 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Section E: Deliverables */}
+      {/* Section 05: Deliverables */}
       <div id="deliverables">
         <DeliverableIndex
-          eyebrow="DELIVERABLES"
+          eyebrow="05 / CONCRETE DELIVERABLES"
           title={`What you receive from ${service.name.toLowerCase()}.`}
           items={service.deliverables}
         />
       </div>
 
-      {/* Section F: Fit Assessment */}
+      {/* Section 06: Fit Assessment */}
       <FitSection
-        eyebrow="FIT ASSESSMENT"
+        eyebrow="06 / FIT ASSESSMENT"
         title="Determining if this is the right intervention."
         goodFitItems={service.whoItIsFor}
       />
 
-      {/* Section G: FAQ */}
+      {/* Section 07: FAQ */}
       <EditorialFaq
-        eyebrow="TECHNICAL NOTES &amp; FAQ"
+        eyebrow="07 / TECHNICAL NOTES &amp; FAQ"
         title={`Questions about ${service.name.toLowerCase()}.`}
         items={service.faq}
       />
 
-      {/* Section H: Next Step */}
+      {/* Section 08: Next Step */}
       <SecondaryProblemPrompt
         eyebrow="NEXT STEP"
         heading={`Have a challenge requiring ${service.name.toLowerCase()}?`}

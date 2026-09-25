@@ -10,6 +10,14 @@
  * When: 2026-08.
  */
 
+export interface ArchitectureFlowNode {
+  step: string;
+  title: string;
+  description: string;
+  nodeType: "trigger" | "processing" | "integration" | "output";
+  latencyOrGuarantee?: string;
+}
+
 export interface DigitalServiceFeature {
   title: string;
   description: string;
@@ -39,6 +47,12 @@ export interface DigitalService {
   deliverables: string[];
   whoItIsFor: string[];
   faq: DigitalServiceFaq[];
+  category: "engineering" | "growth" | "operations";
+  categoryLabel: string;
+  categoryIndex: string;
+  primaryMetric: string;
+  techStack: readonly string[];
+  architectureFlow: readonly ArchitectureFlowNode[];
 }
 
 export const digitalServices: readonly DigitalService[] = [
@@ -51,6 +65,52 @@ export const digitalServices: readonly DigitalService[] = [
       "Enterprise custom AI agent development by The Skill Corner. We build autonomous AI voice agents, intelligent chat receptionists, sales qualification bots, and multi-agent workflow systems tailored for businesses and professional practices.",
     description:
       "End-to-end custom AI agent development tailored to your exact business operations. We engineer autonomous AI voice and chat agents, intelligent receptionists, lead qualification assistants, and multi-agent system workflows connected directly to your existing CRM, calendars, and internal databases.",
+    category: "engineering",
+    categoryLabel: "SYSTEMS & SOFTWARE ENGINEERING",
+    categoryIndex: "01",
+    primaryMetric: "< 250ms Voice Latency · Zero Hallucination Guardrail",
+    techStack: [
+      "Twilio Media Streams",
+      "Next.js 15 App Router",
+      "Python / FastAPI",
+      "Pinecone Vector RAG",
+      "OpenAI & Claude Tool Calling",
+      "Jane / Clio Webhooks",
+    ],
+    architectureFlow: [
+      {
+        step: "01",
+        title: "Inbound Audio & Webhook Ingest",
+        description:
+          "Low-latency speech stream capture via Twilio Voice or WebRTC client, buffering audio packets in sub-250ms chunks.",
+        nodeType: "trigger",
+        latencyOrGuarantee: "180ms buffer latency",
+      },
+      {
+        step: "02",
+        title: "Vector Grounding & Safety Filter",
+        description:
+          "Retrieval-Augmented Generation (RAG) strictly binds agent responses to verified company SOPs and doctor/partner preferences.",
+        nodeType: "processing",
+        latencyOrGuarantee: "0% hallucination SLA",
+      },
+      {
+        step: "03",
+        title: "Deterministic EHR / CRM Function Calling",
+        description:
+          "Executes real-time calendar reservations, patient chart notes, or client matters inside Jane, Dentrix, or Clio.",
+        nodeType: "integration",
+        latencyOrGuarantee: "Idempotent slot lock",
+      },
+      {
+        step: "04",
+        title: "Two-Way Confirmation & Encrypted Audit Log",
+        description:
+          "Dispatches SMS confirmation with intake forms and writes an HMAC SHA-256 signed event record to internal telemetry.",
+        nodeType: "output",
+        latencyOrGuarantee: "Verified audit manifest",
+      },
+    ],
     bullets: [
       "Custom voice & text AI agents integrated with your phone & software systems",
       "Autonomous multi-step reasoning and tool execution (CRM, Cal.com, Jane, Clio)",
@@ -146,6 +206,52 @@ export const digitalServices: readonly DigitalService[] = [
       "Custom website development services by The Skill Corner. Modern Next.js, React, and TypeScript builds optimized for speed, mobile responsiveness, top Google rankings, and high lead conversion.",
     description:
       "Marketing sites, web portals, and custom web applications designed and built from scratch using modern frameworks like Next.js, React, and Tailwind CSS. Every site is engineered for sub-second load times, mobile-first UX, top Google SEO rankings, and seamless conversion pathways.",
+    category: "engineering",
+    categoryLabel: "SYSTEMS & SOFTWARE ENGINEERING",
+    categoryIndex: "01",
+    primaryMetric: "98+ Core Web Vitals · < 800ms Time-to-Interactive",
+    techStack: [
+      "Next.js App Router",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Vercel Edge Network",
+      "JSON-LD & GEO Schema",
+    ],
+    architectureFlow: [
+      {
+        step: "01",
+        title: "Edge DNS & Crawler Ingest",
+        description:
+          "Sub-50ms edge routing for incoming visitor traffic and search crawlers across worldwide edge regions.",
+        nodeType: "trigger",
+        latencyOrGuarantee: "< 50ms TTFB",
+      },
+      {
+        step: "02",
+        title: "Server Component Composition",
+        description:
+          "App Router static rendering and server streaming eliminates JavaScript bundle bloat and client hydration lag.",
+        nodeType: "processing",
+        latencyOrGuarantee: "0 KB unused scripts",
+      },
+      {
+        step: "03",
+        title: "Conversion & CRM Webhook Pipeline",
+        description:
+          "Type-safe form actions submit directly to internal lead routers, verification daemons, and analytics vaults.",
+        nodeType: "integration",
+        latencyOrGuarantee: "End-to-end type safety",
+      },
+      {
+        step: "04",
+        title: "Edge CDN & Search Indexing",
+        description:
+          "Global edge distribution with automated XML sitemaps, semantic OpenGraph tags, and llms.txt endpoints.",
+        nodeType: "output",
+        latencyOrGuarantee: "100/100 PageSpeed target",
+      },
+    ],
     bullets: [
       "Custom Next.js & React architecture - zero page bloat or slow WordPress plugins",
       "Core Web Vitals optimized for 95+ Google PageSpeed performance scores",
@@ -233,6 +339,146 @@ export const digitalServices: readonly DigitalService[] = [
     ],
   },
   {
+    slug: "application-development",
+    name: "Application Development",
+    tagline: "Custom web applications, internal business portals, and mobile app solutions.",
+    metaDescription:
+      "Custom application development by The Skill Corner. We build scalable web applications, internal business management tools, customer portals, and cross-platform mobile apps.",
+    description:
+      "Custom web and mobile application engineering built around how your business actually operates. From internal administrative tools and customer management portals to SaaS MVPs and custom software integrations, we engineer secure, scalable software tailored to your specific process.",
+    category: "engineering",
+    categoryLabel: "SYSTEMS & SOFTWARE ENGINEERING",
+    categoryIndex: "01",
+    primaryMetric: "100% Code Ownership · End-to-End Type Safety",
+    techStack: [
+      "React & Next.js",
+      "Node.js / Bun",
+      "PostgreSQL / Prisma",
+      "Stripe Connect API",
+      "REST & GraphQL",
+      "Docker / AWS ECS",
+    ],
+    architectureFlow: [
+      {
+        step: "01",
+        title: "Authenticated Role Ingest",
+        description:
+          "Passwordless magic link or enterprise OAuth handshake with role-based permission token issuance.",
+        nodeType: "trigger",
+        latencyOrGuarantee: "Encrypted JWT session",
+      },
+      {
+        step: "02",
+        title: "Type-Safe Domain Execution",
+        description:
+          "Modular business logic layer enforcing database transactions, schema validation, and audit immutability.",
+        nodeType: "processing",
+        latencyOrGuarantee: "Zero data race conditions",
+      },
+      {
+        step: "03",
+        title: "Payment Rails & External Sync",
+        description:
+          "Real-time reconciliation through Stripe API webhooks, transactional email queues, and legacy database relays.",
+        nodeType: "integration",
+        latencyOrGuarantee: "PCI DSS compliant",
+      },
+      {
+        step: "04",
+        title: "Production Infrastructure Handoff",
+        description:
+          "Full cloud orchestration deployment with automated test suites, CI/CD pipelines, and source repository transfer.",
+        nodeType: "output",
+        latencyOrGuarantee: "100% IP ownership",
+      },
+    ],
+    bullets: [
+      "Custom web applications & customer portals built with React, Next.js, and Node.js",
+      "Cross-platform mobile applications (iOS & Android) with unified codebases",
+      "Seamless integration with existing enterprise APIs, payment gateways, and databases",
+      "Full source code delivery with robust security, encryption, and automated testing",
+    ],
+    overviewText: [
+      "Off-the-shelf software applications often force businesses to alter their operating procedures to fit rigid software constraints. Custom application development allows you to build software tools engineered around your unique workflows, creating a distinct operational competitive advantage.",
+      "At The Skill Corner, our software engineering team builds custom web and mobile applications. We prioritize robust architecture, intuitive UI design, enterprise-grade data security, and seamless API integrations.",
+    ],
+    features: [
+      {
+        title: "Custom Web Applications & Portals",
+        description:
+          "Interactive web portals for client self-service, document management, appointment booking, and real-time status tracking.",
+      },
+      {
+        title: "Internal Business Management Tools",
+        description:
+          "Tailored operational dashboards, inventory management systems, automated billing software, and custom CRM extensions.",
+      },
+      {
+        title: "Cross-Platform Mobile Applications",
+        description:
+          "Fast, native-feeling iOS and Android mobile apps engineered for field staff, customer engagement, and real-time push notifications.",
+      },
+      {
+        title: "API Development & Third-Party Integrations",
+        description:
+          "Secure REST & GraphQL API endpoints connecting legacy databases, payment processors (Stripe), communication platforms, and cloud services.",
+      },
+    ],
+    process: [
+      {
+        stepNumber: 1,
+        title: "Technical Scoping & Architecture Design",
+        description:
+          "We define application requirements, database schemas, user roles, security protocols, and system architecture blueprints.",
+      },
+      {
+        stepNumber: 2,
+        title: "UI/UX Prototyping & User Flow Testing",
+        description:
+          "We design intuitive user interface wireframes and interactive prototypes, refining user interactions before writing code.",
+      },
+      {
+        stepNumber: 3,
+        title: "Agile Development & Sprint Reviews",
+        description:
+          "Our developers code the frontend and backend in bi-weekly sprints, demonstrating functional features for your feedback.",
+      },
+      {
+        stepNumber: 4,
+        title: "Quality Assurance, Security Audit & Launch",
+        description:
+          "We execute rigorous automated testing, security vulnerability scans, load testing, and deploy to production cloud infrastructure.",
+      },
+    ],
+    deliverables: [
+      "Production-ready custom web or mobile application deployed on secure cloud infrastructure",
+      "Complete RESTful API backend, database architecture, and administrative portal",
+      "Comprehensive technical documentation, code comments, and API specs",
+      "Automated test suites ensuring long-term code stability and security",
+      "100% intellectual property and full source code repository ownership",
+    ],
+    whoItIsFor: [
+      "Businesses outgrowing off-the-shelf software tools needing custom management platforms",
+      "Companies wanting to deliver modern self-service client portals and mobile experiences",
+      "Entrepreneurs and enterprises launching custom SaaS products or digital services",
+      "Organizations needing secure software integrations between disconnected systems",
+    ],
+    faq: [
+      {
+        q: "Who owns the code for custom application builds?",
+        a: "You retain 100% ownership of all custom source code, design assets, and intellectual property. We hand over complete repository access upon project completion.",
+      },
+      {
+        q: "Can custom applications scale as our user base grows?",
+        a: "Yes. We engineer applications on cloud-native infrastructure (AWS/Vercel) using modular microservices architecture designed to scale seamlessly from hundreds to millions of users.",
+      },
+      {
+        q: "Do you provide ongoing maintenance and feature upgrades?",
+        a: "Yes. We offer flexible ongoing maintenance plans covering server monitoring, security updates, feature enhancements, and SLA support.",
+      },
+    ],
+  },
+  {
     slug: "digital-marketing",
     name: "Digital Marketing & GEO",
     tagline:
@@ -241,6 +487,51 @@ export const digitalServices: readonly DigitalService[] = [
       "Data-driven digital marketing, SEO, and Generative Engine Optimization (GEO) by The Skill Corner. Rank top band on Google Search, ChatGPT, Perplexity, and Gemini, and drive qualified leads.",
     description:
       "Comprehensive digital marketing strategies designed to dominate traditional search engines (Google, Bing) and AI search engines (ChatGPT, Perplexity, Claude, Gemini). We combine technical SEO, Generative Engine Optimization (GEO), hyper-targeted PPC paid ad campaigns, and content marketing to attract ready-to-buy clients.",
+    category: "growth",
+    categoryLabel: "MARKET ACQUISITION & POSITIONING",
+    categoryIndex: "02",
+    primaryMetric: "Top-3 Google Search & Conversational AI Citations",
+    techStack: [
+      "Generative Engine Optimization (GEO)",
+      "Google Search Ads (PPC)",
+      "Meta Ads API",
+      "JSON-LD Schema Markup",
+      "Plausible & GA4 Analytics",
+    ],
+    architectureFlow: [
+      {
+        step: "01",
+        title: "Intent Capture & Prompt Ingest",
+        description:
+          "Captures both traditional Google keyword searches and natural language queries asked inside ChatGPT and Perplexity.",
+        nodeType: "trigger",
+        latencyOrGuarantee: "Real-time intent tracking",
+      },
+      {
+        step: "02",
+        title: "Semantic Entity & Schema Optimization",
+        description:
+          "Structures website entities and machine-readable data structures so AI reasoning models prioritize citing your firm.",
+        nodeType: "processing",
+        latencyOrGuarantee: "Verified LLM readability",
+      },
+      {
+        step: "03",
+        title: "Targeted Paid Ad & Funnel Routing",
+        description:
+          "Algorithmic PPC bidding directs high-intent search traffic straight to dedicated, high-converting service landing pages.",
+        nodeType: "integration",
+        latencyOrGuarantee: "Zero wasted click budget",
+      },
+      {
+        step: "04",
+        title: "Transparent Acquisition Reporting",
+        description:
+          "Executive analytics dashboard reporting verified inquiries, scheduled consultations, and exact cost per acquired client.",
+        nodeType: "output",
+        latencyOrGuarantee: "Measurable commercial ROI",
+      },
+    ],
     bullets: [
       "Traditional SEO + Generative Engine Optimization (GEO) for AI recommendation engines",
       "Data-driven Google Ads (PPC) & Meta Ad campaigns optimized for ROI, not vanity clicks",
@@ -328,6 +619,145 @@ export const digitalServices: readonly DigitalService[] = [
     ],
   },
   {
+    slug: "rebranding",
+    name: "Rebranding & Brand Design",
+    tagline: "Strategic brand identity, visual guidelines, and logo design.",
+    metaDescription:
+      "Professional rebranding and brand design services by The Skill Corner. Custom logo design, brand identity systems, visual guidelines, and corporate design strategy.",
+    description:
+      "Elevate your market presence with a cohesive brand identity that commands authority and resonates with your target audience. We craft modern visual identities, logo designs, typography systems, and brand guidelines for businesses outgrowing their original look.",
+    category: "growth",
+    categoryLabel: "MARKET ACQUISITION & POSITIONING",
+    categoryIndex: "02",
+    primaryMetric: "Enterprise Visual Authority · 100% WCAG Accessible",
+    techStack: [
+      "Vector Master Asset Systems",
+      "Figma Design Tokens",
+      "Digital Typography Systems",
+      "WCAG 2.1 Contrast Testing",
+      "Interactive Brand Guidelines",
+    ],
+    architectureFlow: [
+      {
+        step: "01",
+        title: "Market Perception & Identity Audit",
+        description:
+          "Comprehensive audit of your visual touchpoints, competitor aesthetics, and alignment with high-value service pricing.",
+        nodeType: "trigger",
+        latencyOrGuarantee: "In-depth executive alignment",
+      },
+      {
+        step: "02",
+        title: "Vector Geometry & Typography Pairing",
+        description:
+          "Engineers versatile logomarks, accessible color palettes, and typographic hierarchies tailored for digital screens.",
+        nodeType: "processing",
+        latencyOrGuarantee: "100% WCAG AA compliance",
+      },
+      {
+        step: "03",
+        title: "Design System & CSS Token Synthesis",
+        description:
+          "Converts visual identity into production design tokens, theme variables, and reusable web UI component specs.",
+        nodeType: "integration",
+        latencyOrGuarantee: "Direct web engineer handoff",
+      },
+      {
+        step: "04",
+        title: "Brand Standards & Master Asset Suite",
+        description:
+          "Delivers infinite-resolution vector packages (SVG, EPS, AI), digital templates, and a living online brand guidelines wiki.",
+        nodeType: "output",
+        latencyOrGuarantee: "Complete IP & asset ownership",
+      },
+    ],
+    bullets: [
+      "Complete visual identity systems: modern logos, color palettes, and typography",
+      "Comprehensive brand guidelines book for internal team and external marketing use",
+      "Consistent asset suite across digital sites, print collateral, social media, and signage",
+      "Strategic brand positioning aligning your visual look with enterprise service value",
+    ],
+    overviewText: [
+      "As your business expands and introduces higher-value services, an outdated or inconsistent visual brand identity creates a disconnect with premium clients. A professional brand identity communicates credibility, trust, and market leadership before a single word is spoken.",
+      "At The Skill Corner, our brand design team crafts visual identity systems tailored to modern digital mediums. We build brand guidelines that ensure consistency across your website, pitch decks, marketing collateral, social media channels, and physical signage.",
+    ],
+    features: [
+      {
+        title: "Logo & Visual Identity Design",
+        description:
+          "Versatile logo marks, wordmarks, primary/secondary logos, icon variants, and favicon suites designed for digital screens and print.",
+      },
+      {
+        title: "Color Palette & Typography Architecture",
+        description:
+          "Accessible color systems tailored for digital accessibility (WCAG), paired with modern typography systems that convey brand authority.",
+      },
+      {
+        title: "Brand Style Guide & Standards Book",
+        description:
+          "Comprehensive brand guidelines outlining logo usage rules, spacing, visual do's and don'ts, image styles, and brand voice guidelines.",
+      },
+      {
+        title: "Digital & Physical Collateral Design",
+        description:
+          "Custom design templates for business cards, letterheads, social media graphics, email signatures, presentation decks, and signage.",
+      },
+    ],
+    process: [
+      {
+        stepNumber: 1,
+        title: "Brand Discovery & Market Positioning",
+        description:
+          "We analyze your industry positioning, target customer persona, business values, and competitor visual design landscapes.",
+      },
+      {
+        stepNumber: 2,
+        title: "Concept Development & Moodboards",
+        description:
+          "We explore multiple creative directions, presenting moodboards, visual concepts, logo directions, and color explorations.",
+      },
+      {
+        stepNumber: 3,
+        title: "Design Refinement & Asset Creation",
+        description:
+          "We hone your selected brand direction, perfecting logo geometry, color harmony, typography pairing, and visual assets.",
+      },
+      {
+        stepNumber: 4,
+        title: "Guideline Packaging & Production Handoff",
+        description:
+          "We deliver all vector source files (SVG, EPS, AI), high-res PNGs, brand guideline books, and web asset packages.",
+      },
+    ],
+    deliverables: [
+      "Master logo package in vector (SVG, EPS, AI) and raster (PNG, JPG) formats",
+      "Comprehensive Brand Guidelines Document (PDF and interactive web version)",
+      "Curated digital color palette (HEX, RGB, HSL) and typography pairings",
+      "Social media profile asset suite, email signatures, and presentation template",
+      "Business card, letterhead, and collateral design vector print files",
+    ],
+    whoItIsFor: [
+      "Established businesses outgrowing their initial draft logo or DIY branding",
+      "Companies undergoing strategic shifts toward higher-tier enterprise markets",
+      "Mergers or acquisitions requiring a unified brand identity framework",
+      "New ventures looking to enter competitive industries with immediate visual authority",
+    ],
+    faq: [
+      {
+        q: "What file formats will we receive for our new logo and brand assets?",
+        a: "You receive full vector master files (SVG, EPS, AI) suitable for billboard scaling, along with high-resolution web formats (PNG, JPG, WebP) with transparent backgrounds.",
+      },
+      {
+        q: "How long does a full brand redesign project take?",
+        a: "A complete rebranding project typically takes 2 to 3 weeks from brand discovery to final vector asset handoff.",
+      },
+      {
+        q: "Will our new brand identity work seamlessly on our website and social channels?",
+        a: "Yes. Every brand identity we create is engineered digital-first, ensuring high visibility and crisp presentation on mobile screens, web apps, social graphics, and print media.",
+      },
+    ],
+  },
+  {
     slug: "staffing",
     name: "Dedicated Staffing & Tech Talent",
     tagline:
@@ -336,6 +766,51 @@ export const digitalServices: readonly DigitalService[] = [
       "Dedicated tech talent and staff augmentation by The Skill Corner. Hire pre-vetted AI engineers, web developers, digital marketing specialists, and technical staff to scale your organization fast.",
     description:
       "Scale your engineering, technical operations, and digital capabilities with pre-vetted dedicated talent. We provide experienced AI engineers, full-stack developers, digital marketing specialists, and technical virtual assistants who integrate directly into your workflow on full-time or part-time arrangements.",
+    category: "operations",
+    categoryLabel: "OPERATIONAL SCALE & INFRASTRUCTURE",
+    categoryIndex: "03",
+    primaryMetric: "48h Candidate Match · Top 3% Vetted Tech Talent",
+    techStack: [
+      "Slack & Teams Embedded",
+      "Linear & Jira Native",
+      "GitHub & GitLab Direct Access",
+      "Timezone Aligned (EST/PST)",
+      "Zero Recruitment Overhead",
+    ],
+    architectureFlow: [
+      {
+        step: "01",
+        title: "Role & Competency Scoping",
+        description:
+          "Profiles the exact technical skills, repository frameworks, hours, and daily deliverables required for your project.",
+        nodeType: "trigger",
+        latencyOrGuarantee: "48-hour matching SLA",
+      },
+      {
+        step: "02",
+        title: "Technical Auditing & Coding Screen",
+        description:
+          "Rigorous code reviews, architecture problem-solving, and communication vetting to isolate the top 3% of candidates.",
+        nodeType: "processing",
+        latencyOrGuarantee: "Top 3% quality filter",
+      },
+      {
+        step: "03",
+        title: "Direct Workflow & Tool Integration",
+        description:
+          "Talent is onboarded directly into your internal Slack/Teams, project boards, and repositories under your management.",
+        nodeType: "integration",
+        latencyOrGuarantee: "100% daily transparency",
+      },
+      {
+        step: "04",
+        title: "Zero-Risk Production Output",
+        description:
+          "Talent delivers continuous sprint output with all payroll, compliance, and equipment managed by The Skill Corner.",
+        nodeType: "output",
+        latencyOrGuarantee: "14-day replacement guarantee",
+      },
+    ],
     bullets: [
       "Pre-vetted, top 3% tech talent: AI engineers, web developers, digital marketers & technical staff",
       "Flexible engagement models: full-time dedicated, part-time, or project-based team augmentation",
@@ -431,6 +906,51 @@ export const digitalServices: readonly DigitalService[] = [
       "Professional business process documentation and SOP services by The Skill Corner. We document operations, build standard operating procedures, and create AI-ready knowledge bases.",
     description:
       "Transform disorganized operational knowledge into clear, structured Standard Operating Procedures (SOPs), technical manuals, and machine-readable knowledge bases. We document your business workflows so your team operates with precision and your custom AI tools have verified data to run on.",
+    category: "operations",
+    categoryLabel: "OPERATIONAL SCALE & INFRASTRUCTURE",
+    categoryIndex: "03",
+    primaryMetric: "AI-Ready Knowledge Engineering · 100% SOP Accuracy",
+    techStack: [
+      "Notion & Confluence Wikis",
+      "Mermaid Process Diagrams",
+      "Vector-Ready Markdown",
+      "RACI Governance Matrices",
+      "EHR & CRM Playbooks",
+    ],
+    architectureFlow: [
+      {
+        step: "01",
+        title: "Workflow Observation & Interviews",
+        description:
+          "Structured observation of front-desk calls, case intake, and supplier handoffs to capture undocumented tribal knowledge.",
+        nodeType: "trigger",
+        latencyOrGuarantee: "Zero interruption to staff",
+      },
+      {
+        step: "02",
+        title: "Standardized SOP Drafting",
+        description:
+          "Authoring unambiguous, step-by-step procedures with explicit decision criteria, edge-case protocols, and screenshots.",
+        nodeType: "processing",
+        latencyOrGuarantee: "RACI accountability matrix",
+      },
+      {
+        step: "03",
+        title: "Visual Process Mapping",
+        description:
+          "Interactive visual flowcharts and Mermaid state diagrams showing exact trigger conditions and human approval checkpoints.",
+        nodeType: "integration",
+        latencyOrGuarantee: "Clarity across team handoffs",
+      },
+      {
+        step: "04",
+        title: "AI Knowledge Base & Wiki Publishing",
+        description:
+          "Deployment into your company wiki (Notion/Confluence) alongside vector-optimized markdown files ready for LLM ingestion.",
+        nodeType: "output",
+        latencyOrGuarantee: "LLM ingestion ready",
+      },
+    ],
     bullets: [
       "Standard Operating Procedures (SOPs) written in clear, step-by-step plain language",
       "Process mapping & workflow diagrams outlining operational bottlenecks",
@@ -514,194 +1034,6 @@ export const digitalServices: readonly DigitalService[] = [
       {
         q: "How often should SOPs be updated?",
         a: "We structure documentation modularly so updating a step or policy takes seconds. We recommend reviewing core SOPs semi-annually or whenever software systems change.",
-      },
-    ],
-  },
-  {
-    slug: "application-development",
-    name: "Application Development",
-    tagline: "Custom web applications, internal business portals, and mobile app solutions.",
-    metaDescription:
-      "Custom application development by The Skill Corner. We build scalable web applications, internal business management tools, customer portals, and cross-platform mobile apps.",
-    description:
-      "Custom web and mobile application engineering built around how your business actually operates. From internal administrative tools and customer management portals to SaaS MVPs and custom software integrations, we engineer secure, scalable software tailored to your specific process.",
-    bullets: [
-      "Custom web applications & customer portals built with React, Next.js, and Node.js",
-      "Cross-platform mobile applications (iOS & Android) with unified codebases",
-      "Seamless integration with existing enterprise APIs, payment gateways, and databases",
-      "Full source code delivery with robust security, encryption, and automated testing",
-    ],
-    overviewText: [
-      "Off-the-shelf software applications often force businesses to alter their operating procedures to fit rigid software constraints. Custom application development allows you to build software tools engineered around your unique workflows, creating a distinct operational competitive advantage.",
-      "At The Skill Corner, our software engineering team builds custom web and mobile applications. We prioritize robust architecture, intuitive UI design, enterprise-grade data security, and seamless API integrations.",
-    ],
-    features: [
-      {
-        title: "Custom Web Applications & Portals",
-        description:
-          "Interactive web portals for client self-service, document management, appointment booking, and real-time status tracking.",
-      },
-      {
-        title: "Internal Business Management Tools",
-        description:
-          "Tailored operational dashboards, inventory management systems, automated billing software, and custom CRM extensions.",
-      },
-      {
-        title: "Cross-Platform Mobile Applications",
-        description:
-          "Fast, native-feeling iOS and Android mobile apps engineered for field staff, customer engagement, and real-time push notifications.",
-      },
-      {
-        title: "API Development & Third-Party Integrations",
-        description:
-          "Secure REST & GraphQL API endpoints connecting legacy databases, payment processors (Stripe), communication platforms, and cloud services.",
-      },
-    ],
-    process: [
-      {
-        stepNumber: 1,
-        title: "Technical Scoping & Architecture Design",
-        description:
-          "We define application requirements, database schemas, user roles, security protocols, and system architecture blueprints.",
-      },
-      {
-        stepNumber: 2,
-        title: "UI/UX Prototyping & User Flow Testing",
-        description:
-          "We design intuitive user interface wireframes and interactive prototypes, refining user interactions before writing code.",
-      },
-      {
-        stepNumber: 3,
-        title: "Agile Development & Sprint Reviews",
-        description:
-          "Our developers code the frontend and backend in bi-weekly sprints, demonstrating functional features for your feedback.",
-      },
-      {
-        stepNumber: 4,
-        title: "Quality Assurance, Security Audit & Launch",
-        description:
-          "We execute rigorous automated testing, security vulnerability scans, load testing, and deploy to production cloud infrastructure.",
-      },
-    ],
-    deliverables: [
-      "Production-ready custom web or mobile application deployed on secure cloud infrastructure",
-      "Complete RESTful API backend, database architecture, and administrative portal",
-      "Comprehensive technical documentation, code comments, and API specs",
-      "Automated test suites ensuring long-term code stability and security",
-      "100% intellectual property and full source code repository ownership",
-    ],
-    whoItIsFor: [
-      "Businesses outgrowing off-the-shelf software tools needing custom management platforms",
-      "Companies wanting to deliver modern self-service client portals and mobile experiences",
-      "Entrepreneurs and enterprises launching custom SaaS products or digital services",
-      "Organizations needing secure software integrations between disconnected systems",
-    ],
-    faq: [
-      {
-        q: "Who owns the code for custom application builds?",
-        a: "You retain 100% ownership of all custom source code, design assets, and intellectual property. We hand over complete repository access upon project completion.",
-      },
-      {
-        q: "Can custom applications scale as our user base grows?",
-        a: "Yes. We engineer applications on cloud-native infrastructure (AWS/Vercel) using modular microservices architecture designed to scale seamlessly from hundreds to millions of users.",
-      },
-      {
-        q: "Do you provide ongoing maintenance and feature upgrades?",
-        a: "Yes. We offer flexible ongoing maintenance plans covering server monitoring, security updates, feature enhancements, and SLA support.",
-      },
-    ],
-  },
-  {
-    slug: "rebranding",
-    name: "Rebranding & Brand Design",
-    tagline: "Strategic brand identity, visual guidelines, and logo design.",
-    metaDescription:
-      "Professional rebranding and brand design services by The Skill Corner. Custom logo design, brand identity systems, visual guidelines, and corporate design strategy.",
-    description:
-      "Elevate your market presence with a cohesive brand identity that commands authority and resonates with your target audience. We craft modern visual identities, logo designs, typography systems, and brand guidelines for businesses outgrowing their original look.",
-    bullets: [
-      "Complete visual identity systems: modern logos, color palettes, and typography",
-      "Comprehensive brand guidelines book for internal team and external marketing use",
-      "Consistent asset suite across digital sites, print collateral, social media, and signage",
-      "Strategic brand positioning aligning your visual look with enterprise service value",
-    ],
-    overviewText: [
-      "As your business expands and introduces higher-value services, an outdated or inconsistent visual brand identity creates a disconnect with premium clients. A professional brand identity communicates credibility, trust, and market leadership before a single word is spoken.",
-      "At The Skill Corner, our brand design team crafts visual identity systems tailored to modern digital mediums. We build brand guidelines that ensure consistency across your website, pitch decks, marketing collateral, social media channels, and physical signage.",
-    ],
-    features: [
-      {
-        title: "Logo & Visual Identity Design",
-        description:
-          "Versatile logo marks, wordmarks, primary/secondary logos, icon variants, and favicon suites designed for digital screens and print.",
-      },
-      {
-        title: "Color Palette & Typography Architecture",
-        description:
-          "Accessible color systems tailored for digital accessibility (WCAG), paired with modern typography systems that convey brand authority.",
-      },
-      {
-        title: "Brand Style Guide & Standards Book",
-        description:
-          "Comprehensive brand guidelines outlining logo usage rules, spacing, visual do's and don'ts, image styles, and brand voice guidelines.",
-      },
-      {
-        title: "Digital & Physical Collateral Design",
-        description:
-          "Custom design templates for business cards, letterheads, social media graphics, email signatures, presentation decks, and signage.",
-      },
-    ],
-    process: [
-      {
-        stepNumber: 1,
-        title: "Brand Discovery & Market Positioning",
-        description:
-          "We analyze your industry positioning, target customer persona, business values, and competitor visual design landscapes.",
-      },
-      {
-        stepNumber: 2,
-        title: "Concept Development & Moodboards",
-        description:
-          "We explore multiple creative directions, presenting moodboards, visual concepts, logo directions, and color explorations.",
-      },
-      {
-        stepNumber: 3,
-        title: "Design Refinement & Asset Creation",
-        description:
-          "We hone your selected brand direction, perfecting logo geometry, color harmony, typography pairing, and visual assets.",
-      },
-      {
-        stepNumber: 4,
-        title: "Guideline Packaging & Production Handoff",
-        description:
-          "We deliver all vector source files (SVG, EPS, AI), high-res PNGs, brand guideline books, and web asset packages.",
-      },
-    ],
-    deliverables: [
-      "Master logo package in vector (SVG, EPS, AI) and raster (PNG, JPG) formats",
-      "Comprehensive Brand Guidelines Document (PDF and interactive web version)",
-      "Curated digital color palette (HEX, RGB, HSL) and typography pairings",
-      "Social media profile asset suite, email signatures, and presentation template",
-      "Business card, letterhead, and collateral design vector print files",
-    ],
-    whoItIsFor: [
-      "Established businesses outgrowing their initial draft logo or DIY branding",
-      "Companies undergoing strategic shifts toward higher-tier enterprise markets",
-      "Mergers or acquisitions requiring a unified brand identity framework",
-      "New ventures looking to enter competitive industries with immediate visual authority",
-    ],
-    faq: [
-      {
-        q: "What file formats will we receive for our new logo and brand assets?",
-        a: "You receive full vector master files (SVG, EPS, AI) suitable for billboard scaling, along with high-resolution web formats (PNG, JPG, WebP) with transparent backgrounds.",
-      },
-      {
-        q: "How long does a full brand redesign project take?",
-        a: "A complete rebranding project typically takes 2 to 3 weeks from brand discovery to final vector asset handoff.",
-      },
-      {
-        q: "Will our new brand identity work seamlessly on our website and social channels?",
-        a: "Yes. Every brand identity we create is engineered digital-first, ensuring high visibility and crisp presentation on mobile screens, web apps, social graphics, and print media.",
       },
     ],
   },

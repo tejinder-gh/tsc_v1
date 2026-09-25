@@ -27,20 +27,20 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
 
 ### 1.2 Catalogs & Dynamic Landing Hubs
 
-#### A. Digital Services Hub (Work)
+#### A. Digital Services Hub (Capabilities & Engineering Practice)
 * **Hub Route**: `/digital-services` — [`app/(marketing)/digital-services/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/digital-services/page.tsx)
-  * **Role**: **Work Hub**: Broad capability index organized across four editorial bands: `01 / AUTOMATE`, `02 / BUILD`, `03 / GROW`, `04 / OPERATE`, with a 4-step engagement methodology.
+  * **Role**: **Digital Capabilities & Practice Hub**: Authoritative engineering directory organized across three core pillars: `01 / SYSTEMS & SOFTWARE ENGINEERING`, `02 / MARKET ACQUISITION & POSITIONING`, `03 / OPERATIONAL SCALE & INFRASTRUCTURE`, with elevated specimen cards, tech stack specifications, turnkey automation bridge to `/what-we-automate`, interactive architecture visualizer, and 4-phase engineering methodology.
 * **Dynamic Route**: `/digital-services/[slug]` — [`app/(marketing)/digital-services/[slug]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/digital-services/[slug]/page.tsx)
-  * **Role**: Authored capability specification detailing the operational problem, outcome changes, execution pipeline, deliverables, and fit assessment.
+  * **Role**: Technical capability specification detailing the operational bottleneck, interactive deep system architecture schematic (`ServiceArchitectureSchematic`), core technical capabilities, 4-phase execution methodology, concrete deliverables matrix, fit assessment, and technical FAQ.
 * **Source of Truth**: [`content/digital-services.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/content/digital-services.ts)
-* **Active Slugs (7 Pillars)**:
-  1. `ai-agent-development`: Custom autonomous voice/chat AI agents & automation workflows.
-  2. `website-development`: High-performance Next.js marketing and B2B websites.
-  3. `digital-marketing`: Search engine optimization (SEO) and generative engine optimization (GEO).
-  4. `staffing`: Dedicated tech talent, software engineers, and automation specialists.
-  5. `documentation`: Business process documentation, Standard Operating Procedures (SOPs), and manuals.
+* **Active Slugs (7 Core Pillars)**:
+  1. `ai-agent-development`: Custom autonomous voice/chat AI agents & multi-step RAG workflows.
+  2. `website-development`: High-performance Next.js marketing and B2B web platforms.
+  3. `digital-marketing`: Search engine optimization (SEO) and generative engine optimization (GEO/AIO).
+  4. `staffing`: Dedicated tech talent, vetted AI engineers, and software specialists.
+  5. `documentation`: Business process documentation, Standard Operating Procedures (SOPs), and AI knowledge bases.
   6. `application-development`: Custom web and mobile software development.
-  7. `rebranding`: Brand identity, visual design systems, and positioning.
+  7. `rebranding`: Brand identity, visual design systems, and enterprise positioning.
 
 #### B. Automation Services Catalog (Automation Index)
 * **Hub Route**: `/what-we-automate` — [`app/(marketing)/what-we-automate/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/what-we-automate/page.tsx)
