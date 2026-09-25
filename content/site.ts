@@ -83,18 +83,18 @@ export interface PricingAnchorContent {
  */
 export const pricing: Record<Segment, PricingAnchorContent> = {
   local: {
-    label: "Starter automation",
-    anchor: "From $395/month",
+    label: "Core System Deployment",
+    anchor: "From $4,500 setup · $750/month managed",
     detail:
-      "Fixed monthly price, setup included. Most owners start with one automation and add more once the first pays for itself. Cancel any month.",
+      "Turnkey operational automation wired directly into existing tools. Includes missed-call capture, automated recall, and zero-downtime integration. Cancel any month.",
   },
   practice: {
-    label: "Custom build",
-    anchor: "Typical engagements run $1,500 - $25,000",
+    label: "Bespoke Practice Infrastructure",
+    anchor: "Typical builds run $15,000 - $75,000",
     detail:
-      "Scoped and quoted after your audit, with monitoring and support from $1,500/month. You approve the scope before anything is built.",
+      "Enterprise workflow architecture scoped after discovery audit. Continuous monitoring, model fine-tuning, and dedicated engineering support from $2,500/month. You approve the scope before anything is built.",
     compliance:
-      "PIPEDA/PHIPA-aware data handling. No patient or client records touch our systems without a signed agreement, and we work inside your existing tools wherever possible.",
+      "PIPEDA/PHIPA-aware data handling. Strict data sovereignty, encryption at rest, and zero third-party model training on patient or client records.",
   },
 };
 

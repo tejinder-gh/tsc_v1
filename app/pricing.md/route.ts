@@ -13,29 +13,39 @@ import { booking, pricing, site } from "@/content/site";
 export const dynamic = "force-static";
 
 function buildPricingMd(): string {
-  return `# Pricing — ${site.name}
+  return `# Pricing & Investment Architecture — ${site.name}
 
-## Local Business Automations
+## Enterprise Engagement Framework
 
+The Skill Corner delivers production-grade digital systems, custom AI autonomous agents, and enterprise workflow infrastructure. We do not bill hourly. All builds are scoped around verifiable operational return and high-conviction outcomes.
+
+### 1. Diagnostic & Technical Blueprint
+- **Investment**: $2,500 – $5,000 (Credited 100% toward subsequent system deployment)
+- **Scope**: Complete operational constraint audit, system architecture diagram, security/compliance evaluation, and 3 scoped technical execution options.
+- **Timeline**: 5 business days from intake.
+
+### 2. Core Operational Deployments
 - **Tier**: ${pricing.local.label}
-- **Price**: ${pricing.local.anchor}
-- **Commitments**: Cancel any month, setup included.
+- **Investment**: ${pricing.local.anchor}
+- **Scope**: Single high-impact operational bottleneck (e.g. 24/7 AI Receptionist, multi-channel appointment recall, automated intake routing).
 - **Details**: ${pricing.local.detail}
 
-## Professional Practice Automations
-
+### 3. Bespoke Practice Infrastructure
 - **Tier**: ${pricing.practice.label}
-- **Price**: ${pricing.practice.anchor}
-- **Monitoring & Support**: From $1,500/month
+- **Investment**: ${pricing.practice.anchor}
+- **Managed AI Operations**: From $2,500/month (Continuous tuning, model fine-tuning, uptime SLAs, and engineer-led monitoring)
 - **Details**: ${pricing.practice.detail}
-- **Compliance**: ${pricing.practice.compliance || "PIPEDA/PHIPA-aware data handling."}
+- **Compliance & Sovereignty**: ${pricing.practice.compliance}
 
-## Booking & Contact
+### 4. Enterprise Digital Transformation
+- **Investment**: $100,000 – $250,000+
+- **Scope**: Multi-location clinics, regional logistics, and commercial firms deploying multi-agent autonomous infrastructure, custom Next.js web applications, and internal tool operating systems.
 
-- **Free Automation Audit**: ${booking.promise} Book at ${site.url}/book
-- **Contact Email**: ${site.email}
-- **Contact Phone**: ${site.phone}
-- **Contact Page**: ${site.url}/contact
+## Booking & Scoping Consultation
+
+- **Engineering Discovery Audit**: ${booking.promise}
+- **Calendar Reservation**: ${site.url}/book
+- **Direct Technical Line**: ${site.email} | ${site.phone}
 - **Website**: ${site.url}
 `;
 }
