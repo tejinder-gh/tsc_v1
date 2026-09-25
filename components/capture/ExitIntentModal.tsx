@@ -131,7 +131,7 @@ export function ExitIntentModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2 }}
-            className="relative w-full max-w-lg overflow-hidden rounded-[12px] border border-[var(--tsc-line-strong)] bg-[var(--tsc-paper)] p-6 sm:p-8 text-[var(--tsc-ink)] shadow-[0_24px_50px_rgba(18,19,15,0.25)] z-10"
+            className="relative w-full max-w-lg overflow-hidden rounded-[8px] border border-[var(--tsc-line-strong)] bg-[var(--tsc-paper)] p-6 sm:p-8 text-[var(--tsc-ink)] shadow-[0_24px_50px_rgba(18,19,15,0.25)] z-10"
           >
             {/* Close Button */}
             <button
@@ -140,13 +140,13 @@ export function ExitIntentModal() {
               className="absolute right-4 top-4 p-1.5 rounded-[6px] text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
               aria-label="Close modal"
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4" strokeWidth={1.7} />
             </button>
 
             {submitted ? (
               <div className="space-y-4 py-2 text-center">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[var(--tsc-positive)]/10 text-[var(--tsc-positive)]">
-                  <CheckCircle2 className="h-6 w-6" />
+                  <CheckCircle2 className="h-6 w-6" strokeWidth={1.7} />
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]">
                   Checklist on its way.
@@ -169,7 +169,7 @@ export function ExitIntentModal() {
               <div>
                 {/* Header */}
                 <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-[var(--tsc-action)] mb-2">
-                  <FileCheck2 className="h-4 w-4" />
+                  <FileCheck2 className="h-4 w-4" strokeWidth={1.7} />
                   <span>01 / BEFORE YOU LEAVE</span>
                 </div>
 
@@ -189,7 +189,10 @@ export function ExitIntentModal() {
                 <div className="my-5 rounded-[8px] border border-[var(--tsc-line)] bg-white/70 p-3.5 space-y-2 text-xs text-[var(--tsc-ink)]">
                   {checklist.bullets.slice(0, 3).map((bullet) => (
                     <div key={bullet} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-[var(--tsc-action)] shrink-0 mt-0.5" />
+                      <CheckCircle2
+                        className="h-4 w-4 text-[var(--tsc-action)] shrink-0 mt-0.5"
+                        strokeWidth={1.7}
+                      />
                       <span>{bullet}</span>
                     </div>
                   ))}
