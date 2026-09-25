@@ -1,14 +1,13 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckCircle2, FileCheck2, Sparkles, X } from "lucide-react";
+import { CheckCircle2, FileCheck2, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HoneypotField } from "@/components/forms/HoneypotField";
-import { businessTypes, checklist } from "@/content/site";
+import { businessTypes, checklist, segmentForBusinessType } from "@/content/site";
 import { submitLead } from "@/lib/leads";
-import { segmentForBusinessType } from "@/content/site";
 import type { ChecklistFormValues } from "@/lib/schemas";
 import { useFocusTrap } from "@/lib/use-focus-trap";
 
@@ -141,7 +140,8 @@ export function ExitIntentModal() {
                   Checklist on its way.
                 </h3>
                 <p className="text-sm text-[var(--tsc-muted)] leading-relaxed max-w-sm mx-auto">
-                  We&apos;ve dispatched the 25-task Automation Opportunities Checklist to your inbox.
+                  We&apos;ve dispatched the 25-task Automation Opportunities Checklist to your
+                  inbox.
                 </p>
                 <div className="pt-2">
                   <Link
@@ -177,7 +177,7 @@ export function ExitIntentModal() {
                 <div className="my-5 rounded-[8px] border border-[var(--tsc-line)] bg-white/70 p-3.5 space-y-2 text-xs text-[var(--tsc-ink)]">
                   {checklist.bullets.slice(0, 3).map((bullet) => (
                     <div key={bullet} className="flex items-start gap-2">
-                      <span className="text-[var(--tsc-action)] font-bold shrink-0">&check;</span>
+                      <CheckCircle2 className="h-4 w-4 text-[var(--tsc-action)] shrink-0 mt-0.5" />
                       <span>{bullet}</span>
                     </div>
                   ))}
