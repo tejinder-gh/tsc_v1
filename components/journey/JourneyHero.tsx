@@ -85,7 +85,7 @@ export function JourneyHero() {
             {/* Left Column: Intent Router & Editorial Narrative (~58% / 7 cols) */}
             <div className="lg:col-span-7 flex flex-col space-y-5 lg:space-y-6">
               {/* Eyebrow */}
-              <SectionLabel>A DIGITAL SYSTEMS STUDIO</SectionLabel>
+              <SectionLabel>02 / A DIGITAL SYSTEMS STUDIO</SectionLabel>
 
               {/* Main Headline (Editorial cover scale) */}
               <h1 className="text-[44px] sm:text-[62px] lg:text-[74px] xl:text-[84px] font-bold leading-[0.95] tracking-[-0.035em] text-[var(--tsc-ink)]">

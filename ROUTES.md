@@ -13,7 +13,7 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
 
 | Route | File Path | Access | Purpose & Conversion Role |
 | :--- | :--- | :--- | :--- |
-| `/` | [`app/(marketing)/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/page.tsx) | Public | **Homepage**: Editorial Studio narrative (Global Masthead, 02 System Studies, Intent Router & Live Observed System, 04 Founder POV, 05 Curated Explore, 03 How We Decide, 06 Open Prompt, Minimal Footer). |
+| `/` | [`app/(marketing)/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/page.tsx) | Public | **Homepage**: Editorial Studio narrative (Global Masthead, 01 System Studies, 02 Intent Router & Live Observed System, 03 Curated Explore, 04 How We Decide, 05 Founder POV, 06 Open Prompt, Minimal Footer). |
 | `/about` | [`app/(marketing)/about/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/about/page.tsx) | Public | **About**: Founder story, practical engineering philosophy, and 5 operating principles applied to real work. |
 | `/how-it-works` | [`app/(marketing)/how-it-works/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/how-it-works/page.tsx) | Public | **Delivery Process**: Explicit 3-stage breakdown (*Audit → Build → Run*) detailing what The Skill Corner handles vs. what the client does to eliminate adoption friction. |
 | `/results` | [`app/(marketing)/results/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/results/page.tsx) | Public | **Results & Scenarios**: Illustrative problem/build/anticipated outcome scenarios with transparent non-fabricated claims. |
