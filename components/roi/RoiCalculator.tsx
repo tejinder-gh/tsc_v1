@@ -93,7 +93,7 @@ export function RoiCalculator() {
   };
 
   return (
-    <div className="w-full rounded-[14px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 sm:p-8 lg:p-10 font-geist space-y-8 shadow-[var(--shadow-warm-sm)]">
+    <div className="w-full rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 sm:p-8 lg:p-10 font-geist space-y-8 shadow-[var(--shadow-warm-sm)]">
       {/* Header & Controls Row */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[var(--tsc-line)] pb-6">
         <div className="space-y-2">
@@ -102,7 +102,7 @@ export function RoiCalculator() {
               OPERATIONAL VALUE MODEL
             </span>
             <span className="inline-flex items-center gap-1 rounded bg-[var(--tsc-action)]/10 px-2 py-0.5 text-[10px] font-mono font-medium text-[var(--tsc-action)]">
-              <Sparkles className="h-3 w-3" />
+              <Sparkles className="h-3 w-3" strokeWidth={1.7} />
               Dynamic Payback Engine
             </span>
           </div>
@@ -134,7 +134,7 @@ export function RoiCalculator() {
             title="Reset to default assumptions"
             className="p-2 rounded-[6px] border border-[var(--tsc-line)] bg-white text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors cursor-pointer"
           >
-            <RotateCcw className="h-3.5 w-3.5" />
+            <RotateCcw className="h-3.5 w-3.5" strokeWidth={1.7} />
           </button>
         </div>
       </div>
@@ -147,7 +147,7 @@ export function RoiCalculator() {
           <div className="space-y-3 p-4 rounded-[8px] border border-[var(--tsc-line)] bg-white">
             <div className="flex items-center justify-between text-xs font-mono">
               <span className="font-semibold text-[var(--tsc-ink)] uppercase tracking-wider flex items-center gap-2">
-                <Users className="h-4 w-4 text-[var(--tsc-muted)]" />
+                <Users className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                 Team Size (Clerical & Practice Staff)
               </span>
               <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
@@ -174,7 +174,7 @@ export function RoiCalculator() {
           <div className="space-y-3 p-4 rounded-[8px] border border-[var(--tsc-line)] bg-white">
             <div className="flex items-center justify-between text-xs font-mono">
               <span className="font-semibold text-[var(--tsc-ink)] uppercase tracking-wider flex items-center gap-2">
-                <DollarSign className="h-4 w-4 text-[var(--tsc-muted)]" />
+                <DollarSign className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                 Blended Loaded Hourly Wage
               </span>
               <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
@@ -203,7 +203,7 @@ export function RoiCalculator() {
           <div className="space-y-3 p-4 rounded-[8px] border border-[var(--tsc-line)] bg-white">
             <div className="flex items-center justify-between text-xs font-mono">
               <span className="font-semibold text-[var(--tsc-ink)] uppercase tracking-wider flex items-center gap-2">
-                <Clock className="h-4 w-4 text-[var(--tsc-muted)]" />
+                <Clock className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                 Manual Workflow Hours / Person / Week
               </span>
               <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
@@ -233,7 +233,7 @@ export function RoiCalculator() {
         </div>
 
         {/* Right Column: High-End Financial Projection Card */}
-        <div className="lg:col-span-5 rounded-[12px] border border-[var(--tsc-line)] bg-white p-6 sm:p-7 space-y-6 shadow-[var(--shadow-warm-md)]">
+        <div className="lg:col-span-5 rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-7 space-y-6 shadow-[var(--shadow-warm-md)]">
           <div className="flex items-center justify-between border-b border-[var(--tsc-line)] pb-3">
             <span className="font-mono text-[11px] font-semibold text-[var(--tsc-ink)] uppercase tracking-wider">
               FINANCIAL JUSTIFICATION
@@ -244,7 +244,7 @@ export function RoiCalculator() {
           </div>
 
           {/* Primary Savings Hero Box */}
-          <div className="p-5 rounded-[10px] bg-[var(--tsc-action)] text-white space-y-2 shadow-[var(--shadow-warm-sm)]">
+          <div className="p-5 rounded-[8px] bg-[var(--tsc-action)] text-white space-y-2 shadow-[var(--shadow-warm-sm)]">
             <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-white/80">
               <span>Net Annual Wage Recapture</span>
               <span className="px-2 py-0.5 rounded bg-white/20 text-white font-semibold text-[10px]">
@@ -280,10 +280,10 @@ export function RoiCalculator() {
 
             <div className="p-3.5 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] space-y-1">
               <span className="text-[10px] uppercase text-[var(--tsc-muted)] block flex items-center gap-1">
-                <TrendingUp className="h-3 w-3 text-emerald-600" />
+                <TrendingUp className="h-3 w-3 text-[var(--tsc-positive)]" strokeWidth={1.7} />
                 3-Year Multiple
               </span>
-              <div className="text-lg font-bold text-emerald-700 tabular-nums">
+              <div className="text-lg font-bold text-[var(--tsc-positive)] tabular-nums">
                 {outputs.threeYearNetRoiMultiple}x Net ROI
               </div>
               <span className="text-[10px] text-[var(--tsc-muted)] block">Net of deployment</span>
@@ -305,7 +305,10 @@ export function RoiCalculator() {
               className="group flex w-full items-center justify-between rounded-[8px] bg-[var(--tsc-ink)] px-5 py-3.5 text-sm font-medium text-[var(--tsc-paper)] transition-all hover:bg-[var(--tsc-action)] shadow-[var(--shadow-warm-sm)]"
             >
               <span>Book an Audit with this Model</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <ArrowRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                strokeWidth={1.7}
+              />
             </Link>
 
             <button
@@ -315,14 +318,14 @@ export function RoiCalculator() {
             >
               {copied ? (
                 <>
-                  <Check className="h-3.5 w-3.5 text-emerald-600" />
-                  <span className="text-emerald-700 font-semibold">
+                  <Check className="h-3.5 w-3.5 text-[var(--tsc-positive)]" strokeWidth={1.7} />
+                  <span className="text-[var(--tsc-positive)] font-semibold">
                     Financial Summary Copied to Clipboard
                   </span>
                 </>
               ) : (
                 <>
-                  <Copy className="h-3.5 w-3.5 text-[var(--tsc-muted)]" />
+                  <Copy className="h-3.5 w-3.5 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                   <span>Copy Financial Summary for Leadership</span>
                 </>
               )}

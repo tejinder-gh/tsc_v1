@@ -111,7 +111,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.2 }}
-                className="group flex flex-col rounded-[12px] border border-[var(--tsc-line)] bg-white p-7 sm:p-8 space-y-6 justify-between shadow-[var(--shadow-warm-sm)] hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5 transition-all duration-200"
+                className="group flex flex-col rounded-[8px] border border-[var(--tsc-line)] bg-white p-7 sm:p-8 space-y-6 justify-between shadow-[var(--shadow-warm-sm)] hover:shadow-[var(--shadow-warm-md)] hover:-translate-y-0.5 transition-all duration-200"
               >
                 <div className="space-y-4">
                   {/* Category & Badge */}
@@ -151,7 +151,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
                 </div>
 
                 {/* Anticipated Outcome Metric */}
-                <div className="pt-4 border-t border-[var(--tsc-line)] bg-[var(--tsc-surface)]/60 -mx-7 sm:-mx-8 -mb-7 sm:-mb-8 p-5 rounded-b-[11px] flex items-center justify-between">
+                <div className="pt-4 border-t border-[var(--tsc-line)] bg-[var(--tsc-surface)]/60 -mx-7 sm:-mx-8 -mb-7 sm:-mb-8 p-5 rounded-b-[7px] flex items-center justify-between">
                   <div>
                     <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--tsc-muted)] block">
                       TARGET / EXPECTED RANGE
@@ -175,14 +175,14 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
       <section
         id="calculator"
         aria-label="Hours and Value Calculator"
-        className="rounded-[16px] border border-[var(--tsc-line)] bg-white p-8 sm:p-10 lg:p-12 shadow-[var(--shadow-warm-md)]"
+        className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-8 sm:p-10 lg:p-12 shadow-[var(--shadow-warm-md)]"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* Left Column: Sliders and Controls (7 cols) */}
           <div className="lg:col-span-7 space-y-8">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-[4px] bg-[var(--tsc-signal)]/15 border border-[var(--tsc-signal)]/40 font-mono text-[11px] text-[var(--tsc-ink)] font-semibold uppercase tracking-wider">
-                <Calculator className="h-3.5 w-3.5 text-[var(--tsc-action)]" />
+                <Calculator className="h-3.5 w-3.5 text-[var(--tsc-action)]" strokeWidth={1.7} />
                 <span>Interactive Cost & Recovery Estimator</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]">
@@ -221,7 +221,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between text-xs font-mono">
                   <span className="font-semibold text-[var(--tsc-ink)] uppercase tracking-wider flex items-center gap-1.5">
-                    <Clock className="h-3.5 w-3.5 text-[var(--tsc-muted)]" />
+                    <Clock className="h-3.5 w-3.5 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                     Hours spent on routine admin / intake / calls per week
                   </span>
                   <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
@@ -253,7 +253,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between text-xs font-mono">
                   <span className="font-semibold text-[var(--tsc-ink)] uppercase tracking-wider flex items-center gap-1.5">
-                    <DollarSign className="h-3.5 w-3.5 text-[var(--tsc-muted)]" />
+                    <DollarSign className="h-3.5 w-3.5 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                     Blended hourly labor / opportunity cost
                   </span>
                   <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
@@ -284,7 +284,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
           </div>
 
           {/* Right Column: Dynamic Impact Telemetry Card (5 cols) */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start rounded-[12px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 sm:p-7 space-y-6">
+          <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 sm:p-7 space-y-6">
             <div className="flex items-center justify-between border-b border-[var(--tsc-line)] pb-3">
               <span className="font-mono text-[11px] font-semibold text-[var(--tsc-ink)] uppercase tracking-wider">
                 ESTIMATED ANNUAL IMPACT
@@ -321,7 +321,10 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
                   <span className="text-xs font-normal text-white/70 ml-1">/ year</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs text-white/90 pt-1">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[var(--tsc-signal)] shrink-0" />
+                  <CheckCircle2
+                    className="h-3.5 w-3.5 text-[var(--tsc-signal)] shrink-0"
+                    strokeWidth={1.7}
+                  />
                   <span>~{estimatedHoursReturned} hours returned to revenue work</span>
                 </div>
               </div>
@@ -333,7 +336,10 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
                   className="group flex w-full items-center justify-between rounded-[8px] bg-[var(--tsc-ink)] px-5 py-3 text-sm font-medium text-[var(--tsc-paper)] transition-all hover:bg-[var(--tsc-action)] shadow-[var(--shadow-warm-sm)]"
                 >
                   <span>Audit this in a 30-min call</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                    strokeWidth={1.7}
+                  />
                 </Link>
                 <span className="mt-2 block text-center font-mono text-[10px] text-[var(--tsc-muted)]">
                   Free discovery call &middot; Leave with 3 scoped system options
