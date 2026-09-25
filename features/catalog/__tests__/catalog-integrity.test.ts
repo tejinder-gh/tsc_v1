@@ -340,4 +340,15 @@ describe("Newsletter Domain Integrity", () => {
       expect(url).not.toContain("database-native-iam-agents");
     }
   });
+
+  it("assigns valid lastModified timestamps to all sitemap entries", () => {
+    const sitemapEntries = sitemap();
+    expect(sitemapEntries.length).toBeGreaterThan(0);
+    for (const entry of sitemapEntries) {
+      expect(entry.lastModified).toBeDefined();
+      expect(
+        entry.lastModified instanceof Date || typeof entry.lastModified === "string",
+      ).toBe(true);
+    }
+  });
 });

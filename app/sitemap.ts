@@ -15,6 +15,8 @@ import { site } from "@/content/site";
 import { getAllNewsletters } from "@/features/newsletters/data/newsletters";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const buildDate = new Date();
+
   const staticRoutes = [
     "",
     "/library",
@@ -33,30 +35,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/legal/terms",
   ].map((path) => ({
     url: `${site.url}${path}`,
+    lastModified: buildDate,
     changeFrequency: "monthly" as const,
     priority: path === "" ? 1 : path === "/library" ? 0.9 : 0.7,
   }));
 
   const industryRoutes = industries.map((industry) => ({
     url: `${site.url}/industries/${industry.slug}`,
+    lastModified: buildDate,
     changeFrequency: "monthly" as const,
     priority: 0.9,
   }));
 
   const serviceRoutes = services.map((service) => ({
     url: `${site.url}/what-we-automate/${service.slug}`,
+    lastModified: buildDate,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));
 
   const digitalServiceRoutes = digitalServices.map((service) => ({
     url: `${site.url}/digital-services/${service.slug}`,
+    lastModified: buildDate,
     changeFrequency: "monthly" as const,
     priority: 0.9,
   }));
 
   const newsletterRoutes = getAllNewsletters().map((newsletter) => ({
     url: `${site.url}/newsletters/${newsletter.slug}`,
+    lastModified: buildDate,
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
