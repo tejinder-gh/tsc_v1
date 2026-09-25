@@ -242,7 +242,7 @@ export function ExitIntentModal() {
                   </div>
 
                   {error && (
-                    <p className="text-xs text-red-600 font-mono bg-red-50 p-2 rounded border border-red-200">
+                    <p className="text-xs text-red-600 font-mono bg-red-50 p-2 rounded-[4px] border border-red-200">
                       {error}
                     </p>
                   )}

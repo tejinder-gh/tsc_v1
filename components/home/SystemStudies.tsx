@@ -281,7 +281,7 @@ export function SystemStudies() {
                           <div className="flex items-center gap-1.5">
                             {step.telemetryPayload && (
                               <span
-                                className={`flex items-center gap-0.5 text-[9px] font-mono px-1 py-0.5 rounded transition-colors ${
+                                className={`flex items-center gap-0.5 text-[9px] font-mono px-1 py-0.5 rounded-[4px] transition-colors ${
                                   isExpanded
                                     ? "text-[var(--tsc-action)] bg-[var(--tsc-action)]/10 font-medium"
                                     : "text-[var(--tsc-muted)] group-hover/step:text-[var(--tsc-ink)]"
@@ -292,7 +292,7 @@ export function SystemStudies() {
                               </span>
                             )}
                             <span
-                              className={`inline-block text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
+                              className={`inline-block text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-[4px] border ${
                                 isCurrent
                                   ? "text-[var(--tsc-action)] border-[var(--tsc-action)]/30 bg-[var(--tsc-action)]/5"
                                   : isCompleted
@@ -335,7 +335,7 @@ export function SystemStudies() {
                                       handleCopyPayload(e, stepIdx, step.telemetryPayload);
                                     }
                                   }}
-                                  className="flex items-center gap-1 text-[10px] text-zinc-400 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/10 cursor-pointer"
+                                  className="flex items-center gap-1 text-[10px] text-zinc-400 hover:text-white transition-colors px-1.5 py-0.5 rounded-[4px] hover:bg-white/10 cursor-pointer"
                                   title="Copy JSON Payload"
                                 >
                                   {copiedStep === stepIdx ? (
@@ -354,7 +354,7 @@ export function SystemStudies() {
                                   )}
                                 </button>
                               </div>
-                              <pre className="text-[10px] leading-relaxed text-zinc-300 overflow-x-auto whitespace-pre font-mono p-2 rounded bg-black/30">
+                              <pre className="text-[10px] leading-relaxed text-zinc-300 overflow-x-auto whitespace-pre font-mono p-2 rounded-[4px] bg-black/30">
                                 {JSON.stringify(step.telemetryPayload, null, 2)}
                               </pre>
                             </div>
@@ -387,7 +387,7 @@ export function SystemStudies() {
                     Engineered operational return
                   </span>
                 </div>
-                <span className="font-bold text-sm text-[var(--tsc-positive)] px-2.5 py-1 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
+                <span className="font-bold text-sm text-[var(--tsc-positive)] px-2.5 py-1 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
                   {activeStudy.expectedChange}
                 </span>
               </div>

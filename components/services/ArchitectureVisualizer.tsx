@@ -606,7 +606,7 @@ export function ArchitectureVisualizer() {
                         STEP {step.stepNumber}
                       </span>
                       <span
-                        className={`font-mono text-[11px] px-2 py-0.5 rounded font-semibold ${
+                        className={`font-mono text-[11px] px-2 py-0.5 rounded-[4px] font-semibold ${
                           mode === "automated"
                             ? "bg-[var(--tsc-surface)] text-[var(--tsc-action)] border border-[var(--tsc-line)]"
                             : "bg-amber-100 text-amber-800"

@@ -277,13 +277,13 @@ export function CommandPalette() {
                 className="w-full bg-transparent text-sm sm:text-base text-[var(--tsc-ink)] placeholder:text-[var(--tsc-muted)]/70 focus:outline-none"
               />
               <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                <span className="hidden sm:inline-flex items-center rounded border border-[var(--tsc-line)] bg-white px-1.5 py-0.5 text-[10px] font-mono font-medium text-[var(--tsc-muted)]">
+                <span className="hidden sm:inline-flex items-center rounded-[4px] border border-[var(--tsc-line)] bg-white px-1.5 py-0.5 text-[10px] font-mono font-medium text-[var(--tsc-muted)]">
                   ESC
                 </span>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="rounded p-1 text-[var(--tsc-muted)] hover:bg-[var(--tsc-line)]/50 hover:text-[var(--tsc-ink)] transition-colors"
+                  className="rounded-[4px] p-1 text-[var(--tsc-muted)] hover:bg-[var(--tsc-line)]/50 hover:text-[var(--tsc-ink)] transition-colors"
                 >
                   <X className="h-4 w-4" strokeWidth={1.7} />
                 </button>
@@ -389,16 +389,16 @@ export function CommandPalette() {
             <div className="flex items-center justify-between border-t border-[var(--tsc-line)] bg-[var(--tsc-surface)] px-4 py-2 text-[11px] font-mono text-[var(--tsc-muted)]">
               <div className="flex items-center gap-3">
                 <span>
-                  <kbd className="rounded border border-[var(--tsc-line)] bg-white px-1 py-0.5 font-medium text-[var(--tsc-ink)]">
+                  <kbd className="rounded-[4px] border border-[var(--tsc-line)] bg-white px-1 py-0.5 font-medium text-[var(--tsc-ink)]">
                     ↑
                   </kbd>{" "}
-                  <kbd className="rounded border border-[var(--tsc-line)] bg-white px-1 py-0.5 font-medium text-[var(--tsc-ink)]">
+                  <kbd className="rounded-[4px] border border-[var(--tsc-line)] bg-white px-1 py-0.5 font-medium text-[var(--tsc-ink)]">
                     ↓
                   </kbd>{" "}
                   Navigate
                 </span>
                 <span>
-                  <kbd className="rounded border border-[var(--tsc-line)] bg-white px-1.5 py-0.5 font-medium text-[var(--tsc-ink)]">
+                  <kbd className="rounded-[4px] border border-[var(--tsc-line)] bg-white px-1.5 py-0.5 font-medium text-[var(--tsc-ink)]">
                     ↵
                   </kbd>{" "}
                   Select

@@ -137,7 +137,7 @@ export function Header() {
                   strokeWidth={1.7}
                 />
                 <span className="text-[11px]">Search</span>
-                <kbd className="rounded border border-[var(--tsc-line)] bg-[var(--tsc-surface)] px-1 py-0.5 text-[10px] text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)]">
+                <kbd className="rounded-[4px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] px-1 py-0.5 text-[10px] text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)]">
                   ⌘K
                 </kbd>
               </button>
@@ -255,7 +255,7 @@ export function Header() {
                       <Search className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                       <span>Search playbooks & capabilities...</span>
                     </div>
-                    <kbd className="rounded border border-[var(--tsc-line)] bg-[var(--tsc-surface)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--tsc-muted)]">
+                    <kbd className="rounded-[4px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--tsc-muted)]">
                       ⌘K
                     </kbd>
                   </button>

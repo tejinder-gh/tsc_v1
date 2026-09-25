@@ -101,7 +101,7 @@ export function RoiCalculator() {
             <span className="font-mono text-xs font-semibold tracking-wider text-[var(--tsc-muted)] uppercase">
               OPERATIONAL VALUE MODEL
             </span>
-            <span className="inline-flex items-center gap-1 rounded bg-[var(--tsc-action)]/10 px-2 py-0.5 text-[10px] font-mono font-medium text-[var(--tsc-action)]">
+            <span className="inline-flex items-center gap-1 rounded-[4px] bg-[var(--tsc-action)]/10 px-2 py-0.5 text-[10px] font-mono font-medium text-[var(--tsc-action)]">
               <Sparkles className="h-3 w-3" strokeWidth={1.7} />
               Dynamic Payback Engine
             </span>
@@ -150,7 +150,7 @@ export function RoiCalculator() {
                 <Users className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                 Team Size (Clerical & Practice Staff)
               </span>
-              <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
+              <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
                 {inputs.teamSize} {inputs.teamSize === 1 ? "person" : "people"}
               </span>
             </div>
@@ -177,7 +177,7 @@ export function RoiCalculator() {
                 <DollarSign className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                 Blended Loaded Hourly Wage
               </span>
-              <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
+              <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
                 ${inputs.hourlyWage} / hr CAD
               </span>
             </div>
@@ -206,7 +206,7 @@ export function RoiCalculator() {
                 <Clock className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                 Manual Workflow Hours / Person / Week
               </span>
-              <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
+              <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2.5 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
                 {inputs.weeklyHoursPerPerson} hrs / person / wk
               </span>
             </div>
@@ -247,7 +247,7 @@ export function RoiCalculator() {
           <div className="p-5 rounded-[8px] bg-[var(--tsc-action)] text-white space-y-2 shadow-[var(--shadow-warm-sm)]">
             <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-white/80">
               <span>Net Annual Wage Recapture</span>
-              <span className="px-2 py-0.5 rounded bg-white/20 text-white font-semibold text-[10px]">
+              <span className="px-2 py-0.5 rounded-[4px] bg-white/20 text-white font-semibold text-[10px]">
                 75% Automated
               </span>
             </div>

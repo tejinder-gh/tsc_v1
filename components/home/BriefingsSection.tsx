@@ -571,7 +571,7 @@ export function BriefingsSection() {
                             type="checkbox"
                             checked={subscribeAll}
                             onChange={(e) => setSubscribeAll(e.target.checked)}
-                            className="rounded border-[var(--tsc-line-strong)] text-[var(--tsc-action)] focus:ring-[var(--tsc-action)]"
+                            className="rounded-[4px] border-[var(--tsc-line-strong)] text-[var(--tsc-action)] focus:ring-[var(--tsc-action)]"
                           />
                           <span>
                             Also enroll me in all 3 executive radars (Tech Founder + Dealflow +

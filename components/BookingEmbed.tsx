@@ -337,7 +337,7 @@ export function BookingEmbed() {
           {error && (
             <p
               role="alert"
-              className="text-xs font-mono text-red-600 bg-red-50 p-2.5 rounded border border-red-200"
+              className="text-xs font-mono text-red-600 bg-red-50 p-2.5 rounded-[4px] border border-red-200"
             >
               {error}
             </p>

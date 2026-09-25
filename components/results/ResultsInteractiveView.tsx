@@ -224,7 +224,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
                     <Clock className="h-3.5 w-3.5 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                     Hours spent on routine admin / intake / calls per week
                   </span>
-                  <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
+                  <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
                     {roiInputs.hoursPerWeek} hrs / week
                   </span>
                 </div>
@@ -256,7 +256,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
                     <DollarSign className="h-3.5 w-3.5 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                     Blended hourly labor / opportunity cost
                   </span>
-                  <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2 py-0.5 rounded bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
+                  <span className="font-bold text-sm text-[var(--tsc-action)] tabular-nums px-2 py-0.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]">
                     ${roiInputs.hourlyCost} / hr CAD
                   </span>
                 </div>
@@ -312,7 +312,7 @@ export function ResultsInteractiveView({ recentBuilds }: ResultsInteractiveViewP
               <div className="p-4 rounded-[8px] bg-[var(--tsc-action)] text-white space-y-1 shadow-[var(--shadow-warm-sm)]">
                 <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-white/80">
                   <span>Anticipated Recovery (~70%)</span>
-                  <span className="px-1.5 py-0.5 rounded bg-white/20 text-white font-semibold">
+                  <span className="px-1.5 py-0.5 rounded-[4px] bg-white/20 text-white font-semibold">
                     Target
                   </span>
                 </div>
