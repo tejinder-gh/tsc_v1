@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ExploreCurated } from "@/components/home/ExploreCurated";
+import { BriefingsSection } from "@/components/home/BriefingsSection";
 import { FounderPOV } from "@/components/home/FounderPOV";
 import { HowWeDecide } from "@/components/home/HowWeDecide";
 import { OpenPrompt } from "@/components/home/OpenPrompt";
@@ -25,8 +25,8 @@ export default function HomePage() {
       {/* 04. Founder Point of View */}
       <FounderPOV />
 
-      {/* 05. Selected Explore / Briefings */}
-      <ExploreCurated />
+      {/* 05. Executive Briefings & Intelligence Radar */}
+      <BriefingsSection />
 
       {/* 06. Open Prompt / Closing Interaction */}
       <OpenPrompt />

@@ -63,6 +63,7 @@ export class InMemoryRateLimiter implements RateLimiter {
 
 export class PostgresRateLimiter implements RateLimiter {
   private lastCleanup = 0;
+  private readonly fallback = new InMemoryRateLimiter();
 
   constructor(private readonly queryFn = dbQuery) {}
 
@@ -82,7 +83,6 @@ export class PostgresRateLimiter implements RateLimiter {
   }
 
   async consume(key: string, limit: number, windowSeconds: number): Promise<RateLimitResult> {
-
     const query = `
       INSERT INTO public.rate_limits (limit_key, count, reset_at)
       VALUES ($1, 1, now() + ($2 || ' seconds')::interval)
@@ -99,21 +99,26 @@ export class PostgresRateLimiter implements RateLimiter {
       RETURNING count, EXTRACT(EPOCH FROM (reset_at - now()))::int AS retry_after;
     `;
 
-    const res = await this.queryFn(query, [key, windowSeconds]);
-    this.opportunisticCleanup().catch(() => {});
+    try {
+      const res = await this.queryFn(query, [key, windowSeconds]);
+      this.opportunisticCleanup().catch(() => {});
 
-    const row = res.rows[0];
-    const count = Number(row?.count || 1);
-    const resetAfterSeconds = Math.max(1, Number(row?.retry_after || windowSeconds));
-    const allowed = count <= limit;
-    const remaining = Math.max(0, limit - count);
+      const row = res.rows[0];
+      const count = Number(row?.count || 1);
+      const resetAfterSeconds = Math.max(1, Number(row?.retry_after || windowSeconds));
+      const allowed = count <= limit;
+      const remaining = Math.max(0, limit - count);
 
-    return {
-      allowed,
-      limit,
-      remaining,
-      resetAfterSeconds,
-    };
+      return {
+        allowed,
+        limit,
+        remaining,
+        resetAfterSeconds,
+      };
+    } catch {
+      // Graceful fallback to in-memory rate limiting when database is unreachable
+      return this.fallback.consume(key, limit, windowSeconds);
+    }
   }
 }
 
