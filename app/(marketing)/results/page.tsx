@@ -3,6 +3,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { EditorialHero } from "@/components/public/EditorialHero";
 import { SecondaryProblemPrompt } from "@/components/public/SecondaryProblemPrompt";
 import { ResultsInteractiveView } from "@/components/results/ResultsInteractiveView";
+import { RoiCalculator } from "@/components/roi";
 import { recentBuilds } from "@/content/proof";
 import { breadcrumbJsonLd } from "@/lib/structured-data";
 
@@ -68,10 +69,21 @@ export default function ResultsPage() {
         </div>
       </section>
 
-      {/* Interactive Scenarios & ROI Estimator Section */}
+      {/* Enterprise ROI & Payback Engine */}
+      <section
+        id="calculator"
+        aria-label="Interactive Enterprise ROI and Payback Calculator"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+      >
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
+          <RoiCalculator />
+        </div>
+      </section>
+
+      {/* Interactive Scenarios Section */}
       <section
         aria-label="Modeled Scenarios and Value Estimation"
-        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+        className="py-16 sm:py-24 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-surface)]/50"
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
           <ResultsInteractiveView recentBuilds={recentBuilds} />

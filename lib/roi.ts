@@ -86,3 +86,79 @@ export function practicePaybackRange(annualSavings: number): PaybackRangeMonths 
     highMonths: Math.max(1, Math.round(highMonths)),
   };
 }
+
+export interface EnterpriseRoiInputs {
+  teamSize: number;
+  hourlyWage: number;
+  weeklyHoursPerPerson: number;
+}
+
+export const ENTERPRISE_ROI_BOUNDS = {
+  teamSize: { min: 1, max: 50, default: 5 },
+  hourlyWage: { min: 25, max: 150, default: 45 },
+  weeklyHoursPerPerson: { min: 5, max: 40, default: 12 },
+} as const;
+
+export interface EnterpriseRoiOutputs {
+  totalAnnualHours: number;
+  annualHoursRecaptured: number;
+  annualWageSavings: number;
+  estimatedDeploymentCost: number;
+  paybackMonths: number;
+  paybackDays: number;
+  threeYearNetRoiMultiple: number;
+}
+
+/**
+ * Calculates conservative enterprise ROI, wage recapture, payback period, and 3-year multiple.
+ */
+export function calculateEnterpriseRoi(inputs: EnterpriseRoiInputs): EnterpriseRoiOutputs {
+  const teamSize = clamp(
+    inputs.teamSize,
+    ENTERPRISE_ROI_BOUNDS.teamSize.min,
+    ENTERPRISE_ROI_BOUNDS.teamSize.max,
+  );
+  const hourlyWage = clamp(
+    inputs.hourlyWage,
+    ENTERPRISE_ROI_BOUNDS.hourlyWage.min,
+    ENTERPRISE_ROI_BOUNDS.hourlyWage.max,
+  );
+  const weeklyHours = clamp(
+    inputs.weeklyHoursPerPerson,
+    ENTERPRISE_ROI_BOUNDS.weeklyHoursPerPerson.min,
+    ENTERPRISE_ROI_BOUNDS.weeklyHoursPerPerson.max,
+  );
+
+  const totalWeeklyHours = teamSize * weeklyHours;
+  const totalAnnualHours = totalWeeklyHours * 50; // 50 working weeks/year
+  const automationEfficiency = 0.75; // 75% routine manual tasks automated
+  const annualHoursRecaptured = Math.round(totalAnnualHours * automationEfficiency);
+  const annualWageSavings = Math.round(annualHoursRecaptured * hourlyWage);
+
+  // Scaled deployment investment: base $15k up to 5 seats + $600 per incremental team seat
+  const baseCost = 15000;
+  const incrementalCost = teamSize > 5 ? (teamSize - 5) * 600 : 0;
+  const estimatedDeploymentCost = Math.min(75000, baseCost + incrementalCost);
+
+  const monthlySavings = annualWageSavings / 12;
+  const paybackMonths =
+    monthlySavings > 0 ? Number((estimatedDeploymentCost / monthlySavings).toFixed(1)) : 0;
+  const paybackDays = Math.round(paybackMonths * 30.5);
+
+  const threeYearGrossSavings = annualWageSavings * 3;
+  const threeYearNetSavings = threeYearGrossSavings - estimatedDeploymentCost;
+  const threeYearNetRoiMultiple =
+    estimatedDeploymentCost > 0
+      ? Number((threeYearNetSavings / estimatedDeploymentCost).toFixed(1))
+      : 0;
+
+  return {
+    totalAnnualHours,
+    annualHoursRecaptured,
+    annualWageSavings,
+    estimatedDeploymentCost,
+    paybackMonths,
+    paybackDays,
+    threeYearNetRoiMultiple,
+  };
+}

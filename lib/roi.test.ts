@@ -10,7 +10,9 @@
 import { describe, expect, it } from "vitest";
 import {
   annualCost,
+  calculateEnterpriseRoi,
   clamp,
+  ENTERPRISE_ROI_BOUNDS,
   formatCurrency,
   monthlyCost,
   PRACTICE_BUILD_FEE_RANGE,
@@ -97,5 +99,54 @@ describe("formatCurrency", () => {
   });
   it("never shows decimals", () => {
     expect(formatCurrency(1234.56)).not.toMatch(/\./);
+  });
+});
+
+describe("calculateEnterpriseRoi", () => {
+  it("computes accurate baseline metrics for default enterprise inputs", () => {
+    const result = calculateEnterpriseRoi({
+      teamSize: 5,
+      hourlyWage: 45,
+      weeklyHoursPerPerson: 12,
+    });
+
+    // 5 * 12 * 50 = 3,000 total hours
+    expect(result.totalAnnualHours).toBe(3000);
+    // 3,000 * 0.75 = 2,250 hours recaptured
+    expect(result.annualHoursRecaptured).toBe(2250);
+    // 2,250 * $45 = $101,250
+    expect(result.annualWageSavings).toBe(101250);
+    // Base cost $15,000
+    expect(result.estimatedDeploymentCost).toBe(15000);
+    // Monthly savings = $8,437.50 -> 15000 / 8437.50 = 1.8 months
+    expect(result.paybackMonths).toBe(1.8);
+    expect(result.paybackDays).toBe(55);
+    // 3-year net ROI multiple: (303750 - 15000) / 15000 = 19.3x
+    expect(result.threeYearNetRoiMultiple).toBe(19.3);
+  });
+
+  it("clamps inputs to ENTERPRISE_ROI_BOUNDS limits", () => {
+    const lowResult = calculateEnterpriseRoi({
+      teamSize: 0,
+      hourlyWage: 10,
+      weeklyHoursPerPerson: 1,
+    });
+    expect(lowResult.totalAnnualHours).toBe(
+      ENTERPRISE_ROI_BOUNDS.teamSize.min *
+        ENTERPRISE_ROI_BOUNDS.weeklyHoursPerPerson.min *
+        50,
+    );
+
+    const highResult = calculateEnterpriseRoi({
+      teamSize: 100,
+      hourlyWage: 500,
+      weeklyHoursPerPerson: 80,
+    });
+    expect(highResult.totalAnnualHours).toBe(
+      ENTERPRISE_ROI_BOUNDS.teamSize.max *
+        ENTERPRISE_ROI_BOUNDS.weeklyHoursPerPerson.max *
+        50,
+    );
+    expect(highResult.estimatedDeploymentCost).toBeLessThanOrEqual(75000);
   });
 });
