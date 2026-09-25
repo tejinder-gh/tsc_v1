@@ -16,7 +16,7 @@ export function SearchBar({
   return (
     <div className="relative w-full max-w-lg font-geist">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[var(--tsc-muted)]">
-        <Search className="w-4 h-4" strokeWidth={1.5} />
+        <Search className="w-4 h-4" strokeWidth={1.7} />
       </div>
       <input
         type="text"
@@ -32,7 +32,7 @@ export function SearchBar({
           aria-label="Clear search query"
           className="absolute inset-y-0 right-0 pr-3 flex items-center text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)]"
         >
-          <X className="w-4 h-4" />
+          <X className="w-4 h-4" strokeWidth={1.7} />
         </button>
       )}
     </div>
