@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { CUSTOM_RADAR_FEATURES, DISCOVERY_VECTORS, PROVEN_PIPELINES } from "../briefings";
 import { digitalServices } from "../digital-services";
 import { industries } from "../industries";
 import { PRINCIPLES } from "../principles";
@@ -112,6 +113,42 @@ describe("Content Slug and Reference Integrity", () => {
             expect(Object.keys(step.telemetryPayload).length).toBeGreaterThanOrEqual(3);
           }
         }
+      }
+    });
+  });
+
+  describe("Executive Briefings & Intelligence Radar", () => {
+    it("has 3 valid custom radar pipeline features", () => {
+      expect(CUSTOM_RADAR_FEATURES).toHaveLength(3);
+
+      for (const feature of CUSTOM_RADAR_FEATURES) {
+        expect(feature.title.length).toBeGreaterThan(0);
+        expect(feature.badge.length).toBeGreaterThan(0);
+        expect(feature.description.length).toBeGreaterThan(0);
+        expect(feature.outputSpec.length).toBeGreaterThan(0);
+      }
+    });
+
+    it("has 3 valid proven client pipeline architectures", () => {
+      expect(PROVEN_PIPELINES).toHaveLength(3);
+
+      for (const pipeline of PROVEN_PIPELINES) {
+        expect(pipeline.category.length).toBeGreaterThan(0);
+        expect(pipeline.title.length).toBeGreaterThan(0);
+        expect(pipeline.description.length).toBeGreaterThan(0);
+      }
+    });
+
+    it("has 3 valid companion discovery vectors with real routes", () => {
+      expect(DISCOVERY_VECTORS).toHaveLength(3);
+
+      for (const vector of DISCOVERY_VECTORS) {
+        expect(vector.tag.length).toBeGreaterThan(0);
+        expect(vector.badge.length).toBeGreaterThan(0);
+        expect(vector.title.length).toBeGreaterThan(0);
+        expect(vector.description.length).toBeGreaterThan(0);
+        expect(vector.href.startsWith("/")).toBe(true);
+        expect(vector.cta.length).toBeGreaterThan(0);
       }
     });
   });

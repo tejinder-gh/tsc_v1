@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { useId, useState } from "react";
 import { SectionLabel } from "@/components/ui/editorial";
+import { CUSTOM_RADAR_FEATURES, DISCOVERY_VECTORS, PROVEN_PIPELINES } from "@/content/briefings";
 import { CANONICAL_NEWSLETTERS } from "@/features/newsletters/data/newsletters";
 
 type ActiveTab =
@@ -21,37 +22,6 @@ type ActiveTab =
   | "ontario-opportunity-monitor"
   | "tender-brief"
   | "custom-radar";
-
-interface CustomRadarFeature {
-  title: string;
-  badge: string;
-  description: string;
-  outputSpec: string;
-}
-
-const CUSTOM_RADAR_FEATURES: readonly CustomRadarFeature[] = [
-  {
-    title: "Autonomous Web & Registry Ingestion",
-    badge: "01 // INGEST",
-    description:
-      "Automated workers crawl opaque portals, municipal databases, bankruptcy filings, and supplier pricing on deterministic crons.",
-    outputSpec: "Headless Chromium · Playwright · PDF OCR · TLS Fingerprint Masking",
-  },
-  {
-    title: "Deterministic AI Entity Extraction",
-    badge: "02 // EXTRACT",
-    description:
-      "Strict schema enforcement converts raw text and scans into verified JSON. Guaranteed zero hallucination with rule-based fallback.",
-    outputSpec: "Zod Schema Gate · Semantic De-duplication · Strict Input Allowlist",
-  },
-  {
-    title: "Real-Time Multi-Channel Dispatches",
-    badge: "03 // DISPATCH",
-    description:
-      "Instant push alerts to Slack channels, executive SMS, secure webhook receivers, or direct database replication within seconds.",
-    outputSpec: "Slack BlockKit · Twilio SMS · Webhook HMAC Signature · Postgres Sync",
-  },
-];
 
 export function BriefingsSection() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("tech-founder-briefing");
@@ -214,7 +184,7 @@ export function BriefingsSection() {
         {/* ========================================================================= */}
         {/* INTERACTIVE INTELLIGENCE TERMINAL                                         */}
         {/* ========================================================================= */}
-        <div className="rounded-[10px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-sm)] overflow-hidden">
+        <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-sm)] overflow-hidden">
           {/* Top Publication Channel Switcher Tabs */}
           <div
             role="tablist"
@@ -705,40 +675,20 @@ export function BriefingsSection() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-                  <div className="p-3 bg-white rounded-[6px] border border-[var(--tsc-line)] space-y-1.5">
-                    <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
-                      MUNICIPAL PROCUREMENT
-                    </span>
-                    <div className="font-bold text-[var(--tsc-ink)]">Sub-$100k RFP Crawler</div>
-                    <p className="text-[11px] text-[var(--tsc-muted)]">
-                      Monitors 22 Ontario municipality portals; filters out union-only bids and
-                      pushes matching trade RFPs to Slack.
-                    </p>
-                  </div>
-
-                  <div className="p-3 bg-white rounded-[6px] border border-[var(--tsc-line)] space-y-1.5">
-                    <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
-                      PRIVATE EQUITY &amp; M&amp;A
-                    </span>
-                    <div className="font-bold text-[var(--tsc-ink)]">
-                      Receivership &amp; Asset Radar
+                  {PROVEN_PIPELINES.map((pipeline) => (
+                    <div
+                      key={pipeline.title}
+                      className="p-3 bg-white rounded-[6px] border border-[var(--tsc-line)] space-y-1.5"
+                    >
+                      <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
+                        {pipeline.category}
+                      </span>
+                      <div className="font-bold text-[var(--tsc-ink)]">{pipeline.title}</div>
+                      <p className="text-[11px] text-[var(--tsc-muted)] leading-relaxed">
+                        {pipeline.description}
+                      </p>
                     </div>
-                    <p className="text-[11px] text-[var(--tsc-muted)]">
-                      Scrapes bankruptcy trustee notices and court files at 06:00 AM; calculates
-                      asset-to-debt ratio before auction.
-                    </p>
-                  </div>
-
-                  <div className="p-3 bg-white rounded-[6px] border border-[var(--tsc-line)] space-y-1.5">
-                    <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
-                      REGULATORY &amp; COMPLIANCE
-                    </span>
-                    <div className="font-bold text-[var(--tsc-ink)]">Zoning Variance Tracker</div>
-                    <p className="text-[11px] text-[var(--tsc-muted)]">
-                      Detects new Committee of Adjustment filings within 500m of client commercial
-                      assets with zero manual oversight.
-                    </p>
-                  </div>
+                  ))}
                 </div>
               </div>
 
@@ -776,95 +726,43 @@ export function BriefingsSection() {
         {/* THE COMMERCIAL ACQUISITION BRIDGE: 3 COMPANION DISCOVERY VECTORS          */}
         {/* ========================================================================= */}
         <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: Diagnostic Checklist */}
-          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 flex flex-col justify-between shadow-2xs hover:border-[var(--tsc-action)] transition-colors group">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="font-bold text-[var(--tsc-action)] uppercase">
-                  [ASSESSMENT &middot; 5 MIN]
-                </span>
-                <span className="text-[var(--tsc-muted)]">ZERO PAYWALL</span>
+          {DISCOVERY_VECTORS.map((vector) => (
+            <div
+              key={vector.title}
+              className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 flex flex-col justify-between shadow-2xs hover:border-[var(--tsc-action)] transition-colors group"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="font-bold text-[var(--tsc-action)] uppercase">
+                    [{vector.tag}]
+                  </span>
+                  <span className="text-[var(--tsc-muted)] font-mono">{vector.badge}</span>
+                </div>
+                <h4 className="text-lg font-bold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
+                  {vector.title}
+                </h4>
+                <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
+                  {vector.description}
+                </p>
               </div>
-              <h4 className="text-lg font-bold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
-                Automation Opportunities Checklist
-              </h4>
-              <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                Calculate wasted hours across intake, scheduling, and billing before writing a line
-                of code.
-              </p>
-            </div>
-            <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
-              <Link
-                href="/checklist"
-                className="w-full inline-flex items-center justify-between text-xs font-mono font-semibold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] uppercase tracking-wider"
-              >
-                <span>Launch Diagnostic</span>
-                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 2: Systems Blueprint Library */}
-          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 flex flex-col justify-between shadow-2xs hover:border-[var(--tsc-action)] transition-colors group">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="font-bold text-[var(--tsc-muted)] uppercase">
-                  [REPOSITORY &middot; SCHEMAS]
-                </span>
-                <span className="text-[var(--tsc-ink)] font-semibold font-mono">34 VERIFIED</span>
+              <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
+                <Link
+                  href={vector.href}
+                  className="w-full inline-flex items-center justify-between text-xs font-mono font-semibold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] uppercase tracking-wider"
+                >
+                  <span>{vector.cta}</span>
+                  <ArrowRight
+                    className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1"
+                    strokeWidth={1.7}
+                  />
+                </Link>
               </div>
-              <h4 className="text-lg font-bold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
-                The Skill Corner Systems Library
-              </h4>
-              <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                Open reference architectures for AI receptionists, 2-way scheduling, and autonomous
-                workflow engines.
-              </p>
             </div>
-            <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
-              <Link
-                href="/library"
-                className="w-full inline-flex items-center justify-between text-xs font-mono font-semibold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] uppercase tracking-wider"
-              >
-                <span>Browse 34 Blueprints</span>
-                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 3: 24 Sector Radars */}
-          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 flex flex-col justify-between shadow-2xs hover:border-[var(--tsc-action)] transition-colors group">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="font-bold text-[var(--tsc-action)] uppercase">
-                  [SECTORS &middot; MATRICES]
-                </span>
-                <span className="text-[var(--tsc-action)] font-semibold font-mono">
-                  24 VERTICALS
-                </span>
-              </div>
-              <h4 className="text-lg font-bold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
-                Industry-Specific Automation Radars
-              </h4>
-              <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                Explore tailored automation blueprints for dental offices, law firms, restaurants,
-                and trade contractors.
-              </p>
-            </div>
-            <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
-              <Link
-                href="/industries"
-                className="w-full inline-flex items-center justify-between text-xs font-mono font-semibold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] uppercase tracking-wider"
-              >
-                <span>View All 24 Sectors</span>
-                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Quick Industry Navigation Matrix */}
-        <div className="mt-8 rounded-[8px] border border-[var(--tsc-line)] bg-white/70 backdrop-blur-xs p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-mono text-xs">
+        <div className="mt-8 rounded-[8px] border border-[var(--tsc-line)] bg-white/70 backdrop-blur-sm p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-mono text-xs">
           <div className="flex items-center gap-2 text-[var(--tsc-muted)]">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--tsc-action)]" />
             <span className="font-semibold text-[var(--tsc-ink)] uppercase">
