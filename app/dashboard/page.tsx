@@ -392,53 +392,78 @@ export default async function DashboardRootPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {subsystems.map((sub) => (
-            <div
-              key={sub.id}
-              className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-mono font-medium text-slate-500">
-                    {sub.protocol}
-                  </span>
-                  <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border ${
-                      sub.status === "configured"
-                        ? "bg-slate-50 text-slate-700 border-slate-200"
-                        : sub.status === "registered"
-                          ? "bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border-[var(--tsc-line-strong)]"
-                          : sub.status === "unverified"
-                            ? "bg-amber-50 text-amber-700 border-amber-200"
-                            : "bg-rose-50 text-rose-700 border-rose-200"
-                    }`}
-                  >
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        sub.status === "configured"
-                          ? "bg-slate-400"
-                          : sub.status === "registered"
-                            ? "bg-[var(--tsc-positive)]"
-                            : sub.status === "unverified"
-                              ? "bg-amber-500"
-                              : "bg-rose-500"
-                      }`}
-                    />
-                    {sub.status.toUpperCase()}
-                  </span>
-                </div>
-                <h3 className="font-bold text-slate-900 text-sm mb-1">{sub.name}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{sub.description}</p>
-              </div>
+          {subsystems.map((sub) => {
+            const workflowLinks: Record<string, { href: string; label: string }> = {
+              scheduler: { href: "/dashboard/workflows?tab=scheduler", label: "Run Tick" },
+              "inbound-sms": { href: "/dashboard/workflows?tab=inbound", label: "Simulate Inbound" },
+              "lead-relay": { href: "/dashboard/workflows?tab=relay", label: "Test Relay" },
+              "second-brain": { href: "/dashboard/workflows?tab=second-brain", label: "Test RAG" },
+              "catalog-engine": { href: "/dashboard/catalog", label: "Manage" },
+              observability: { href: "/dashboard/workflows?tab=observability", label: "Inspect" },
+            };
+            const link = workflowLinks[sub.id];
 
-              {sub.lastTelemetry && (
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center gap-1.5 text-[11px] text-slate-500 font-mono">
-                  <Activity size={12} className="text-slate-400" />
-                  <span className="truncate">{sub.lastTelemetry}</span>
+            return (
+              <div
+                key={sub.id}
+                className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-mono font-medium text-slate-500">
+                      {sub.protocol}
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium border ${
+                        sub.status === "configured"
+                          ? "bg-slate-50 text-slate-700 border-slate-200"
+                          : sub.status === "registered"
+                            ? "bg-[var(--tsc-surface)] text-[var(--tsc-ink)] border-[var(--tsc-line-strong)]"
+                            : sub.status === "unverified"
+                              ? "bg-amber-50 text-amber-700 border-amber-200"
+                              : "bg-rose-50 text-rose-700 border-rose-200"
+                      }`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          sub.status === "configured"
+                            ? "bg-slate-400"
+                            : sub.status === "registered"
+                              ? "bg-[var(--tsc-positive)]"
+                              : sub.status === "unverified"
+                                ? "bg-amber-500"
+                                : "bg-rose-500"
+                        }`}
+                      />
+                      {sub.status.toUpperCase()}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-slate-900 text-sm mb-1">{sub.name}</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">{sub.description}</p>
                 </div>
-              )}
-            </div>
-          ))}
+
+                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
+                  {sub.lastTelemetry ? (
+                    <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-mono truncate max-w-[65%]">
+                      <Activity size={12} className="text-slate-400 flex-shrink-0" />
+                      <span className="truncate">{sub.lastTelemetry}</span>
+                    </div>
+                  ) : (
+                    <div />
+                  )}
+                  {link && (
+                    <Link
+                      href={link.href}
+                      className="inline-flex items-center gap-1 text-[var(--tsc-action)] hover:opacity-90 font-medium text-xs whitespace-nowrap ml-auto"
+                    >
+                      <span>{link.label}</span>
+                      <ArrowRight size={11} />
+                    </Link>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 

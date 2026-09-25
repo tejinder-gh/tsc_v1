@@ -1,7 +1,8 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
-import { Menu, Shield, X } from "lucide-react";
+import { ExternalLink, Menu, Shield, X } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { DashboardNav } from "./dashboard-nav";
 
@@ -48,6 +49,14 @@ export function DashboardHeader({ isDevMode = false, hasClerk = false }: Dashboa
         </div>
 
         <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[4px] text-xs font-mono font-medium text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] border border-[var(--tsc-line)] transition-colors"
+            title="Return to public marketing site"
+          >
+            <span>Live Site</span>
+            <ExternalLink size={12} className="text-slate-400" />
+          </Link>
           {hasClerk ? (
             <UserButton afterSignOutUrl="/" />
           ) : (

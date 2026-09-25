@@ -73,6 +73,7 @@ export async function approveDraft(clientId: string, draftId: string, editedBody
   });
 
   draftStore.remove(draftId);
+  revalidatePath("/dashboard");
   revalidatePath("/dashboard/drafts");
 }
 
@@ -91,5 +92,6 @@ export async function rejectDraft(clientId: string, draftId: string) {
   }
 
   draftStore.remove(draftId);
+  revalidatePath("/dashboard");
   revalidatePath("/dashboard/drafts");
 }

@@ -7,8 +7,15 @@ export const metadata = {
   title: "Workflow Feature Triggers | TheSkillCorner Operator",
 };
 
-export default async function WorkflowsPage() {
-  const metrics = await getDashboardOverviewMetrics();
+interface WorkflowsPageProps {
+  searchParams?: Promise<{ tab?: string }>;
+}
+
+export default async function WorkflowsPage({ searchParams }: WorkflowsPageProps) {
+  const [params, metrics] = await Promise.all([
+    searchParams,
+    getDashboardOverviewMetrics(),
+  ]);
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">
@@ -25,12 +32,13 @@ export default async function WorkflowsPage() {
             </Link>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Manual Feature Workflows & Trigger Console
+            Manual Feature Workflows &amp; Trigger Console
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-2xl">
             Execute and verify application capabilities on-demand with execution telemetry:
-            scheduler tick, Twilio SMS inbound simulation, lead intake simulation, Second Brain RAG
-            knowledge queries, and catalog integrity audits.
+            scheduler tick, Twilio SMS inbound simulation, lead intake simulation, hardware SMS
+            relay HMAC verification, Second Brain RAG &amp; IAM registry inspection, and catalog
+            integrity audits.
           </p>
         </div>
 
@@ -43,7 +51,11 @@ export default async function WorkflowsPage() {
       </div>
 
       {/* Main Interactive Console */}
-      <WorkflowConsole clients={metrics.clients} />
+      <WorkflowConsole
+        clients={metrics.clients}
+        initialTab={params?.tab}
+        telemetry={metrics.telemetry}
+      />
     </div>
   );
 }

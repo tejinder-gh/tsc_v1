@@ -438,3 +438,107 @@ export async function triggerCatalogDiagnostic() {
     issues,
   };
 }
+
+/**
+ * Manual Trigger: Executes a simulated hardware SMS relay event with HMAC-SHA256 verification.
+ */
+export async function triggerSimulatedRelayMessage(payload?: {
+  sender?: string;
+  body?: string;
+  relayId?: string;
+  deviceId?: string;
+}) {
+  await assertOperatorAuthenticated();
+
+  const sender = payload?.sender?.trim() || "VM-HDFCBK";
+  const body = payload?.body?.trim() || "Your secure OTP code is 849201 (Valid for 5 mins)";
+  const relayId = payload?.relayId?.trim() || "india-sms";
+  const deviceId = payload?.deviceId?.trim() || "primary-phone";
+  const eventId = crypto.randomUUID();
+  const receivedAt = new Date().toISOString();
+
+  const rawJson = JSON.stringify({
+    eventId,
+    sender,
+    body,
+    receivedAt,
+    sim: { slotIndex: 0 },
+  });
+
+  const timestamp = String(Math.floor(Date.now() / 1000));
+  const nonce = crypto.randomUUID().replace(/-/g, "");
+  const secret =
+    process.env.SMS_RELAY_HMAC_SECRET || "diagnostic-test-hmac-secret-at-least-16-bytes";
+
+  const { buildCanonicalRequest, computeHmacSignature, hashRawBody } = await import(
+    "@/relay/auth/canonicalRequest"
+  );
+  const { handleRelayRequest } = await import("@/relay/handler");
+  const { DevNullDeliveryAdapter } = await import("@/relay/adapters/DevNullDeliveryAdapter");
+
+  const bodyHash = hashRawBody(rawJson);
+  const canonical = buildCanonicalRequest({
+    version: "1",
+    method: "POST",
+    pathname: "/api/v1/relay",
+    relayId,
+    deviceId,
+    timestamp,
+    nonce,
+    bodyHash,
+  });
+
+  const signature = computeHmacSignature(canonical, secret);
+
+  const request = new Request("http://localhost:3000/api/v1/relay", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Relay-Version": "1",
+      "X-Relay-Id": relayId,
+      "X-Device-Id": deviceId,
+      "X-Timestamp": timestamp,
+      "X-Nonce": nonce,
+      "X-Signature": signature,
+    },
+    body: rawJson,
+  });
+
+  const response = await handleRelayRequest(request, {
+    config: {
+      relayId,
+      allowedDeviceIds: [deviceId],
+      hmacSecret: secret,
+      timestampWindowSeconds: 300,
+      maxBodyBytes: 16384,
+      deliveryProvider: "dev-null",
+    },
+    adapter: new DevNullDeliveryAdapter(),
+  });
+
+  const responseJson = await response.json();
+
+  return {
+    ok: response.status >= 200 && response.status < 300,
+    httpStatus: response.status,
+    eventId,
+    relayId,
+    deviceId,
+    sender,
+    bodyPreview: body,
+    canonicalRequestLines: canonical.split("\n"),
+    bodyHash,
+    signatureGenerated: signature,
+    timestampVerified: timestamp,
+    nonceRecorded: nonce,
+    response: responseJson,
+  };
+}
+
+/**
+ * Access the 11 registered Second Brain & Automation OS routes.
+ */
+export async function getSecondBrainEndpoints() {
+  await assertOperatorAuthenticated();
+  return SECOND_BRAIN_ROUTES;
+}

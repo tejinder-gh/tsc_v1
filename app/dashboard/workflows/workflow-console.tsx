@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Activity,
   AlertCircle,
   ArrowRight,
   Bot,
@@ -8,11 +9,11 @@ import {
   CheckCircle2,
   Clock,
   Copy,
-  Layers,
   Library,
   MessageSquare,
   Play,
   PlayCircle,
+  Radio,
   RefreshCw,
   Search,
   Send,
@@ -21,10 +22,11 @@ import {
   Sparkles,
   Terminal,
   Workflow,
-  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
+import { SECOND_BRAIN_ROUTES } from "@/lib/second-brain/routes-registry";
+import type { TelemetryStatus } from "@/lib/telemetry";
 import {
   type ClientMatrixItem,
   triggerCatalogDiagnostic,
@@ -32,16 +34,37 @@ import {
   triggerSecondBrainContextSearch,
   triggerSimulatedInboundSms,
   triggerSimulatedLead,
+  triggerSimulatedRelayMessage,
 } from "../actions";
 
 interface WorkflowConsoleProps {
   clients: ClientMatrixItem[];
+  initialTab?: string;
+  telemetry?: TelemetryStatus;
 }
 
-type TabType = "scheduler" | "inbound" | "lead" | "second-brain" | "catalog";
+type TabType =
+  | "scheduler"
+  | "inbound"
+  | "lead"
+  | "relay"
+  | "second-brain"
+  | "catalog"
+  | "observability";
 
-export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
-  const [activeTab, setActiveTab] = useState<TabType>("scheduler");
+export function WorkflowConsole({ clients, initialTab, telemetry }: WorkflowConsoleProps) {
+  const validTabs: TabType[] = [
+    "scheduler",
+    "inbound",
+    "lead",
+    "relay",
+    "second-brain",
+    "catalog",
+    "observability",
+  ];
+  const defaultTab =
+    initialTab && validTabs.includes(initialTab as TabType) ? (initialTab as TabType) : "scheduler";
+  const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
   const [isPending, startTransition] = useTransition();
   const [executionResult, setExecutionResult] = useState<Record<string, unknown> | null>(null);
   const [executionError, setExecutionError] = useState<string | null>(null);
@@ -67,7 +90,15 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
   );
   const [isHoneypot, setIsHoneypot] = useState<boolean>(false);
 
-  // 4. Second Brain RAG
+  // 4. Hardware SMS Relay
+  const [relayId, setRelayId] = useState<string>("india-sms");
+  const [relayDeviceId, setRelayDeviceId] = useState<string>("primary-phone");
+  const [relaySender, setRelaySender] = useState<string>("VM-HDFCBK");
+  const [relayBody, setRelayBody] = useState<string>(
+    "Your secure OTP code is 849201 (Valid for 5 mins)",
+  );
+
+  // 5. Second Brain RAG
   const [ragDomain, setRagDomain] = useState<string>("strategy");
   const [ragSubdomain, setRagSubdomain] = useState<string>("acquisition");
   const [ragKeywords, setRagKeywords] = useState<string>("diligence, financial, valuation");
@@ -119,6 +150,23 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           company: leadCompany,
           notes: leadNotes,
           isHoneypot,
+        });
+        setExecutionResult(res);
+      } catch (err: unknown) {
+        setExecutionError(err instanceof Error ? err.message : String(err));
+      }
+    });
+  };
+
+  const handleRunRelay = () => {
+    setExecutionError(null);
+    startTransition(async () => {
+      try {
+        const res = await triggerSimulatedRelayMessage({
+          relayId,
+          deviceId: relayDeviceId,
+          sender: relaySender,
+          body: relayBody,
         });
         setExecutionResult(res);
       } catch (err: unknown) {
@@ -210,6 +258,21 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
 
         <button
           type="button"
+          onClick={() => setActiveTab("relay")}
+          className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
+            activeTab === "relay"
+              ? "border-[var(--tsc-action)] text-[var(--tsc-action)] font-semibold"
+              : "border-transparent text-slate-600 hover:text-slate-900"
+          }`}
+          role="tab"
+          aria-selected={activeTab === "relay"}
+        >
+          <Radio size={16} />
+          <span>4. Hardware SMS Relay</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveTab("second-brain")}
           className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
             activeTab === "second-brain"
@@ -220,7 +283,7 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           aria-selected={activeTab === "second-brain"}
         >
           <Sparkles size={16} />
-          <span>4. Second Brain RAG</span>
+          <span>5. Second Brain &amp; IAM</span>
         </button>
 
         <button
@@ -235,7 +298,22 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
           aria-selected={activeTab === "catalog"}
         >
           <Library size={16} />
-          <span>5. Catalog Diagnostic</span>
+          <span>6. Catalog Diagnostic</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("observability")}
+          className={`flex items-center gap-2 py-3 px-4 border-b-2 font-medium transition-colors whitespace-nowrap cursor-pointer ${
+            activeTab === "observability"
+              ? "border-[var(--tsc-action)] text-[var(--tsc-action)] font-semibold"
+              : "border-transparent text-slate-600 hover:text-slate-900"
+          }`}
+          role="tab"
+          aria-selected={activeTab === "observability"}
+        >
+          <Activity size={16} />
+          <span>7. Telemetry Matrix</span>
         </button>
       </div>
 
@@ -558,18 +636,162 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
             </div>
           )}
 
-          {/* TAB 4: SECOND BRAIN RAG QUERY */}
+          {/* TAB 4: HARDWARE SMS RELAY SIMULATOR */}
+          {activeTab === "relay" && (
+            <div className="space-y-5">
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-50 text-cyan-800 mb-2">
+                  <Radio size={12} />
+                  Engine: /api/v1/relay HMAC Ingest
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Hardware SMS Relay Verification
+                </h3>
+                <p className="text-xs text-slate-600 mt-1">
+                  Simulates an Android hardware relay gateway posting an SMS to{" "}
+                  <code>/api/v1/relay</code>. Validates HMAC-SHA256 signature, canonical request
+                  header, body hash, and atomic nonce barrier.
+                </p>
+              </div>
+
+              <div className="space-y-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="relay-id"
+                      className="block text-xs font-semibold text-slate-700 uppercase tracking-wider"
+                    >
+                      Relay ID
+                    </label>
+                    <input
+                      id="relay-id"
+                      type="text"
+                      value={relayId}
+                      onChange={(e) => setRelayId(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="relay-device-id"
+                      className="block text-xs font-semibold text-slate-700 uppercase tracking-wider"
+                    >
+                      Device ID
+                    </label>
+                    <input
+                      id="relay-device-id"
+                      type="text"
+                      value={relayDeviceId}
+                      onChange={(e) => setRelayDeviceId(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label
+                    htmlFor="relay-sender"
+                    className="block text-xs font-semibold text-slate-700 uppercase tracking-wider"
+                  >
+                    SMS Sender / Originator
+                  </label>
+                  <input
+                    id="relay-sender"
+                    type="text"
+                    value={relaySender}
+                    onChange={(e) => setRelaySender(e.target.value)}
+                    placeholder="VM-HDFCBK or +14165550199"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label
+                    htmlFor="relay-body"
+                    className="block text-xs font-semibold text-slate-700 uppercase tracking-wider"
+                  >
+                    SMS Body Text
+                  </label>
+                  <textarea
+                    id="relay-body"
+                    rows={3}
+                    value={relayBody}
+                    onChange={(e) => setRelayBody(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[var(--tsc-ink)]"
+                  />
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    <span className="text-[11px] text-slate-400 self-center mr-1">Presets:</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRelaySender("VM-HDFCBK");
+                        setRelayBody("Your secure OTP code is 849201 (Valid for 5 mins)");
+                      }}
+                      className="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium cursor-pointer"
+                    >
+                      Bank OTP
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRelaySender("AMAZON");
+                        setRelayBody("Package delivered to front desk reception at 14:22");
+                      }}
+                      className="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium cursor-pointer"
+                    >
+                      Delivery Alert
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRelaySender("+14165550199");
+                        setRelayBody("Customer requesting emergency dental slot for Friday 10am");
+                      }}
+                      className="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium cursor-pointer"
+                    >
+                      Customer SMS
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={handleRunRelay}
+                  disabled={isPending || !relayBody.trim()}
+                  className="w-full py-3 px-4 rounded-xl bg-cyan-700 hover:bg-cyan-800 disabled:opacity-50 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                >
+                  {isPending ? (
+                    <>
+                      <RefreshCw size={16} className="animate-spin" />
+                      <span>Verifying HMAC Ingest...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Radio size={16} />
+                      <span>Simulate Hardware Relay Ingest</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: SECOND BRAIN RAG QUERY & IAM REGISTRY */}
           {activeTab === "second-brain" && (
             <div className="space-y-5">
               <div>
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 mb-2">
                   <Sparkles size={12} />
-                  Engine: ContextRepository.searchContext()
+                  Engine: ContextRepository.searchContext() &amp; IAM
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">Query Second Brain Context RAG</h3>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Second Brain &amp; IAM Endpoints
+                </h3>
                 <p className="text-xs text-slate-600 mt-1">
-                  Queries the hierarchical canonical knowledge index. Tests ranking by domain,
-                  subdomain, priority, and keyword fit across registered resources.
+                  Queries the hierarchical canonical knowledge index and inspects the 11 registered
+                  IAM Second Brain endpoints with required permissions.
                 </p>
               </div>
 
@@ -647,10 +869,54 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                   )}
                 </button>
               </div>
+
+              <div className="pt-4 border-t border-slate-200 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                    Canonical Second Brain Registry ({SECOND_BRAIN_ROUTES.length} Endpoints)
+                  </h4>
+                  <span className="text-[10px] font-mono text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                    Bearer Auth &amp; RBAC
+                  </span>
+                </div>
+                <div className="max-h-56 overflow-y-auto space-y-2 pr-1 border border-slate-100 rounded-xl p-2 bg-slate-50/50">
+                  {SECOND_BRAIN_ROUTES.map((route) => (
+                    <div
+                      key={route.id}
+                      className="p-2 rounded-lg border border-slate-200 bg-white hover:border-purple-300 transition-colors text-xs"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5 font-mono text-[11px]">
+                          <span
+                            className={`px-1.5 py-0.5 rounded font-bold text-[10px] ${
+                              route.method === "GET"
+                                ? "bg-emerald-100 text-emerald-800"
+                                : route.method === "POST"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : route.method === "PATCH"
+                                    ? "bg-amber-100 text-amber-800"
+                                    : "bg-rose-100 text-rose-800"
+                            }`}
+                          >
+                            {route.method}
+                          </span>
+                          <span className="font-semibold text-slate-800">{route.path}</span>
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                          {route.actionRequired}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 mt-1 line-clamp-1">
+                        {route.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
-          {/* TAB 5: CATALOG INTEGRITY DIAGNOSTIC */}
+          {/* TAB 6: CATALOG INTEGRITY DIAGNOSTIC */}
           {activeTab === "catalog" && (
             <div className="space-y-5">
               <div>
@@ -692,6 +958,154 @@ export function WorkflowConsole({ clients }: WorkflowConsoleProps) {
                       <span>Execute Catalog Integrity Diagnostic</span>
                     </>
                   )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 7: OBSERVABILITY & TELEMETRY MATRIX */}
+          {activeTab === "observability" && (
+            <div className="space-y-5">
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800 mb-2">
+                  <Activity size={12} />
+                  Live Telemetry Stack
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Telemetry &amp; Observability Matrix
+                </h3>
+                <p className="text-xs text-slate-600 mt-1">
+                  Live operational posture for web analytics, exception tracking, and user session
+                  replay.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3">
+                {/* Analytics (Plausible) */}
+                <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-start justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-slate-900">Plausible Analytics</span>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                          telemetry?.analytics.enabled
+                            ? "bg-emerald-100 text-emerald-800"
+                            : "bg-slate-100 text-slate-600"
+                        }`}
+                      >
+                        {telemetry?.analytics.enabled ? "ACTIVE" : "INACTIVE / DEV"}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Domain:{" "}
+                      <code className="font-mono text-slate-700">
+                        {telemetry?.analytics.endpointOrDomain || "theskillcorner.com"}
+                      </code>
+                    </p>
+                    <p className="text-[11px] text-slate-400">
+                      Privacy-first web traffic tracking without cookies.
+                    </p>
+                  </div>
+                  <div
+                    className={`w-3 h-3 rounded-full mt-1 shrink-0 ${telemetry?.analytics.enabled ? "bg-emerald-500" : "bg-slate-400"}`}
+                  />
+                </div>
+
+                {/* Error Monitoring (GlitchTip) */}
+                <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-start justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-slate-900">GlitchTip / Sentry</span>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                          telemetry?.errorMonitoring.enabled
+                            ? "bg-emerald-100 text-emerald-800"
+                            : "bg-amber-100 text-amber-800"
+                        }`}
+                      >
+                        {telemetry?.errorMonitoring.enabled ? "ACTIVE" : "NOT CONFIGURED"}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Endpoint:{" "}
+                      <code className="font-mono text-slate-700">
+                        {telemetry?.errorMonitoring.endpointOrDomain || "NEXT_PUBLIC_GLITCHTIP_DSN"}
+                      </code>
+                    </p>
+                    <p className="text-[11px] text-slate-400">
+                      Captures uncaught client/server runtime exceptions with source maps.
+                    </p>
+                  </div>
+                  <div
+                    className={`w-3 h-3 rounded-full mt-1 shrink-0 ${
+                      telemetry?.errorMonitoring.enabled ? "bg-emerald-500" : "bg-amber-400"
+                    }`}
+                  />
+                </div>
+
+                {/* Session Replay (OpenReplay) */}
+                <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-start justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-slate-900">OpenReplay</span>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                          telemetry?.sessionReplay.enabled
+                            ? "bg-emerald-100 text-emerald-800"
+                            : "bg-amber-100 text-amber-800"
+                        }`}
+                      >
+                        {telemetry?.sessionReplay.enabled ? "ACTIVE" : "NOT CONFIGURED"}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Ingest:{" "}
+                      <code className="font-mono text-slate-700">
+                        {telemetry?.sessionReplay.endpointOrDomain ||
+                          "NEXT_PUBLIC_OPENREPLAY_PROJECT_KEY"}
+                      </code>
+                    </p>
+                    <p className="text-[11px] text-slate-400">
+                      Session replay for diagnosing frontend UX regressions and friction.
+                    </p>
+                  </div>
+                  <div
+                    className={`w-3 h-3 rounded-full mt-1 shrink-0 ${
+                      telemetry?.sessionReplay.enabled ? "bg-emerald-500" : "bg-amber-400"
+                    }`}
+                  />
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+                <div>
+                  <span className="font-semibold text-slate-800">Environment: </span>
+                  <code className="font-mono">{telemetry?.environment || "development"}</code>
+                </div>
+                <div>
+                  <span className="font-semibold text-slate-800">Release: </span>
+                  <code className="font-mono">{telemetry?.releaseId || "dev-local"}</code>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExecutionError(null);
+                    setExecutionResult({
+                      ok: true,
+                      status: "inspected",
+                      timestamp: new Date().toISOString(),
+                      telemetrySnapshot: telemetry || {
+                        note: "Telemetry initialized in development mode",
+                      },
+                    });
+                  }}
+                  className="w-full py-3 px-4 rounded-xl bg-[var(--tsc-action)] hover:opacity-90 text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                >
+                  <Activity size={16} />
+                  <span>Inspect Telemetry Diagnostics Snapshot</span>
                 </button>
               </div>
             </div>
