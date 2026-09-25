@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   ChevronRight,
   LineChart,
+  type LucideIcon,
   ShieldCheck,
   Target,
   Workflow,
@@ -20,7 +21,7 @@ interface Principle {
   thesis: string;
   inPractice: string;
   guardrail: string;
-  icon: typeof Target;
+  icon: LucideIcon;
   metric: string;
   tags: readonly string[];
 }
