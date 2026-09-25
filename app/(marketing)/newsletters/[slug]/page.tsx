@@ -93,122 +93,143 @@ export default async function NewsletterDetailPage({ params }: Props) {
       />
 
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16 py-14 sm:py-20 font-geist">
-        <div className="max-w-3xl space-y-16">
+        <div className="space-y-20">
           {/* Subscription Section */}
           <section
             id="subscribe"
             aria-labelledby="subscribe-heading"
-            className="p-7 sm:p-8 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/30 space-y-4"
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start"
           >
-            <div className="space-y-1">
-              <PageEyebrow>SUBSCRIPTION DISPATCH</PageEyebrow>
+            <div className="lg:col-span-4 space-y-3 lg:sticky lg:top-28 lg:self-start">
+              <PageEyebrow>01 / SUBSCRIPTION DISPATCH</PageEyebrow>
               <h2
                 id="subscribe-heading"
-                className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]"
+                className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
               >
                 Receive {newsletter.name}
               </h2>
-              <p className="text-sm text-[var(--tsc-muted)] leading-relaxed">
+              <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
                 Direct email delivery{" "}
                 {newsletter.cadence ? `every ${newsletter.cadence}` : "on publication"}. No
                 promotions, zero marketing sponsored content.
               </p>
             </div>
 
-            <div className="pt-2">
-              <NewsletterSubscribeForm
-                newsletterSlug={newsletter.slug}
-                buttonLabel="Subscribe to briefing"
-                sourceContext={`newsletter-detail-${newsletter.slug}`}
-              />
+            <div className="lg:col-span-8">
+              <div className="p-7 sm:p-8 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-4">
+                <span className="font-mono text-xs font-semibold text-[var(--tsc-muted)] uppercase tracking-wider block">
+                  DELIVERY PREFERENCES
+                </span>
+                <NewsletterSubscribeForm
+                  newsletterSlug={newsletter.slug}
+                  buttonLabel="Subscribe to briefing"
+                  sourceContext={`newsletter-detail-${newsletter.slug}`}
+                />
+              </div>
             </div>
           </section>
 
           {/* Sample Issue */}
-          <section id="sample" aria-labelledby="sample-heading" className="space-y-8">
-            {latestIssue ? (
-              <div className="space-y-6">
-                <div className="space-y-2 border-b border-[var(--tsc-line)] pb-4">
-                  <div className="flex items-center justify-between gap-4">
+          <section
+            id="sample"
+            aria-labelledby="sample-heading"
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start pt-16 border-t border-[var(--tsc-line)]"
+          >
+            <div className="lg:col-span-4 space-y-5 lg:sticky lg:top-28 lg:self-start">
+              <div className="space-y-2">
+                <PageEyebrow>02 / FEATURED EDITION</PageEyebrow>
+                {latestIssue && (
+                  <div className="flex items-center gap-3">
                     <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--tsc-muted)]">
                       {latestIssue.isSample ? "SAMPLE EDITION" : "FEATURED ISSUE"} · ISSUE #
                       {latestIssue.issueNumber}
                     </span>
                     {latestIssue.publishedAt && (
-                      <span className="font-mono text-xs text-[var(--tsc-muted)]">
-                        {new Date(latestIssue.publishedAt).toLocaleDateString("en-CA", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                      </span>
+                      <>
+                        <span className="font-mono text-xs text-[var(--tsc-line)]">/</span>
+                        <span className="font-mono text-xs text-[var(--tsc-muted)]">
+                          {new Date(latestIssue.publishedAt).toLocaleDateString("en-CA", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </>
                     )}
                   </div>
-                  <h2
-                    id="sample-heading"
-                    className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
-                  >
-                    {latestIssue.title}
-                  </h2>
-                </div>
-
-                {/* Key Takeaways */}
-                {latestIssue.keyTakeaways && latestIssue.keyTakeaways.length > 0 && (
-                  <div className="p-6 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-paper)] space-y-3">
-                    <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] tracking-wider uppercase block">
-                      KEY TAKEAWAYS
-                    </span>
-                    <ul className="space-y-2.5 text-sm text-[var(--tsc-ink)]">
-                      {latestIssue.keyTakeaways.map((takeaway) => (
-                        <li key={takeaway} className="flex items-start gap-2.5">
-                          <span className="font-mono text-[var(--tsc-muted)] select-none">+</span>
-                          <span className="leading-relaxed">{takeaway}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
                 )}
+                <h2
+                  id="sample-heading"
+                  className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
+                >
+                  {latestIssue?.title || "Latest Edition"}
+                </h2>
+              </div>
 
-                {/* Issue Rendered Content */}
-                <div className="p-6 sm:p-8 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/20">
+              {/* Key Takeaways Sidebar Card */}
+              {latestIssue?.keyTakeaways && latestIssue.keyTakeaways.length > 0 && (
+                <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-3 font-mono">
+                  <span className="text-[11px] font-bold text-[var(--tsc-action)] tracking-wider uppercase block">
+                    KEY TAKEAWAYS
+                  </span>
+                  <ul className="space-y-2 text-xs text-[var(--tsc-ink)]">
+                    {latestIssue.keyTakeaways.map((takeaway) => (
+                      <li key={takeaway} className="flex items-start gap-2">
+                        <span className="text-[var(--tsc-action)] select-none font-bold">+</span>
+                        <span className="leading-relaxed font-sans">{takeaway}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <div className="lg:col-span-8">
+              {latestIssue ? (
+                <div className="p-6 sm:p-10 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)]">
                   <NewsletterContentRenderer
                     content={latestIssue.contentMarkdown}
                     variant="editorial"
                   />
                 </div>
-              </div>
-            ) : (
-              <div className="p-8 rounded-[8px] border border-[var(--tsc-line)] text-center text-sm font-mono text-[var(--tsc-muted)]">
-                Initial edition currently in editorial compilation.
-              </div>
-            )}
+              ) : (
+                <div className="p-8 rounded-[8px] border border-[var(--tsc-line)] bg-white text-center text-sm font-mono text-[var(--tsc-muted)]">
+                  Initial edition currently in editorial compilation.
+                </div>
+              )}
+            </div>
           </section>
 
           {/* Intelligence Sources */}
           {newsletter.sourceInputs && newsletter.sourceInputs.length > 0 && (
             <section
               aria-labelledby="sources-heading"
-              className="pt-8 border-t border-[var(--tsc-line)] space-y-4"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start pt-16 border-t border-[var(--tsc-line)]"
             >
-              <div className="space-y-1">
-                <PageEyebrow>METHODOLOGY &amp; SOURCES</PageEyebrow>
-                <h3 id="sources-heading" className="text-lg font-semibold text-[var(--tsc-ink)]">
+              <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-28 lg:self-start">
+                <PageEyebrow>03 / METHODOLOGY &amp; SOURCES</PageEyebrow>
+                <h3
+                  id="sources-heading"
+                  className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]"
+                >
                   Verified ingestion sources
                 </h3>
                 <p className="text-sm text-[var(--tsc-muted)] leading-relaxed">
-                  Inputs monitored and filtered before compilation:
+                  Inputs monitored, parsed, and filtered before each editorial edition:
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {newsletter.sourceInputs.map((src) => (
-                  <span
-                    key={src}
-                    className="font-mono text-xs px-3 py-1.5 rounded-[4px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/50 text-[var(--tsc-ink)]"
-                  >
-                    {src}
-                  </span>
-                ))}
+              <div className="lg:col-span-8">
+                <div className="flex flex-wrap gap-2.5">
+                  {newsletter.sourceInputs.map((src) => (
+                    <span
+                      key={src}
+                      className="font-mono text-xs px-3.5 py-2 rounded-[6px] border border-[var(--tsc-line)] bg-white text-[var(--tsc-ink)] shadow-[var(--shadow-warm-xs)]"
+                    >
+                      {src}
+                    </span>
+                  ))}
+                </div>
               </div>
             </section>
           )}

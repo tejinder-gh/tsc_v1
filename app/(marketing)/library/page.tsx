@@ -75,37 +75,53 @@ export default function LibraryPage() {
       {/* Featured / Useful Now (Max 3 items per §26 & Amendment 3) */}
       <section
         aria-labelledby="featured-now-heading"
-        className="py-12 sm:py-16 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
+        className="py-14 sm:py-20 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
-          <div className="mb-6">
-            <PageEyebrow>FEATURED / USEFUL NOW</PageEyebrow>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group p-6 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/40 hover:border-[var(--tsc-ink)]/40 hover:bg-[var(--tsc-surface)] transition-all flex flex-col justify-between gap-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+            {/* Left Column: Eyebrow and Description */}
+            <div className="lg:col-span-4 space-y-3 lg:sticky lg:top-28 lg:self-start">
+              <PageEyebrow>01 / CURATED SPECIMENS</PageEyebrow>
+              <h2
+                id="featured-now-heading"
+                className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--tsc-ink)]"
               >
-                <div className="space-y-2">
-                  <span className="font-mono text-[11px] font-semibold tracking-wider text-[var(--tsc-muted)] uppercase">
-                    [{item.badge}]
-                  </span>
-                  <h3 className="font-semibold text-lg text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-                <div className="font-mono text-xs text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)] group-hover:translate-x-1 transition-all flex items-center gap-1.5 select-none pt-2 border-t border-[var(--tsc-line)]">
-                  <span>Open resource</span>
-                  <span aria-hidden="true">&rarr;</span>
-                </div>
-              </Link>
-            ))}
+                Useful systems &amp; tools now.
+              </h2>
+              <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
+                Highest-frequency starting points for workflow self-assessment, 24/7 call triage,
+                and technical engineering briefings.
+              </p>
+            </div>
+
+            {/* Right Column: 3 Elevated Specimen Cards */}
+            <div className="lg:col-span-8">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                {featuredItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="group p-6 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] hover:shadow-[var(--shadow-warm-sm)] hover:border-[var(--tsc-line-strong)] transition-all flex flex-col justify-between gap-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
+                  >
+                    <div className="space-y-2">
+                      <span className="font-mono text-[11px] font-semibold tracking-wider text-[var(--tsc-action)] uppercase">
+                        [{item.badge}]
+                      </span>
+                      <h3 className="font-semibold text-base sm:text-lg text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                    <div className="font-mono text-xs text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)] group-hover:translate-x-1 transition-all flex items-center gap-1.5 select-none pt-3 border-t border-[var(--tsc-line)]">
+                      <span>Open resource</span>
+                      <span aria-hidden="true">&rarr;</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -117,6 +133,19 @@ export default function LibraryPage() {
         className="py-14 sm:py-20 border-b border-[var(--tsc-line)] font-geist bg-[var(--tsc-paper)]"
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[var(--tsc-line)] pb-5 mb-10">
+            <div className="flex items-center gap-3">
+              <span
+                className="inline-block h-2 w-2 rounded-full bg-[var(--tsc-action)] ring-4 ring-[var(--tsc-action)]/20"
+                aria-hidden="true"
+              />
+              <PageEyebrow>02 / COMPREHENSIVE SPECIFICATION INDEX</PageEyebrow>
+            </div>
+            <span className="font-mono text-xs text-[var(--tsc-muted)] tracking-wider uppercase">
+              {offerings.length} Canonical Systems &amp; Radars
+            </span>
+          </div>
+
           <LibraryClient initialOfferings={offerings} />
         </div>
       </section>
