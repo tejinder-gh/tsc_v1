@@ -436,7 +436,7 @@ export function SystemStudies() {
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
         {/* Section Header */}
         <div className="max-w-3xl mb-12 lg:mb-16">
-          <SectionLabel className="mb-4">01 / SYSTEM STUDIES</SectionLabel>
+          <SectionLabel className="mb-4">03 / SYSTEM STUDIES</SectionLabel>
           <h2
             id="system-studies-heading"
             className="text-[32px] sm:text-[44px] lg:text-[52px] font-bold leading-[1.04] tracking-[-0.03em] text-[var(--tsc-ink)]"

@@ -10,7 +10,7 @@ export function FounderPOV() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14 xl:gap-16 items-start">
           {/* Left Column: Heading & Sub-heading (~5 cols) */}
           <div className="lg:col-span-5 space-y-4 sm:space-y-5 lg:sticky lg:top-28 lg:self-start">
-            <SectionLabel>05 / POINT OF VIEW</SectionLabel>
+            <SectionLabel>04 / POINT OF VIEW</SectionLabel>
             <h2
               id="founder-pov-heading"
               className="text-[32px] sm:text-[44px] lg:text-[50px] font-bold leading-[1.04] tracking-[-0.03em] text-[var(--tsc-ink)]"

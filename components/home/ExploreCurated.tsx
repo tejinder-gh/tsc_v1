@@ -42,7 +42,7 @@ export function ExploreCurated() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14 xl:gap-16 items-start">
           {/* Left Column: Heading (~5 cols) */}
           <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-28 lg:self-start">
-            <SectionLabel>03 / EXPLORE</SectionLabel>
+            <SectionLabel>05 / EXPLORE</SectionLabel>
             <h2
               id="explore-heading"
               className="text-[32px] sm:text-[44px] lg:text-[50px] font-bold leading-[1.04] tracking-[-0.03em] text-[var(--tsc-ink)]"

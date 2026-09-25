@@ -102,7 +102,7 @@ export function HowWeDecide() {
               className="inline-block h-2 w-2 rounded-full bg-[var(--tsc-action)] ring-4 ring-[var(--tsc-action)]/20"
               aria-hidden="true"
             />
-            <SectionLabel>04 / HOW WE DECIDE &middot; OPERATING MANIFESTO</SectionLabel>
+            <SectionLabel>02 / HOW WE DECIDE &middot; OPERATING MANIFESTO</SectionLabel>
           </div>
           <span className="font-mono text-xs text-[var(--tsc-muted)] tracking-wider uppercase">
             4 Architectural Guardrails

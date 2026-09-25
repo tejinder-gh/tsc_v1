@@ -13,20 +13,20 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      {/* 01. System Studies */}
-      <SystemStudies />
-
-      {/* 02. Intent Router / Journey Entry */}
+      {/* 01. Intent Router / Journey Entry */}
       <JourneyHero />
 
-      {/* 03. Selected Explore / Briefings */}
-      <ExploreCurated />
-
-      {/* 04. How We Decide */}
+      {/* 02. How We Decide */}
       <HowWeDecide />
 
-      {/* 05. Founder Point of View */}
+      {/* 03. System Studies */}
+      <SystemStudies />
+
+      {/* 04. Founder Point of View */}
       <FounderPOV />
+
+      {/* 05. Selected Explore / Briefings */}
+      <ExploreCurated />
 
       {/* 06. Open Prompt / Closing Interaction */}
       <OpenPrompt />
