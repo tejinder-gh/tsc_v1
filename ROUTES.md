@@ -77,7 +77,7 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
 
 ### 1.3 Operator Dashboard (Clerk Protected)
 
-Enforced via [`middleware.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/middleware.ts) for `/dashboard(.*)` and isolated from the marketing layout shell.
+Enforced via [`proxy.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/proxy.ts) for `/dashboard(.*)` and isolated from the marketing layout shell. Fails closed with HTTP 503 if Clerk configuration is absent in production.
 
 | Route | File Path | Access | Purpose |
 | :--- | :--- | :--- | :--- |
@@ -95,7 +95,7 @@ Enforced via [`middleware.ts`](file:///Users/tejindersingh/dev/projects/TheSkill
 
 | Route | File Path | Access | Purpose |
 | :--- | :--- | :--- | :--- |
-| `/sign-in` | [`app/(auth)/sign-in/[[...sign-in]]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(auth)/sign-in/[[...sign-in]]/page.tsx) | Public / Operator | **Operator Sign In**: Branded authentication portal embedding Clerk `<SignIn />` in production or granting local dev operator session when API keys are unconfigured. |
+| `/sign-in` | [`app/(auth)/sign-in/[[...sign-in]]/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(auth)/sign-in/[[...sign-in]]/page.tsx) | Public / Operator | **Operator Sign In**: Branded authentication portal embedding Clerk `<SignIn />` in production, neutral unavailable screen when Clerk keys are unconfigured in production, or granting local dev operator session only when `NODE_ENV === "development"` and `ALLOW_DEV_OPERATOR_AUTH === "true"`. |
 | `/login` | [`app/login/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/login/page.tsx) | Public | Redirects directly to `/sign-in`. |
 
 ---

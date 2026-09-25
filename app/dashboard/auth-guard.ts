@@ -12,15 +12,18 @@ export function getAuthorizedOperatorUserIds(env: NodeJS.ProcessEnv = process.en
   return new Set(ids);
 }
 
+export function isDevOperatorAuthAllowed(env: NodeJS.ProcessEnv = process.env): boolean {
+  return (
+    env.NODE_ENV === "development" &&
+    env.ALLOW_DEV_OPERATOR_AUTH === "true"
+  );
+}
+
 export function isAuthorizedOperator(userId: string): boolean {
   if (!userId) return false;
   const authorizedIds = getAuthorizedOperatorUserIds();
   if (authorizedIds.has(userId)) return true;
-  if (
-    process.env.NODE_ENV === "development" &&
-    process.env.ALLOW_DEV_OPERATOR_AUTH === "true" &&
-    userId === "dev_operator"
-  ) {
+  if (isDevOperatorAuthAllowed() && userId === "dev_operator") {
     return true;
   }
   return false;
@@ -45,7 +48,7 @@ export async function assertOperatorAuthenticated(): Promise<{ userId: string }>
   }
 
   // Gracefully allow local development operator access ONLY in development AND when explicitly opted in
-  if (process.env.NODE_ENV === "development" && process.env.ALLOW_DEV_OPERATOR_AUTH === "true") {
+  if (isDevOperatorAuthAllowed()) {
     return { userId: "dev_operator" };
   }
 
