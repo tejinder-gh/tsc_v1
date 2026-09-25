@@ -229,6 +229,146 @@ const SYSTEM_STUDIES: readonly SystemStudy[] = [
       },
     ],
   },
+  {
+    id: "dental",
+    index: "04",
+    title: "DENTAL PRACTICE",
+    location: "Etobicoke",
+    problem: "Hygiene recalls went out by hand when staff had time, leaving 20+ open chair hours each week.",
+    system: "Recall engine calculates hygiene due dates → 2-way SMS self-booking → calendar sync & insurance pre-check.",
+    expectedChange: "28% more hygiene rebookings",
+    diagramSteps: [
+      {
+        name: "RECALL COHORT COMPILED",
+        latency: "0ms",
+        subtext: "Nightly PMS schedule scan",
+        telemetryPayload: {
+          scan_schedule: "daily_at_06:00",
+          pms_connector: "Dentrix Ascend / Tracker API",
+          recall_eligibility_window: "6_months_due",
+          patients_identified: 47,
+          insurance_status: "active_coverage",
+        },
+      },
+      {
+        name: "SCHEDULE AVAILABILITY MATCH",
+        latency: "140ms",
+        subtext: "Chair & hygienist allocation",
+        telemetryPayload: {
+          operatory_type: "hygiene_chair_02_03",
+          open_slots_next_14d: 38,
+          slot_optimization: "fill_midday_gaps",
+          pacing_buffer_min: 10,
+        },
+      },
+      {
+        name: "INTERACTIVE SMS RECALL",
+        latency: "85ms",
+        subtext: "Personalized secure self-booking link",
+        telemetryPayload: {
+          channel: "Twilio 10DLC Verified SMS",
+          template_id: "hygiene_recall_due_v3",
+          dispatch_batch_size: 47,
+          click_through_rate: "34.2%",
+          status: "delivered",
+        },
+      },
+      {
+        name: "APPOINTMENT COMMITTED",
+        latency: "60ms",
+        subtext: "Write back to PMS & provider roster",
+        telemetryPayload: {
+          pms_write_target: "operatory_03_hygiene",
+          patient_id: "PT_98124_ETOB",
+          procedure_code: "PROPHYLAXIS_ADULT_1110",
+          conflict_check: "clean_no_overlap",
+          state: "confirmed",
+        },
+      },
+      {
+        name: "INSURANCE PRE-CHECK QUEUED",
+        latency: "45ms",
+        subtext: "EDI 270 eligibility dispatch",
+        telemetryPayload: {
+          edi_transaction: "270_benefit_inquiry",
+          payer: "Sun Life / Manulife Direct",
+          benefit_precheck_status: "auto_verified",
+          copay_estimate_cad: "$0.00 (100% preventive)",
+          ready_for_intake: true,
+        },
+      },
+    ],
+  },
+  {
+    id: "legal",
+    index: "05",
+    title: "BOUTIQUE LAW FIRM",
+    location: "Downtown Toronto",
+    problem: "Evening and weekend inquiries waited until Monday; prospects retained other counsel first.",
+    system: "24/7 inquiry intake → conflict-safe triage & screening → secure retainer consult booking.",
+    expectedChange: "First response under 2 min",
+    diagramSteps: [
+      {
+        name: "INQUIRY RECEIVED",
+        latency: "0ms",
+        subtext: "After-hours web form & phone trigger",
+        telemetryPayload: {
+          channel: "Secure Web Intake / RingCentral API",
+          timestamp: "21:14:08 EDT",
+          matter_category: "corporate_commercial_dispute",
+          source: "referral_partner_landing",
+          tls_version: "TLSv1.3",
+        },
+      },
+      {
+        name: "CONFLICT CHECK & TRIAGE",
+        latency: "190ms",
+        subtext: "Clio database party index search",
+        telemetryPayload: {
+          practice_management: "Clio Manage API v4",
+          opposing_party_search: "adverse_party_hash_scan",
+          preliminary_conflicts: 0,
+          jurisdiction_verified: "Ontario Superior Court",
+          triage_score: "high_intent_tier1",
+        },
+      },
+      {
+        name: "STRUCTURED MATTER SCREENING",
+        latency: "115ms",
+        subtext: "Automated qualification workflow",
+        telemetryPayload: {
+          practice_area: "shareholder_agreement_litigation",
+          estimated_matter_value: "$150k - $300k CAD",
+          limitation_period_flag: "non_urgent (>6mo)",
+          client_documentation: "contract_uploaded_secure_vault",
+        },
+      },
+      {
+        name: "PARTNER CONSULT BOOKED",
+        latency: "75ms",
+        subtext: "Senior counsel calendar write & invite",
+        telemetryPayload: {
+          assigned_partner: "partner_litigation_lead",
+          calendar_integration: "Microsoft 365 Exchange Online",
+          consultation_format: "Secure Video Conference",
+          consult_slot: "Tuesday 10:30 EDT",
+          invite_sent: "verified_delivery",
+        },
+      },
+      {
+        name: "SECURE BRIEFING BRIEF DISPATCH",
+        latency: "40ms",
+        subtext: "Internal memo & preliminary checklist",
+        telemetryPayload: {
+          brief_generated: "matter_intake_memo_v2",
+          internal_notification: "Slack #litigation-intake",
+          audit_log_id: "audit_sec_99182",
+          sla_response_time_sec: 78,
+          status: "intake_complete",
+        },
+      },
+    ],
+  },
 ];
 
 export function SystemStudies() {
@@ -310,18 +450,7 @@ export function SystemStudies() {
             predictable part.
           </p>
           <div className="mt-6">
-            <Link
-              href="/industries"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] transition-colors group"
-            >
-              <span>See more examples</span>
-              <span
-                className="font-mono transition-transform duration-150 group-hover:translate-x-1"
-                aria-hidden="true"
-              >
-                &rarr;
-              </span>
-            </Link>
+
           </div>
         </div>
 
@@ -339,11 +468,10 @@ export function SystemStudies() {
                     type="button"
                     onClick={() => handleStudyChange(idx)}
                     aria-pressed={isSelected}
-                    className={`w-full group cursor-pointer py-6 transition-all duration-200 text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] rounded-[6px] px-3.5 -mx-3.5 border-l-[3px] ${
-                      isSelected
-                        ? "bg-white border-[var(--tsc-action)] shadow-[var(--shadow-warm-sm)]"
-                        : "border-transparent hover:bg-white/60"
-                    }`}
+                    className={`w-full group cursor-pointer py-6 transition-all duration-200 text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] rounded-[6px] px-3.5 -mx-3.5 border-l-[3px] ${isSelected
+                      ? "bg-white border-[var(--tsc-action)] shadow-[var(--shadow-warm-sm)]"
+                      : "border-transparent hover:bg-white/60"
+                      }`}
                   >
                     {/* Top Row: Index + Title + Location + Live Badge */}
                     <div className="flex items-baseline justify-between gap-4">
@@ -393,7 +521,29 @@ export function SystemStudies() {
                 );
               })}
             </div>
-            <EditorialDivider />
+            {/* Section Footer: See more examples across industries */}
+            <div className="mt-12 lg:mt-16 pt-8 border-t border-[var(--tsc-line)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="space-y-1">
+                <div className="font-mono text-xs font-semibold tracking-wider text-[var(--tsc-muted)] uppercase">
+                  SECTOR DIRECTORY &middot; 24 INDUSTRIES
+                </div>
+                <p className="text-sm text-[var(--tsc-muted)]">
+                  Explore concrete systems tailored for local businesses and professional practices.
+                </p>
+              </div>
+              <Link
+                href="/industries"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] transition-colors group"
+              >
+                <span>See more examples</span>
+                <span
+                  className="font-mono transition-transform duration-150 group-hover:translate-x-1"
+                  aria-hidden="true"
+                >
+                  &rarr;
+                </span>
+              </Link>
+            </div>
           </div>
 
           {/* Right Column: Dynamic Living Flow Diagram (~5 cols) */}
@@ -443,23 +593,21 @@ export function SystemStudies() {
                       <button
                         type="button"
                         onClick={() => setExpandedStep(isExpanded ? null : stepIdx)}
-                        className={`w-full text-left group/step flex items-start justify-between gap-3 p-2.5 rounded-[6px] border transition-all duration-300 cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] ${
-                          isCurrent
-                            ? "border-[var(--tsc-action)] bg-[var(--tsc-surface)] shadow-[var(--shadow-warm-sm)]"
-                            : isCompleted
-                              ? "border-[var(--tsc-line)]/70 bg-white hover:border-[var(--tsc-ink)]/30"
-                              : "border-transparent bg-transparent opacity-60 hover:opacity-100"
-                        }`}
+                        className={`w-full text-left group/step flex items-start justify-between gap-3 p-2.5 rounded-[6px] border transition-all duration-300 cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] ${isCurrent
+                          ? "border-[var(--tsc-action)] bg-[var(--tsc-surface)] shadow-[var(--shadow-warm-sm)]"
+                          : isCompleted
+                            ? "border-[var(--tsc-line)]/70 bg-white hover:border-[var(--tsc-ink)]/30"
+                            : "border-transparent bg-transparent opacity-60 hover:opacity-100"
+                          }`}
                       >
                         <div className="flex items-start gap-3">
                           <span
-                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border text-[11px] font-bold transition-all duration-300 ${
-                              isCurrent
-                                ? "border-[var(--tsc-action)] bg-[var(--tsc-action)] text-white"
-                                : isCompleted
-                                  ? "border-[var(--tsc-positive)]/40 bg-[var(--tsc-positive)]/10 text-[var(--tsc-positive)]"
-                                  : "border-[var(--tsc-line)] bg-white text-[var(--tsc-muted)]"
-                            }`}
+                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border text-[11px] font-bold transition-all duration-300 ${isCurrent
+                              ? "border-[var(--tsc-action)] bg-[var(--tsc-action)] text-white"
+                              : isCompleted
+                                ? "border-[var(--tsc-positive)]/40 bg-[var(--tsc-positive)]/10 text-[var(--tsc-positive)]"
+                                : "border-[var(--tsc-line)] bg-white text-[var(--tsc-muted)]"
+                              }`}
                           >
                             {isCompleted ? (
                               <Check className="h-3.5 w-3.5 stroke-[2.5]" />
@@ -470,13 +618,12 @@ export function SystemStudies() {
 
                           <div>
                             <div
-                              className={`text-xs font-semibold tracking-wide transition-colors ${
-                                isCurrent
-                                  ? "text-[var(--tsc-ink)]"
-                                  : isCompleted
-                                    ? "text-[var(--tsc-ink)]/90"
-                                    : "text-[var(--tsc-muted)]"
-                              }`}
+                              className={`text-xs font-semibold tracking-wide transition-colors ${isCurrent
+                                ? "text-[var(--tsc-ink)]"
+                                : isCompleted
+                                  ? "text-[var(--tsc-ink)]/90"
+                                  : "text-[var(--tsc-muted)]"
+                                }`}
                             >
                               {step.name}
                             </div>
@@ -491,24 +638,22 @@ export function SystemStudies() {
                           <div className="flex items-center gap-1.5">
                             {step.telemetryPayload && (
                               <span
-                                className={`flex items-center gap-0.5 text-[9px] font-mono px-1 py-0.5 rounded transition-colors ${
-                                  isExpanded
-                                    ? "text-[var(--tsc-action)] bg-[var(--tsc-action)]/10 font-medium"
-                                    : "text-[var(--tsc-muted)] group-hover/step:text-[var(--tsc-ink)]"
-                                }`}
+                                className={`flex items-center gap-0.5 text-[9px] font-mono px-1 py-0.5 rounded transition-colors ${isExpanded
+                                  ? "text-[var(--tsc-action)] bg-[var(--tsc-action)]/10 font-medium"
+                                  : "text-[var(--tsc-muted)] group-hover/step:text-[var(--tsc-ink)]"
+                                  }`}
                               >
                                 <Code2 className="h-2.5 w-2.5" />
                                 <span>{isExpanded ? "close" : "trace"}</span>
                               </span>
                             )}
                             <span
-                              className={`inline-block text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
-                                isCurrent
-                                  ? "text-[var(--tsc-action)] border-[var(--tsc-action)]/30 bg-[var(--tsc-action)]/5"
-                                  : isCompleted
-                                    ? "text-[var(--tsc-positive)] border-[var(--tsc-positive)]/20 bg-green-50/50"
-                                    : "text-[var(--tsc-muted)]/60 border-[var(--tsc-line)]/50"
-                              }`}
+                              className={`inline-block text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded border ${isCurrent
+                                ? "text-[var(--tsc-action)] border-[var(--tsc-action)]/30 bg-[var(--tsc-action)]/5"
+                                : isCompleted
+                                  ? "text-[var(--tsc-positive)] border-[var(--tsc-positive)]/20 bg-green-50/50"
+                                  : "text-[var(--tsc-muted)]/60 border-[var(--tsc-line)]/50"
+                                }`}
                             >
                               {isCurrent ? "RUNNING" : isCompleted ? "PASS" : "IDLE"}
                             </span>
@@ -658,33 +803,13 @@ export function SystemStudies() {
                   </div>
                 ))}
               </div>
+
+
             </div>
           ))}
         </div>
 
-        {/* Section Footer: See more examples across industries */}
-        <div className="mt-12 lg:mt-16 pt-8 border-t border-[var(--tsc-line)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="space-y-1">
-            <div className="font-mono text-xs font-semibold tracking-wider text-[var(--tsc-muted)] uppercase">
-              SECTOR DIRECTORY &middot; 24 INDUSTRIES
-            </div>
-            <p className="text-sm text-[var(--tsc-muted)]">
-              Explore concrete systems tailored for local businesses and professional practices.
-            </p>
-          </div>
-          <Link
-            href="/industries"
-            className="inline-flex items-center justify-center gap-2 self-start sm:self-auto px-5 py-2.5 rounded-[4px] bg-[var(--tsc-ink)] text-white text-xs sm:text-sm font-semibold tracking-wide hover:bg-[var(--tsc-action)] transition-colors group shadow-sm"
-          >
-            <span>See more examples</span>
-            <span
-              className="font-mono transition-transform duration-150 group-hover:translate-x-1"
-              aria-hidden="true"
-            >
-              &rarr;
-            </span>
-          </Link>
-        </div>
+
       </div>
     </section>
   );
