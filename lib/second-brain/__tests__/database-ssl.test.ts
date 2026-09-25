@@ -10,16 +10,24 @@ import { resolveDatabaseSslConfig } from "../db/client";
 describe("Database SSL Configuration Resolver", () => {
   const remoteUrl =
     "postgresql://user:secret@ep-cool-db.us-east-2.aws.neon.tech/neondb?sslmode=require";
+  const poolerUrl =
+    "postgresql://user:secret@ep-cool-db-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require";
   const localUrl = "postgresql://user:secret@localhost:5432/neondb";
   const disabledUrl = "postgresql://user:secret@db.internal:5432/neondb?sslmode=disable";
 
   describe("Production environment (NODE_ENV=production)", () => {
-    it("enforces rejectUnauthorized: true by default", () => {
+    it("enforces rejectUnauthorized: true by default on direct and pooler endpoints", () => {
       const config = resolveDatabaseSslConfig(remoteUrl, {
         NODE_ENV: "production",
       } as NodeJS.ProcessEnv);
 
       expect(config).toEqual({ rejectUnauthorized: true });
+
+      const poolerConfig = resolveDatabaseSslConfig(poolerUrl, {
+        NODE_ENV: "production",
+      } as NodeJS.ProcessEnv);
+
+      expect(poolerConfig).toEqual({ rejectUnauthorized: true });
     });
 
     it("allows explicit SECOND_BRAIN_DB_SSL_REJECT_UNAUTHORIZED=true", () => {
