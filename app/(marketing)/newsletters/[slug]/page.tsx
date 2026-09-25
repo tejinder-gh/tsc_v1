@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${newsletter.name} | The Skill Corner`,
       description: newsletter.description,
-      url: `https://theskillcorner.com/newsletters/${newsletter.slug}`,
+      url: `https://www.theskillcorner.com/newsletters/${newsletter.slug}`,
       type: "article",
     },
   };

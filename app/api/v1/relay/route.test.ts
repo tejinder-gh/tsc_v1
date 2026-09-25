@@ -76,7 +76,7 @@ describe("POST /api/v1/relay Route Handler", () => {
       ...options.headers,
     };
 
-    return new Request(`https://theskillcorner.com${pathname}`, {
+    return new Request(`https://www.theskillcorner.com${pathname}`, {
       method,
       headers,
       body,
@@ -108,7 +108,7 @@ describe("POST /api/v1/relay Route Handler", () => {
       process.env.SMS_RELAY_HMAC_SECRET = "test-shared-hmac-secret-key-32b";
       process.env.SMS_RELAY_DELIVERY_PROVIDER = "dev-null";
 
-      const req = new Request("https://theskillcorner.com/api/v1/relay", {
+      const req = new Request("https://www.theskillcorner.com/api/v1/relay", {
         method: "POST",
         headers: { "Content-Type": "text/plain" },
         body: "bad",

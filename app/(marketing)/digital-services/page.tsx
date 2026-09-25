@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title: "Engineering & Digital Capabilities | The Skill Corner",
     description:
       "Autonomous voice and chat AI agents, high-performance Next.js web platforms, custom applications, and generative engine optimization.",
-    url: "https://theskillcorner.com/digital-services",
+    url: "https://www.theskillcorner.com/digital-services",
   },
 };
 

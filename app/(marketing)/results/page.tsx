@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Illustrative Operational Scenarios | The Skill Corner",
     description:
       "Operational constraints, system architectures, and anticipated outcome ranges across commercial businesses and professional practices.",
-    url: "https://theskillcorner.com/results",
+    url: "https://www.theskillcorner.com/results",
   },
 };
 

@@ -24,7 +24,7 @@ export const site = {
     "AI agent development, custom website development, digital marketing, staffing, documentation, and AI automations",
   description:
     "The Skill Corner provides end-to-end digital services for growing businesses and professional practices - including custom AI agent development, high-performance website development, Generative Engine Optimization (GEO) & digital marketing, dedicated tech staffing & staff augmentation, business process documentation & SOPs, and custom AI automations (missed-call answering, booking reminders, intake processing, and lead follow-up).",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://theskillcorner.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.theskillcorner.com",
   email: "info@theskillcorner.com",
   /** Primary (North America) line - used for the main tel: link and JSON-LD `telephone`. */
   phone: "+1-437-972-4379",

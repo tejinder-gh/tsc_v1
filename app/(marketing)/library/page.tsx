@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Library & Field Notes | The Skill Corner",
     description:
       "Useful systems, tools, and field notes — practical resources for operational bottlenecks.",
-    url: "https://theskillcorner.com/library",
+    url: "https://www.theskillcorner.com/library",
   },
 };
 

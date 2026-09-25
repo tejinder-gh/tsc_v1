@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Book an Engineering Discovery Audit | The Skill Corner",
     description:
       "30-minute discovery call mapping your operational bottlenecks with concrete system recommendations.",
-    url: "https://theskillcorner.com/book",
+    url: "https://www.theskillcorner.com/book",
   },
 };
 

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Industry Applications | The Skill Corner",
     description:
       "Operational automation and software systems tailored to recurring sector bottlenecks.",
-    url: "https://theskillcorner.com/industries",
+    url: "https://www.theskillcorner.com/industries",
   },
 };
 

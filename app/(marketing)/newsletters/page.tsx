@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "Executive Briefings & Market Intelligence | The Skill Corner",
     description:
       "Signal, without the feed. Actionable AI engineering shifts, regional asset radars, and public tenders.",
-    url: "https://theskillcorner.com/newsletters",
+    url: "https://www.theskillcorner.com/newsletters",
   },
 };
 

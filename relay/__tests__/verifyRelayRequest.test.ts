@@ -40,7 +40,7 @@ describe("verifyRelayRequest", () => {
     } = {},
   ): Request {
     const method = overrides.method ?? "POST";
-    const url = overrides.url ?? "https://theskillcorner.com/api/v1/relay";
+    const url = overrides.url ?? "https://www.theskillcorner.com/api/v1/relay";
     const version = overrides.version ?? "1";
     const relayId = overrides.relayId ?? DEFAULT_CONFIG.relayId;
     const deviceId = overrides.deviceId ?? DEFAULT_CONFIG.allowedDeviceIds[0];
@@ -190,7 +190,7 @@ describe("verifyRelayRequest", () => {
       const tamperedBody =
         '{"eventId": "748ffec8-47dd-4acb-a908-63bdbbb1d834","sender":"VM-HDFCBK","body":"OTP 1234","receivedAt":"2026-09-16T17:35:44.291Z"}';
 
-      const req = new Request("https://theskillcorner.com/api/v1/relay", {
+      const req = new Request("https://www.theskillcorner.com/api/v1/relay", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -225,7 +225,7 @@ describe("verifyRelayRequest", () => {
       const signature = computeHmacSignature(canonical, DEFAULT_CONFIG.hmacSecret);
 
       const reorderedBody = '{"b":"2","a":"1"}';
-      const req = new Request("https://theskillcorner.com/api/v1/relay", {
+      const req = new Request("https://www.theskillcorner.com/api/v1/relay", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -64,7 +64,7 @@ describe("Interoperability Deterministic Test Vector", () => {
       deliveryProvider: "email",
     };
 
-    const request = new Request(`https://theskillcorner.com${PATH}`, {
+    const request = new Request(`https://www.theskillcorner.com${PATH}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

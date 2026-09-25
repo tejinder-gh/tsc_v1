@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `AI Automation & Systems for ${industry.name} | The Skill Corner`,
       description: industry.metaDescription,
-      url: `https://theskillcorner.com/industries/${industry.slug}`,
+      url: `https://www.theskillcorner.com/industries/${industry.slug}`,
       type: "article",
     },
   };

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `${service.name} — ${service.title} | The Skill Corner`,
       description: service.excerpt,
-      url: `https://theskillcorner.com/what-we-automate/${service.slug}`,
+      url: `https://www.theskillcorner.com/what-we-automate/${service.slug}`,
       type: "article",
     },
   };

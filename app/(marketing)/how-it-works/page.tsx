@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Delivery Methodology & Lifecycle | The Skill Corner",
     description:
       "A disciplined four-phase engineering lifecycle: understand, specify, integrate, and measure.",
-    url: "https://theskillcorner.com/how-it-works",
+    url: "https://www.theskillcorner.com/how-it-works",
   },
 };
 

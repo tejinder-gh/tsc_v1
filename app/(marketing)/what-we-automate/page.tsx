@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Automation Index | The Skill Corner",
     description:
       "A focused index of concrete systems for communication, intake, scheduling, and follow-up.",
-    url: "https://theskillcorner.com/what-we-automate",
+    url: "https://www.theskillcorner.com/what-we-automate",
   },
 };
 

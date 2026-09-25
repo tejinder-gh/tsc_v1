@@ -328,9 +328,11 @@ describe("Newsletter Domain Integrity", () => {
     const urls = sitemapEntries.map((e) => e.url);
 
     // Must include the 3 publication landing pages
-    expect(urls).toContain("https://theskillcorner.com/newsletters/tech-founder-briefing");
-    expect(urls).toContain("https://theskillcorner.com/newsletters/ontario-opportunity-monitor");
-    expect(urls).toContain("https://theskillcorner.com/newsletters/tender-brief");
+    expect(urls).toContain("https://www.theskillcorner.com/newsletters/tech-founder-briefing");
+    expect(urls).toContain(
+      "https://www.theskillcorner.com/newsletters/ontario-opportunity-monitor",
+    );
+    expect(urls).toContain("https://www.theskillcorner.com/newsletters/tender-brief");
 
     // Must NOT index individual issue slugs in the main sitemap
     for (const url of urls) {

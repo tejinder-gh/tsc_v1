@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "About Us | The Skill Corner",
     description:
       "Practical technology, applied to real work. Founder story, operating principles, and engineering point of view.",
-    url: "https://theskillcorner.com/about",
+    url: "https://www.theskillcorner.com/about",
   },
 };
 
