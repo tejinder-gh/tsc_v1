@@ -23,13 +23,13 @@ export function ServiceArchitectureSchematic({
   const getNodeIcon = (type: ArchitectureFlowNode["nodeType"]) => {
     switch (type) {
       case "trigger":
-        return <Zap className="h-3.5 w-3.5 text-[var(--tsc-action)]" />;
+        return <Zap className="h-3.5 w-3.5 text-[var(--tsc-action)]" strokeWidth={1.7} />;
       case "processing":
-        return <Cpu className="h-3.5 w-3.5 text-blue-600" />;
+        return <Cpu className="h-3.5 w-3.5 text-blue-600" strokeWidth={1.7} />;
       case "integration":
-        return <Layers className="h-3.5 w-3.5 text-purple-600" />;
+        return <Layers className="h-3.5 w-3.5 text-purple-600" strokeWidth={1.7} />;
       case "output":
-        return <ShieldCheck className="h-3.5 w-3.5 text-[var(--tsc-positive)]" />;
+        return <ShieldCheck className="h-3.5 w-3.5 text-[var(--tsc-positive)]" strokeWidth={1.7} />;
     }
   };
 
@@ -47,7 +47,7 @@ export function ServiceArchitectureSchematic({
   };
 
   return (
-    <div className="rounded-[16px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-warm-sm)] font-geist">
+    <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-warm-sm)] font-geist">
       {/* Schematic Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--tsc-line)] pb-6 mb-8">
         <div className="space-y-1">
@@ -79,7 +79,7 @@ export function ServiceArchitectureSchematic({
               key={node.step}
               onClick={() => setActiveStep(idx)}
               onMouseEnter={() => setActiveStep(idx)}
-              className={`group relative rounded-[10px] border p-5 transition-all cursor-pointer flex flex-col justify-between space-y-4 ${
+              className={`group relative rounded-[8px] border p-5 transition-all cursor-pointer flex flex-col justify-between space-y-4 ${
                 isSelected
                   ? "border-[var(--tsc-action)] bg-[var(--tsc-surface)]/80 ring-2 ring-[var(--tsc-action)]/20 shadow-[var(--shadow-warm-sm)]"
                   : "border-[var(--tsc-line)] bg-white hover:border-[var(--tsc-line-strong)] hover:bg-[var(--tsc-surface)]/30"
@@ -115,7 +115,10 @@ export function ServiceArchitectureSchematic({
                 <div className="pt-3 border-t border-[var(--tsc-line)] flex items-center justify-between text-[11px] font-mono">
                   <span className="text-[var(--tsc-muted)]">Specification:</span>
                   <span className="font-semibold text-[var(--tsc-ink)] flex items-center gap-1">
-                    <CheckCircle2 className="h-3 w-3 text-[var(--tsc-positive)]" />
+                    <CheckCircle2
+                      className="h-3 w-3 text-[var(--tsc-positive)]"
+                      strokeWidth={1.7}
+                    />
                     {node.latencyOrGuarantee}
                   </span>
                 </div>

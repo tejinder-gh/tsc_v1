@@ -386,7 +386,7 @@ export function ArchitectureVisualizer() {
     <section
       id="architecture-visualizer"
       aria-label="Interactive Architecture Comparison"
-      className="rounded-[16px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-12 shadow-[var(--shadow-warm-md)] font-geist"
+      className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-12 shadow-[var(--shadow-warm-md)] font-geist"
     >
       {/* Top Header & Context */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-[var(--tsc-line)] pb-8 mb-8">
@@ -421,7 +421,7 @@ export function ArchitectureVisualizer() {
                 : "text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)]"
             }`}
           >
-            <Zap className="h-3.5 w-3.5" />
+            <Zap className="h-3.5 w-3.5" strokeWidth={1.7} />
             <span>Automated Event Relay</span>
           </button>
           <button
@@ -437,7 +437,7 @@ export function ArchitectureVisualizer() {
                 : "text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)]"
             }`}
           >
-            <AlertTriangle className="h-3.5 w-3.5 text-amber-400" />
+            <AlertTriangle className="h-3.5 w-3.5 text-amber-400" strokeWidth={1.7} />
             <span>Legacy Manual Path</span>
           </button>
         </div>
@@ -484,7 +484,7 @@ export function ArchitectureVisualizer() {
           }`}
         >
           <div className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-[var(--tsc-muted)] mb-1">
-            <Clock className="h-3 w-3" />
+            <Clock className="h-3 w-3" strokeWidth={1.7} />
             <span>End-to-End Latency</span>
           </div>
           <div
@@ -504,7 +504,7 @@ export function ArchitectureVisualizer() {
           }`}
         >
           <div className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-[var(--tsc-muted)] mb-1">
-            <Cpu className="h-3 w-3" />
+            <Cpu className="h-3 w-3" strokeWidth={1.7} />
             <span>Human Touchpoints</span>
           </div>
           <div
@@ -524,7 +524,7 @@ export function ArchitectureVisualizer() {
           }`}
         >
           <div className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-[var(--tsc-muted)] mb-1">
-            <Shield className="h-3 w-3" />
+            <Shield className="h-3 w-3" strokeWidth={1.7} />
             <span>Data / Typo Exposure</span>
           </div>
           <div
@@ -544,7 +544,7 @@ export function ArchitectureVisualizer() {
           }`}
         >
           <div className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-[var(--tsc-muted)] mb-1">
-            <FileCheck2 className="h-3 w-3" />
+            <FileCheck2 className="h-3 w-3" strokeWidth={1.7} />
             <span>After-Hours Capture</span>
           </div>
           <div
@@ -590,7 +590,7 @@ export function ArchitectureVisualizer() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className={`rounded-[10px] border p-5 flex flex-col justify-between space-y-4 transition-all ${
+                  className={`rounded-[8px] border p-5 flex flex-col justify-between space-y-4 transition-all ${
                     isSimActive
                       ? "border-[var(--tsc-action)] bg-[var(--tsc-surface)] ring-2 ring-[var(--tsc-action)]/30 scale-[1.02] shadow-[var(--shadow-warm-md)]"
                       : isSimPast
@@ -632,12 +632,12 @@ export function ArchitectureVisualizer() {
                   <div className="pt-3 border-t border-[var(--tsc-line)] text-[11px] font-mono">
                     {mode === "automated" ? (
                       <div className="flex items-center gap-1.5 text-[var(--tsc-action)] font-medium">
-                        <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+                        <CheckCircle2 className="h-3.5 w-3.5 shrink-0" strokeWidth={1.7} />
                         <span>{step.guarantee}</span>
                       </div>
                     ) : (
                       <div className="flex items-center gap-1.5 text-amber-700 font-medium">
-                        <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                        <AlertTriangle className="h-3.5 w-3.5 shrink-0" strokeWidth={1.7} />
                         <span>{step.failureRisk}</span>
                       </div>
                     )}
