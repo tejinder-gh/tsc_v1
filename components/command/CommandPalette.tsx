@@ -266,7 +266,7 @@ export function CommandPalette() {
           >
             {/* Header & Search Input */}
             <div className="flex items-center border-b border-[var(--tsc-line)] px-4 py-3.5 bg-[var(--tsc-surface)]">
-              <Search className="h-5 w-5 text-[var(--tsc-muted)] shrink-0 mr-3" />
+              <Search className="h-5 w-5 text-[var(--tsc-muted)] shrink-0 mr-3" strokeWidth={1.7} />
               <input
                 ref={inputRef}
                 type="text"
@@ -285,7 +285,7 @@ export function CommandPalette() {
                   onClick={() => setIsOpen(false)}
                   className="rounded p-1 text-[var(--tsc-muted)] hover:bg-[var(--tsc-line)]/50 hover:text-[var(--tsc-ink)] transition-colors"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4" strokeWidth={1.7} />
                 </button>
               </div>
             </div>
@@ -333,7 +333,7 @@ export function CommandPalette() {
                               : "bg-[var(--tsc-surface)] text-[var(--tsc-muted)] border border-[var(--tsc-line)]"
                           }`}
                         >
-                          <Icon className="h-4 w-4" />
+                          <Icon className="h-4 w-4" strokeWidth={1.7} />
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
@@ -376,6 +376,7 @@ export function CommandPalette() {
                               ? "text-[var(--tsc-signal)] translate-x-0.5"
                               : "text-[var(--tsc-muted)]/40"
                           }`}
+                          strokeWidth={1.7}
                         />
                       </div>
                     </button>

@@ -111,9 +111,9 @@ export function BookingEmbed() {
   if (!booking.calLink) {
     if (submitted) {
       return (
-        <div className="rounded-[10px] border border-[var(--tsc-action)] bg-white p-8 sm:p-10 shadow-[var(--shadow-warm-sm)] font-geist">
+        <div className="rounded-[8px] border border-[var(--tsc-action)] bg-white p-8 sm:p-10 shadow-[var(--shadow-warm-sm)] font-geist">
           <div className="flex items-center gap-3 text-[var(--tsc-action)]">
-            <CheckCircle2 className="h-6 w-6 shrink-0" />
+            <CheckCircle2 className="h-6 w-6 shrink-0" strokeWidth={1.7} />
             <span className="font-mono text-xs font-semibold uppercase tracking-wider">
               AUDIT REQUEST RECEIVED
             </span>
@@ -159,7 +159,7 @@ export function BookingEmbed() {
     }
 
     return (
-      <div className="rounded-[10px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-warm-sm)] font-geist">
+      <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-warm-sm)] font-geist">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--tsc-line)] pb-5 mb-6">
           <div>
             <div className="flex items-center gap-2">
@@ -173,7 +173,7 @@ export function BookingEmbed() {
             </h3>
           </div>
           <div className="flex items-center gap-2 font-mono text-xs text-[var(--tsc-muted)] bg-[var(--tsc-surface)] px-3 py-1.5 rounded-[6px] border border-[var(--tsc-line)]">
-            <Clock className="h-3.5 w-3.5 text-[var(--tsc-action)]" />
+            <Clock className="h-3.5 w-3.5 text-[var(--tsc-action)]" strokeWidth={1.7} />
             <span>30m &middot; Direct with Founder/Engineer</span>
           </div>
         </div>
@@ -345,7 +345,10 @@ export function BookingEmbed() {
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
             <div className="flex items-center gap-2 text-xs text-[var(--tsc-muted)]">
-              <ShieldCheck className="h-4 w-4 text-[var(--tsc-action)] shrink-0" />
+              <ShieldCheck
+                className="h-4 w-4 text-[var(--tsc-action)] shrink-0"
+                strokeWidth={1.7}
+              />
               <span>
                 PIPEDA/PHIPA-aware &middot; No sales pitch deck &middot; 3 Scoped Architectures
               </span>

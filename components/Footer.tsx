@@ -45,7 +45,7 @@ export function Footer() {
               </span>
               <span
                 role="status"
-                className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500"
+                className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--tsc-positive)]"
                 aria-label="System operational"
               />
             </div>
@@ -192,7 +192,7 @@ export function Footer() {
             {site.offices.map((office) => (
               <div
                 key={`${office.city}-${office.country}`}
-                className="p-3 border border-[var(--tsc-line)] bg-[var(--tsc-surface)] rounded-sm"
+                className="p-3 border border-[var(--tsc-line)] bg-[var(--tsc-surface)] rounded-[4px]"
               >
                 <div className="font-mono text-xs font-semibold text-[var(--tsc-ink)]">
                   {office.city}

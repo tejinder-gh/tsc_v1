@@ -132,7 +132,10 @@ export function Header() {
                 className="group flex items-center gap-2 rounded-[6px] border border-[var(--tsc-line)] bg-white/60 px-2.5 py-1 text-xs font-mono text-[var(--tsc-muted)] transition-all hover:border-[var(--tsc-line-strong)] hover:text-[var(--tsc-ink)] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
                 aria-label="Open command palette (Press Command K)"
               >
-                <Search className="h-3 w-3 text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)]" />
+                <Search
+                  className="h-3 w-3 text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)]"
+                  strokeWidth={1.7}
+                />
                 <span className="text-[11px]">Search</span>
                 <kbd className="rounded border border-[var(--tsc-line)] bg-[var(--tsc-surface)] px-1 py-0.5 text-[10px] text-[var(--tsc-muted)] group-hover:text-[var(--tsc-ink)]">
                   ⌘K
@@ -150,7 +153,7 @@ export function Header() {
               className="xl:hidden flex h-10 w-10 items-center justify-center rounded-[8px] border border-[var(--tsc-line)] text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--tsc-action)]"
               aria-label="Search site (Press Command K)"
             >
-              <Search className="h-4 w-4" />
+              <Search className="h-4 w-4" strokeWidth={1.7} />
             </button>
 
             <div className="hidden md:block">
@@ -249,7 +252,7 @@ export function Header() {
                     className="w-full flex items-center justify-between gap-2 rounded-[8px] border border-[var(--tsc-line)] bg-white px-3.5 py-2.5 text-xs text-[var(--tsc-muted)] hover:text-[var(--tsc-ink)] transition-colors shadow-xs"
                   >
                     <div className="flex items-center gap-2">
-                      <Search className="h-4 w-4 text-[var(--tsc-muted)]" />
+                      <Search className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                       <span>Search playbooks & capabilities...</span>
                     </div>
                     <kbd className="rounded border border-[var(--tsc-line)] bg-[var(--tsc-surface)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--tsc-muted)]">

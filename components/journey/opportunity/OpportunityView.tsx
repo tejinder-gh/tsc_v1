@@ -237,12 +237,12 @@ export function OpportunityView() {
           >
             {specCopied ? (
               <>
-                <Check className="h-4 w-4 text-[var(--tsc-positive)]" />
+                <Check className="h-4 w-4 text-[var(--tsc-positive)]" strokeWidth={1.7} />
                 <span className="text-[var(--tsc-positive)] font-semibold">Spec Copied</span>
               </>
             ) : (
               <>
-                <FileText className="h-4 w-4 text-[var(--tsc-muted)]" />
+                <FileText className="h-4 w-4 text-[var(--tsc-muted)]" strokeWidth={1.7} />
                 <span>Export Arch Spec</span>
               </>
             )}

@@ -89,7 +89,7 @@ export function LiveSystemExample() {
   return (
     <div className="w-full font-geist">
       {/* Observed System Artifact: Deliberately art-directed console */}
-      <div className="rounded-[14px] border border-white/10 bg-[var(--tsc-ink)] text-white p-5 sm:p-6 lg:p-7 shadow-[0_16px_40px_rgba(18,19,15,0.22)] transition-all duration-300">
+      <div className="rounded-[8px] border border-white/10 bg-[var(--tsc-ink)] text-white p-5 sm:p-6 lg:p-7 shadow-[0_16px_40px_rgba(18,19,15,0.22)] transition-all duration-300">
         {/* Terminal / System Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs font-mono tracking-wider text-white/50 uppercase">
           <div className="flex items-center gap-2">
@@ -107,25 +107,25 @@ export function LiveSystemExample() {
             <button
               type="button"
               onClick={() => setActiveTab("trace")}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-mono tracking-wider uppercase transition-colors ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-[10px] font-mono tracking-wider uppercase transition-colors ${
                 activeTab === "trace"
                   ? "bg-white/15 text-white font-semibold"
                   : "text-white/60 hover:text-white"
               }`}
             >
-              <Activity className="h-3 w-3" />
+              <Activity className="h-3 w-3" strokeWidth={1.7} />
               Trace
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("sms")}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-mono tracking-wider uppercase transition-colors ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-[10px] font-mono tracking-wider uppercase transition-colors ${
                 activeTab === "sms"
                   ? "bg-white/15 text-white font-semibold"
                   : "text-white/60 hover:text-white"
               }`}
             >
-              <Smartphone className="h-3 w-3" />
+              <Smartphone className="h-3 w-3" strokeWidth={1.7} />
               Customer SMS
             </button>
           </div>
@@ -269,7 +269,7 @@ export function LiveSystemExample() {
         ) : (
           /* Customer Device SMS View */
           <div className="mt-5 space-y-3 font-geist">
-            <div className="rounded-[10px] border border-white/15 bg-black/40 p-4 space-y-3.5">
+            <div className="rounded-[8px] border border-white/15 bg-black/40 p-4 space-y-3.5">
               {/* Phone Status Header */}
               <div className="flex items-center justify-between text-[10px] font-mono text-white/50 border-b border-white/10 pb-2">
                 <span>MESSAGES</span>
@@ -279,7 +279,7 @@ export function LiveSystemExample() {
 
               {/* Incoming System SMS */}
               <div className="space-y-1">
-                <div className="max-w-[85%] rounded-[12px] rounded-tl-sm bg-white/10 p-3 text-xs sm:text-[13px] text-white/95 leading-relaxed border border-white/10">
+                <div className="max-w-[85%] rounded-[8px] rounded-tl-sm bg-white/10 p-3 text-xs sm:text-[13px] text-white/95 leading-relaxed border border-white/10">
                   <p>
                     Hi Michael! Your reservation for{" "}
                     <strong className="text-[var(--tsc-signal)]">4 guests</strong> at La Trattoria
@@ -291,7 +291,10 @@ export function LiveSystemExample() {
                   </p>
                 </div>
                 <div className="flex items-center gap-1.5 text-[9px] font-mono text-white/50 pl-1">
-                  <CheckCircle2 className="h-2.5 w-2.5 text-[var(--tsc-signal)]" />
+                  <CheckCircle2
+                    className="h-2.5 w-2.5 text-[var(--tsc-signal)]"
+                    strokeWidth={1.7}
+                  />
                   <span>Delivered via Automated SMS Gateway &middot; 11s after call</span>
                 </div>
               </div>
@@ -300,12 +303,12 @@ export function LiveSystemExample() {
               {smsRescheduled && (
                 <>
                   <div className="flex justify-end">
-                    <div className="max-w-[75%] rounded-[12px] rounded-tr-sm bg-[var(--tsc-action)] p-2.5 text-xs text-white leading-relaxed">
+                    <div className="max-w-[75%] rounded-[8px] rounded-tr-sm bg-[var(--tsc-action)] p-2.5 text-xs text-white leading-relaxed">
                       Can we make it 5 people instead?
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <div className="max-w-[85%] rounded-[12px] rounded-tl-sm bg-white/10 p-3 text-xs text-white/95 leading-relaxed border border-white/10">
+                    <div className="max-w-[85%] rounded-[8px] rounded-tl-sm bg-white/10 p-3 text-xs text-white/95 leading-relaxed border border-white/10">
                       <p>
                         Table updated! We&apos;ve adjusted your reservation to{" "}
                         <strong className="text-[var(--tsc-signal)]">5 guests</strong> at 8:30 PM.
@@ -327,7 +330,7 @@ export function LiveSystemExample() {
                 <button
                   type="button"
                   onClick={() => setSmsRescheduled(!smsRescheduled)}
-                  className="text-[10px] font-mono uppercase tracking-wider px-2 py-1 rounded border border-white/20 hover:border-[var(--tsc-signal)] text-white hover:text-[var(--tsc-signal)] transition-colors"
+                  className="text-[10px] font-mono uppercase tracking-wider px-2 py-1 rounded-[4px] border border-white/20 hover:border-[var(--tsc-signal)] text-white hover:text-[var(--tsc-signal)] transition-colors"
                 >
                   {smsRescheduled ? "Reset Thread" : "Simulate Guest Reschedule →"}
                 </button>
