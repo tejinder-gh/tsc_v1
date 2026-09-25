@@ -142,7 +142,7 @@ export function LiveSystemExample() {
               type="button"
               onClick={runTraceSimulation}
               disabled={isSimulatingTrace}
-              className="shrink-0 text-[10px] font-mono uppercase tracking-wider text-white/60 hover:text-[var(--tsc-signal)] transition-colors border border-white/15 px-2 py-1 rounded hover:border-[var(--tsc-signal)]/40 disabled:opacity-50"
+              className="shrink-0 text-[10px] font-mono uppercase tracking-wider text-white/60 hover:text-[var(--tsc-signal)] transition-colors border border-white/15 px-2 py-1 rounded-[4px] hover:border-[var(--tsc-signal)]/40 disabled:opacity-50"
             >
               {isSimulatingTrace ? "Simulating…" : "Replay Trace"}
             </button>
@@ -178,9 +178,9 @@ export function LiveSystemExample() {
                   className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--tsc-signal)] text-[var(--tsc-ink)] transition-transform hover:scale-105 active:scale-95 shadow-[0_2px_8px_rgba(213,255,82,0.3)]"
                 >
                   {isPlayingAudio ? (
-                    <Pause className="h-3.5 w-3.5 fill-current" />
+                    <Pause className="h-3.5 w-3.5 fill-current" strokeWidth={1.7} />
                   ) : (
-                    <Play className="h-3.5 w-3.5 fill-current ml-0.5" />
+                    <Play className="h-3.5 w-3.5 fill-current ml-0.5" strokeWidth={1.7} />
                   )}
                 </button>
 
@@ -248,7 +248,7 @@ export function LiveSystemExample() {
               <div className="text-[10px] font-mono tracking-wider text-white/50 uppercase flex items-center justify-between">
                 <span>19:42:11 &middot; ACTION EXECUTION</span>
                 <span
-                  className={`text-[9px] font-semibold uppercase tracking-widest px-1.5 py-0.5 rounded border transition-all duration-300 ${
+                  className={`text-[9px] font-semibold uppercase tracking-widest px-1.5 py-0.5 rounded-[4px] border transition-all duration-300 ${
                     traceStep >= 3
                       ? "text-[var(--tsc-signal)] border-[var(--tsc-signal)]/40 bg-[var(--tsc-signal)]/10 shadow-[0_0_12px_rgba(213,255,82,0.15)]"
                       : "text-white/40 border-white/10"

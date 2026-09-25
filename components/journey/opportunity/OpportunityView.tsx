@@ -207,7 +207,7 @@ export function OpportunityView() {
           <OpportunityEvidence evidence={primaryDef.evidence} label={evidenceLabel} />
 
           {/* NOT YET / Strategic Editorial Note */}
-          <div className="rounded-[4px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-4 sm:p-5 flex flex-col space-y-2">
+          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-4 sm:p-5 flex flex-col space-y-2">
             <div className="text-[11px] sm:text-xs font-mono font-semibold tracking-[0.14em] text-[var(--tsc-muted)] uppercase">
               NOT YET
             </div>
@@ -223,7 +223,7 @@ export function OpportunityView() {
             <button
               type="button"
               onClick={handleSolutionStart}
-              className="inline-flex items-center justify-center rounded-[4px] bg-[var(--tsc-ink)] px-6 py-3.5 text-sm sm:text-base font-semibold text-white transition-colors hover:bg-[var(--tsc-ink)]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] cursor-pointer"
+              className="inline-flex items-center justify-center rounded-[8px] bg-[var(--tsc-ink)] px-6 py-3.5 text-sm sm:text-base font-semibold text-white transition-colors hover:bg-[var(--tsc-ink)]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] cursor-pointer"
             >
               <span>See how this would work &rarr;</span>
             </button>
@@ -232,7 +232,7 @@ export function OpportunityView() {
           <button
             type="button"
             onClick={handleExportSpec}
-            className="inline-flex items-center gap-2 rounded-[4px] border border-[var(--tsc-line)] bg-white px-4 py-3.5 text-xs sm:text-sm font-mono text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] hover:border-[var(--tsc-ink)]/30 transition-colors cursor-pointer shadow-xs"
+            className="inline-flex items-center gap-2 rounded-[8px] border border-[var(--tsc-line)] bg-white px-4 py-3.5 text-xs sm:text-sm font-mono text-[var(--tsc-ink)] hover:bg-[var(--tsc-surface)] hover:border-[var(--tsc-ink)]/30 transition-colors cursor-pointer shadow-xs"
             title="Export full technical specification as Markdown"
           >
             {specCopied ? (
