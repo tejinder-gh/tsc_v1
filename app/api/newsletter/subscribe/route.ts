@@ -13,6 +13,10 @@ const SubscribeSchema = z.object({
   botField: z.string().optional(),
 });
 
+const SUBSCRIPTION_UNAVAILABLE =
+  "Newsletter subscription is temporarily unavailable. Please try again later.";
+const DELIVERY_FAILED = "Newsletter delivery failed. Please try again later.";
+
 export async function POST(request: Request) {
   try {
     const rateLimit = await checkPublicRateLimit(request, {
@@ -69,63 +73,125 @@ export async function POST(request: Request) {
       );
     }
 
-    // Never print full raw email PII to log streams
-    const atIndex = email.indexOf("@");
-    const domainPart = atIndex > -1 ? email.slice(atIndex) : "";
-    const maskedPrefix = email.length > 3 ? `${email.slice(0, 3)}***` : "***";
-    const maskedEmail = `${maskedPrefix}${domainPart}`;
+    const isProduction = (process.env.VERCEL_ENV ?? process.env.NODE_ENV) === "production";
+    const webhookUrl = process.env.LEAD_WEBHOOK_URL;
+
+    if (!webhookUrl) {
+      if (isProduction) {
+        console.warn(
+          JSON.stringify({
+            ts: new Date().toISOString(),
+            level: "warn",
+            message: "newsletter_delivery_failed",
+            reason: "missing_webhook_url",
+            route: "/api/newsletter/subscribe",
+            newsletterSlug,
+          }),
+        );
+        return NextResponse.json(
+          { success: false, error: SUBSCRIPTION_UNAVAILABLE },
+          { status: 503 },
+        );
+      }
+
+      console.info(
+        JSON.stringify({
+          ts: new Date().toISOString(),
+          level: "info",
+          message: "newsletter_subscription_simulated",
+          route: "/api/newsletter/subscribe",
+          newsletterSlug,
+          reason: "unconfigured_non_production",
+        }),
+      );
+      return NextResponse.json({
+        success: true,
+        delivered: false,
+        message: `You've been added to the early subscriber list for ${newsletter.name}.`,
+        newsletter: {
+          slug: newsletter.slug,
+          name: newsletter.name,
+          cadence: newsletter.cadence,
+        },
+      });
+    }
+
+    const leadRecord = {
+      email,
+      lead_source: `newsletter:${newsletterSlug}`,
+      segment: "newsletter_subscriber",
+      page: `/newsletters/${newsletterSlug}`,
+      submitted_at: new Date().toISOString(),
+      consent_context: "newsletter_signup_form",
+      source_context: sourceContext || "web",
+    };
+
+    let res: Response;
+    try {
+      res = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadRecord),
+        signal: AbortSignal.timeout(8000),
+      });
+    } catch {
+      console.error(
+        JSON.stringify({
+          ts: new Date().toISOString(),
+          level: "error",
+          message: "newsletter_delivery_failed",
+          reason: "webhook_network_error",
+          route: "/api/newsletter/subscribe",
+          newsletterSlug,
+        }),
+      );
+      return NextResponse.json({ success: false, error: DELIVERY_FAILED }, { status: 502 });
+    }
+
+    if (!res.ok) {
+      console.error(
+        JSON.stringify({
+          ts: new Date().toISOString(),
+          level: "error",
+          message: "newsletter_delivery_failed",
+          reason: "webhook_status_error",
+          route: "/api/newsletter/subscribe",
+          newsletterSlug,
+        }),
+      );
+      return NextResponse.json({ success: false, error: DELIVERY_FAILED }, { status: 502 });
+    }
 
     console.info(
       JSON.stringify({
         ts: new Date().toISOString(),
         level: "info",
-        message: "newsletter_subscription_received",
-        email: maskedEmail,
+        message: "newsletter_delivery_succeeded",
+        route: "/api/newsletter/subscribe",
         newsletterSlug,
-        sourceContext: sourceContext || "web",
       }),
     );
 
-    // Forward to CRM webhook if configured (Option B: early subscriber capture)
-    const webhookUrl = process.env.LEAD_WEBHOOK_URL;
-    let delivered = false;
-
-    if (webhookUrl) {
-      try {
-        const leadRecord = {
-          email,
-          lead_source: `newsletter:${newsletterSlug}`,
-          segment: "newsletter_subscriber",
-          page: `/newsletters/${newsletterSlug}`,
-          submitted_at: new Date().toISOString(),
-          consent_context: "newsletter_signup_form",
-          source_context: sourceContext || "web",
-        };
-
-        const res = await fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(leadRecord),
-          signal: AbortSignal.timeout(8000),
-        });
-        delivered = res.ok;
-      } catch (webhookErr) {
-        console.warn("[newsletter-subscribe] Webhook forwarding deferred/failed:", webhookErr);
-      }
-    }
-
     return NextResponse.json({
       success: true,
+      delivered: true,
       message: `You've been added to the early subscriber list for ${newsletter.name}.`,
-      delivered,
       newsletter: {
         slug: newsletter.slug,
         name: newsletter.name,
         cadence: newsletter.cadence,
       },
     });
-  } catch (err: unknown) {
-    console.error("Subscription error:", err);
+  } catch {
+    console.error(
+      JSON.stringify({
+        ts: new Date().toISOString(),
+        level: "error",
+        message: "newsletter_subscription_failed",
+        reason: "unexpected_error",
+        route: "/api/newsletter/subscribe",
+      }),
+    );
     return NextResponse.json(
       { error: "An unexpected error occurred while subscribing." },
       { status: 500 },

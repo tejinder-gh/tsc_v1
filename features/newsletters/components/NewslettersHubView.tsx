@@ -140,7 +140,7 @@ export function NewslettersHubView({ newsletters }: Props) {
 
     try {
       for (const slug of selectedSlugs) {
-        await fetch("/api/newsletter/subscribe", {
+        const res = await fetch("/api/newsletter/subscribe", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -150,6 +150,10 @@ export function NewslettersHubView({ newsletters }: Props) {
             botField: masterBotField,
           }),
         });
+        if (!res.ok) {
+          const data = (await res.json().catch(() => ({}))) as { error?: string };
+          throw new Error(data.error || "Subscription request failed.");
+        }
       }
 
       setMasterStatus("success");

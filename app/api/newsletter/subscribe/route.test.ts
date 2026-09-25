@@ -13,15 +13,22 @@ function makeRequest(body: unknown, headers?: Record<string, string>): Request {
 describe("POST /api/newsletter/subscribe", () => {
   let fetchMock: ReturnType<typeof vi.fn>;
   let savedWebhookUrl: string | undefined;
+  let savedNodeEnv: string | undefined;
+  let savedVercelEnv: string | undefined;
+  let infoSpy: ReturnType<typeof vi.spyOn>;
+  let warnSpy: ReturnType<typeof vi.spyOn>;
+  let errorSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
     resetDefaultRateLimiter();
     fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 200 }));
     vi.stubGlobal("fetch", fetchMock);
-    vi.spyOn(console, "info").mockImplementation(() => {});
-    vi.spyOn(console, "warn").mockImplementation(() => {});
-    vi.spyOn(console, "error").mockImplementation(() => {});
+    infoSpy = vi.spyOn(console, "info").mockImplementation(() => {});
+    warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     savedWebhookUrl = process.env.LEAD_WEBHOOK_URL;
+    savedNodeEnv = process.env.NODE_ENV;
+    savedVercelEnv = process.env.VERCEL_ENV;
     process.env.LEAD_WEBHOOK_URL = "https://hooks.example.com/lead-webhook";
   });
 
@@ -31,11 +38,21 @@ describe("POST /api/newsletter/subscribe", () => {
     } else {
       process.env.LEAD_WEBHOOK_URL = savedWebhookUrl;
     }
+    if (savedNodeEnv === undefined) {
+      delete (process.env as Record<string, string | undefined>).NODE_ENV;
+    } else {
+      (process.env as Record<string, string | undefined>).NODE_ENV = savedNodeEnv;
+    }
+    if (savedVercelEnv === undefined) {
+      delete process.env.VERCEL_ENV;
+    } else {
+      process.env.VERCEL_ENV = savedVercelEnv;
+    }
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
 
-  it("subscribes successfully to a valid newsletter publication", async () => {
+  it("subscribes successfully with 2xx webhook response and returns delivered: true", async () => {
     const res = await POST(
       makeRequest({
         email: "operator@example.com",
@@ -47,9 +64,94 @@ describe("POST /api/newsletter/subscribe", () => {
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.success).toBe(true);
+    expect(data.delivered).toBe(true);
     expect(data.message).toContain("Tech Founder Briefing");
     expect(data.newsletter.slug).toBe("tech-founder-briefing");
     expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    // Verify logs do not expose raw or partially masked email
+    for (const call of infoSpy.mock.calls) {
+      const loggedStr = String(call[0]);
+      expect(loggedStr).not.toContain("operator@example.com");
+      expect(loggedStr).not.toContain("ope***");
+      expect(loggedStr).toContain("newsletter_delivery_succeeded");
+    }
+  });
+
+  it("returns generic HTTP 503 when LEAD_WEBHOOK_URL is missing in production and logs no PII", async () => {
+    (process.env as Record<string, string | undefined>).NODE_ENV = "production";
+    delete process.env.LEAD_WEBHOOK_URL;
+
+    const res = await POST(
+      makeRequest({
+        email: "subscriber@company.com",
+        newsletterSlug: "tech-founder-briefing",
+      }),
+    );
+
+    expect(res.status).toBe(503);
+    const data = await res.json();
+    expect(data.success).toBe(false);
+    expect(data.error).toContain("temporarily unavailable");
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    // Verify warning log uses safe structured event with reason code, no PII
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    const loggedStr = String(warnSpy.mock.calls[0][0]);
+    expect(loggedStr).not.toContain("subscriber@company.com");
+    expect(loggedStr).toContain('"reason":"missing_webhook_url"');
+    expect(loggedStr).toContain('"newsletterSlug":"tech-founder-briefing"');
+  });
+
+  it("returns generic HTTP 502 when webhook responds with non-2xx status (5xx/4xx)", async () => {
+    fetchMock.mockResolvedValueOnce(
+      new Response("CRM Internal Server Error Sensitive Message", { status: 500 }),
+    );
+
+    const res = await POST(
+      makeRequest({
+        email: "subscriber@company.com",
+        newsletterSlug: "tech-founder-briefing",
+      }),
+    );
+
+    expect(res.status).toBe(502);
+    const data = await res.json();
+    expect(data.success).toBe(false);
+    expect(data.error).toContain("Newsletter delivery failed");
+    // Ensure upstream sensitive details are not leaked to client
+    expect(data.error).not.toContain("CRM Internal Server Error Sensitive Message");
+
+    // Verify log uses stable reason code without raw error or email
+    expect(errorSpy).toHaveBeenCalledTimes(1);
+    const loggedStr = String(errorSpy.mock.calls[0][0]);
+    expect(loggedStr).not.toContain("subscriber@company.com");
+    expect(loggedStr).not.toContain("CRM Internal Server Error Sensitive Message");
+    expect(loggedStr).toContain('"reason":"webhook_status_error"');
+  });
+
+  it("returns generic HTTP 502 when webhook throws network failure or timeout", async () => {
+    fetchMock.mockRejectedValueOnce(new Error("ETIMEDOUT: Connection to upstream CRM timed out"));
+
+    const res = await POST(
+      makeRequest({
+        email: "subscriber@company.com",
+        newsletterSlug: "tech-founder-briefing",
+      }),
+    );
+
+    expect(res.status).toBe(502);
+    const data = await res.json();
+    expect(data.success).toBe(false);
+    expect(data.error).toContain("Newsletter delivery failed");
+    expect(data.error).not.toContain("ETIMEDOUT");
+
+    // Verify log uses stable reason code without raw error object or email
+    expect(errorSpy).toHaveBeenCalledTimes(1);
+    const loggedStr = String(errorSpy.mock.calls[0][0]);
+    expect(loggedStr).not.toContain("subscriber@company.com");
+    expect(loggedStr).not.toContain("ETIMEDOUT");
+    expect(loggedStr).toContain('"reason":"webhook_network_error"');
   });
 
   it("rejects invalid email formats with 400", async () => {
