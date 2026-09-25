@@ -131,7 +131,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       return NextResponse.json({ ok: false, error: DELIVERY_FAILED }, { status: 502 });
     }
   } catch (error) {
-    console.error("[lead] Webhook delivery error:", error);
+    console.error("[lead] Webhook delivery error: network_or_timeout");
     trackEvent("lead_delivery_failed", {
       location: lead.lead_source,
       segment: lead.segment,

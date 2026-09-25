@@ -83,7 +83,7 @@ export function getDatabasePool(): Pool {
   });
 
   pool.on("error", (err) => {
-    console.error("Unexpected error on idle PostgreSQL client", err);
+    console.error("Unexpected error on idle PostgreSQL client", err?.name || "DbClientError");
   });
 
   return pool;

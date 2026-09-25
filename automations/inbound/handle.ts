@@ -103,11 +103,10 @@ export async function ingestInbound(
   deps.idempotency.markSent(inboundKey);
   deps.logger.info("inbound processed", {
     clientId: deps.clientId,
-    contact: contactId,
     intent: interpretation.intent,
     confidence: interpretation.confidence,
     source: interpretation.source,
-    actions: actions.length,
+    actionsCount: actions.length,
   });
 
   return { message, contactId, interpretation, effects, actions, deduped: false };

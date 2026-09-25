@@ -19,9 +19,7 @@ export class ConsoleSender implements ChannelSender {
   async send(message: OutboundMessage): Promise<DeliveryResult> {
     this.logger.info("[dry-run] would send", {
       channel: message.channel,
-      to: message.to,
-      subject: message.subject,
-      body: message.body,
+      outcome: "simulated",
     });
     return { ok: true, channel: message.channel, to: message.to, providerId: "dry-run" };
   }

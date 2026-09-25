@@ -86,13 +86,12 @@ async function dispatchSend(
   if (!transactional && deps.suppression) {
     if (deps.suppression.isOptedOut(contactId, channel)) {
       report.suppressed += 1;
-      deps.logger.debug("send suppressed: contact opted out", { contact: contactId, channel });
+      deps.logger.debug("send suppressed: contact opted out", { channel });
       return;
     }
     if (deps.suppression.isStopped(contactId, automationId)) {
       report.suppressed += 1;
       deps.logger.debug("send suppressed: automation stopped for contact", {
-        contact: contactId,
         automation: automationId,
       });
       return;
@@ -106,7 +105,7 @@ async function dispatchSend(
     isQuietHours(deps.clock.now(), deps.config.business.timezone, quiet)
   ) {
     report.deferred += 1;
-    deps.logger.debug("send deferred for quiet hours", { to });
+    deps.logger.debug("send deferred for quiet hours", { channel });
     return;
   }
 
@@ -135,7 +134,11 @@ async function dispatchSend(
   } else {
     report.failed += 1;
     report.errors.push(result.error ?? "unknown send error");
-    deps.logger.error("send failed", { to, error: result.error });
+    deps.logger.error("send failed", {
+      channel,
+      automation: automationId,
+      reason: "delivery_failed",
+    });
   }
 }
 

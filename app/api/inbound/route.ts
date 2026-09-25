@@ -75,7 +75,7 @@ export async function POST(request: Request): Promise<Response> {
     const signature = request.headers.get("x-twilio-signature") ?? "";
     const url = process.env.PUBLIC_INBOUND_URL ?? request.url;
     if (!signature || !validateTwilioSignature(url, record, signature, authToken)) {
-      consoleLogger.warn("inbound rejected: bad Twilio signature", { from: record.From });
+      consoleLogger.warn("inbound rejected: bad Twilio signature");
       return new Response("Invalid signature", { status: 403 });
     }
   } else {
@@ -93,16 +93,18 @@ export async function POST(request: Request): Promise<Response> {
   let message: InboundMessage;
   try {
     message = parseTwilioInbound(record, new Date().toISOString());
-  } catch (error: unknown) {
+  } catch {
     consoleLogger.warn("inbound rejected: malformed payload", {
-      error: error instanceof Error ? error.message : String(error),
+      reason: "parse_error",
     });
     return new Response("Bad payload", { status: 400 });
   }
 
   const client = resolveClientByNumber(message.to);
   if (!client) {
-    consoleLogger.warn("inbound for unknown destination number", { to: message.to });
+    consoleLogger.warn("inbound for unknown destination number", {
+      reason: "unmatched_destination",
+    });
     return twiml(200); // nothing to process, but acknowledge so Twilio doesn't retry
   }
 
@@ -115,10 +117,10 @@ export async function POST(request: Request): Promise<Response> {
       notified: result.dispatch.notified,
     });
     return twiml(200);
-  } catch (error: unknown) {
+  } catch {
     consoleLogger.error("inbound processing failed", {
       clientId: client.id,
-      error: error instanceof Error ? error.message : String(error),
+      reason: "internal_error",
     });
     return twiml(500); // let Twilio retry; ingestInbound dedupes on the message id
   }
