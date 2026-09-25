@@ -116,7 +116,7 @@ export function JourneyHero() {
             </div>
 
             {/* Right Column: Live System Demonstration (~42% / 5 cols) */}
-            <div className="lg:col-span-5 lg:pt-2">
+            <div className="lg:col-span-5 lg:sticky lg:top-28">
               <LiveSystemExample />
             </div>
           </div>
