@@ -74,21 +74,21 @@ export default function DigitalServicesPage() {
   const getServiceIcon = (slug: string) => {
     switch (slug) {
       case "ai-agent-development":
-        return <Bot className="h-5 w-5 text-[var(--tsc-action)]" />;
+        return <Bot className="h-5 w-5 text-[var(--tsc-action)]" strokeWidth={1.7} />;
       case "website-development":
-        return <Globe className="h-5 w-5 text-blue-600" />;
+        return <Globe className="h-5 w-5 text-blue-600" strokeWidth={1.7} />;
       case "application-development":
-        return <Code2 className="h-5 w-5 text-purple-600" />;
+        return <Code2 className="h-5 w-5 text-purple-600" strokeWidth={1.7} />;
       case "digital-marketing":
-        return <LineChart className="h-5 w-5 text-emerald-600" />;
+        return <LineChart className="h-5 w-5 text-emerald-600" strokeWidth={1.7} />;
       case "rebranding":
-        return <Palette className="h-5 w-5 text-amber-600" />;
+        return <Palette className="h-5 w-5 text-amber-600" strokeWidth={1.7} />;
       case "staffing":
-        return <Users2 className="h-5 w-5 text-indigo-600" />;
+        return <Users2 className="h-5 w-5 text-indigo-600" strokeWidth={1.7} />;
       case "documentation":
-        return <FileText className="h-5 w-5 text-teal-600" />;
+        return <FileText className="h-5 w-5 text-teal-600" strokeWidth={1.7} />;
       default:
-        return <Zap className="h-5 w-5 text-[var(--tsc-action)]" />;
+        return <Zap className="h-5 w-5 text-[var(--tsc-action)]" strokeWidth={1.7} />;
     }
   };
 
@@ -145,10 +145,10 @@ export default function DigitalServicesPage() {
         className="border-b border-[var(--tsc-line)] bg-[var(--tsc-surface)]/40 py-10 font-geist"
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-6 sm:p-8 rounded-[12px] border border-[var(--tsc-line-strong)] bg-[var(--tsc-paper)] shadow-[var(--shadow-warm-xs)]">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-6 sm:p-8 rounded-[8px] border border-[var(--tsc-line-strong)] bg-[var(--tsc-paper)] shadow-[var(--shadow-warm-xs)]">
             <div className="space-y-2 max-w-2xl">
               <div className="flex items-center gap-2">
-                <Workflow className="h-4 w-4 text-[var(--tsc-action)]" />
+                <Workflow className="h-4 w-4 text-[var(--tsc-action)]" strokeWidth={1.7} />
                 <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--tsc-action)]">
                   LOOKING FOR TURNKEY OPERATIONAL AUTOMATION?
                 </span>
@@ -169,7 +169,7 @@ export default function DigitalServicesPage() {
                 className="inline-flex items-center justify-center gap-2 rounded-[8px] bg-[var(--tsc-ink)] px-5 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-[var(--tsc-action)] transition-colors shadow-sm"
               >
                 <span>View 18-System Automation Index</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" strokeWidth={1.7} />
               </Link>
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function DigitalServicesPage() {
                 {pillar.services.map((service: DigitalService) => (
                   <div
                     key={service.slug}
-                    className="group rounded-[14px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-warm-xs)] hover:shadow-[var(--shadow-warm-md)] hover:border-[var(--tsc-line-strong)] transition-all space-y-6"
+                    className="group rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-warm-xs)] hover:shadow-[var(--shadow-warm-md)] hover:border-[var(--tsc-line-strong)] transition-all space-y-6"
                   >
                     {/* Card Top: Icon, Eyebrow & Metric */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--tsc-line)] pb-5">
@@ -254,7 +254,10 @@ export default function DigitalServicesPage() {
                           key={bullet}
                           className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--tsc-ink)]"
                         >
-                          <CheckCircle2 className="h-4 w-4 text-[var(--tsc-action)] shrink-0 mt-0.5" />
+                          <CheckCircle2
+                            className="h-4 w-4 text-[var(--tsc-action)] shrink-0 mt-0.5"
+                            strokeWidth={1.7}
+                          />
                           <span>{bullet}</span>
                         </div>
                       ))}
@@ -278,7 +281,10 @@ export default function DigitalServicesPage() {
                     {/* Bottom CTA Row */}
                     <div className="pt-4 border-t border-[var(--tsc-line)] flex items-center justify-between">
                       <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--tsc-muted)]">
-                        <Sparkles className="h-3.5 w-3.5 text-[var(--tsc-action)]" />
+                        <Sparkles
+                          className="h-3.5 w-3.5 text-[var(--tsc-action)]"
+                          strokeWidth={1.7}
+                        />
                         <span>Production Architecture &middot; Full Source Delivery</span>
                       </div>
 
@@ -287,7 +293,7 @@ export default function DigitalServicesPage() {
                         className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[var(--tsc-action)] hover:text-[var(--tsc-ink)] transition-colors group-hover:translate-x-0.5"
                       >
                         <span>View Technical Pipeline</span>
-                        <ArrowRight className="h-3.5 w-3.5" />
+                        <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.7} />
                       </Link>
                     </div>
                   </div>
@@ -332,7 +338,7 @@ export default function DigitalServicesPage() {
             {engagementSteps.map((step) => (
               <div
                 key={step.step}
-                className="p-6 rounded-[10px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/30 space-y-3 shadow-xs"
+                className="p-6 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/30 space-y-3 shadow-xs"
               >
                 <div className="font-mono text-xs font-semibold text-[var(--tsc-action)] tracking-wider">
                   PHASE {step.step}

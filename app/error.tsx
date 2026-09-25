@@ -27,7 +27,7 @@ export default function RootError({
 
   return (
     <div className="mx-auto max-w-site px-6 py-20 sm:py-28 text-center font-geist">
-      <div className="mx-auto max-w-lg rounded-[10px] border border-[var(--tsc-line-strong)] bg-white p-8 sm:p-10 shadow-[var(--shadow-warm-sm)]">
+      <div className="mx-auto max-w-lg rounded-[8px] border border-[var(--tsc-line-strong)] bg-white p-8 sm:p-10 shadow-[var(--shadow-warm-sm)]">
         <span className="font-mono text-xs uppercase tracking-wider text-[var(--tsc-action)] font-semibold block mb-2">
           SYSTEM NOTICE &bull; RECOVERY
         </span>

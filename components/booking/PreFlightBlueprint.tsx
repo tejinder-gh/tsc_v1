@@ -480,7 +480,7 @@ export function PreFlightBlueprint() {
     <section
       id="blueprint-configurator"
       aria-label="Pre-Flight Architecture Configurator"
-      className="mb-14 rounded-[12px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-warm-md)] font-geist"
+      className="mb-14 rounded-[8px] border border-[var(--tsc-line)] bg-white p-6 sm:p-8 lg:p-10 shadow-[var(--shadow-warm-md)] font-geist"
     >
       {/* Eyebrow & Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[var(--tsc-line)] pb-6 mb-8">
@@ -501,7 +501,7 @@ export function PreFlightBlueprint() {
         </div>
 
         <div className="flex items-center gap-2 text-xs font-mono text-[var(--tsc-muted)] self-start md:self-auto shrink-0 bg-[var(--tsc-surface)] px-3 py-1.5 rounded-[6px] border border-[var(--tsc-line)]">
-          <ShieldCheck className="h-4 w-4 text-[var(--tsc-action)] shrink-0" />
+          <ShieldCheck className="h-4 w-4 text-[var(--tsc-action)] shrink-0" strokeWidth={1.7} />
           <span>Scoped for your stack &middot; Zero sales fluff</span>
         </div>
       </div>
@@ -535,7 +535,7 @@ export function PreFlightBlueprint() {
                         : "bg-[var(--tsc-surface)] text-[var(--tsc-muted)] border border-[var(--tsc-line)]"
                     }`}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4" strokeWidth={1.7} />
                   </div>
                   <span className="font-semibold text-xs text-[var(--tsc-ink)] leading-snug line-clamp-1">
                     {domain.name}
@@ -572,7 +572,10 @@ export function PreFlightBlueprint() {
               >
                 <span>{bottleneck.label}</span>
                 {isSelected && (
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[var(--tsc-signal)] shrink-0" />
+                  <CheckCircle2
+                    className="h-3.5 w-3.5 text-[var(--tsc-signal)] shrink-0"
+                    strokeWidth={1.7}
+                  />
                 )}
               </button>
             );
@@ -581,7 +584,7 @@ export function PreFlightBlueprint() {
       </div>
 
       {/* Step 3: Dynamic Architecture Blueprint Card */}
-      <div className="rounded-[10px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 sm:p-8 space-y-6">
+      <div className="rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-6 sm:p-8 space-y-6">
         {/* Bottleneck Summary & Benchmarks */}
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 border-b border-[var(--tsc-line)] pb-6">
           <div className="space-y-2 max-w-xl">
@@ -614,7 +617,7 @@ export function PreFlightBlueprint() {
         <div className="space-y-3">
           <div className="flex items-center justify-between text-xs font-mono text-[var(--tsc-muted)] uppercase tracking-wider">
             <span className="flex items-center gap-1.5 font-semibold text-[var(--tsc-ink)]">
-              <Layers className="h-3.5 w-3.5 text-[var(--tsc-action)]" />
+              <Layers className="h-3.5 w-3.5 text-[var(--tsc-action)]" strokeWidth={1.7} />
               Engineered 3-Tier Architecture Walkthrough
             </span>
             <span>Production Blueprint</span>
@@ -654,7 +657,7 @@ export function PreFlightBlueprint() {
         {/* Action Bar: Pin to Discovery Call */}
         <div className="pt-4 border-t border-[var(--tsc-line)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs text-[var(--tsc-muted)]">
-            <Cpu className="h-4 w-4 text-[var(--tsc-action)] shrink-0" />
+            <Cpu className="h-4 w-4 text-[var(--tsc-action)] shrink-0" strokeWidth={1.7} />
             <span>
               Typical turnaround: <strong>10–14 business days</strong> &middot; Idempotent retry
               logic &middot; Human-in-the-loop exception fallback
@@ -667,7 +670,10 @@ export function PreFlightBlueprint() {
             className="group flex items-center justify-center gap-2 rounded-[6px] bg-[var(--tsc-action)] px-5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-[var(--tsc-ink)] shadow-[var(--shadow-warm-sm)] cursor-pointer shrink-0"
           >
             <span>Review this blueprint on our call</span>
-            <ArrowDown className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" />
+            <ArrowDown
+              className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5"
+              strokeWidth={1.7}
+            />
           </button>
         </div>
       </div>
@@ -680,7 +686,7 @@ export function PreFlightBlueprint() {
           className="mt-4 p-3.5 rounded-[8px] bg-[var(--tsc-action)] text-white flex items-center justify-between text-xs font-mono"
         >
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-4 w-4 text-[var(--tsc-signal)] shrink-0" />
+            <CheckCircle2 className="h-4 w-4 text-[var(--tsc-signal)] shrink-0" strokeWidth={1.7} />
             <span>
               Pinned for your audit: <strong>{activeDomain.name}</strong> &mdash;{" "}
               <em>{activeBottleneck.label}</em>

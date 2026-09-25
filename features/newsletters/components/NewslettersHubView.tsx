@@ -249,7 +249,7 @@ export function NewslettersHubView({ newsletters }: Props) {
           {/* ========================================================================= */}
           {/* 02. MASTER EXECUTIVE ALL-ACCESS SUBSCRIPTION WELL                          */}
           {/* ========================================================================= */}
-          <div className="mt-10 sm:mt-12 p-6 sm:p-8 rounded-[10px] border border-[var(--tsc-line-strong)]/40 bg-white shadow-[var(--shadow-warm-xs)]">
+          <div className="mt-10 sm:mt-12 p-6 sm:p-8 rounded-[8px] border border-[var(--tsc-line-strong)]/40 bg-white shadow-[var(--shadow-warm-xs)]">
             {masterStatus === "success" ? (
               <div className="flex items-start sm:items-center gap-3.5 font-mono text-xs">
                 <CheckCircle2 className="h-5 w-5 text-[var(--tsc-action)] shrink-0 mt-0.5 sm:mt-0" />
@@ -311,13 +311,13 @@ export function NewslettersHubView({ newsletters }: Props) {
                     >
                       {masterStatus === "loading" ? (
                         <>
-                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" strokeWidth={1.7} />
                           <span>Enrolling...</span>
                         </>
                       ) : (
                         <>
                           <span>Enroll Now</span>
-                          <Send className="h-3.5 w-3.5" />
+                          <Send className="h-3.5 w-3.5" strokeWidth={1.7} />
                         </>
                       )}
                     </button>
@@ -387,7 +387,7 @@ export function NewslettersHubView({ newsletters }: Props) {
             </span>
           </div>
 
-          <div className="rounded-[10px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-sm)] overflow-hidden">
+          <div className="rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-sm)] overflow-hidden">
             {/* Top Publication Channel Switcher Tabs */}
             <div
               role="tablist"
@@ -528,7 +528,7 @@ export function NewslettersHubView({ newsletters }: Props) {
                 )}
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   <span className="font-mono text-[10px] font-bold tracking-wider uppercase text-[var(--tsc-ink)] flex items-center gap-1">
-                    <Sparkles className="h-3 w-3 text-[var(--tsc-action)]" />
+                    <Sparkles className="h-3 w-3 text-[var(--tsc-action)]" strokeWidth={1.7} />
                     [04 &middot; CUSTOM PIPELINE]
                   </span>
                   <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-[3px] bg-[var(--tsc-ink)] text-white font-semibold uppercase">
@@ -616,7 +616,7 @@ export function NewslettersHubView({ newsletters }: Props) {
                     </span>
                     <span>&middot;</span>
                     <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
+                      <Clock className="h-3 w-3" strokeWidth={1.7} />
                       4-MIN READ
                     </span>
                     {currentIssue.publishedAt && (
@@ -648,7 +648,7 @@ export function NewslettersHubView({ newsletters }: Props) {
                 {/* 3 Key Takeaways */}
                 <div className="space-y-3">
                   <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--tsc-muted)] flex items-center gap-2">
-                    <Terminal className="h-3.5 w-3.5 text-[var(--tsc-action)]" />
+                    <Terminal className="h-3.5 w-3.5 text-[var(--tsc-action)]" strokeWidth={1.7} />
                     <span>OPERATIONAL INVARIANTS &amp; KEY FINDINGS</span>
                   </div>
 
@@ -684,12 +684,12 @@ export function NewslettersHubView({ newsletters }: Props) {
                     {isExcerptExpanded ? (
                       <>
                         <span>Collapse Full Editorial Analysis</span>
-                        <ChevronUp className="h-3.5 w-3.5" />
+                        <ChevronUp className="h-3.5 w-3.5" strokeWidth={1.7} />
                       </>
                     ) : (
                       <>
                         <span>Read Deep-Dive Analysis Specimen</span>
-                        <ChevronDown className="h-3.5 w-3.5" />
+                        <ChevronDown className="h-3.5 w-3.5" strokeWidth={1.7} />
                       </>
                     )}
                   </button>
@@ -719,7 +719,7 @@ export function NewslettersHubView({ newsletters }: Props) {
                     className="inline-flex items-center gap-1.5 text-[var(--tsc-action)] hover:underline font-semibold"
                   >
                     <span>Browse all back issues of {activeNewsletter.name}</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
+                    <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.7} />
                   </Link>
                 </div>
               </div>
@@ -757,7 +757,7 @@ export function NewslettersHubView({ newsletters }: Props) {
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[var(--tsc-action)] hover:opacity-90 text-white font-mono text-xs font-semibold tracking-wider uppercase transition-colors"
                     >
                       <span>Book Scoping Call</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
+                      <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.7} />
                     </Link>
                   </div>
                 </div>
@@ -905,7 +905,10 @@ export function NewslettersHubView({ newsletters }: Props) {
                     className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] uppercase tracking-wider"
                   >
                     <span>Read Issues</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight
+                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                      strokeWidth={1.7}
+                    />
                   </Link>
                 </div>
               </article>
@@ -1055,7 +1058,10 @@ export function NewslettersHubView({ newsletters }: Props) {
                   className="w-full inline-flex items-center justify-between text-xs font-mono font-semibold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] uppercase tracking-wider"
                 >
                   <span>Launch Diagnostic</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1" />
+                  <ArrowRight
+                    className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1"
+                    strokeWidth={1.7}
+                  />
                 </Link>
               </div>
             </div>
@@ -1083,7 +1089,10 @@ export function NewslettersHubView({ newsletters }: Props) {
                   className="w-full inline-flex items-center justify-between text-xs font-mono font-semibold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] uppercase tracking-wider"
                 >
                   <span>Browse 34 Blueprints</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1" />
+                  <ArrowRight
+                    className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1"
+                    strokeWidth={1.7}
+                  />
                 </Link>
               </div>
             </div>
@@ -1113,7 +1122,10 @@ export function NewslettersHubView({ newsletters }: Props) {
                   className="w-full inline-flex items-center justify-between text-xs font-mono font-semibold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] uppercase tracking-wider"
                 >
                   <span>View All 24 Sectors</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1" />
+                  <ArrowRight
+                    className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-1"
+                    strokeWidth={1.7}
+                  />
                 </Link>
               </div>
             </div>

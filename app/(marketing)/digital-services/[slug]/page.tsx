@@ -257,7 +257,7 @@ export default async function DigitalServiceDetailPage({ params }: PageProps) {
               return (
                 <div
                   key={step.title}
-                  className="p-6 rounded-[10px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/40 space-y-3 shadow-xs"
+                  className="p-6 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/40 space-y-3 shadow-xs"
                 >
                   <div className="font-mono text-xs font-semibold text-[var(--tsc-action)] tracking-wider">
                     PHASE {num}
