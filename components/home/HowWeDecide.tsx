@@ -86,7 +86,7 @@ const PRINCIPLES: readonly Principle[] = [
 ];
 
 export function HowWeDecide() {
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
 
   return (
     <section
@@ -183,7 +183,7 @@ export function HowWeDecide() {
                   type="button"
                   key={principle.number}
                   aria-expanded={isActive}
-                  onClick={() => setActiveIdx(idx)}
+                  onClick={() => setActiveIdx((prev) => (prev === idx ? null : idx))}
                   className={`group w-full text-left cursor-pointer rounded-[10px] border p-5 sm:p-6 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] ${
                     isActive
                       ? "border-[var(--tsc-action)] bg-white shadow-[var(--shadow-warm-sm)]"
