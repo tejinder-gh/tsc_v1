@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  ArrowDown,
+  ArrowUp,
   CheckCircle2,
   ChevronRight,
   LineChart,
@@ -102,7 +102,7 @@ export function HowWeDecide() {
               className="inline-block h-2 w-2 rounded-full bg-[var(--tsc-action)] ring-4 ring-[var(--tsc-action)]/20"
               aria-hidden="true"
             />
-            <SectionLabel>01 / HOW WE DECIDE &middot; OPERATING MANIFESTO</SectionLabel>
+            <SectionLabel>03 / HOW WE DECIDE &middot; OPERATING MANIFESTO</SectionLabel>
           </div>
           <span className="font-mono text-xs text-[var(--tsc-muted)] tracking-wider uppercase">
             4 Architectural Guardrails
@@ -164,8 +164,8 @@ export function HowWeDecide() {
                 href="#start"
                 className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-[var(--tsc-ink)] hover:text-[var(--tsc-action)] transition-colors group"
               >
-                <span>Diagnose your own workflow below</span>
-                <ArrowDown className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-y-0.5 text-[var(--tsc-action)]" />
+                <span>Diagnose your own workflow</span>
+                <ArrowUp className="h-3.5 w-3.5 transition-transform duration-150 group-hover:-translate-y-0.5 text-[var(--tsc-action)]" />
               </a>
             </div>
           </div>
