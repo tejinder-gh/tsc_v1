@@ -7,8 +7,9 @@
 import { Pool, type QueryResult, type QueryResultRow } from "pg";
 
 let pool: Pool | null = null;
-let mockQueryHandler: ((text: string, params?: unknown[]) => Promise<QueryResult<any>>) | null =
-  null;
+let mockQueryHandler:
+  | ((text: string, params?: unknown[]) => Promise<QueryResult<QueryResultRow>>)
+  | null = null;
 
 export function resolveDatabaseSslConfig(
   connectionString: string,
@@ -89,17 +90,17 @@ export function getDatabasePool(): Pool {
 }
 
 export function setMockQueryHandler(
-  handler: ((text: string, params?: unknown[]) => Promise<QueryResult<any>>) | null,
+  handler: ((text: string, params?: unknown[]) => Promise<QueryResult<QueryResultRow>>) | null,
 ): void {
   mockQueryHandler = handler;
 }
 
-export async function dbQuery<T extends QueryResultRow = any>(
+export async function dbQuery<T extends QueryResultRow = QueryResultRow>(
   text: string,
   params?: unknown[],
 ): Promise<QueryResult<T>> {
   if (mockQueryHandler) {
-    return mockQueryHandler(text, params);
+    return (await mockQueryHandler(text, params)) as QueryResult<T>;
   }
 
   const p = getDatabasePool();

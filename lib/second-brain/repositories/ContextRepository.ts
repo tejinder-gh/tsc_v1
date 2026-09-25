@@ -48,6 +48,7 @@ export interface SearchContextParams {
   limit?: number;
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: repository namespace class with static query methods
 export class ContextRepository {
   /**
    * Search canonical context index matching domain, subdomain, and keywords.

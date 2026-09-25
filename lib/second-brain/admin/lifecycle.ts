@@ -17,7 +17,7 @@ import { resolveDatabaseSslConfig } from "../db/client";
 import type { CreateCredentialResult, CredentialScope, SafeCredentialMetadata } from "../types/iam";
 
 let adminPool: Pool | null = null;
-let mockAdminHandler: ((text: string, params?: unknown[]) => Promise<any>) | null = null;
+let mockAdminHandler: ((text: string, params?: unknown[]) => Promise<unknown>) | null = null;
 
 export function getAdminPool(): Pool {
   if (adminPool) return adminPool;
@@ -42,14 +42,14 @@ export function getAdminPool(): Pool {
 }
 
 export function setMockAdminHandler(
-  handler: ((text: string, params?: unknown[]) => Promise<any>) | null,
+  handler: ((text: string, params?: unknown[]) => Promise<unknown>) | null,
 ): void {
   mockAdminHandler = handler;
 }
 
-export async function adminQuery<T = any>(text: string, params?: unknown[]): Promise<T> {
+export async function adminQuery<T = unknown>(text: string, params?: unknown[]): Promise<T> {
   if (mockAdminHandler) {
-    return mockAdminHandler(text, params);
+    return (await mockAdminHandler(text, params)) as T;
   }
 
   const p = getAdminPool();

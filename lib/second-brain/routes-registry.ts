@@ -15,16 +15,16 @@ export interface SecondBrainRouteDefinition {
   howToUse: {
     authentication: string;
     queryParams?: Record<string, string>;
-    requestBody?: Record<string, any>;
-    responseSchema?: Record<string, any>;
+    requestBody?: Record<string, unknown>;
+    responseSchema?: Record<string, unknown>;
   };
   whereToUse: string;
   sampleRequest: {
     headers: Record<string, string>;
-    body?: Record<string, any>;
+    body?: Record<string, unknown>;
     params?: Record<string, string>;
   };
-  sampleResponse: Record<string, any>;
+  sampleResponse: Record<string, unknown>;
 }
 
 export const SECOND_BRAIN_ROUTES: SecondBrainRouteDefinition[] = [

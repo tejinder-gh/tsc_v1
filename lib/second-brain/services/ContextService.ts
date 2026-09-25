@@ -68,6 +68,7 @@ export interface ContextAuditRecord {
 
 export type ContextAuditListener = (record: ContextAuditRecord) => void;
 
+// biome-ignore lint/complexity/noStaticOnlyClass: service class manages static state and listeners
 export class ContextService {
   private static auditListeners: Set<ContextAuditListener> = new Set();
 

@@ -4,7 +4,13 @@
  */
 
 import { dbQuery } from "../db/client";
-import type { AuthenticatedContext } from "../types/iam";
+import type {
+  AuthenticatedContext,
+  CredentialScope,
+  CredentialSummary,
+  Principal,
+  PrincipalGrant,
+} from "../types/iam";
 
 export class AuthenticationError extends Error {
   public readonly statusCode: number;
@@ -54,13 +60,22 @@ export function parseApiKey(rawKeyOrHeader: string | null | undefined): {
   return { keyId, secret };
 }
 
+interface AuthDbPayload {
+  authenticated: boolean;
+  error?: string;
+  principal: Principal;
+  credential: CredentialSummary;
+  principalGrants?: PrincipalGrant[];
+  credentialScopes?: CredentialScope[];
+}
+
 export async function authenticateAgent(
   rawKeyOrHeader: string | null | undefined,
 ): Promise<AuthenticatedContext> {
   const { keyId, secret } = parseApiKey(rawKeyOrHeader);
 
   const queryText = "SELECT second_brain_security.authenticate_agent($1, $2) AS auth_result;";
-  const result = await dbQuery<{ auth_result: any }>(queryText, [keyId, secret]);
+  const result = await dbQuery<{ auth_result: AuthDbPayload }>(queryText, [keyId, secret]);
 
   if (!result.rows || result.rows.length === 0 || !result.rows[0].auth_result) {
     throw new AuthenticationError("Authentication failed", 401, "AUTH_FAILED");

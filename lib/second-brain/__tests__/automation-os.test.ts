@@ -52,9 +52,10 @@ describe("Automation OS State Machine", () => {
 
     const job = await AutomationRepository.getJobConfiguration("daily-sync");
     expect(job).not.toBeNull();
+    if (!job) throw new Error("Job not found");
     expect(job.automation_key).toBe("daily-sync");
     expect(job.declared_targets).toHaveLength(1);
-    expect(job.declared_targets[0].declaredKey).toBe("target_spreadsheet");
+    expect(job.declared_targets?.[0].declaredKey).toBe("target_spreadsheet");
   });
 
   it("ensures occurrence record idempotently", async () => {
@@ -121,6 +122,8 @@ describe("Automation OS State Machine", () => {
     expect(claim.claim_id).toBe("claim-1");
 
     const released = await AutomationRepository.releaseClaim("claim-1");
+    expect(released).not.toBeNull();
+    if (!released) throw new Error("Claim not found");
     expect(released.claim_id).toBe("claim-1");
     expect(released.released_at).toBeDefined();
   });

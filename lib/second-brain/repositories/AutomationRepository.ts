@@ -17,11 +17,41 @@
 
 import { dbQuery } from "../db/client";
 
+export interface AutomationJobRecord {
+  job_id: string;
+  automation_key: string;
+  legacy_job_key?: string | null;
+  name: string;
+  domain: string;
+  work_type: string;
+  frequency?: string;
+  timezone?: string;
+  run_hours?: number[];
+  run_minute?: number;
+  run_days?: number[];
+  criticality?: string;
+  priority?: number;
+  execution_mode?: string;
+  declared_targets?: Array<{ declaredKey: string; [key: string]: unknown }>;
+  [key: string]: unknown;
+}
+
+export interface AutomationClaimRecord {
+  claim_id: string;
+  occurrence_id?: string;
+  claimed_by?: string;
+  claimed_at?: string;
+  lease_until?: string;
+  released_at?: string | null;
+  [key: string]: unknown;
+}
+
+// biome-ignore lint/complexity/noStaticOnlyClass: repository namespace class with static query methods
 export class AutomationRepository {
   /**
    * Evaluate due jobs based on schedules and queue state.
    */
-  public static async evaluateDueJobs(): Promise<any[]> {
+  public static async evaluateDueJobs(): Promise<Record<string, unknown>[]> {
     const queryText = `
       SELECT 
         j.job_id,
@@ -51,7 +81,9 @@ export class AutomationRepository {
   /**
    * Read detailed job configuration, dependencies, declared targets, and policies.
    */
-  public static async getJobConfiguration(automationKey: string): Promise<any | null> {
+  public static async getJobConfiguration(
+    automationKey: string,
+  ): Promise<AutomationJobRecord | null> {
     const queryText = `
       SELECT 
         j.*,
@@ -99,7 +131,7 @@ export class AutomationRepository {
       LEFT JOIN public.job_execution_policy_automation ep ON j.job_id = ep.job_id
       WHERE j.automation_key = $1 OR j.legacy_job_key = $1;
     `;
-    const res = await dbQuery(queryText, [automationKey]);
+    const res = await dbQuery<AutomationJobRecord>(queryText, [automationKey]);
     return res.rows[0] || null;
   }
 
@@ -110,7 +142,7 @@ export class AutomationRepository {
     jobId: string;
     occurrenceKey: string;
     queueState?: string;
-  }): Promise<any> {
+  }): Promise<Record<string, unknown>> {
     const { jobId, occurrenceKey, queueState = "queued" } = params;
     const queryText = `
       INSERT INTO public.occurrences_automation (
@@ -132,7 +164,7 @@ export class AutomationRepository {
     occurrenceId: string;
     claimedBy: string;
     leaseDurationSeconds?: number;
-  }): Promise<any> {
+  }): Promise<Record<string, unknown>> {
     const { occurrenceId, claimedBy, leaseDurationSeconds = 300 } = params;
     const queryText = `
       INSERT INTO public.execution_claims_automation (
@@ -149,14 +181,14 @@ export class AutomationRepository {
   /**
    * Release an active lease claim.
    */
-  public static async releaseClaim(claimId: string): Promise<any> {
+  public static async releaseClaim(claimId: string): Promise<AutomationClaimRecord | null> {
     const queryText = `
       UPDATE public.execution_claims_automation
       SET released_at = now()
       WHERE claim_id = $1 AND released_at IS NULL
       RETURNING *;
     `;
-    const res = await dbQuery(queryText, [claimId]);
+    const res = await dbQuery<AutomationClaimRecord>(queryText, [claimId]);
     return res.rows[0] || null;
   }
 
@@ -167,7 +199,7 @@ export class AutomationRepository {
     occurrenceId: string;
     attemptNumber: number;
     source?: string;
-  }): Promise<any> {
+  }): Promise<Record<string, unknown>> {
     const { occurrenceId, attemptNumber, source = "runner" } = params;
     const queryText = `
       INSERT INTO public.occurrence_attempts_automation (
@@ -194,7 +226,7 @@ export class AutomationRepository {
     error?: string | null;
     schedulerDisposition?: string | null;
     schedulerReason?: string | null;
-  }): Promise<any> {
+  }): Promise<Record<string, unknown>> {
     const {
       attemptId,
       status,
@@ -241,7 +273,7 @@ export class AutomationRepository {
     deferredCount?: number;
     failedCount?: number;
     updatedTargetResources?: string[];
-  }): Promise<any> {
+  }): Promise<Record<string, unknown>> {
     const queryText = `
       INSERT INTO public.runner_cycles_automation (
         automation_cycle_key, legacy_run_id, run_title, automation_name,
@@ -282,7 +314,7 @@ export class AutomationRepository {
   /**
    * Read runtime operational status (active claims, recent cycles).
    */
-  public static async getRuntimeStatus(): Promise<any> {
+  public static async getRuntimeStatus(): Promise<Record<string, unknown>> {
     const queryText = `
       SELECT
         (SELECT count(*) FROM public.execution_claims_automation WHERE released_at IS NULL AND (lease_until IS NULL OR lease_until > now())) AS active_claims_count,
