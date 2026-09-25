@@ -62,27 +62,9 @@ export class InMemoryRateLimiter implements RateLimiter {
 }
 
 export class PostgresRateLimiter implements RateLimiter {
-  private tableEnsured = false;
   private lastCleanup = 0;
 
   constructor(private readonly queryFn = dbQuery) {}
-
-  private async ensureTable(): Promise<void> {
-    if (this.tableEnsured) return;
-    try {
-      await this.queryFn(`
-        CREATE TABLE IF NOT EXISTS public.rate_limits (
-          limit_key VARCHAR(255) PRIMARY KEY,
-          count INT NOT NULL DEFAULT 1,
-          reset_at TIMESTAMPTZ NOT NULL,
-          created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-        );
-      `);
-      this.tableEnsured = true;
-    } catch {
-      // Handled by migration or exists
-    }
-  }
 
   private async opportunisticCleanup(): Promise<void> {
     const now = Date.now();
@@ -100,7 +82,6 @@ export class PostgresRateLimiter implements RateLimiter {
   }
 
   async consume(key: string, limit: number, windowSeconds: number): Promise<RateLimitResult> {
-    await this.ensureTable();
 
     const query = `
       INSERT INTO public.rate_limits (limit_key, count, reset_at)
