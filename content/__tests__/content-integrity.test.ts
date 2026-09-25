@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { digitalServices } from "../digital-services";
 import { industries } from "../industries";
+import { PRINCIPLES } from "../principles";
 import { services } from "../services";
 
 describe("Content Slug and Reference Integrity", () => {
@@ -59,6 +60,26 @@ describe("Content Slug and Reference Integrity", () => {
         expect(ds.slug).toMatch(SLUG_REGEX);
         expect(ds.name.length).toBeGreaterThan(0);
         expect(ds.features.length).toBeGreaterThan(0);
+      }
+    });
+  });
+
+  describe("Architectural Guardrails & Principles (HowWeDecide)", () => {
+    it("has exactly 4 sequentially numbered principles with valid metadata", () => {
+      expect(PRINCIPLES).toHaveLength(4);
+
+      const numbers = PRINCIPLES.map((p) => p.number);
+      expect(numbers).toEqual(["01", "02", "03", "04"]);
+
+      for (const p of PRINCIPLES) {
+        expect(p.label.length).toBeGreaterThan(0);
+        expect(p.headline.length).toBeGreaterThan(0);
+        expect(p.thesis.length).toBeGreaterThan(0);
+        expect(p.inPractice.length).toBeGreaterThan(0);
+        expect(p.guardrail.length).toBeGreaterThan(0);
+        expect(p.metric.length).toBeGreaterThan(0);
+        expect(p.tags.length).toBeGreaterThanOrEqual(1);
+        expect(["Target", "Workflow", "ShieldCheck", "LineChart"]).toContain(p.iconName);
       }
     });
   });
