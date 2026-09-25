@@ -207,16 +207,18 @@ describe("SMS Relay Nonce Deduplication & Replay Protection (P0)", () => {
     it("FailClosedNonceDeduplicator always throws AuthenticationError", async () => {
       const { FailClosedNonceDeduplicator } = await import("../auth/nonceStore");
       const failClosed = new FailClosedNonceDeduplicator();
-      let caught: any;
+      let caught: (Error & { internalReason?: string }) | undefined;
       try {
         await failClosed.claimNonce("test-key", 300);
       } catch (err) {
-        caught = err;
+        caught = err as Error & { internalReason?: string };
       }
       expect(caught).toBeDefined();
-      expect(caught.name).toBe("AuthenticationError");
-      expect(caught.message).toBe("Authentication failed");
-      expect(caught.internalReason).toMatch(/Distributed replay protection database is unconfigured in production/);
+      expect(caught?.name).toBe("AuthenticationError");
+      expect(caught?.message).toBe("Authentication failed");
+      expect(caught?.internalReason).toMatch(
+        /Distributed replay protection database is unconfigured in production/,
+      );
     });
 
     it("prevents silent in-memory fallback in production when database is unconfigured", async () => {

@@ -6,8 +6,8 @@
  * How: Renders an editorial recovery card with retry button and direct engineering contact.
  */
 
-import { useEffect } from "react";
 import Link from "next/link";
+import { useEffect } from "react";
 import { site } from "@/content/site";
 import { captureError } from "@/lib/telemetry";
 
@@ -35,7 +35,8 @@ export default function RootError({
           An application error occurred.
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-[var(--tsc-muted)]">
-          We have recorded this technical trace for triage. You may retry your request or return home.
+          We have recorded this technical trace for triage. You may retry your request or return
+          home.
         </p>
 
         {error.digest && (

@@ -1,21 +1,21 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse, type NextMiddleware, type NextRequest, type NextFetchEvent } from "next/server";
+import {
+  type NextFetchEvent,
+  type NextMiddleware,
+  type NextRequest,
+  NextResponse,
+} from "next/server";
 
 // Only the operator dashboard requires a Clerk session. Every other route (the
 // marketing site, API routes, etc.) passes through untouched.
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
 export function isClerkConfigured(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY,
-  );
+  return Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY);
 }
 
 export function isDevOperatorAuthAllowed(): boolean {
-  return (
-    process.env.NODE_ENV === "development" &&
-    process.env.ALLOW_DEV_OPERATOR_AUTH === "true"
-  );
+  return process.env.NODE_ENV === "development" && process.env.ALLOW_DEV_OPERATOR_AUTH === "true";
 }
 
 let cachedClerkHandler: NextMiddleware | null = null;

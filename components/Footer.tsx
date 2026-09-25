@@ -43,10 +43,15 @@ export function Footer() {
               <span className="text-sm font-semibold tracking-[0.14em] uppercase text-[var(--tsc-ink)]">
                 {site.name}
               </span>
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500" aria-label="System operational" />
+              <span
+                role="status"
+                className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500"
+                aria-label="System operational"
+              />
             </div>
             <p className="max-w-md text-sm text-[var(--tsc-muted)] leading-relaxed">
-              Autonomous workflows, bespoke software, generative engine optimization, and enterprise digital engineering for growing businesses and professional practices.
+              Autonomous workflows, bespoke software, generative engine optimization, and enterprise
+              digital engineering for growing businesses and professional practices.
             </p>
           </div>
 
@@ -62,7 +67,9 @@ export function Footer() {
               >
                 {site.phone}
               </a>
-              <span className="text-[11px] font-mono text-[var(--tsc-muted)]">Direct Desk (EST)</span>
+              <span className="text-[11px] font-mono text-[var(--tsc-muted)]">
+                Direct Desk (EST)
+              </span>
             </div>
 
             <div>
@@ -75,7 +82,9 @@ export function Footer() {
               >
                 {site.phoneIndia}
               </a>
-              <span className="text-[11px] font-mono text-[var(--tsc-muted)]">Operations (IST)</span>
+              <span className="text-[11px] font-mono text-[var(--tsc-muted)]">
+                Operations (IST)
+              </span>
             </div>
 
             <div>
@@ -88,7 +97,9 @@ export function Footer() {
               >
                 {site.email}
               </a>
-              <span className="text-[11px] font-mono text-[var(--tsc-muted)]">Encrypted Ingestion</span>
+              <span className="text-[11px] font-mono text-[var(--tsc-muted)]">
+                Encrypted Ingestion
+              </span>
             </div>
           </div>
         </div>
@@ -187,7 +198,8 @@ export function Footer() {
                   {office.city}
                 </div>
                 <div className="text-[11px] font-mono text-[var(--tsc-muted)] mt-0.5">
-                  {office.region ? `${office.region}, ` : ""}{office.country}
+                  {office.region ? `${office.region}, ` : ""}
+                  {office.country}
                 </div>
               </div>
             ))}

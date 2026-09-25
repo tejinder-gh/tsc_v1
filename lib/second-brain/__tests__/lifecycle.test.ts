@@ -6,7 +6,6 @@
 import { describe, expect, it } from "vitest";
 import {
   createAgentCredential,
-  getAgentCredentialSafe,
   listAgentCredentials,
   regenerateAgentCredential,
   revokeAgentCredential,
@@ -18,8 +17,8 @@ import {
 
 describe("Credential Lifecycle Operations", () => {
   it("creates a new credential with scopes and returns plaintext secret once", async () => {
-    let capturedParams: any[] = [];
-    setMockAdminHandler(async (text, params) => {
+    let capturedParams: unknown[] = [];
+    setMockAdminHandler(async (_text, params) => {
       capturedParams = params || [];
       return [
         {
@@ -68,7 +67,7 @@ describe("Credential Lifecycle Operations", () => {
 
   it("updates credential metadata and scopes atomically without mutating secret_hash", async () => {
     let executedQuery = "";
-    setMockAdminHandler(async (text, params) => {
+    setMockAdminHandler(async (text, _params) => {
       executedQuery = text;
       return [
         {
@@ -125,8 +124,8 @@ describe("Credential Lifecycle Operations", () => {
   });
 
   it("rotates credential, linking rotationParentId and copying scopes", async () => {
-    let capturedParams: any[] = [];
-    setMockAdminHandler(async (text, params) => {
+    let capturedParams: unknown[] = [];
+    setMockAdminHandler(async (_text, params) => {
       capturedParams = params || [];
       return [
         {
@@ -165,8 +164,8 @@ describe("Credential Lifecycle Operations", () => {
   });
 
   it("regenerates credential as an alias to rotation, preserving lineage", async () => {
-    let capturedParams: any[] = [];
-    setMockAdminHandler(async (text, params) => {
+    let capturedParams: unknown[] = [];
+    setMockAdminHandler(async (_text, params) => {
       capturedParams = params || [];
       return [
         {
@@ -220,7 +219,7 @@ describe("Credential Lifecycle Operations", () => {
   });
 
   it("supports disabling and enabling credentials", async () => {
-    setMockAdminHandler(async (text, params) => [
+    setMockAdminHandler(async (_text, params) => [
       {
         result: {
           credentialId: "c-123",
@@ -290,8 +289,8 @@ describe("Credential Lifecycle Operations", () => {
     expect(item.keyId).toBe("sb_live_claude_1111");
     expect(item.principalKey).toBe("claude");
     // Critical verification: secret and secret_hash are undefined in safe metadata
-    expect((item as any).secret).toBeUndefined();
-    expect((item as any).secret_hash).toBeUndefined();
-    expect((item as any).secretHash).toBeUndefined();
+    expect((item as unknown as Record<string, unknown>).secret).toBeUndefined();
+    expect((item as unknown as Record<string, unknown>).secret_hash).toBeUndefined();
+    expect((item as unknown as Record<string, unknown>).secretHash).toBeUndefined();
   });
 });

@@ -234,8 +234,10 @@ const SYSTEM_STUDIES: readonly SystemStudy[] = [
     index: "04",
     title: "DENTAL PRACTICE",
     location: "Etobicoke",
-    problem: "Hygiene recalls went out by hand when staff had time, leaving 20+ open chair hours each week.",
-    system: "Recall engine calculates hygiene due dates → 2-way SMS self-booking → calendar sync & insurance pre-check.",
+    problem:
+      "Hygiene recalls went out by hand when staff had time, leaving 20+ open chair hours each week.",
+    system:
+      "Recall engine calculates hygiene due dates → 2-way SMS self-booking → calendar sync & insurance pre-check.",
     expectedChange: "28% more hygiene rebookings",
     diagramSteps: [
       {
@@ -304,8 +306,10 @@ const SYSTEM_STUDIES: readonly SystemStudy[] = [
     index: "05",
     title: "BOUTIQUE LAW FIRM",
     location: "Downtown Toronto",
-    problem: "Evening and weekend inquiries waited until Monday; prospects retained other counsel first.",
-    system: "24/7 inquiry intake → conflict-safe triage & screening → secure retainer consult booking.",
+    problem:
+      "Evening and weekend inquiries waited until Monday; prospects retained other counsel first.",
+    system:
+      "24/7 inquiry intake → conflict-safe triage & screening → secure retainer consult booking.",
     expectedChange: "First response under 2 min",
     diagramSteps: [
       {
@@ -445,13 +449,11 @@ export function SystemStudies() {
             <br className="hidden sm:inline" /> small systems change the work.
           </h2>
           <p className="mt-4 text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed">
-            These are illustrative scenarios, not client case studies. The point is the shape of
-            the problem: repetitive work, a clear trigger, and a system that handles the
-            predictable part.
+            These are illustrative scenarios, not client case studies. The point is the shape of the
+            problem: repetitive work, a clear trigger, and a system that handles the predictable
+            part.
           </p>
-          <div className="mt-6">
-
-          </div>
+          <div className="mt-6"></div>
         </div>
 
         {/* Desktop Layout: Asymmetric 7 / 5 Editorial Index */}
@@ -468,10 +470,11 @@ export function SystemStudies() {
                     type="button"
                     onClick={() => handleStudyChange(idx)}
                     aria-pressed={isSelected}
-                    className={`w-full group cursor-pointer py-6 transition-all duration-200 text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] rounded-[6px] px-3.5 -mx-3.5 border-l-[3px] ${isSelected
-                      ? "bg-white border-[var(--tsc-action)] shadow-[var(--shadow-warm-sm)]"
-                      : "border-transparent hover:bg-white/60"
-                      }`}
+                    className={`w-full group cursor-pointer py-6 transition-all duration-200 text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] rounded-[6px] px-3.5 -mx-3.5 border-l-[3px] ${
+                      isSelected
+                        ? "bg-white border-[var(--tsc-action)] shadow-[var(--shadow-warm-sm)]"
+                        : "border-transparent hover:bg-white/60"
+                    }`}
                   >
                     {/* Top Row: Index + Title + Location + Live Badge */}
                     <div className="flex items-baseline justify-between gap-4">
@@ -593,21 +596,23 @@ export function SystemStudies() {
                       <button
                         type="button"
                         onClick={() => setExpandedStep(isExpanded ? null : stepIdx)}
-                        className={`w-full text-left group/step flex items-start justify-between gap-3 p-2.5 rounded-[6px] border transition-all duration-300 cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] ${isCurrent
-                          ? "border-[var(--tsc-action)] bg-[var(--tsc-surface)] shadow-[var(--shadow-warm-sm)]"
-                          : isCompleted
-                            ? "border-[var(--tsc-line)]/70 bg-white hover:border-[var(--tsc-ink)]/30"
-                            : "border-transparent bg-transparent opacity-60 hover:opacity-100"
-                          }`}
+                        className={`w-full text-left group/step flex items-start justify-between gap-3 p-2.5 rounded-[6px] border transition-all duration-300 cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--tsc-action)] ${
+                          isCurrent
+                            ? "border-[var(--tsc-action)] bg-[var(--tsc-surface)] shadow-[var(--shadow-warm-sm)]"
+                            : isCompleted
+                              ? "border-[var(--tsc-line)]/70 bg-white hover:border-[var(--tsc-ink)]/30"
+                              : "border-transparent bg-transparent opacity-60 hover:opacity-100"
+                        }`}
                       >
                         <div className="flex items-start gap-3">
                           <span
-                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border text-[11px] font-bold transition-all duration-300 ${isCurrent
-                              ? "border-[var(--tsc-action)] bg-[var(--tsc-action)] text-white"
-                              : isCompleted
-                                ? "border-[var(--tsc-positive)]/40 bg-[var(--tsc-positive)]/10 text-[var(--tsc-positive)]"
-                                : "border-[var(--tsc-line)] bg-white text-[var(--tsc-muted)]"
-                              }`}
+                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border text-[11px] font-bold transition-all duration-300 ${
+                              isCurrent
+                                ? "border-[var(--tsc-action)] bg-[var(--tsc-action)] text-white"
+                                : isCompleted
+                                  ? "border-[var(--tsc-positive)]/40 bg-[var(--tsc-positive)]/10 text-[var(--tsc-positive)]"
+                                  : "border-[var(--tsc-line)] bg-white text-[var(--tsc-muted)]"
+                            }`}
                           >
                             {isCompleted ? (
                               <Check className="h-3.5 w-3.5 stroke-[2.5]" />
@@ -618,12 +623,13 @@ export function SystemStudies() {
 
                           <div>
                             <div
-                              className={`text-xs font-semibold tracking-wide transition-colors ${isCurrent
-                                ? "text-[var(--tsc-ink)]"
-                                : isCompleted
-                                  ? "text-[var(--tsc-ink)]/90"
-                                  : "text-[var(--tsc-muted)]"
-                                }`}
+                              className={`text-xs font-semibold tracking-wide transition-colors ${
+                                isCurrent
+                                  ? "text-[var(--tsc-ink)]"
+                                  : isCompleted
+                                    ? "text-[var(--tsc-ink)]/90"
+                                    : "text-[var(--tsc-muted)]"
+                              }`}
                             >
                               {step.name}
                             </div>
@@ -638,22 +644,24 @@ export function SystemStudies() {
                           <div className="flex items-center gap-1.5">
                             {step.telemetryPayload && (
                               <span
-                                className={`flex items-center gap-0.5 text-[9px] font-mono px-1 py-0.5 rounded transition-colors ${isExpanded
-                                  ? "text-[var(--tsc-action)] bg-[var(--tsc-action)]/10 font-medium"
-                                  : "text-[var(--tsc-muted)] group-hover/step:text-[var(--tsc-ink)]"
-                                  }`}
+                                className={`flex items-center gap-0.5 text-[9px] font-mono px-1 py-0.5 rounded transition-colors ${
+                                  isExpanded
+                                    ? "text-[var(--tsc-action)] bg-[var(--tsc-action)]/10 font-medium"
+                                    : "text-[var(--tsc-muted)] group-hover/step:text-[var(--tsc-ink)]"
+                                }`}
                               >
                                 <Code2 className="h-2.5 w-2.5" />
                                 <span>{isExpanded ? "close" : "trace"}</span>
                               </span>
                             )}
                             <span
-                              className={`inline-block text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded border ${isCurrent
-                                ? "text-[var(--tsc-action)] border-[var(--tsc-action)]/30 bg-[var(--tsc-action)]/5"
-                                : isCompleted
-                                  ? "text-[var(--tsc-positive)] border-[var(--tsc-positive)]/20 bg-green-50/50"
-                                  : "text-[var(--tsc-muted)]/60 border-[var(--tsc-line)]/50"
-                                }`}
+                              className={`inline-block text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded border ${
+                                isCurrent
+                                  ? "text-[var(--tsc-action)] border-[var(--tsc-action)]/30 bg-[var(--tsc-action)]/5"
+                                  : isCompleted
+                                    ? "text-[var(--tsc-positive)] border-[var(--tsc-positive)]/20 bg-green-50/50"
+                                    : "text-[var(--tsc-muted)]/60 border-[var(--tsc-line)]/50"
+                              }`}
                             >
                               {isCurrent ? "RUNNING" : isCompleted ? "PASS" : "IDLE"}
                             </span>
@@ -803,13 +811,9 @@ export function SystemStudies() {
                   </div>
                 ))}
               </div>
-
-
             </div>
           ))}
         </div>
-
-
       </div>
     </section>
   );

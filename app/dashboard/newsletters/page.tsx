@@ -1,13 +1,4 @@
-import {
-  ArrowRight,
-  Bot,
-  Calendar,
-  FileText,
-  Newspaper,
-  Plus,
-  Sparkles,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Calendar, FileText, Newspaper, Users } from "lucide-react";
 import Link from "next/link";
 import { getAllNewsletters } from "@/features/newsletters/data/newsletters";
 

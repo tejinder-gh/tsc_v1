@@ -12,12 +12,11 @@
  */
 
 import Cal, { getCalApi } from "@calcom/embed-react";
-import { CheckCircle2, Clock, ShieldCheck, Sparkles } from "lucide-react";
+import { CheckCircle2, Clock, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
-import { businessTypes, booking, site } from "@/content/site";
+import { booking, businessTypes, site } from "@/content/site";
 import { submitLead } from "@/lib/leads";
 import { trackEvent } from "@/lib/telemetry";
-import { CtaLink } from "./CtaLink";
 
 export function BookingEmbed() {
   const [submitted, setSubmitted] = useState(false);
@@ -135,7 +134,9 @@ export function BookingEmbed() {
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--tsc-muted)]">Preferred Window:</span>
-              <span className="font-medium capitalize">{formData.timeframe.replace(/-/g, " ")}</span>
+              <span className="font-medium capitalize">
+                {formData.timeframe.replace(/-/g, " ")}
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--tsc-muted)]">Audit Deliverable:</span>
@@ -282,10 +283,18 @@ export function BookingEmbed() {
                 onChange={(e) => setFormData({ ...formData, timeframe: e.target.value })}
                 className="w-full rounded-[6px] border border-[var(--tsc-line-strong)] bg-white px-3.5 py-2.5 text-sm text-[var(--tsc-ink)] focus:outline-none focus:border-[var(--tsc-ink)] focus:ring-1 focus:ring-[var(--tsc-ink)]"
               >
-                <option value="this-week-morning">This Week &middot; Morning (9am - 12pm ET)</option>
-                <option value="this-week-afternoon">This Week &middot; Afternoon (1pm - 5pm ET)</option>
-                <option value="next-week-morning">Next Week &middot; Morning (9am - 12pm ET)</option>
-                <option value="next-week-afternoon">Next Week &middot; Afternoon (1pm - 5pm ET)</option>
+                <option value="this-week-morning">
+                  This Week &middot; Morning (9am - 12pm ET)
+                </option>
+                <option value="this-week-afternoon">
+                  This Week &middot; Afternoon (1pm - 5pm ET)
+                </option>
+                <option value="next-week-morning">
+                  Next Week &middot; Morning (9am - 12pm ET)
+                </option>
+                <option value="next-week-afternoon">
+                  Next Week &middot; Afternoon (1pm - 5pm ET)
+                </option>
                 <option value="custom">Flexible / Suggest in reply</option>
               </select>
             </div>
@@ -326,7 +335,10 @@ export function BookingEmbed() {
           </div>
 
           {error && (
-            <p role="alert" className="text-xs font-mono text-red-600 bg-red-50 p-2.5 rounded border border-red-200">
+            <p
+              role="alert"
+              className="text-xs font-mono text-red-600 bg-red-50 p-2.5 rounded border border-red-200"
+            >
               {error}
             </p>
           )}
@@ -334,7 +346,9 @@ export function BookingEmbed() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
             <div className="flex items-center gap-2 text-xs text-[var(--tsc-muted)]">
               <ShieldCheck className="h-4 w-4 text-[var(--tsc-action)] shrink-0" />
-              <span>PIPEDA/PHIPA-aware &middot; No sales pitch deck &middot; 3 Scoped Architectures</span>
+              <span>
+                PIPEDA/PHIPA-aware &middot; No sales pitch deck &middot; 3 Scoped Architectures
+              </span>
             </div>
 
             <button

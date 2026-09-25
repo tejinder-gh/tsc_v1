@@ -125,9 +125,7 @@ export function RoiCalculator() {
               className="text-left px-3 py-1.5 rounded-[6px] border border-[var(--tsc-line)] bg-white text-xs font-medium text-[var(--tsc-ink)] hover:border-[var(--tsc-action)] hover:text-[var(--tsc-action)] transition-all cursor-pointer"
             >
               <div className="font-semibold">{preset.label}</div>
-              <div className="text-[10px] text-[var(--tsc-muted)] font-mono">
-                {preset.tagline}
-              </div>
+              <div className="text-[10px] text-[var(--tsc-muted)] font-mono">{preset.tagline}</div>
             </button>
           ))}
           <button
@@ -161,9 +159,7 @@ export function RoiCalculator() {
               min={ENTERPRISE_ROI_BOUNDS.teamSize.min}
               max={ENTERPRISE_ROI_BOUNDS.teamSize.max}
               value={inputs.teamSize}
-              onChange={(e) =>
-                setInputs((prev) => ({ ...prev, teamSize: Number(e.target.value) }))
-              }
+              onChange={(e) => setInputs((prev) => ({ ...prev, teamSize: Number(e.target.value) }))}
               className="w-full accent-[var(--tsc-action)] cursor-pointer"
               aria-label="Team Size"
             />
@@ -290,9 +286,7 @@ export function RoiCalculator() {
               <div className="text-lg font-bold text-emerald-700 tabular-nums">
                 {outputs.threeYearNetRoiMultiple}x Net ROI
               </div>
-              <span className="text-[10px] text-[var(--tsc-muted)] block">
-                Net of deployment
-              </span>
+              <span className="text-[10px] text-[var(--tsc-muted)] block">Net of deployment</span>
             </div>
           </div>
 

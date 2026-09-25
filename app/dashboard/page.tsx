@@ -5,11 +5,9 @@ import {
   Bot,
   CheckCircle2,
   Clock,
-  Layers,
   Library,
   MessageSquare,
   PlayCircle,
-  RefreshCw,
   Shield,
   Sparkles,
   Workflow,
@@ -395,7 +393,10 @@ export default async function DashboardRootPage() {
           {subsystems.map((sub) => {
             const workflowLinks: Record<string, { href: string; label: string }> = {
               scheduler: { href: "/dashboard/workflows?tab=scheduler", label: "Run Tick" },
-              "inbound-sms": { href: "/dashboard/workflows?tab=inbound", label: "Simulate Inbound" },
+              "inbound-sms": {
+                href: "/dashboard/workflows?tab=inbound",
+                label: "Simulate Inbound",
+              },
               "lead-relay": { href: "/dashboard/workflows?tab=relay", label: "Test Relay" },
               "second-brain": { href: "/dashboard/workflows?tab=second-brain", label: "Test RAG" },
               "catalog-engine": { href: "/dashboard/catalog", label: "Manage" },

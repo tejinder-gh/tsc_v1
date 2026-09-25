@@ -11,8 +11,8 @@ import { ContextRepository } from "../repositories/ContextRepository";
 
 describe("Canonical Context RAG", () => {
   it("executes canonical ranking and fetches top resources", async () => {
-    let capturedParams: any[] = [];
-    setMockQueryHandler(async (text, params) => {
+    let capturedParams: unknown[] = [];
+    setMockQueryHandler(async (_text, params) => {
       capturedParams = params || [];
       return {
         rows: [

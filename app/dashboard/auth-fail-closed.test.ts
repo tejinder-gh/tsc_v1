@@ -1,6 +1,6 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { NextRequest } from "next/server";
+import { type NextFetchEvent, NextRequest } from "next/server";
 import { renderToStaticMarkup } from "react-dom/server";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { proxy } from "../../proxy";
 import SignInPage from "../(auth)/sign-in/[[...sign-in]]/page";
 import DashboardLayout from "./layout";
@@ -51,14 +51,16 @@ describe("A1: Fail closed when production Clerk configuration is absent", () => 
   });
 
   describe("Proxy boundary protection", () => {
+    const mockEvent = { waitUntil: vi.fn() } as unknown as NextFetchEvent;
+
     it("returns HTTP 503 for /dashboard in production when Clerk keys are absent", async () => {
       (process.env as Record<string, string | undefined>).NODE_ENV = "production";
       const req = new NextRequest("http://localhost:3000/dashboard");
-      const res = await proxy(req, {} as any);
+      const res = await proxy(req, mockEvent);
 
       expect(res).toBeDefined();
-      expect(res!.status).toBe(503);
-      const text = await res!.text();
+      expect(res?.status).toBe(503);
+      const text = await res?.text();
       expect(text).toContain("Operator dashboard is temporarily unavailable");
     });
 
@@ -66,29 +68,29 @@ describe("A1: Fail closed when production Clerk configuration is absent", () => 
       (process.env as Record<string, string | undefined>).NODE_ENV = "development";
       process.env.ALLOW_DEV_OPERATOR_AUTH = "false";
       const req = new NextRequest("http://localhost:3000/dashboard/workflows");
-      const res = await proxy(req, {} as any);
+      const res = await proxy(req, mockEvent);
 
       expect(res).toBeDefined();
-      expect(res!.status).toBe(503);
+      expect(res?.status).toBe(503);
     });
 
     it("allows pass-through in development only when ALLOW_DEV_OPERATOR_AUTH is 'true'", async () => {
       (process.env as Record<string, string | undefined>).NODE_ENV = "development";
       process.env.ALLOW_DEV_OPERATOR_AUTH = "true";
       const req = new NextRequest("http://localhost:3000/dashboard");
-      const res = await proxy(req, {} as any);
+      const res = await proxy(req, mockEvent);
 
       expect(res).toBeDefined();
-      expect(res!.headers.get("x-middleware-next")).toBe("1");
+      expect(res?.headers.get("x-middleware-next")).toBe("1");
     });
 
     it("passes through non-dashboard requests without touching Clerk", async () => {
       (process.env as Record<string, string | undefined>).NODE_ENV = "production";
       const req = new NextRequest("http://localhost:3000/about");
-      const res = await proxy(req, {} as any);
+      const res = await proxy(req, mockEvent);
 
       expect(res).toBeDefined();
-      expect(res!.headers.get("x-middleware-next")).toBe("1");
+      expect(res?.headers.get("x-middleware-next")).toBe("1");
     });
   });
 

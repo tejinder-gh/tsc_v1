@@ -7,8 +7,8 @@
  * How: Renders an editorial recovery card with retry button and direct engineering contact.
  */
 
-import { useEffect } from "react";
 import Link from "next/link";
+import { useEffect } from "react";
 import { site } from "@/content/site";
 import { captureError } from "@/lib/telemetry";
 
@@ -36,8 +36,8 @@ export default function MarketingError({
           An unexpected interruption occurred.
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-[var(--tsc-muted)]">
-          The requested system view experienced an error. Our engineering telemetry has captured this
-          event for triage.
+          The requested system view experienced an error. Our engineering telemetry has captured
+          this event for triage.
         </p>
 
         {error.digest && (

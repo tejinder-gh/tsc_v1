@@ -15,8 +15,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   );
 
   const isDevAllowed =
-    process.env.NODE_ENV === "development" &&
-    process.env.ALLOW_DEV_OPERATOR_AUTH === "true";
+    process.env.NODE_ENV === "development" && process.env.ALLOW_DEV_OPERATOR_AUTH === "true";
 
   if (!hasClerk) {
     if (isDevAllowed) {
@@ -45,9 +44,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-[8px] bg-[var(--tsc-surface)] font-mono text-sm font-semibold text-[var(--tsc-muted)]">
             TSC
           </div>
-          <h1 className="text-lg font-bold text-[var(--tsc-ink)]">Operator Dashboard Unavailable</h1>
+          <h1 className="text-lg font-bold text-[var(--tsc-ink)]">
+            Operator Dashboard Unavailable
+          </h1>
           <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-            Operator access is temporarily unavailable because identity services are not configured. Please contact the administrator.
+            Operator access is temporarily unavailable because identity services are not configured.
+            Please contact the administrator.
           </p>
         </div>
       </div>

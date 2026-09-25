@@ -13,10 +13,7 @@ export function getAuthorizedOperatorUserIds(env: NodeJS.ProcessEnv = process.en
 }
 
 export function isDevOperatorAuthAllowed(env: NodeJS.ProcessEnv = process.env): boolean {
-  return (
-    env.NODE_ENV === "development" &&
-    env.ALLOW_DEV_OPERATOR_AUTH === "true"
-  );
+  return env.NODE_ENV === "development" && env.ALLOW_DEV_OPERATOR_AUTH === "true";
 }
 
 export function isAuthorizedOperator(userId: string): boolean {

@@ -14,7 +14,6 @@ import {
   getRecommendedOfferings,
 } from "../data/registry";
 import { CANONICAL_SERVICES } from "../data/source-services";
-import { checkEligibility } from "../domain/eligibility";
 import { scoreService } from "../domain/scoring";
 import { calculateSearchRank, parseNaturalLanguageQuery } from "../domain/search";
 
@@ -346,9 +345,9 @@ describe("Newsletter Domain Integrity", () => {
     expect(sitemapEntries.length).toBeGreaterThan(0);
     for (const entry of sitemapEntries) {
       expect(entry.lastModified).toBeDefined();
-      expect(
-        entry.lastModified instanceof Date || typeof entry.lastModified === "string",
-      ).toBe(true);
+      expect(entry.lastModified instanceof Date || typeof entry.lastModified === "string").toBe(
+        true,
+      );
     }
   });
 });

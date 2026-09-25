@@ -62,7 +62,7 @@ describe("Delivery Adapters", () => {
     });
 
     it("sends via SendGrid and parses message ID on 202", async () => {
-      let sentPayload: any;
+      let sentPayload: { subject?: string; content?: Array<{ value: string }> } | undefined;
       globalThis.fetch = vi.fn().mockImplementation((_url, init) => {
         sentPayload = JSON.parse(init.body as string);
         return Promise.resolve(
@@ -88,15 +88,16 @@ describe("Delivery Adapters", () => {
       }
 
       // Assert non-sensitive subject contract
+      if (!sentPayload) throw new Error("Expected sentPayload to be defined");
       expect(sentPayload.subject).toBe("[SMS Relay] New message from VM-HDFCBK [SIM 1]");
       expect(sentPayload.subject).not.toContain("OTP");
       expect(sentPayload.subject).not.toContain("123456");
       // Assert SMS body remains in textContent
-      expect(sentPayload.content[0].value).toContain("OTP is 123456");
+      expect(sentPayload.content?.[0]?.value).toContain("OTP is 123456");
     });
 
     it("sanitizes CRLF and control characters from sender in subject", async () => {
-      let sentPayload: any;
+      let sentPayload: { subject?: string } | undefined;
       globalThis.fetch = vi.fn().mockImplementation((_url, init) => {
         sentPayload = JSON.parse(init.body as string);
         return Promise.resolve(new Response(null, { status: 202 }));
@@ -116,7 +117,10 @@ describe("Delivery Adapters", () => {
       };
 
       await adapter.deliver(maliciousSenderMessage, sampleContext);
-      expect(sentPayload.subject).toBe("[SMS Relay] New message from Sender Bcc: evil@attacker.com AnotherLine");
+      if (!sentPayload) throw new Error("Expected sentPayload to be defined");
+      expect(sentPayload.subject).toBe(
+        "[SMS Relay] New message from Sender Bcc: evil@attacker.com AnotherLine",
+      );
       expect(sentPayload.subject).not.toContain("\r");
       expect(sentPayload.subject).not.toContain("\n");
     });

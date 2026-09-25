@@ -1,4 +1,4 @@
-import { ArrowLeft, PlayCircle, Shield } from "lucide-react";
+import { ArrowLeft, Shield } from "lucide-react";
 import Link from "next/link";
 import { getDashboardOverviewMetrics } from "../actions";
 import { WorkflowConsole } from "./workflow-console";
@@ -12,10 +12,7 @@ interface WorkflowsPageProps {
 }
 
 export default async function WorkflowsPage({ searchParams }: WorkflowsPageProps) {
-  const [params, metrics] = await Promise.all([
-    searchParams,
-    getDashboardOverviewMetrics(),
-  ]);
+  const [params, metrics] = await Promise.all([searchParams, getDashboardOverviewMetrics()]);
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">

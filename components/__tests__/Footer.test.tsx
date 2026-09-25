@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { Footer } from "../Footer";
 import { site } from "@/content/site";
+import { Footer } from "../Footer";
 
 describe("Footer Component", () => {
   it("renders all global offices from site.offices", () => {

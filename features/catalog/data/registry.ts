@@ -89,7 +89,7 @@ export function filterOfferings(criteria: OfferingFilterCriteria): Offering[] {
     );
   }
 
-  if (criteria.search && criteria.search.trim()) {
+  if (criteria.search?.trim()) {
     const q = criteria.search.trim().toLowerCase();
     results = results.filter((o) => {
       return (

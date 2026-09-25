@@ -9,11 +9,11 @@ import type { InboundMessage } from "@/automations/inbound/types";
 import { processInbound } from "@/automations/server/process-inbound";
 import { runTick } from "@/automations/server/run-tick";
 import { getAllOfferings, getOfferingsByKind } from "@/features/catalog/data/registry";
-import {
-  ContextService,
-  ContextAuthorizationError,
-} from "@/lib/second-brain/services/ContextService";
 import { SECOND_BRAIN_ROUTES } from "@/lib/second-brain/routes-registry";
+import {
+  ContextAuthorizationError,
+  ContextService,
+} from "@/lib/second-brain/services/ContextService";
 import { getTelemetryStatus, type TelemetryStatus } from "@/lib/telemetry";
 import { assertOperatorAuthenticated, assertValidClientId } from "./auth-guard";
 
@@ -198,9 +198,15 @@ export async function triggerManualSchedulerTick(clientId?: string) {
   await assertOperatorAuthenticated();
 
   const startTime = Date.now();
-  const clientsToRun = clientId
-    ? [demoClients.find((c) => c.config.id === assertValidClientId(clientId))!.config]
-    : demoClients.map((c) => c.config);
+  let clientsToRun = demoClients.map((c) => c.config);
+  if (clientId) {
+    const validId = assertValidClientId(clientId);
+    const target = demoClients.find((c) => c.config.id === validId);
+    if (!target) {
+      throw new Error(`Client ${validId} not found`);
+    }
+    clientsToRun = [target.config];
+  }
 
   const report = await runTick({
     clients: clientsToRun,
@@ -233,7 +239,7 @@ export async function triggerSimulatedInboundSms(payload: {
   await assertOperatorAuthenticated();
   const validClientId = assertValidClientId(payload.clientId);
 
-  if (!payload.messageBody || !payload.messageBody.trim()) {
+  if (!payload.messageBody?.trim()) {
     throw new Error("Message body is required");
   }
 
@@ -315,7 +321,7 @@ export async function triggerSimulatedLead(payload: {
     };
   }
 
-  if (!payload.email || !payload.email.includes("@")) {
+  if (!payload.email?.includes("@")) {
     throw new Error("A valid email address is required");
   }
 

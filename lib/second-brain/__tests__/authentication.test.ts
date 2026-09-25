@@ -84,9 +84,9 @@ describe("Agent Authentication", () => {
     expect(ctx.credentialScopes).toHaveLength(1);
 
     // Verify secrets are absent
-    expect((ctx as any).secret).toBeUndefined();
-    expect((ctx as any).secret_hash).toBeUndefined();
-    expect((ctx as any).secretHash).toBeUndefined();
+    expect((ctx as unknown as Record<string, unknown>).secret).toBeUndefined();
+    expect((ctx as unknown as Record<string, unknown>).secret_hash).toBeUndefined();
+    expect((ctx as unknown as Record<string, unknown>).secretHash).toBeUndefined();
   });
 
   it("rejects wrong secret with INVALID_CREDENTIALS", async () => {

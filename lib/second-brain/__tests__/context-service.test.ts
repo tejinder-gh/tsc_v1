@@ -211,10 +211,7 @@ describe("ContextService Authorization, Validation & Audit Boundary", () => {
   describe("Validation & Business Rules", () => {
     it("validates domain presence and format", async () => {
       await expect(
-        ContextService.search(
-          { domain: "" },
-          { type: "operator", userId: "user_operator_123" },
-        ),
+        ContextService.search({ domain: "" }, { type: "operator", userId: "user_operator_123" }),
       ).rejects.toThrow(ContextValidationError);
 
       await expect(
@@ -226,9 +223,7 @@ describe("ContextService Authorization, Validation & Audit Boundary", () => {
     });
 
     it("caps limit to maximum of 10", async () => {
-      const repoSpy = vi
-        .spyOn(ContextRepository, "searchContext")
-        .mockResolvedValueOnce([]);
+      const repoSpy = vi.spyOn(ContextRepository, "searchContext").mockResolvedValueOnce([]);
 
       await ContextService.search(
         { domain: "strategy", limit: 50 },

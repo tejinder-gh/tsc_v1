@@ -13,8 +13,8 @@ vi.mock("next/cache", () => ({
 
 import { ContextRepository } from "../../lib/second-brain/repositories/ContextRepository";
 import {
-  ContextService,
   type ContextAuditRecord,
+  ContextService,
 } from "../../lib/second-brain/services/ContextService";
 import {
   getDashboardOverviewMetrics,

@@ -132,9 +132,7 @@ describe("calculateEnterpriseRoi", () => {
       weeklyHoursPerPerson: 1,
     });
     expect(lowResult.totalAnnualHours).toBe(
-      ENTERPRISE_ROI_BOUNDS.teamSize.min *
-        ENTERPRISE_ROI_BOUNDS.weeklyHoursPerPerson.min *
-        50,
+      ENTERPRISE_ROI_BOUNDS.teamSize.min * ENTERPRISE_ROI_BOUNDS.weeklyHoursPerPerson.min * 50,
     );
 
     const highResult = calculateEnterpriseRoi({
@@ -143,9 +141,7 @@ describe("calculateEnterpriseRoi", () => {
       weeklyHoursPerPerson: 80,
     });
     expect(highResult.totalAnnualHours).toBe(
-      ENTERPRISE_ROI_BOUNDS.teamSize.max *
-        ENTERPRISE_ROI_BOUNDS.weeklyHoursPerPerson.max *
-        50,
+      ENTERPRISE_ROI_BOUNDS.teamSize.max * ENTERPRISE_ROI_BOUNDS.weeklyHoursPerPerson.max * 50,
     );
     expect(highResult.estimatedDeploymentCost).toBeLessThanOrEqual(75000);
   });

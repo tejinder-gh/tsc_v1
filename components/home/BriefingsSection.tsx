@@ -16,7 +16,11 @@ import { useId, useState } from "react";
 import { SectionLabel } from "@/components/ui/editorial";
 import { CANONICAL_NEWSLETTERS } from "@/features/newsletters/data/newsletters";
 
-type ActiveTab = "tech-founder-briefing" | "ontario-opportunity-monitor" | "tender-brief" | "custom-radar";
+type ActiveTab =
+  | "tech-founder-briefing"
+  | "ontario-opportunity-monitor"
+  | "tender-brief"
+  | "custom-radar";
 
 interface CustomRadarFeature {
   title: string;
@@ -79,7 +83,7 @@ export function BriefingsSection() {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !email.includes("@")) {
+    if (!email?.includes("@")) {
       setStatus("error");
       setErrorMessage("Please enter a valid work email address.");
       return;
@@ -185,9 +189,9 @@ export function BriefingsSection() {
               distilled for operators.
             </h2>
             <p className="text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed max-w-2xl">
-              We run automated ingestion and synthesis pipelines across public filings, model releases,
-              and commercial registries. Read our free dispatches below, subscribe directly, or
-              commission a private monitoring pipeline for your company.
+              We run automated ingestion and synthesis pipelines across public filings, model
+              releases, and commercial registries. Read our free dispatches below, subscribe
+              directly, or commission a private monitoring pipeline for your company.
             </p>
           </div>
 
@@ -378,7 +382,8 @@ export function BriefingsSection() {
                     ))}
                   </div>
                   <p className="text-xs text-[var(--tsc-muted)]">
-                    Audience: <strong className="text-[var(--tsc-ink)]">{activeNewsletter.audience}</strong>
+                    Audience:{" "}
+                    <strong className="text-[var(--tsc-ink)]">{activeNewsletter.audience}</strong>
                   </p>
                 </div>
 
@@ -466,9 +471,7 @@ export function BriefingsSection() {
                       className="p-4 rounded-[6px] bg-[var(--tsc-surface)]/80 border border-[var(--tsc-line)] space-y-2 hover:border-[var(--tsc-action)]/50 transition-colors"
                     >
                       <div className="flex items-center justify-between text-xs font-mono">
-                        <span className="font-bold text-[var(--tsc-action)]">
-                          KEY #{idx + 1}
-                        </span>
+                        <span className="font-bold text-[var(--tsc-action)]">KEY #{idx + 1}</span>
                         <span className="text-[10px] text-[var(--tsc-muted)] uppercase">
                           VERIFIED
                         </span>
@@ -554,7 +557,9 @@ export function BriefingsSection() {
                             </span>
                           </div>
                           <p className="text-xs text-[var(--tsc-muted)]">
-                            Delivered every {activeNewsletter.cadence === "daily" ? "morning at 07:00 AM" : "week"}. Direct to your inbox. Unsubscribe anytime.
+                            Delivered every{" "}
+                            {activeNewsletter.cadence === "daily" ? "morning at 07:00 AM" : "week"}.
+                            Direct to your inbox. Unsubscribe anytime.
                           </p>
                         </div>
 
@@ -598,7 +603,10 @@ export function BriefingsSection() {
                             onChange={(e) => setSubscribeAll(e.target.checked)}
                             className="rounded border-[var(--tsc-line-strong)] text-[var(--tsc-action)] focus:ring-[var(--tsc-action)]"
                           />
-                          <span>Also enroll me in all 3 executive radars (Tech Founder + Dealflow + Municipal RFPs)</span>
+                          <span>
+                            Also enroll me in all 3 executive radars (Tech Founder + Dealflow +
+                            Municipal RFPs)
+                          </span>
                         </label>
                         <Link
                           href={`/newsletters/${activeNewsletter.slug}`}
@@ -701,11 +709,10 @@ export function BriefingsSection() {
                     <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
                       MUNICIPAL PROCUREMENT
                     </span>
-                    <div className="font-bold text-[var(--tsc-ink)]">
-                      Sub-$100k RFP Crawler
-                    </div>
+                    <div className="font-bold text-[var(--tsc-ink)]">Sub-$100k RFP Crawler</div>
                     <p className="text-[11px] text-[var(--tsc-muted)]">
-                      Monitors 22 Ontario municipality portals; filters out union-only bids and pushes matching trade RFPs to Slack.
+                      Monitors 22 Ontario municipality portals; filters out union-only bids and
+                      pushes matching trade RFPs to Slack.
                     </p>
                   </div>
 
@@ -717,7 +724,8 @@ export function BriefingsSection() {
                       Receivership &amp; Asset Radar
                     </div>
                     <p className="text-[11px] text-[var(--tsc-muted)]">
-                      Scrapes bankruptcy trustee notices and court files at 06:00 AM; calculates asset-to-debt ratio before auction.
+                      Scrapes bankruptcy trustee notices and court files at 06:00 AM; calculates
+                      asset-to-debt ratio before auction.
                     </p>
                   </div>
 
@@ -725,11 +733,10 @@ export function BriefingsSection() {
                     <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
                       REGULATORY &amp; COMPLIANCE
                     </span>
-                    <div className="font-bold text-[var(--tsc-ink)]">
-                      Zoning Variance Tracker
-                    </div>
+                    <div className="font-bold text-[var(--tsc-ink)]">Zoning Variance Tracker</div>
                     <p className="text-[11px] text-[var(--tsc-muted)]">
-                      Detects new Committee of Adjustment filings within 500m of client commercial assets with zero manual oversight.
+                      Detects new Committee of Adjustment filings within 500m of client commercial
+                      assets with zero manual oversight.
                     </p>
                   </div>
                 </div>
@@ -742,7 +749,8 @@ export function BriefingsSection() {
                     Ready to build an automated radar for your organization?
                   </div>
                   <p className="text-xs text-white/70">
-                    We review your target data sources, model extraction schemas, and deliver a functioning proof-of-concept in 5 days.
+                    We review your target data sources, model extraction schemas, and deliver a
+                    functioning proof-of-concept in 5 days.
                   </p>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
@@ -781,7 +789,8 @@ export function BriefingsSection() {
                 Automation Opportunities Checklist
               </h4>
               <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                Calculate wasted hours across intake, scheduling, and billing before writing a line of code.
+                Calculate wasted hours across intake, scheduling, and billing before writing a line
+                of code.
               </p>
             </div>
             <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
@@ -808,7 +817,8 @@ export function BriefingsSection() {
                 The Skill Corner Systems Library
               </h4>
               <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                Open reference architectures for AI receptionists, 2-way scheduling, and autonomous workflow engines.
+                Open reference architectures for AI receptionists, 2-way scheduling, and autonomous
+                workflow engines.
               </p>
             </div>
             <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
@@ -829,13 +839,16 @@ export function BriefingsSection() {
                 <span className="font-bold text-[var(--tsc-action)] uppercase">
                   [SECTORS &middot; MATRICES]
                 </span>
-                <span className="text-[var(--tsc-action)] font-semibold font-mono">24 VERTICALS</span>
+                <span className="text-[var(--tsc-action)] font-semibold font-mono">
+                  24 VERTICALS
+                </span>
               </div>
               <h4 className="text-lg font-bold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
                 Industry-Specific Automation Radars
               </h4>
               <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                Explore tailored automation blueprints for dental offices, law firms, restaurants, and trade contractors.
+                Explore tailored automation blueprints for dental offices, law firms, restaurants,
+                and trade contractors.
               </p>
             </div>
             <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
@@ -854,7 +867,9 @@ export function BriefingsSection() {
         <div className="mt-8 rounded-[8px] border border-[var(--tsc-line)] bg-white/70 backdrop-blur-xs p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-mono text-xs">
           <div className="flex items-center gap-2 text-[var(--tsc-muted)]">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--tsc-action)]" />
-            <span className="font-semibold text-[var(--tsc-ink)] uppercase">EXPLORE BY VERTICAL:</span>
+            <span className="font-semibold text-[var(--tsc-ink)] uppercase">
+              EXPLORE BY VERTICAL:
+            </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Link

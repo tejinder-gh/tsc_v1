@@ -6,14 +6,8 @@ import {
   ChevronDown,
   ChevronUp,
   Clock,
-  ExternalLink,
-  Layers,
-  ListChecks,
   Loader2,
-  Radio,
   Send,
-  Shield,
-  ShieldCheck,
   Sparkles,
   Terminal,
 } from "lucide-react";
@@ -26,7 +20,11 @@ interface Props {
   newsletters: readonly Newsletter[];
 }
 
-type ActiveTab = "tech-founder-briefing" | "ontario-opportunity-monitor" | "tender-brief" | "custom-radar";
+type ActiveTab =
+  | "tech-founder-briefing"
+  | "ontario-opportunity-monitor"
+  | "tender-brief"
+  | "custom-radar";
 
 interface CustomRadarSpec {
   title: string;
@@ -103,7 +101,9 @@ export function NewslettersHubView({ newsletters }: Props) {
     "ontario-opportunity-monitor",
     "tender-brief",
   ]);
-  const [masterStatus, setMasterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [masterStatus, setMasterStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle",
+  );
   const [masterErrorMessage, setMasterErrorMessage] = useState("");
 
   const formId = useId();
@@ -113,10 +113,7 @@ export function NewslettersHubView({ newsletters }: Props) {
   const currentIssues = activeNewsletter?.issues || [];
   const currentIssue = currentIssues[selectedIssueIdx] || currentIssues[0];
 
-  const totalSubscribers = newsletters.reduce(
-    (sum, n) => sum + (n.subscriberCount || 0),
-    0,
-  );
+  const totalSubscribers = newsletters.reduce((sum, n) => sum + (n.subscriberCount || 0), 0);
 
   const toggleSlug = (slug: string) => {
     setSelectedSlugs((prev) =>
@@ -126,7 +123,7 @@ export function NewslettersHubView({ newsletters }: Props) {
 
   const handleMasterSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!masterEmail || !masterEmail.includes("@")) {
+    if (!masterEmail?.includes("@")) {
       setMasterStatus("error");
       setMasterErrorMessage("Please enter a valid work email address.");
       return;
@@ -175,12 +172,17 @@ export function NewslettersHubView({ newsletters }: Props) {
       >
         <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
           {/* Breadcrumbs */}
-          <nav aria-label="Breadcrumbs" className="mb-6 flex items-center gap-2 font-mono text-xs text-[var(--tsc-muted)]">
+          <nav
+            aria-label="Breadcrumbs"
+            className="mb-6 flex items-center gap-2 font-mono text-xs text-[var(--tsc-muted)]"
+          >
             <Link href="/" className="hover:text-[var(--tsc-ink)] transition-colors">
               Home
             </Link>
             <span className="text-[var(--tsc-line)]">/</span>
-            <span className="text-[var(--tsc-ink)] font-semibold uppercase">Executive Briefings</span>
+            <span className="text-[var(--tsc-ink)] font-semibold uppercase">
+              Executive Briefings
+            </span>
           </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-end">
@@ -203,9 +205,9 @@ export function NewslettersHubView({ newsletters }: Props) {
               </h1>
 
               <p className="text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed max-w-2xl">
-                We build automated ingestion and synthesis pipelines that scan 14+ public registries,
-                model releases, and municipal tenders every day. Published openly for founders,
-                investors, and operators who require signal without the social feed.
+                We build automated ingestion and synthesis pipelines that scan 14+ public
+                registries, model releases, and municipal tenders every day. Published openly for
+                founders, investors, and operators who require signal without the social feed.
               </p>
             </div>
 
@@ -214,7 +216,9 @@ export function NewslettersHubView({ newsletters }: Props) {
               <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-2xs space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between border-b border-[var(--tsc-line)] pb-2.5">
                   <span className="text-[var(--tsc-muted)] uppercase">AUDIENCE VERIFICATION</span>
-                  <span className="text-[var(--tsc-action)] font-bold">{totalSubscribers}+ READERS</span>
+                  <span className="text-[var(--tsc-action)] font-bold">
+                    {totalSubscribers}+ READERS
+                  </span>
                 </div>
                 <div className="space-y-1.5 text-[11px] text-[var(--tsc-ink)]">
                   <div className="flex justify-between">
@@ -250,8 +254,8 @@ export function NewslettersHubView({ newsletters }: Props) {
                     All-Access Executive Enrollment Confirmed.
                   </div>
                   <p className="text-xs text-[var(--tsc-muted)]">
-                    You will receive the selected briefings directly in your inbox according to their
-                    respective broadcast schedules. Unsubscribe anytime with 1 click.
+                    You will receive the selected briefings directly in your inbox according to
+                    their respective broadcast schedules. Unsubscribe anytime with 1 click.
                   </p>
                 </div>
               </div>
@@ -281,7 +285,8 @@ export function NewslettersHubView({ newsletters }: Props) {
                       Receive weekly and daily intelligence directly in your inbox.
                     </div>
                     <p className="text-xs text-[var(--tsc-muted)]">
-                      Select which radars you want to subscribe to. Delivered on schedule with zero promotional noise.
+                      Select which radars you want to subscribe to. Delivered on schedule with zero
+                      promotional noise.
                     </p>
                   </div>
 
@@ -333,7 +338,9 @@ export function NewslettersHubView({ newsletters }: Props) {
                             : "bg-[var(--tsc-surface)] border-[var(--tsc-line)] text-[var(--tsc-muted)] hover:bg-white"
                         }`}
                       >
-                        <span className={`h-2 w-2 rounded-full ${isChecked ? "bg-[var(--tsc-action)]" : "bg-[var(--tsc-line)]"}`} />
+                        <span
+                          className={`h-2 w-2 rounded-full ${isChecked ? "bg-[var(--tsc-action)]" : "bg-[var(--tsc-line)]"}`}
+                        />
                         <span>{nl.name}</span>
                         <span className="text-[10px] text-[var(--tsc-muted)] uppercase">
                           ({nl.cadence})
@@ -558,7 +565,8 @@ export function NewslettersHubView({ newsletters }: Props) {
                       ))}
                     </div>
                     <p className="text-xs text-[var(--tsc-muted)]">
-                      Audience: <strong className="text-[var(--tsc-ink)]">{activeNewsletter.audience}</strong>
+                      Audience:{" "}
+                      <strong className="text-[var(--tsc-ink)]">{activeNewsletter.audience}</strong>
                     </p>
                   </div>
 
@@ -698,7 +706,9 @@ export function NewslettersHubView({ newsletters }: Props) {
                 {/* Footer Action Links */}
                 <div className="pt-6 border-t border-[var(--tsc-line)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono text-xs">
                   <div className="text-[var(--tsc-muted)]">
-                    Cadence: <strong className="text-[var(--tsc-ink)]">{activeNewsletter.cadence}</strong> publication &middot; Delivered to inboxes
+                    Cadence:{" "}
+                    <strong className="text-[var(--tsc-ink)]">{activeNewsletter.cadence}</strong>{" "}
+                    publication &middot; Delivered to inboxes
                   </div>
                   <Link
                     href={`/newsletters/${activeNewsletter.slug}`}
@@ -728,9 +738,9 @@ export function NewslettersHubView({ newsletters }: Props) {
                       Commission a Dedicated Intelligence Pipeline
                     </h3>
                     <p className="text-sm text-[var(--tsc-muted)] max-w-2xl leading-relaxed">
-                      Stop paying skilled staff to manually search 30 fragmented portals, registries,
-                      and PDF gazettes every day. We build bespoke ingestion, OCR, and deterministic
-                      alerting engines wired directly into your operations.
+                      Stop paying skilled staff to manually search 30 fragmented portals,
+                      registries, and PDF gazettes every day. We build bespoke ingestion, OCR, and
+                      deterministic alerting engines wired directly into your operations.
                     </p>
                   </div>
 
@@ -783,7 +793,8 @@ export function NewslettersHubView({ newsletters }: Props) {
                       Ready to build an automated radar for your organization?
                     </div>
                     <p className="text-xs text-white/70">
-                      We review your target data sources, model extraction schemas, and deliver a functioning proof-of-concept in 5 days.
+                      We review your target data sources, model extraction schemas, and deliver a
+                      functioning proof-of-concept in 5 days.
                     </p>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
@@ -825,7 +836,8 @@ export function NewslettersHubView({ newsletters }: Props) {
               Authored briefings &amp; monitored radars.
             </h2>
             <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
-              Curated by senior systems architects and operational researchers with zero sensationalism.
+              Curated by senior systems architects and operational researchers with zero
+              sensationalism.
             </p>
           </div>
 
@@ -848,9 +860,7 @@ export function NewslettersHubView({ newsletters }: Props) {
 
                   <div>
                     <h3 className="text-xl font-bold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
-                      <Link href={`/newsletters/${newsletter.slug}`}>
-                        {newsletter.name}
-                      </Link>
+                      <Link href={`/newsletters/${newsletter.slug}`}>{newsletter.name}</Link>
                     </h3>
                     <p className="mt-1 text-xs font-mono text-[var(--tsc-muted)]">
                       {newsletter.tagline}
@@ -918,8 +928,8 @@ export function NewslettersHubView({ newsletters }: Props) {
               14+ Monitored Registries &amp; Ingestion Streams
             </h2>
             <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
-              Our briefings are not drafted from social feeds or aggregated listicles. Every dispatch
-              originates from automated crawlers evaluating official public data stores.
+              Our briefings are not drafted from social feeds or aggregated listicles. Every
+              dispatch originates from automated crawlers evaluating official public data stores.
             </p>
           </div>
 
@@ -936,7 +946,10 @@ export function NewslettersHubView({ newsletters }: Props) {
 
                 <ul className="space-y-2 font-mono text-xs text-[var(--tsc-ink)]">
                   {stream.sources.map((source) => (
-                    <li key={source} className="flex items-start gap-2 p-2 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]/50">
+                    <li
+                      key={source}
+                      className="flex items-start gap-2 p-2 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]/50"
+                    >
                       <span className="text-[var(--tsc-action)] font-bold">&bull;</span>
                       <span className="text-[11px]">{source}</span>
                     </li>
@@ -955,31 +968,34 @@ export function NewslettersHubView({ newsletters }: Props) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
               <div className="space-y-1.5 p-3 rounded-[6px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]/60">
                 <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
-                  STEP 01 // CRAWL &amp; OCR
+                  STEP 01 {"//"} CRAWL &amp; OCR
                 </span>
                 <div className="font-bold text-[var(--tsc-ink)]">Automated Extraction</div>
                 <p className="text-[11px] text-[var(--tsc-muted)]">
-                  Headless browser workers run on scheduled crons to ingest PDF filings, municipal tables, and pre-print papers.
+                  Headless browser workers run on scheduled crons to ingest PDF filings, municipal
+                  tables, and pre-print papers.
                 </p>
               </div>
 
               <div className="space-y-1.5 p-3 rounded-[6px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]/60">
                 <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
-                  STEP 02 // SCHEMA GATING
+                  STEP 02 {"//"} SCHEMA GATING
                 </span>
                 <div className="font-bold text-[var(--tsc-ink)]">Deterministic Zod Validation</div>
                 <p className="text-[11px] text-[var(--tsc-muted)]">
-                  LLMs extract key entities against strict schemas. Outputs failing invariant checks drop to rule-based fallback.
+                  LLMs extract key entities against strict schemas. Outputs failing invariant checks
+                  drop to rule-based fallback.
                 </p>
               </div>
 
               <div className="space-y-1.5 p-3 rounded-[6px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)]/60">
                 <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
-                  STEP 03 // ARCHITECT GATE
+                  STEP 03 {"//"} ARCHITECT GATE
                 </span>
                 <div className="font-bold text-[var(--tsc-ink)]">Senior Engineer Sign-Off</div>
                 <p className="text-[11px] text-[var(--tsc-muted)]">
-                  Every public dispatch is reviewed and verified by a human Lead Systems Architect prior to email transmission.
+                  Every public dispatch is reviewed and verified by a human Lead Systems Architect
+                  prior to email transmission.
                 </p>
               </div>
             </div>
@@ -1025,7 +1041,8 @@ export function NewslettersHubView({ newsletters }: Props) {
                   Automation Opportunities Checklist
                 </h4>
                 <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                  Calculate wasted hours across intake, scheduling, and billing before writing a line of code.
+                  Calculate wasted hours across intake, scheduling, and billing before writing a
+                  line of code.
                 </p>
               </div>
               <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
@@ -1052,7 +1069,8 @@ export function NewslettersHubView({ newsletters }: Props) {
                   The Skill Corner Systems Library
                 </h4>
                 <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                  Open reference architectures for AI receptionists, 2-way scheduling, and autonomous workflow engines.
+                  Open reference architectures for AI receptionists, 2-way scheduling, and
+                  autonomous workflow engines.
                 </p>
               </div>
               <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">
@@ -1073,13 +1091,16 @@ export function NewslettersHubView({ newsletters }: Props) {
                   <span className="font-bold text-[var(--tsc-action)] uppercase">
                     [SECTORS &middot; MATRICES]
                   </span>
-                  <span className="text-[var(--tsc-action)] font-semibold font-mono">24 VERTICALS</span>
+                  <span className="text-[var(--tsc-action)] font-semibold font-mono">
+                    24 VERTICALS
+                  </span>
                 </div>
                 <h4 className="text-lg font-bold text-[var(--tsc-ink)] group-hover:text-[var(--tsc-action)] transition-colors">
                   Industry-Specific Automation Radars
                 </h4>
                 <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                  Explore tailored automation blueprints for dental offices, law firms, restaurants, and trade contractors.
+                  Explore tailored automation blueprints for dental offices, law firms, restaurants,
+                  and trade contractors.
                 </p>
               </div>
               <div className="pt-5 mt-5 border-t border-[var(--tsc-line)]/70">

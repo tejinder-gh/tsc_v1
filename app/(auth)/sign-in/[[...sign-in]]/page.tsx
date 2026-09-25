@@ -37,8 +37,7 @@ export default function SignInPage() {
   }
 
   const isDevAllowed =
-    process.env.NODE_ENV === "development" &&
-    process.env.ALLOW_DEV_OPERATOR_AUTH === "true";
+    process.env.NODE_ENV === "development" && process.env.ALLOW_DEV_OPERATOR_AUTH === "true";
 
   if (isDevAllowed) {
     // Graceful local development operator access ONLY in development with explicit opt-in
@@ -58,8 +57,8 @@ export default function SignInPage() {
               Operator Access Portal
             </h1>
             <p className="text-xs text-[var(--tsc-muted)] leading-relaxed max-w-xs mx-auto">
-              Clerk API credentials are unconfigured in local development. One-click dev operator mode
-              is enabled for zero-friction access.
+              Clerk API credentials are unconfigured in local development. One-click dev operator
+              mode is enabled for zero-friction access.
             </p>
           </div>
 
@@ -117,7 +116,8 @@ export default function SignInPage() {
             Operator Access Unavailable
           </h1>
           <p className="text-xs text-[var(--tsc-muted)] leading-relaxed max-w-xs mx-auto">
-            Operator access is temporarily unavailable because authentication services are not configured.
+            Operator access is temporarily unavailable because authentication services are not
+            configured.
           </p>
         </div>
 

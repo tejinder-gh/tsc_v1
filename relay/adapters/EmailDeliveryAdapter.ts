@@ -72,6 +72,11 @@ export class EmailDeliveryAdapter implements DeliveryAdapter {
     }
 
     if (this.config.provider === "sendgrid") {
+      const apiKey = this.config.apiKey;
+      if (!apiKey) {
+        throw new ConfigurationError("Missing API key for SendGrid");
+      }
+
       const result = await sendSendGridEmail(
         {
           from: { email: this.config.from, name: "SMS Relay" },
@@ -80,7 +85,7 @@ export class EmailDeliveryAdapter implements DeliveryAdapter {
           text: textContent,
           customArgs: { eventId: context.eventId },
         },
-        { apiKey: this.config.apiKey! },
+        { apiKey },
       );
 
       if (result.ok) {
@@ -98,6 +103,11 @@ export class EmailDeliveryAdapter implements DeliveryAdapter {
       };
     }
 
+    const resendApiKey = this.config.apiKey;
+    if (!resendApiKey) {
+      throw new ConfigurationError("Missing API key for Resend");
+    }
+
     const result = await sendResendEmail(
       {
         from: this.config.from,
@@ -108,7 +118,7 @@ export class EmailDeliveryAdapter implements DeliveryAdapter {
           "X-Event-ID": context.eventId,
         },
       },
-      { apiKey: this.config.apiKey! },
+      { apiKey: resendApiKey },
     );
 
     if (result.ok) {
