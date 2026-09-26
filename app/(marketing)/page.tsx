@@ -22,14 +22,16 @@ export default function HomePage() {
       {/* 03. System Studies */}
       <SystemStudies />
 
-      {/* 04. Founder Point of View */}
-      <FounderPOV />
-
-      {/* 05. Executive Briefings & Intelligence Radar */}
+      {/* 04. Executive Briefings & Intelligence Radar */}
       <BriefingsSection />
+
+      {/* 05. Founder Point of View */}
+      <FounderPOV />
 
       {/* 06. Open Prompt / Closing Interaction */}
       <OpenPrompt />
+
+      {/* ÷      <TestimonialsSection /> */}
     </>
   );
 }

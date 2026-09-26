@@ -136,7 +136,7 @@ export function BriefingsSection() {
               className="inline-block h-2 w-2 rounded-full bg-[var(--tsc-action)] ring-4 ring-[var(--tsc-action)]/20 animate-pulse"
               aria-hidden="true"
             />
-            <SectionLabel>05 / EXECUTIVE BRIEFINGS &middot; MARKET INTELLIGENCE</SectionLabel>
+            <SectionLabel>04 / EXECUTIVE BRIEFINGS &middot; MARKET INTELLIGENCE</SectionLabel>
           </div>
           <div className="flex items-center gap-3 font-mono text-xs text-[var(--tsc-muted)] tracking-wider uppercase">
             <span>3 Canonical Radars</span>
