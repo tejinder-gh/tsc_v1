@@ -13,7 +13,7 @@ export function OpenPrompt() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14 xl:gap-16 items-start">
           {/* Left Column: Heading & Body (~5 cols) */}
           <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-28 lg:self-start">
-            <SectionLabel dark>06 / YOUR TURN</SectionLabel>
+            <SectionLabel dark>07 / YOUR TURN</SectionLabel>
             <h2
               id="open-prompt-heading"
               className="text-[32px] sm:text-[44px] lg:text-[50px] font-bold leading-[1.04] tracking-[-0.03em] text-white"

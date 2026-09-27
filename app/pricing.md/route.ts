@@ -124,7 +124,13 @@ ${pairingsTable}
 
 ---
 
-## 6. Enterprise Engagement Framework (Bespoke Builds)
+## 6. Risk Reversal: 100% Money-Back Guarantee — If Not Satisfied
+
+All subscription packages, purpose-built bundles, and vertical operating systems are backed by an unconditional 30-day money-back guarantee. If our coordinated AI workers and intelligence dispatches do not demonstrably return hours to your week and deliver verified commercial signal, request a 100% full refund within your first 30 days. Zero hassle. Zero friction.
+
+---
+
+## 7. Enterprise Engagement Framework (Bespoke Builds)
 
 For enterprise organizations requiring bespoke agentic software development, sovereign RAG infrastructure, or custom workflows:
 

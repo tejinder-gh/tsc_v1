@@ -3,6 +3,7 @@ import { BriefingsSection } from "@/components/home/BriefingsSection";
 import { FounderPOV } from "@/components/home/FounderPOV";
 import { HowWeDecide } from "@/components/home/HowWeDecide";
 import { OpenPrompt } from "@/components/home/OpenPrompt";
+import { PutAiToWork } from "@/components/home/PutAiToWork";
 import { SystemStudies } from "@/components/home/SystemStudies";
 import { JourneyHero } from "@/components/journey";
 
@@ -22,13 +23,16 @@ export default function HomePage() {
       {/* 03. System Studies */}
       <SystemStudies />
 
-      {/* 04. Executive Briefings & Intelligence Radar */}
+      {/* 04. Put AI to Work — Autonomous Workers & Coordinated Systems */}
+      <PutAiToWork />
+
+      {/* 05. Executive Briefings & Intelligence Radar */}
       <BriefingsSection />
 
-      {/* 05. Founder Point of View */}
+      {/* 06. Founder Point of View */}
       <FounderPOV />
 
-      {/* 06. Open Prompt / Closing Interaction */}
+      {/* 07. Open Prompt / Closing Interaction */}
       <OpenPrompt />
 
       {/* ÷      <TestimonialsSection /> */}

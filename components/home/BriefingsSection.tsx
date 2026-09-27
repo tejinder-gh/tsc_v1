@@ -14,14 +14,13 @@ import {
 import Link from "next/link";
 import { useId, useState } from "react";
 import { SectionLabel } from "@/components/ui/editorial";
-import { CUSTOM_RADAR_FEATURES, DISCOVERY_VECTORS, PROVEN_PIPELINES } from "@/content/briefings";
+import { DISCOVERY_VECTORS } from "@/content/briefings";
 import { CANONICAL_NEWSLETTERS } from "@/features/newsletters/data/newsletters";
 
 type ActiveTab =
   | "tech-founder-briefing"
   | "ontario-opportunity-monitor"
-  | "tender-brief"
-  | "custom-radar";
+  | "tender-brief";
 
 export function BriefingsSection() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("tech-founder-briefing");
@@ -63,7 +62,7 @@ export function BriefingsSection() {
     setErrorMessage("");
 
     try {
-      const primarySlug = activeTab === "custom-radar" ? "tech-founder-briefing" : activeTab;
+      const primarySlug = activeTab;
       const res = await fetch("/api/newsletter/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -136,7 +135,7 @@ export function BriefingsSection() {
               className="inline-block h-2 w-2 rounded-full bg-[var(--tsc-action)] ring-4 ring-[var(--tsc-action)]/20 animate-pulse"
               aria-hidden="true"
             />
-            <SectionLabel>04 / EXECUTIVE BRIEFINGS &middot; MARKET INTELLIGENCE</SectionLabel>
+            <SectionLabel>05 / EXECUTIVE BRIEFINGS &middot; MARKET RADARS</SectionLabel>
           </div>
           <div className="flex items-center gap-3 font-mono text-xs text-[var(--tsc-muted)] tracking-wider uppercase">
             <span>3 Canonical Radars</span>
@@ -198,7 +197,7 @@ export function BriefingsSection() {
           <div
             role="tablist"
             aria-label="Executive Briefing Publications"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b border-[var(--tsc-line)] bg-[var(--tsc-surface)]/60 divide-y sm:divide-y-0 sm:divide-x divide-[var(--tsc-line)]"
+            className="grid grid-cols-1 sm:grid-cols-3 border-b border-[var(--tsc-line)] bg-[var(--tsc-surface)]/60 divide-y sm:divide-y-0 sm:divide-x divide-[var(--tsc-line)]"
           >
             {/* Tab 1: Tech Founder Briefing */}
             <button
@@ -298,46 +297,12 @@ export function BriefingsSection() {
                 Sub-$150k Ontario public tenders &amp; digital bids
               </p>
             </button>
-
-            {/* Tab 4: Custom Private Radar */}
-            <button
-              type="button"
-              role="tab"
-              id="tab-custom-radar"
-              aria-selected={activeTab === "custom-radar"}
-              aria-controls="panel-briefing"
-              onClick={() => handleTabChange("custom-radar")}
-              className={`p-4 sm:p-5 text-left transition-all cursor-pointer relative ${
-                activeTab === "custom-radar"
-                  ? "bg-white text-[var(--tsc-ink)] shadow-2xs"
-                  : "text-[var(--tsc-muted)] hover:bg-white/60 hover:text-[var(--tsc-ink)]"
-              }`}
-            >
-              {activeTab === "custom-radar" && (
-                <span className="absolute top-0 left-0 right-0 h-[3px] bg-[var(--tsc-ink)]" />
-              )}
-              <div className="flex items-center justify-between gap-2 mb-1.5">
-                <span className="font-mono text-[10px] font-bold tracking-wider uppercase text-[var(--tsc-ink)] flex items-center gap-1">
-                  <Sparkles className="h-3 w-3 text-[var(--tsc-action)]" />
-                  [04 &middot; CUSTOM PIPELINE]
-                </span>
-                <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-[3px] bg-[var(--tsc-ink)] text-white font-semibold uppercase">
-                  ENTERPRISE
-                </span>
-              </div>
-              <div className="font-bold text-sm sm:text-base text-[var(--tsc-ink)]">
-                Commission Private Radar
-              </div>
-              <p className="mt-1 text-xs text-[var(--tsc-muted)] line-clamp-1">
-                Dedicated scraping &amp; synthesis for your firm
-              </p>
-            </button>
           </div>
 
           {/* ========================================================================= */}
           {/* TAB CONTENT PANEL: PUBLIC PUBLICATIONS (TABS 1-3)                          */}
           {/* ========================================================================= */}
-          {activeTab !== "custom-radar" && activeNewsletter && currentIssue && (
+          {activeNewsletter && currentIssue && (
             <div
               role="tabpanel"
               id="panel-briefing"
@@ -600,131 +565,6 @@ export function BriefingsSection() {
                       )}
                     </form>
                   )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* TAB CONTENT PANEL: CUSTOM PRIVATE RADAR (TAB 4 - COMMERCIAL ACQUISITION)  */}
-          {/* ========================================================================= */}
-          {activeTab === "custom-radar" && (
-            <div
-              role="tabpanel"
-              id="panel-briefing"
-              aria-labelledby="tab-custom-radar"
-              className="p-6 sm:p-8 lg:p-10 space-y-8 bg-gradient-to-b from-white to-[var(--tsc-surface)]/40"
-            >
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[var(--tsc-line)]">
-                <div className="space-y-1">
-                  <span className="font-mono text-xs font-bold text-[var(--tsc-action)] uppercase">
-                    PROPRIETARY ENTERPRISE INFRASTRUCTURE
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[var(--tsc-ink)] tracking-tight">
-                    Commission a Dedicated Intelligence Pipeline
-                  </h3>
-                  <p className="text-sm text-[var(--tsc-muted)] max-w-2xl leading-relaxed">
-                    Stop paying skilled staff to manually search 30 fragmented portals, registries,
-                    and PDF gazettes every day. We build bespoke ingestion, OCR, and deterministic
-                    alerting engines wired directly into your operations.
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 shrink-0">
-                  <div className="px-3 py-1.5 rounded-[4px] bg-[var(--tsc-ink)] text-white font-mono text-xs font-semibold">
-                    DEPLOYMENT: 5 BUSINESS DAYS
-                  </div>
-                  <Link
-                    href="/book"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[var(--tsc-action)] hover:opacity-90 text-white font-mono text-xs font-semibold tracking-wider uppercase transition-colors"
-                  >
-                    <span>Book Scoping Call</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </div>
-
-              {/* 3 Pipeline Capabilities */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {CUSTOM_RADAR_FEATURES.map((feature) => (
-                  <div
-                    key={feature.title}
-                    className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white space-y-3 shadow-2xs hover:border-[var(--tsc-action)] transition-colors"
-                  >
-                    <div className="font-mono text-[10px] font-bold text-[var(--tsc-action)] tracking-wider">
-                      {feature.badge}
-                    </div>
-                    <h4 className="text-base font-bold text-[var(--tsc-ink)] leading-snug">
-                      {feature.title}
-                    </h4>
-                    <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
-                      {feature.description}
-                    </p>
-                    <div className="pt-2 border-t border-[var(--tsc-line)]/70">
-                      <div className="font-mono text-[10px] text-[var(--tsc-muted)] uppercase tracking-wider mb-1">
-                        TECH SPECIFICATION:
-                      </div>
-                      <div className="font-mono text-[11px] font-medium text-[var(--tsc-ink)] bg-[var(--tsc-surface)] p-2 rounded-[4px] border border-[var(--tsc-line)]/60">
-                        {feature.outputSpec}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Live Use-Case Specimen Matrix */}
-              <div className="rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)] p-5 space-y-4">
-                <div className="flex items-center justify-between font-mono text-xs border-b border-[var(--tsc-line)] pb-3">
-                  <span className="font-bold text-[var(--tsc-ink)] uppercase">
-                    PROVEN CLIENT PIPELINE ARCHITECTURES
-                  </span>
-                  <span className="text-[var(--tsc-action)] font-semibold">
-                    100% AUTOMATED EXECUTION
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-                  {PROVEN_PIPELINES.map((pipeline) => (
-                    <div
-                      key={pipeline.title}
-                      className="p-3 bg-white rounded-[6px] border border-[var(--tsc-line)] space-y-1.5"
-                    >
-                      <span className="text-[10px] font-bold text-[var(--tsc-action)] uppercase">
-                        {pipeline.category}
-                      </span>
-                      <div className="font-bold text-[var(--tsc-ink)]">{pipeline.title}</div>
-                      <p className="text-[11px] text-[var(--tsc-muted)] leading-relaxed">
-                        {pipeline.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Bottom Conversion Box */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-[8px] bg-[var(--tsc-ink)] text-white">
-                <div className="space-y-1">
-                  <div className="font-bold text-sm sm:text-base">
-                    Ready to build an automated radar for your organization?
-                  </div>
-                  <p className="text-xs text-white/70">
-                    We review your target data sources, model extraction schemas, and deliver a
-                    functioning proof-of-concept in 5 days.
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <Link
-                    href="/contact?topic=custom-radar"
-                    className="px-4 py-2.5 rounded-[6px] bg-white text-[var(--tsc-ink)] hover:bg-[var(--tsc-paper)] text-xs font-mono font-semibold tracking-wider uppercase transition-colors"
-                  >
-                    Submit Radar Spec &rarr;
-                  </Link>
-                  <Link
-                    href="/book"
-                    className="px-4 py-2.5 rounded-[6px] bg-[var(--tsc-action)] hover:opacity-90 text-white text-xs font-mono font-semibold tracking-wider uppercase transition-colors"
-                  >
-                    Book Call
-                  </Link>
                 </div>
               </div>
             </div>

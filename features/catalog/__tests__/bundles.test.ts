@@ -236,6 +236,7 @@ describe("Commercial Hierarchy & Briefings Catalog Domain Integrity", () => {
     expect(body).toContain("Entrepreneur OS — CAD $999/month");
     expect(body).toContain("Executive OS — CAD $1,499/month");
     expect(body).toContain("Better Paired With");
+    expect(body).toContain("Money-Back Guarantee");
   });
 });
 

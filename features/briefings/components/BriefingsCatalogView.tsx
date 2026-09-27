@@ -207,6 +207,34 @@ export function BriefingsCatalogView({
               </div>
             ))}
           </div>
+
+          {/* Money-Back Guarantee Risk Reversal Strip */}
+          <div className="mt-8 p-4 sm:p-5 rounded-[6px] border border-[var(--tsc-action)]/30 bg-gradient-to-r from-white via-[var(--tsc-surface)]/80 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs shadow-2xs">
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 rounded-[4px] bg-[var(--tsc-action)]/10 border border-[var(--tsc-action)]/30 flex items-center justify-center shrink-0">
+                <ShieldCheck className="h-5 w-5 text-[var(--tsc-action)]" />
+              </div>
+              <div>
+                <span className="font-bold text-[var(--tsc-ink)] text-sm">
+                  100% Money-Back Guarantee &mdash; If Not Completely Satisfied
+                </span>
+                <p className="text-[11px] text-[var(--tsc-muted)] mt-0.5">
+                  Try any package or vertical OS for 30 days. If it does not save you hours and deliver verified commercial signal, request an immediate 100% refund.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 shrink-0 font-mono text-[10px] text-[var(--tsc-muted)]">
+              <span className="flex items-center gap-1 text-[var(--tsc-action)] font-semibold">
+                <Check className="w-3.5 h-3.5" /> 30-Day Window
+              </span>
+              <span>&middot;</span>
+              <span className="flex items-center gap-1 text-[var(--tsc-action)] font-semibold">
+                <Check className="w-3.5 h-3.5" /> Full Refund
+              </span>
+              <span>&middot;</span>
+              <span>Zero Risk</span>
+            </div>
+          </div>
         </div>
       </section>
 
