@@ -238,5 +238,26 @@ describe("Commercial Hierarchy & Briefings Catalog Domain Integrity", () => {
     expect(body).toContain("Better Paired With");
     expect(body).toContain("Money-Back Guarantee");
   });
+
+  it("verifies Header primary navigation and CommandPalette index include Put AI to Work", async () => {
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const headerContent = fs.readFileSync(
+      path.resolve(process.cwd(), "components/Header.tsx"),
+      "utf-8"
+    );
+    expect(headerContent).toContain('{ label: "Put AI to Work", href: "/#put-ai-to-work" }');
+    expect(headerContent).toContain("handleNavClick");
+    expect(headerContent).toContain("handleMobileNavClick");
+
+    const commandContent = fs.readFileSync(
+      path.resolve(process.cwd(), "components/command/CommandPalette.tsx"),
+      "utf-8"
+    );
+    expect(commandContent).toContain('"act-put-ai-to-work"');
+    expect(commandContent).toContain('"pub-briefings-catalog"');
+  });
 });
+
 

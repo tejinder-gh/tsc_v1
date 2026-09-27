@@ -87,6 +87,15 @@ export function CommandPalette() {
     const items: CommandItem[] = [
       // Primary Actions
       {
+        id: "act-put-ai-to-work",
+        category: "ACTION",
+        title: "Put AI to Work (Operating Systems & Workers)",
+        description: "Deploy coordinated AI workers backed by 100% money-back guarantee",
+        href: "/#put-ai-to-work",
+        badge: "GUARANTEE",
+        icon: Cpu,
+      },
+      {
         id: "act-problem",
         category: "ACTION",
         title: "Start with a problem",
@@ -179,6 +188,15 @@ export function CommandPalette() {
         href: "/library",
         badge: "INDEX",
         icon: FileText,
+      },
+      {
+        id: "pub-briefings-catalog",
+        category: "BRIEFING",
+        title: "The Briefings & OS Catalog",
+        description: "20 packages across Single Automations, Bundles, Vertical OS, and Complete Stacks",
+        href: "/briefings",
+        badge: "20 STACKS",
+        icon: Layers,
       },
     ];
 

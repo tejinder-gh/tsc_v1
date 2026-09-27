@@ -52,10 +52,41 @@ export function Header() {
   useFocusTrap(open, panelRef, () => setOpen(false));
 
   const primaryNav = [
+    { label: "Put AI to Work", href: "/#put-ai-to-work" },
     { label: "Work", href: "/digital-services" },
     { label: "Explore", href: "/library" },
     { label: "Briefings", href: "/newsletters" },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("/#") && pathname === "/") {
+      e.preventDefault();
+      const id = href.replace("/#", "");
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", href);
+      }
+    }
+  };
+
+  const handleMobileNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    setOpen(false);
+    if (href.startsWith("/#") && pathname === "/") {
+      e.preventDefault();
+      const id = href.replace("/#", "");
+      const target = document.getElementById(id);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", href);
+        }, 120);
+      }
+    }
+  };
 
   const handleStartClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (pathname === "/") {
@@ -93,14 +124,17 @@ export function Header() {
           </Link>
 
           {/* Desktop Primary Nav & Studio HUD */}
-          <div className="hidden md:flex items-center gap-8">
-            <nav aria-label="Primary" className="flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+            <nav aria-label="Primary" className="flex items-center gap-6 lg:gap-8">
               {primaryNav.map((item) => {
-                const current = pathname === item.href;
+                const current =
+                  pathname === item.href ||
+                  (item.href === "/#put-ai-to-work" && pathname === "/briefings");
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
                     aria-current={current ? "page" : undefined}
                     className={`text-[13px] tracking-tight transition-colors ${
                       current
@@ -268,7 +302,7 @@ export function Header() {
                         <Link
                           href={item.href}
                           className="flex min-h-12 items-center text-base font-medium text-[var(--tsc-ink)] hover:text-[var(--tsc-action)]"
-                          onClick={() => setOpen(false)}
+                          onClick={(e) => handleMobileNavClick(e, item.href)}
                         >
                           {item.label}
                         </Link>
