@@ -178,6 +178,15 @@ export function BriefingsSection() {
             <p className="text-[11px] font-mono text-[var(--tsc-muted)]">
               Senior engineers &middot; Business buyers &middot; Municipal contractors
             </p>
+            <div className="pt-1">
+              <Link
+                href="/briefings"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--tsc-action)] hover:underline"
+              >
+                <span>Browse Commercial Bundles &amp; OS Catalog</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
         </div>
 

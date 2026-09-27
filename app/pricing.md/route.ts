@@ -2,49 +2,161 @@
  * What: /pricing.md - a markdown summary of pricing and value ladders for AI agents,
  *       generated dynamically from typed content configurations.
  * Why: Autonomous buying agents and AI engines need structured pricing info.
- *      Generating it from content/site.ts ensures it never drifts from visible site copy.
+ *      Generating it from content/site.ts and features/catalog/domain/bundles.ts
+ *      ensures it never drifts from visible site copy.
  * How: Statically-generated route handler returning text/plain (markdown formatted).
- * From Where: AI search optimization spec, 2026-06.
- * When: 2026-06.
+ * From Where: AI search optimization spec & Briefings Catalog architecture, 2026.
+ * When: 2026.
  */
 
 import { booking, pricing, site } from "@/content/site";
+import {
+  COMMERCIAL_TIERS,
+  getHeadlineBundles,
+  getTopTierStacks,
+  PAIRING_MATRIX,
+  SINGLE_BRIEFINGS,
+} from "@/features/catalog/domain/bundles";
 
 export const dynamic = "force-static";
 
 function buildPricingMd(): string {
-  return `# Pricing & Investment Architecture — ${site.name}
+  const headlineBundles = getHeadlineBundles();
+  const topTierStacks = getTopTierStacks();
 
-## Enterprise Engagement Framework
+  const tiersTable = COMMERCIAL_TIERS.map(
+    (t) => `| **${t.name}** | ${t.indicativeCadRange} | ${t.description} |`,
+  ).join("\n");
 
-The Skill Corner delivers production-grade digital systems, custom AI autonomous agents, and enterprise workflow infrastructure. We do not bill hourly. All builds are scoped around verifiable operational return and high-conviction outcomes.
+  const headlineSections = headlineBundles
+    .map((b) => {
+      const rolesList = b.roles
+        .map((r) => `- **${r.roleTitle}** (${r.automationName}): ${r.description}`)
+        .join("\n");
 
-### 1. Diagnostic & Technical Blueprint
+      const pairingText = `- **Best Paired With**: ${b.bestPairedWith.pairWith} — *${b.bestPairedWith.rationale}*`;
+      const upsellText = b.upsellPro
+        ? `- **Pro Upsell**: ${b.upsellPro.name} (${b.upsellPro.priceCadDisplay}) — ${b.upsellPro.summary}`
+        : "";
+
+      return `### ${b.name} — ${b.priceDisplay}
+**Tier:** ${b.tierLabel}  
+**Unified Deliverable:** ${b.deliverable.title} (${b.deliverable.cadence})  
+**Target:** ${b.targetAudience.join(", ")}  
+
+**Included AI Workers (Roles):**
+${rolesList}
+
+${pairingText}
+${upsellText ? `${upsellText}\n` : ""}`;
+    })
+    .join("\n\n");
+
+  const topTierSections = topTierStacks
+    .map((b) => {
+      const rolesList = b.roles
+        .map((r) => `- **${r.roleTitle}** (${r.automationName}): ${r.description}`)
+        .join("\n");
+
+      return `### ${b.name} — ${b.priceDisplay}
+**Tier:** ${b.tierLabel}  
+**Deliverable:** ${b.deliverable.title} (${b.deliverable.format})  
+**Summary:** ${b.description}  
+
+**Core Operating Clusters:**
+${rolesList}
+
+- **Best Paired With**: ${b.bestPairedWith.pairWith} — *${b.bestPairedWith.rationale}*`;
+    })
+    .join("\n\n");
+
+  const pairingsTable = PAIRING_MATRIX.map(
+    (p) => `| **${p.ifBuying}** | **${p.pairWith}** | ${p.because} | ${p.strategicValue} |`,
+  ).join("\n");
+
+  const singleBriefingsTable = SINGLE_BRIEFINGS.map(
+    (sb) => `| **${sb.name}** | ${sb.priceDisplay} | ${sb.cadence} | ${sb.summary} |`,
+  ).join("\n");
+
+  return `# Pricing & Commercial Architecture — ${site.name}
+
+> Commercial Hierarchy: **Single Automation ($29–149/mo) → Purpose-Built Bundle ($99–299/mo) → Vertical OS ($299–749/mo) → Complete Automation Stack ($749–2,999/mo) → Custom / Managed Infrastructure ($2,500–10,000+ setup + monthly)**
+
+---
+
+## 1. Commercial Pricing Architecture & Tiers
+
+| Tier | Indicative Pricing (CAD) | Scope & Architecture |
+| :--- | :--- | :--- |
+${tiersTable}
+
+---
+
+## 2. Headline Launch Packages (Launch Lineup)
+
+${headlineSections}
+
+---
+
+## 3. Complete Enterprise Operating Stacks
+
+${topTierSections}
+
+---
+
+## 4. Single Subscribable Briefings ($29–$149/mo)
+
+Clients can subscribe to individual autonomous briefings and radars without committing to a full package:
+
+| Briefing / Radar | Price (CAD) | Cadence | Focus |
+| :--- | :--- | :--- | :--- |
+${singleBriefingsTable}
+
+---
+
+## 5. "Better Paired With" Expansion Matrix
+
+Our commercial model creates natural expansion revenue by pairing discovery with execution, intelligence with pipeline, and signals with diligence:
+
+| If Buying... | Pair With... | Synergy | Strategic Expansion Rationale |
+| :--- | :--- | :--- | :--- |
+${pairingsTable}
+
+---
+
+## 6. Enterprise Engagement Framework (Bespoke Builds)
+
+For enterprise organizations requiring bespoke agentic software development, sovereign RAG infrastructure, or custom workflows:
+
+### Diagnostic & Technical Blueprint
 - **Investment**: $2,500 – $5,000 (Credited 100% toward subsequent system deployment)
 - **Scope**: Complete operational constraint audit, system architecture diagram, security/compliance evaluation, and 3 scoped technical execution options.
 - **Timeline**: 5 business days from intake.
 
-### 2. Core Operational Deployments
+### Core Operational Deployments
 - **Tier**: ${pricing.local.label}
 - **Investment**: ${pricing.local.anchor}
 - **Scope**: Single high-impact operational bottleneck (e.g. 24/7 AI Receptionist, multi-channel appointment recall, automated intake routing).
 - **Details**: ${pricing.local.detail}
 
-### 3. Bespoke Practice Infrastructure
+### Bespoke Practice Infrastructure
 - **Tier**: ${pricing.practice.label}
 - **Investment**: ${pricing.practice.anchor}
 - **Managed AI Operations**: From $2,500/month (Continuous tuning, model fine-tuning, uptime SLAs, and engineer-led monitoring)
 - **Details**: ${pricing.practice.detail}
 - **Compliance & Sovereignty**: ${pricing.practice.compliance}
 
-### 4. Enterprise Digital Transformation
+### Enterprise Digital Transformation
 - **Investment**: $100,000 – $250,000+
 - **Scope**: Multi-location clinics, regional logistics, and commercial firms deploying multi-agent autonomous infrastructure, custom Next.js web applications, and internal tool operating systems.
 
-## Booking & Scoping Consultation
+---
+
+## 7. Booking & Scoping Consultation
 
 - **Engineering Discovery Audit**: ${booking.promise}
 - **Calendar Reservation**: ${site.url}/book
+- **Briefings Catalog**: ${site.url}/briefings
 - **Direct Technical Line**: ${site.email} | ${site.phone}
 - **Website**: ${site.url}
 `;

@@ -451,6 +451,17 @@ export function getPublicEndpointsRegistry(): PublicEndpointDefinition[] {
       contentType: "text/html",
     },
     {
+      path: "/briefings",
+      method: "GET",
+      type: "page",
+      access: "public",
+      title: "The Briefings & Commercial Automation Catalog",
+      category: "Executive Briefings Hub",
+      description:
+        "Commercial hierarchy and purpose-built bundle catalog: Single Automations ($29–149/mo), Purpose-Built Bundles ($99–299/mo), Vertical OS ($299–749/mo), and Complete Automation Stacks ($749–2,999/mo) with paired expansion mechanics.",
+      contentType: "text/html",
+    },
+    {
       path: "/newsletters/[slug]",
       method: "GET",
       type: "page",

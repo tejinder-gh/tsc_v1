@@ -21,6 +21,7 @@ export function Footer() {
   const insightsNav = [
     { label: "Sectors & Industries", href: "/industries" },
     { label: "Knowledge Library", href: "/library" },
+    { label: "Briefings & OS Catalog", href: "/briefings" },
     { label: "Executive Briefings", href: "/newsletters" },
     { label: "About The Practice", href: "/about" },
   ];

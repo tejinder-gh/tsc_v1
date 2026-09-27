@@ -73,6 +73,12 @@ Scoped within the `app/(marketing)` route group layout ([`app/(marketing)/layout
   2. `ontario-opportunity-monitor`: Daily deal radar for Ontario businesses, distressed assets, and auctions.
   3. `tender-brief`: Curated municipal & provincial procurement opportunities matching SMB capabilities.
 
+#### E. Commercial Briefings & Automation Bundles Catalog
+* **Hub Route**: `/briefings` — [`app/(marketing)/briefings/page.tsx`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/app/(marketing)/briefings/page.tsx)
+  * **Role**: **Commercial Catalog & Bundle Storefront**: Full commercial hierarchy (*Single Automation $29–149/mo → Purpose-Built Bundle $99–299/mo → Vertical OS $299–749/mo → Complete Stack $749–2,999/mo → Custom / Managed $2,500–10,000+*). Features the 8 headline launch packages (Deal Hunter, Business Buyer OS, E-Commerce Launch, Founder Growth, Competitive Intelligence, Creator Intelligence, Personal Executive, Small Business COO), complete enterprise operating stacks, interactive role inspectors, and the authoritative 20-rule "Better Paired With" expansion matrix.
+* **Source of Truth**: [`features/catalog/domain/bundles.ts`](file:///Users/tejindersingh/dev/projects/TheSkillCorner/features/catalog/domain/bundles.ts)
+* **Active Catalog Modules**: 20 packages/operating stacks, 6 single briefing dispatches, and 20 cross-sell pairing rules.
+
 ---
 
 ### 1.3 Operator Dashboard (Clerk Protected)

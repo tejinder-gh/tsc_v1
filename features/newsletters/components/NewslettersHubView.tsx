@@ -241,6 +241,15 @@ export function NewslettersHubView({ newsletters }: Props) {
                     <span className="text-[var(--tsc-muted)]">Lead Architect:</span>
                     <span>Reviewed &amp; Verified</span>
                   </div>
+                  <div className="pt-2 border-t border-[var(--tsc-line)]">
+                    <Link
+                      href="/briefings"
+                      className="text-[var(--tsc-action)] hover:underline font-semibold flex items-center justify-between text-[11px]"
+                    >
+                      <span>Commercial OS &amp; Bundles Catalog</span>
+                      <span>&rarr;</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
