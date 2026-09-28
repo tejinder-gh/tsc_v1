@@ -12,6 +12,25 @@
  * Follows an engine-neutral taxonomy so any telemetry collector can consume them.
  */
 export type TelemetryEvent =
+  // End-to-end conversion funnel
+  | "landing_viewed"
+  | "intent_selected"
+  | "recommendation_viewed"
+  | "offer_viewed"
+  | "package_selected"
+  | "cta_clicked"
+  | "booking_viewed"
+  | "booking_started"
+  | "booking_completed"
+  | "contact_started"
+  | "contact_completed"
+  | "proposal_sent"
+  | "deal_won"
+  | "activated"
+  | "retained_30d"
+  | "retained_90d"
+  | "cancelled"
+  | "refunded"
   // Form lifecycle
   | "form_started"
   | "form_completed"
@@ -20,12 +39,6 @@ export type TelemetryEvent =
   | "lead_submit_accepted"
   | "lead_delivery_succeeded"
   | "lead_delivery_failed"
-  // Interactions & conversions
-  | "cta_clicked"
-  | "contact_started"
-  | "booking_viewed"
-  | "booking_started"
-  | "booking_completed"
   // Legacy & preserved journey events (for backward compatibility)
   | "lead_captured"
   | "journey_started"
@@ -44,6 +57,22 @@ export type TelemetryEvent =
   | "journey_demonstration_completed"
   | "journey_demonstration_returned_to_opportunity"
   | "journey_architecture_spec_exported";
+
+/**
+ * Standard attribution parameters propagated across user journey and conversion steps.
+ */
+export interface FunnelAttributionContext {
+  offer_id?: string;
+  sku?: string;
+  package_id?: string;
+  segment?: string;
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  content?: string;
+  intent?: string;
+  entry_route?: string;
+}
 
 /**
  * Prohibited properties denylist: Payment data, credit card numbers, personal contact details,
