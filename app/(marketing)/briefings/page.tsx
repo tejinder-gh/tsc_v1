@@ -6,7 +6,8 @@ import {
   getPairingRules,
   getSingleBriefings,
 } from "@/features/catalog/domain/bundles";
-import { breadcrumbJsonLd } from "@/lib/structured-data";
+import { CANONICAL_COMMERCIAL_OFFERS } from "@/lib/commercial/offers";
+import { breadcrumbJsonLd, commercialCatalogJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "The Briefings & Commercial Automation Catalog | The Skill Corner",
@@ -34,6 +35,7 @@ export default function BriefingsCatalogPage() {
   return (
     <>
       <JsonLd data={breadcrumbs} />
+      <JsonLd data={commercialCatalogJsonLd(CANONICAL_COMMERCIAL_OFFERS)} />
       <BriefingsCatalogView
         bundles={bundles}
         pairings={pairings}

@@ -12,11 +12,27 @@ import { digitalServices } from "@/content/digital-services";
 import { homeFaq } from "@/content/faq";
 import { industriesBySegment } from "@/content/industries";
 import { services } from "@/content/services";
-import { booking, pricing, site } from "@/content/site";
+import { booking, site } from "@/content/site";
+import { CANONICAL_COMMERCIAL_OFFERS } from "@/lib/commercial/offers";
+import { SUBSCRIPTION_30_DAY_GUARANTEE } from "@/lib/commercial/refund-policy";
 
 export const dynamic = "force-static";
 
 function buildLlmsTxt(): string {
+  const operatingSystemLines = CANONICAL_COMMERCIAL_OFFERS.filter(
+    (o) => o.category !== "custom-engineering",
+  ).map(
+    (offer) =>
+      `- [${offer.publicName}](${site.url}/briefings/${offer.slug}): ${offer.pricing.displayPrice}. Deliverable: ${offer.deliverable.title} (${offer.deliverable.cadence}). Included AI Workers: ${offer.workers.map((r) => r.roleTitle).join(", ")}.`,
+  );
+
+  const customEngineeringLines = CANONICAL_COMMERCIAL_OFFERS.filter(
+    (o) => o.category === "custom-engineering",
+  ).map(
+    (offer) =>
+      `- [${offer.publicName}](${site.url}${offer.slug.startsWith("/") ? offer.slug : `/${offer.slug}`}): Setup from ${offer.pricing.setupDisplay || offer.pricing.displayPrice}. ${offer.deliverable.description}`,
+  );
+
   const digitalServiceLines = digitalServices.map(
     (service) =>
       `- [${service.name}](${site.url}/digital-services/${service.slug}): ${service.tagline} ${service.description}`,
@@ -42,11 +58,19 @@ function buildLlmsTxt(): string {
 Key business information:
 
 - Service Pillars: AI Agent Development, Website Development, Digital Marketing & GEO, Dedicated Staffing & Tech Talent, Process Documentation & Business SOPs, Custom Software & AI Automations.
-- Pricing for local businesses: ${pricing.local.anchor}. ${pricing.local.detail}
-- Pricing for practices and custom projects: ${pricing.practice.anchor}. ${pricing.practice.detail}
-- Compliance: ${pricing.practice.compliance}
+- Headline Operating Systems: From $149 CAD to $499 CAD/month turnkey subscriptions with dedicated multi-agent teams.
+- Custom Engineering & Infrastructure: Setup from $4,500 CAD with continuous managed AI operations from $750 to $2,500 CAD/month.
+- Money-Back Guarantee: ${SUBSCRIPTION_30_DAY_GUARANTEE.name} — ${SUBSCRIPTION_30_DAY_GUARANTEE.summary}
 - Free 30-minute consultation/audit: ${booking.promise} Book at ${site.url}/book.
 - Direct Contact: Email ${site.email} | Tel ${site.phone} | ${site.url}/contact
+
+## Turnkey AI Operating Systems & Packages
+
+${operatingSystemLines.join("\n")}
+
+## Custom Deployments & Infrastructure
+
+${customEngineeringLines.join("\n")}
 
 ## Core Digital Services
 
@@ -70,6 +94,7 @@ ${faqLines.join("\n\n")}
 
 ## Links & Knowledge Files
 
+- [Machine-Readable Pricing Spec](${site.url}/pricing.md): Complete structured pricing matrix, commercial tiers, expansion pairings, and guarantee terms for autonomous buying agents.
 - [Full Catalog LLM Digest](${site.url}/llms-full.txt): Detailed textual specs of all service lines, frameworks, deliverables, and SOPs for deep LLM retrieval.
 - [Digital Services Hub](${site.url}/digital-services): Overview of web dev, AI agents, marketing, staffing, and documentation offerings.
 - [About Founder & Capabilities](${site.url}/about): Founder background, engineering credentials, and company story.

@@ -3,19 +3,14 @@
 import {
   ArrowRight,
   ArrowUpRight,
-  BadgePercent,
-  Briefcase,
   Check,
-  CheckCircle2,
   ChevronDown,
   ChevronUp,
   Clock,
-  Layers,
   Network,
   Search,
   ShieldCheck,
   Sparkles,
-  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { useId, useMemo, useState } from "react";
@@ -33,19 +28,9 @@ interface Props {
   readonly singleBriefings: readonly SingleBriefingItem[];
 }
 
-type FilterTab =
-  | "headline"
-  | "vertical_os"
-  | "complete_stack"
-  | "all"
-  | "pairings"
-  | "single";
+type FilterTab = "headline" | "vertical_os" | "complete_stack" | "all" | "pairings" | "single";
 
-export function BriefingsCatalogView({
-  bundles,
-  pairings,
-  singleBriefings,
-}: Props) {
+export function BriefingsCatalogView({ bundles, pairings, singleBriefings }: Props) {
   const [activeTab, setActiveTab] = useState<FilterTab>("headline");
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedBundleIds, setExpandedBundleIds] = useState<Record<string, boolean>>({});
@@ -150,7 +135,9 @@ export function BriefingsCatalogView({
               <span className="text-[var(--tsc-line)]">&middot;</span>
               <span>20 Vertical OS &amp; Stacks</span>
               <span className="text-[var(--tsc-line)]">&middot;</span>
-              <span className="text-[var(--tsc-action)] font-semibold">Expansion Engine Active</span>
+              <span className="text-[var(--tsc-action)] font-semibold">
+                Expansion Engine Active
+              </span>
             </div>
           </div>
 
@@ -165,10 +152,12 @@ export function BriefingsCatalogView({
               <p className="text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed max-w-3xl">
                 We organize our systems around a disciplined commercial hierarchy:
                 <strong className="text-[var(--tsc-ink)] font-semibold">
-                  {" "}Single Automation &rarr; Purpose-Built Bundle &rarr; Vertical OS &rarr; Complete Automation Stack.
+                  {" "}
+                  Single Automation &rarr; Purpose-Built Bundle &rarr; Vertical OS &rarr; Complete
+                  Automation Stack.
                 </strong>{" "}
-                Bundles are not mere discounts—our automations feed each other to produce single, unified
-                executive briefings rather than dozens of noisy, disconnected notifications.
+                Bundles are not mere discounts—our automations feed each other to produce single,
+                unified executive briefings rather than dozens of noisy, disconnected notifications.
               </p>
             </div>
 
@@ -179,7 +168,8 @@ export function BriefingsCatalogView({
                 </span>
                 <p className="text-xs text-[var(--tsc-ink)] font-medium leading-normal">
                   Every offer explicitly declares <strong>what it includes</strong> and{" "}
-                  <strong>what it is best paired with</strong>, generating natural expansion synergy.
+                  <strong>what it is best paired with</strong>, generating natural expansion
+                  synergy.
                 </p>
               </div>
             </div>
@@ -195,7 +185,9 @@ export function BriefingsCatalogView({
                 <div>
                   <div className="flex items-center justify-between text-[10px] font-mono text-[var(--tsc-muted)] uppercase tracking-wider mb-1">
                     <span>{`0${idx + 1}`}</span>
-                    <span className="text-[var(--tsc-action)] font-semibold">{tier.indicativeCadRange}</span>
+                    <span className="text-[var(--tsc-action)] font-semibold">
+                      {tier.indicativeCadRange}
+                    </span>
                   </div>
                   <h2 className="text-xs font-bold text-[var(--tsc-ink)] leading-snug line-clamp-1">
                     {tier.name}
@@ -219,7 +211,8 @@ export function BriefingsCatalogView({
                   100% Money-Back Guarantee &mdash; If Not Completely Satisfied
                 </span>
                 <p className="text-[11px] text-[var(--tsc-muted)] mt-0.5">
-                  Try any package or vertical OS for 30 days. If it does not save you hours and deliver verified commercial signal, request an immediate 100% refund.
+                  Try any package or vertical OS for 30 days. If it does not save you hours and
+                  deliver verified commercial signal, request an immediate 100% refund.
                 </p>
               </div>
             </div>
@@ -367,8 +360,8 @@ export function BriefingsCatalogView({
                   The &ldquo;Better Paired With&rdquo; Expansion Matrix
                 </h2>
                 <p className="text-xs sm:text-sm text-[var(--tsc-muted)] mt-1">
-                  Cross-sell architecture mapping natural expansion vectors. Discovery without diligence is reckless;
-                  lead signals without CRM are wasted.
+                  Cross-sell architecture mapping natural expansion vectors. Discovery without
+                  diligence is reckless; lead signals without CRM are wasted.
                 </p>
               </div>
 
@@ -417,10 +410,10 @@ export function BriefingsCatalogView({
                     </div>
 
                     <div className="space-y-1.5">
-                      <div className="text-xs font-mono text-[var(--tsc-muted)]">IF PURCHASING:</div>
-                      <div className="text-sm font-bold text-[var(--tsc-ink)]">
-                        {pair.ifBuying}
+                      <div className="text-xs font-mono text-[var(--tsc-muted)]">
+                        IF PURCHASING:
                       </div>
+                      <div className="text-sm font-bold text-[var(--tsc-ink)]">{pair.ifBuying}</div>
                     </div>
 
                     <div className="pt-2 border-t border-[var(--tsc-line)] space-y-1.5">
@@ -457,8 +450,9 @@ export function BriefingsCatalogView({
                 Single Subscribable Briefings &amp; Autonomous Radars
               </h2>
               <p className="text-xs sm:text-sm text-[var(--tsc-muted)] mt-1">
-                Subscribe to individual standalone intelligence dispatches without committing to an entire
-                multidisciplinary bundle. Ideal for focused operators solving a single bottleneck.
+                Subscribe to individual standalone intelligence dispatches without committing to an
+                entire multidisciplinary bundle. Ideal for focused operators solving a single
+                bottleneck.
               </p>
             </div>
 
@@ -538,10 +532,10 @@ export function BriefingsCatalogView({
                   {activeTab === "headline"
                     ? "Headline Launch Packages (The 8 Flagships)"
                     : activeTab === "vertical_os"
-                    ? "Vertical Operating Systems (End-to-End Workflows)"
-                    : activeTab === "complete_stack"
-                    ? "Complete Enterprise Automation Stacks"
-                    : "Complete Package & OS Inventory"}
+                      ? "Vertical Operating Systems (End-to-End Workflows)"
+                      : activeTab === "complete_stack"
+                        ? "Complete Enterprise Automation Stacks"
+                        : "Complete Package & OS Inventory"}
                 </h2>
               </div>
               <div className="text-xs font-mono text-[var(--tsc-muted)]">
@@ -553,9 +547,12 @@ export function BriefingsCatalogView({
             {filteredBundles.length === 0 && (
               <div className="py-16 text-center border border-dashed border-[var(--tsc-line)] rounded-[8px] bg-white p-8">
                 <Search className="w-8 h-8 mx-auto text-[var(--tsc-muted)] mb-3" />
-                <h3 className="text-base font-bold text-[var(--tsc-ink)]">No matching packages found</h3>
+                <h3 className="text-base font-bold text-[var(--tsc-ink)]">
+                  No matching packages found
+                </h3>
                 <p className="text-xs text-[var(--tsc-muted)] mt-1 max-w-sm mx-auto">
-                  Try adjusting your search terms or switch to &ldquo;All 20 Packages&rdquo; to browse the full catalog.
+                  Try adjusting your search terms or switch to &ldquo;All 20 Packages&rdquo; to
+                  browse the full catalog.
                 </p>
                 <button
                   type="button"
@@ -668,26 +665,28 @@ export function BriefingsCatalogView({
                         </div>
 
                         <ul className="space-y-1.5">
-                          {bundle.roles.slice(0, isExpanded ? bundle.roles.length : 3).map((role) => (
-                            <li
-                              key={role.automationName}
-                              className="text-xs p-2 rounded-[3px] bg-white border border-[var(--tsc-line)]/80 space-y-1"
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="font-bold text-[var(--tsc-ink)]">
-                                  {role.roleTitle}
-                                </span>
-                                <span className="text-[10px] font-mono text-[var(--tsc-muted)]">
-                                  {role.automationName}
-                                </span>
-                              </div>
-                              {isExpanded && (
-                                <p className="text-[11px] text-[var(--tsc-muted)] leading-relaxed pt-1 border-t border-[var(--tsc-line)]/50">
-                                  {role.description}
-                                </p>
-                              )}
-                            </li>
-                          ))}
+                          {bundle.roles
+                            .slice(0, isExpanded ? bundle.roles.length : 3)
+                            .map((role) => (
+                              <li
+                                key={role.automationName}
+                                className="text-xs p-2 rounded-[3px] bg-white border border-[var(--tsc-line)]/80 space-y-1"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="font-bold text-[var(--tsc-ink)]">
+                                    {role.roleTitle}
+                                  </span>
+                                  <span className="text-[10px] font-mono text-[var(--tsc-muted)]">
+                                    {role.automationName}
+                                  </span>
+                                </div>
+                                {isExpanded && (
+                                  <p className="text-[11px] text-[var(--tsc-muted)] leading-relaxed pt-1 border-t border-[var(--tsc-line)]/50">
+                                    {role.description}
+                                  </p>
+                                )}
+                              </li>
+                            ))}
                         </ul>
 
                         {!isExpanded && bundle.roles.length > 3 && (
@@ -758,16 +757,16 @@ export function BriefingsCatalogView({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-3">
               <span className="text-[10px] font-mono tracking-wider uppercase text-[var(--tsc-action)] font-bold">
-                06 // BESPOKE OPERATIONAL INFRASTRUCTURE
+                {"06 // BESPOKE OPERATIONAL INFRASTRUCTURE"}
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-[var(--tsc-ink)] tracking-tight">
                 Need bespoke autonomous workers or multi-user office infrastructure?
               </h2>
               <p className="text-sm text-[var(--tsc-muted)] leading-relaxed max-w-2xl">
-                We engineer sovereign data ingestion pipelines, private RAG harnesses, and multi-tenant
-                workflow engines for healthcare practices, legal partnerships, and commercial logistics firms.
-                All custom engagements begin with an engineering constraint audit ($2,500–$5,000, credited 100%
-                toward production deployment).
+                We engineer sovereign data ingestion pipelines, private RAG harnesses, and
+                multi-tenant workflow engines for healthcare practices, legal partnerships, and
+                commercial logistics firms. All custom engagements begin with an engineering
+                constraint audit ($2,500–$5,000, credited 100% toward production deployment).
               </p>
             </div>
             <div className="lg:col-span-4 lg:text-right space-y-3">

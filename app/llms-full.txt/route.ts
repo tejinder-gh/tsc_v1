@@ -15,6 +15,11 @@ import { homeFaq } from "@/content/faq";
 import { industries } from "@/content/industries";
 import { services } from "@/content/services";
 import { booking, pricing, site } from "@/content/site";
+import { CANONICAL_COMMERCIAL_OFFERS } from "@/lib/commercial/offers";
+import {
+  CUSTOM_ENGINEERING_ENGAGEMENT_POLICY,
+  SUBSCRIPTION_30_DAY_GUARANTEE,
+} from "@/lib/commercial/refund-policy";
 
 export const dynamic = "force-static";
 
@@ -89,6 +94,21 @@ Sample Build Scenario:
     )
     .join("\n---\n\n");
 
+  const operatingSystemsFull = CANONICAL_COMMERCIAL_OFFERS.filter(
+    (o) => o.category !== "custom-engineering",
+  )
+    .map(
+      (o) => `### ${o.publicName} (${site.url}/briefings/${o.slug})
+SKU: ${o.sku}
+Investment: ${o.pricing.displayPrice}
+Deliverable: ${o.deliverable.title} (${o.deliverable.cadence}) — ${o.deliverable.description}
+Included AI Roles: ${o.workers.map((r) => `${r.roleTitle} (${r.automationName})`).join("; ")}
+Target Segments: ${o.targetSegments.join(", ")}
+Guarantee: ${SUBSCRIPTION_30_DAY_GUARANTEE.name} (100% refund of recurring subscription fee within 30 days)
+`,
+    )
+    .join("\n---\n\n");
+
   const faqFull = homeFaq.map((item) => `Q: ${item.q}\nA: ${item.a}`).join("\n\n");
 
   return `# ${site.name} - Complete Service Documentation & Business Knowledge Base
@@ -113,47 +133,58 @@ ${site.description}
 2. **Website Development**: High-performance marketing sites, web applications, and customer portals custom-coded with Next.js, React, and TypeScript. Optimized for sub-second page loads, 95+ Core Web Vitals, and top Google rankings.
 3. **Digital Marketing & Generative Engine Optimization (GEO/AIO)**: Technical SEO, Generative Engine Optimization, Google Ads (PPC), Meta Ads, local map pack optimization, and content marketing designed for visibility on search engines and AI assistants (ChatGPT, Perplexity, Gemini, Claude).
 4. **Dedicated Staffing & Tech Talent**: Pre-vetted AI developers, full-stack engineers, growth marketers, and technical virtual assistants working dedicated hours inside your tools and workflow.
-5. **Documentation & Business SOPs**: Enterprise Standard Operating Procedures (SOPs), process diagrams, technical system manuals, and AI-ready Markdown/JSON knowledge bases for hallucination-free AI agent training.
+5. **Documentation & Business SOPs**: Enterprise Standard Operating Procedures (SOPs), process diagrams, technical system manuals, and AI-ready Markdown/JSON knowledge bases for grounded, schema-validated AI agent training.
 6. **AI Automations & Systems Integration**: Turnkey automations for missed-call recovery, automated booking reminders, intake form processing, review collection, and CRM lead follow-up.
 
 ---
 
 ## Pricing & Engagement Models
 
-- **Local Businesses:** ${pricing.local.label} starting ${pricing.local.anchor}. ${pricing.local.detail}
+- **Turnkey AI Operating Systems:** $149 to $499 CAD/month backed by an unconditional 30-day money-back guarantee.
+- **Local Business Deployments:** ${pricing.local.label} starting ${pricing.local.anchor}. ${pricing.local.detail}
 - **Practices & Enterprise Custom Builds:** ${pricing.practice.label} running ${pricing.practice.anchor}. ${pricing.practice.detail}
+- **30-Day Money-Back Guarantee:** ${SUBSCRIPTION_30_DAY_GUARANTEE.summary}
+- **Custom Milestone Framework:** ${CUSTOM_ENGINEERING_ENGAGEMENT_POLICY.summary}
 - **Data Privacy & Compliance:** ${pricing.practice.compliance}
 - **Free Automation & Digital Audit:** ${booking.promise} Book directly at ${site.url}/book.
 
 ---
 
-## Section 1: Detailed Digital Services Catalog
+## Section 1: Turnkey AI Operating Systems & Autonomous Packages
+
+${operatingSystemsFull}
+
+---
+
+## Section 2: Detailed Digital Services Catalog
 
 ${digitalServicesFull}
 
 ---
 
-## Section 2: Detailed AI Automations Catalog
+## Section 3: Detailed AI Automations Catalog
 
 ${automationServicesFull}
 
 ---
 
-## Section 3: Industry-Specific Solutions
+## Section 4: Industry-Specific Solutions
 
 ${industriesFull}
 
 ---
 
-## Section 4: General Frequently Asked Questions
+## Section 5: General Frequently Asked Questions
 
 ${faqFull}
 
 ---
 
-## Section 5: Verification & Links
+## Section 6: Verification & Machine-Readable Specs
 
 - Website: ${site.url}
+- Machine-Readable Pricing: ${site.url}/pricing.md
+- Briefings & Packages Catalog: ${site.url}/briefings
 - Audit Booking: ${site.url}/book
 - Contact Page: ${site.url}/contact
 - Digital Services: ${site.url}/digital-services

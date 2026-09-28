@@ -295,10 +295,16 @@ export function getPublicEndpointsRegistry(): PublicEndpointDefinition[] {
       method: "GET",
       type: "page",
       access: "public",
-      title: "Audit Booking Portal",
+      title: "Audit Booking & Package Evaluation Portal",
       category: "Conversion & Booking",
       description:
-        "Cal.com scheduling embed for a free 30-minute AI Automation Audit ('leave with 3 ideas whether you hire us or not').",
+        "Package-aware consultation and evaluation routing with query parameter support, tailored scoping agendas, domain-specific PreFlightBlueprint, and Cal.com embed.",
+      queryParams: {
+        package:
+          "Optional slug of evaluated turnkey operating system or bundle (e.g. 'business-buyer-os').",
+        sku: "Optional SKU identifier (e.g. 'sku_business_buyer_os').",
+        offer_id: "Optional offer ID for attribution.",
+      },
       contentType: "text/html",
     },
     {
@@ -306,10 +312,13 @@ export function getPublicEndpointsRegistry(): PublicEndpointDefinition[] {
       method: "GET",
       type: "page",
       access: "public",
-      title: "Quick Query & Contact Form",
+      title: "Quick Query & Package Contact Form",
       category: "Conversion & Booking",
       description:
-        "Contact form and sidebar booking links for visitors with architectural or scoping questions.",
+        "Package-aware inquiry form with package pre-filling, active evaluation banner, and direct booking alternatives.",
+      queryParams: {
+        package: "Optional slug of evaluated package pre-filling inquiry message.",
+      },
       contentType: "text/html",
     },
     {
