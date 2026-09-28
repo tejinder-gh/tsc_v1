@@ -854,8 +854,8 @@ export const CANONICAL_COMMERCIAL_OFFERS: readonly CommercialOffer[] = [
     description:
       "All-in-one automation stack for multi-company entrepreneurs and portfolio builders.",
     category: "automation-system",
-    tier: "complete_stack",
-    tierLabel: "Complete Automation Stack",
+    tier: "business_os",
+    tierLabel: "Business OS & Growth Stack",
     pricing: {
       currency: "CAD",
       recurringAmountCents: 99900,

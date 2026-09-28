@@ -134,11 +134,12 @@ describe("Commercial Hierarchy & Briefings Catalog Domain Integrity", () => {
 
   it("verifies the vertical OS tier packages", () => {
     const verticalOs = getVerticalOsBundles();
-    expect(verticalOs.length).toBe(7);
+    expect(verticalOs.length).toBe(8);
 
     const slugs = verticalOs.map((v) => v.slug);
     expect(slugs).toContain("business-buyer-os");
     expect(slugs).toContain("founder-growth-os");
+    expect(slugs).toContain("personal-executive-os");
     expect(slugs).toContain("small-business-coo");
     expect(slugs).toContain("reseller-os");
     expect(slugs).toContain("revenue-os");

@@ -2,9 +2,9 @@
  * Canonical Commercial Bundles, Operating Systems & Packaging Architecture
  *
  * Implements the TheSkillCorner commercial hierarchy:
- * Single Automation ($29–149/mo) -> Purpose-Built Bundle ($99–299/mo) ->
- * Vertical OS ($299–749/mo) -> Business OS & Complete Stack ($749–2,999/mo) ->
- * Custom / Managed Infrastructure ($2,500–10,000+ setup + monthly).
+ * Single Automation ($49–99/mo) -> Purpose-Built Bundle ($99–199/mo) ->
+ * Vertical OS ($249–499/mo) -> Business OS ($999/mo) & Complete Stack ($1,499–1,999/mo) ->
+ * Custom / Managed Infrastructure (From CAD $2,500/mo + setup).
  *
  * Every package explicitly declares:
  * 1. "Includes" with AI workers framed as human roles (Scout, Analyst, Diligence Agent, CRM, etc.)
@@ -13,7 +13,11 @@
  * 4. Optional Upsell Pro tier
  */
 
-import { getCanonicalOfferPricing, getCommercialOfferBySlug } from "@/lib/commercial/offers";
+import {
+  CANONICAL_COMMERCIAL_OFFERS,
+  getCanonicalOfferPricing,
+  getCommercialOfferBySlug,
+} from "@/lib/commercial/offers";
 import type { CommerceStatus } from "./types";
 
 export type CommercialTier =
@@ -99,6 +103,7 @@ export interface CommercialTierSpec {
   readonly tier: CommercialTier;
   readonly name: string;
   readonly indicativeCadRange: string;
+  readonly targetPriceBand?: string;
   readonly description: string;
   readonly scopeSummary: string;
 }
@@ -117,29 +122,177 @@ export interface SingleBriefingItem {
   readonly targetAudience: string;
 }
 
+export const SINGLE_BRIEFINGS: readonly SingleBriefingItem[] = [
+  {
+    id: "briefing-tech-founder",
+    slug: "tech-founder-briefing",
+    name: "Tech Founder Briefing",
+    roleTitle: "AI & Systems Architecture Radar",
+    priceCadMonthly: 49,
+    priceDisplay: "CAD $49/mo (or Free Edition)",
+    cadence: "Weekly · Monday 11:00 AM",
+    summary:
+      "Actionable agent architectures, token budget limits, and deterministic production engineering playbooks for CTOs.",
+    deliverable: "Weekly Technical Memo & GitHub Architecture Repository Review",
+    bestPairedWith: "AI Tool Radar & GitHub Scout",
+    targetAudience: "Technical founders, CTOs, and engineering leads",
+  },
+  {
+    id: "briefing-ontario-deal-radar",
+    slug: "ontario-opportunity-monitor",
+    name: "Ontario Opportunity Monitor",
+    roleTitle: "M&A, Distress & Auction Monitor",
+    priceCadMonthly: 99,
+    priceDisplay: "CAD $99/mo",
+    cadence: "Daily · 07:00 AM",
+    summary:
+      "Daily tracking of Ontario court receiverships, business registry filings, bankruptcy notices, and equipment auctions.",
+    deliverable: "Daily Morning Deal Memo & Distress Filing Radar",
+    bestPairedWith: "Business Acquisition Scout & Diligence Copilot",
+    targetAudience: "Acquisition entrepreneurs, search funds, and asset buyers",
+  },
+  {
+    id: "briefing-tender-brief",
+    slug: "tender-brief",
+    name: "Tender Brief: Public Procurement",
+    roleTitle: "Sub-$100k Procurement Scout",
+    priceCadMonthly: 79,
+    priceDisplay: "CAD $79/mo",
+    cadence: "Bi-Weekly · Tue & Thu 06:30 AM",
+    summary:
+      "Curated municipal, school board, and provincial procurement bids below $100,000 requiring zero complex union RFP processes.",
+    deliverable: "Bi-Weekly Municipal Bid Digest with Pre-Checked Eligibility",
+    bestPairedWith: "Compliance Watch & Customer Acquisition Radar",
+    targetAudience: "Trades, professional clinics, and regional service contractors",
+  },
+  {
+    id: "briefing-auction-hunter",
+    slug: "auction-deal-hunter",
+    name: "Auction Deal Hunter Dispatch",
+    roleTitle: "Surplus & Machinery Bid Scout",
+    priceCadMonthly: 79,
+    priceDisplay: "CAD $79/mo",
+    cadence: "Daily · 06:45 AM",
+    summary:
+      "Scans physical asset auctions across Ontario, calculating buyer premiums, sales tax, and conservative sold comps.",
+    deliverable: "Daily Auction Sheet with Target & Hard-Max Bids",
+    bestPairedWith: "Marketplace Deal Hunter & Capital Allocator",
+    targetAudience: "Equipment dealers, arbitrageurs, and liquidators",
+  },
+  {
+    id: "briefing-business-acquisition-scout",
+    slug: "business-acquisition-scout",
+    name: "Business Acquisition Scout",
+    roleTitle: "Direct SMB M&A Sourcing",
+    priceCadMonthly: 99,
+    priceDisplay: "CAD $99/mo",
+    cadence: "Daily · 08:00 AM",
+    summary:
+      "Extracts normalized revenue, SDE, EBITDA, and owner dependency across 8 major broker listing platforms.",
+    deliverable: "Daily Deal Sheet with Multiple Comparisons & Red Flags",
+    bestPairedWith: "Deal Execution Copilot & Relationship CRM",
+    targetAudience: "Search funds and corporate buyers",
+  },
+  {
+    id: "briefing-ai-money-opportunity",
+    slug: "ai-money-opportunity-engine",
+    name: "AI Money Opportunity Radar",
+    roleTitle: "Applied AI Monetization Scout",
+    priceCadMonthly: 99,
+    priceDisplay: "CAD $99/mo",
+    cadence: "Weekly · Thursday 10:00 AM",
+    summary:
+      "Identifies validated operational friction points across 24 industries ready for high-ROI autonomous AI workflow solutions.",
+    deliverable: "Weekly Workflow Opportunity Spec with ROI Calculator",
+    bestPairedWith: "Build & Sell / Venture Experiments",
+    targetAudience: "SaaS founders and automation agency builders",
+  },
+] as const;
+
+export interface TierPricingBounds {
+  readonly minMonthlyCad: number;
+  readonly maxMonthlyCad: number;
+  readonly skuCount: number;
+}
+
+/**
+ * Calculates actual current SKU price bounds assigned to a commercial tier.
+ * Invariant: Tier ranges derive dynamically from canonical active inventory.
+ */
+export function getTierPricingBounds(tier: CommercialTier): TierPricingBounds {
+  if (tier === "single") {
+    const prices = SINGLE_BRIEFINGS.map((s) => s.priceCadMonthly).filter(
+      (p): p is number => typeof p === "number" && p > 0,
+    );
+    return {
+      minMonthlyCad: prices.length ? Math.min(...prices) : 49,
+      maxMonthlyCad: prices.length ? Math.max(...prices) : 99,
+      skuCount: prices.length,
+    };
+  }
+
+  const offers = CANONICAL_COMMERCIAL_OFFERS.filter((o) => o.tier === tier);
+  const monthlyPrices = offers
+    .map((o) => (o.pricing.recurringAmountCents ? o.pricing.recurringAmountCents / 100 : null))
+    .filter((p): p is number => typeof p === "number" && p > 0);
+
+  if (!monthlyPrices.length) {
+    return { minMonthlyCad: 0, maxMonthlyCad: 0, skuCount: 0 };
+  }
+
+  return {
+    minMonthlyCad: Math.min(...monthlyPrices),
+    maxMonthlyCad: Math.max(...monthlyPrices),
+    skuCount: monthlyPrices.length,
+  };
+}
+
+/**
+ * Returns formatted CAD range derived directly from products assigned to that tier.
+ * Prevents drift and internal contradictions between SKUs and tier descriptors.
+ */
+export function getTierPricingRange(tier: CommercialTier): string {
+  if (tier === "custom") {
+    // Custom infrastructure separates recurring managed operations from initial setup milestone fees
+    return "From CAD $2,500/mo (setup from $4,500)";
+  }
+
+  const { minMonthlyCad, maxMonthlyCad } = getTierPricingBounds(tier);
+  if (minMonthlyCad === 0 && maxMonthlyCad === 0) {
+    return "Contact for pricing";
+  }
+  if (minMonthlyCad === maxMonthlyCad) {
+    return `CAD $${minMonthlyCad.toLocaleString()}/mo`;
+  }
+  return `CAD $${minMonthlyCad.toLocaleString()}–${maxMonthlyCad.toLocaleString()}/mo`;
+}
+
 // ============================================================================
-// 1. CORE PRICING ARCHITECTURE TIERS
+// 1. CORE PRICING ARCHITECTURE TIERS (DERIVED FROM CANONICAL OFFERS)
 // ============================================================================
 
 export const COMMERCIAL_TIERS: readonly CommercialTierSpec[] = [
   {
     tier: "single",
     name: "Single Automation / Briefing",
-    indicativeCadRange: "CAD $29–149/mo",
+    indicativeCadRange: getTierPricingRange("single"),
+    targetPriceBand: "CAD $29–149/mo",
     description: "One autonomous worker or intelligence radar solving a single focused bottleneck.",
     scopeSummary: "Single data pipeline, automated ingestion, and daily/weekly dispatch.",
   },
   {
     tier: "bundle",
     name: "Purpose-Built Bundle",
-    indicativeCadRange: "CAD $99–299/mo",
+    indicativeCadRange: getTierPricingRange("bundle"),
+    targetPriceBand: "CAD $99–299/mo",
     description: "3–5 tightly related automations that feed into a single unified executive brief.",
     scopeSummary: "Unified workflow, collaborative agents, cross-source synthesis.",
   },
   {
     tier: "vertical_os",
     name: "Vertical Operating System",
-    indicativeCadRange: "CAD $299–749/mo",
+    indicativeCadRange: getTierPricingRange("vertical_os"),
+    targetPriceBand: "CAD $299–749/mo",
     description: "6–10 coordinated automations orchestrating a complete functional vertical.",
     scopeSummary:
       "End-to-end industry operating layer (Search Fund, Reseller, Small Business COO).",
@@ -147,7 +300,8 @@ export const COMMERCIAL_TIERS: readonly CommercialTierSpec[] = [
   {
     tier: "business_os",
     name: "Business OS & Growth Stack",
-    indicativeCadRange: "CAD $749–1,499/mo",
+    indicativeCadRange: getTierPricingRange("business_os"),
+    targetPriceBand: "CAD $749–1,499/mo",
     description:
       "Broader commercial stack spanning deal sourcing, validation, revenue generation, and triage.",
     scopeSummary: "Cross-department automation, CRM sync, continuous opportunity engine.",
@@ -155,7 +309,8 @@ export const COMMERCIAL_TIERS: readonly CommercialTierSpec[] = [
   {
     tier: "complete_stack",
     name: "Complete Automation Stack",
-    indicativeCadRange: "CAD $1,499–2,999/mo",
+    indicativeCadRange: getTierPricingRange("complete_stack"),
+    targetPriceBand: "CAD $1,499–2,999/mo",
     description:
       "Almost everything applicable across business operations, intelligence radars, and personal productivity.",
     scopeSummary: "All-in-one AI operating layer with unified executive briefs and custom alerts.",
@@ -163,13 +318,14 @@ export const COMMERCIAL_TIERS: readonly CommercialTierSpec[] = [
   {
     tier: "custom",
     name: "Custom / Managed Infrastructure",
-    indicativeCadRange: "CAD $2,500–10,000+ setup + monthly",
+    indicativeCadRange: getTierPricingRange("custom"),
+    targetPriceBand: "CAD $2,500–10,000+ setup + monthly",
     description:
       "Implementation, bespoke autonomous workflows, dedicated SLA monitoring, and private scrapers.",
     scopeSummary:
       "Full engineering audit, custom worker authoring, private hosting, and continuous tuning.",
   },
-] as const;
+];
 
 /**
  * Resolves commercial pricing for a bundle from the single source of truth (CANONICAL_COMMERCIAL_OFFERS).
@@ -912,8 +1068,8 @@ export const BUNDLES: readonly ServiceBundle[] = [
       "An AI Chief of Staff handling operational noise, communications, and daily priorities.",
     description:
       "A personal operating system for high-output leaders. Orchestrates daily commitments, reviews inbox and calendar obligations, safeguards compliance deadlines, and eliminates recurring subscription waste.",
-    tier: "bundle",
-    tierLabel: "Purpose-Built Bundle",
+    tier: "vertical_os",
+    tierLabel: "Vertical Operating System",
     headlineLaunch: true,
     serviceIds: [
       "personal-ai-coo",
@@ -2328,10 +2484,10 @@ export const BUNDLES: readonly ServiceBundle[] = [
         "Dedicated production infrastructure streaming clean, verified JSON directly into your proprietary database or enterprise CRM.",
     },
     bestPairedWith: {
-      pairWith: "Executive Diagnostic & Architecture Blueprint",
+      pairWith: "Technical Scoping & Architecture Review",
       rationale:
-        "Credited 100% toward subsequent system deployment; establishes deterministic technical specifications before build.",
-      expansionVector: "Audit -> Production Build",
+        "Defines integration boundaries, milestones, and deterministic technical specifications in a written Statement of Work before build.",
+      expansionVector: "Scoping -> Production Build",
     },
   },
 ] as const;
@@ -2524,95 +2680,9 @@ export const PAIRING_MATRIX: readonly PairingRule[] = [
 ] as const;
 
 // ============================================================================
-// 4. INDIVIDUAL SUBSCRIBABLE BRIEFINGS ($29–$149/MO)
+// 4. INDIVIDUAL SUBSCRIBABLE BRIEFINGS
+// Note: SINGLE_BRIEFINGS is declared above to anchor derived tier pricing.
 // ============================================================================
-
-export const SINGLE_BRIEFINGS: readonly SingleBriefingItem[] = [
-  {
-    id: "briefing-tech-founder",
-    slug: "tech-founder-briefing",
-    name: "Tech Founder Briefing",
-    roleTitle: "AI & Systems Architecture Radar",
-    priceCadMonthly: 49,
-    priceDisplay: "CAD $49/mo (or Free Edition)",
-    cadence: "Weekly · Monday 11:00 AM",
-    summary:
-      "Actionable agent architectures, token budget limits, and deterministic production engineering playbooks for CTOs.",
-    deliverable: "Weekly Technical Memo & GitHub Architecture Repository Review",
-    bestPairedWith: "AI Tool Radar & GitHub Scout",
-    targetAudience: "Technical founders, CTOs, and engineering leads",
-  },
-  {
-    id: "briefing-ontario-deal-radar",
-    slug: "ontario-opportunity-monitor",
-    name: "Ontario Opportunity Monitor",
-    roleTitle: "M&A, Distress & Auction Monitor",
-    priceCadMonthly: 99,
-    priceDisplay: "CAD $99/mo",
-    cadence: "Daily · 07:00 AM",
-    summary:
-      "Daily tracking of Ontario court receiverships, business registry filings, bankruptcy notices, and equipment auctions.",
-    deliverable: "Daily Morning Deal Memo & Distress Filing Radar",
-    bestPairedWith: "Business Acquisition Scout & Diligence Copilot",
-    targetAudience: "Acquisition entrepreneurs, search funds, and asset buyers",
-  },
-  {
-    id: "briefing-tender-brief",
-    slug: "tender-brief",
-    name: "Tender Brief: Public Procurement",
-    roleTitle: "Sub-$100k Procurement Scout",
-    priceCadMonthly: 79,
-    priceDisplay: "CAD $79/mo",
-    cadence: "Bi-Weekly · Tue & Thu 06:30 AM",
-    summary:
-      "Curated municipal, school board, and provincial procurement bids below $100,000 requiring zero complex union RFP processes.",
-    deliverable: "Bi-Weekly Municipal Bid Digest with Pre-Checked Eligibility",
-    bestPairedWith: "Compliance Watch & Customer Acquisition Radar",
-    targetAudience: "Trades, professional clinics, and regional service contractors",
-  },
-  {
-    id: "briefing-auction-hunter",
-    slug: "auction-deal-hunter",
-    name: "Auction Deal Hunter Dispatch",
-    roleTitle: "Surplus & Machinery Bid Scout",
-    priceCadMonthly: 79,
-    priceDisplay: "CAD $79/mo",
-    cadence: "Daily · 06:45 AM",
-    summary:
-      "Scans physical asset auctions across Ontario, calculating buyer premiums, sales tax, and conservative sold comps.",
-    deliverable: "Daily Auction Sheet with Target & Hard-Max Bids",
-    bestPairedWith: "Marketplace Deal Hunter & Capital Allocator",
-    targetAudience: "Equipment dealers, arbitrageurs, and liquidators",
-  },
-  {
-    id: "briefing-business-acquisition-scout",
-    slug: "business-acquisition-scout",
-    name: "Business Acquisition Scout",
-    roleTitle: "Direct SMB M&A Sourcing",
-    priceCadMonthly: 99,
-    priceDisplay: "CAD $99/mo",
-    cadence: "Daily · 08:00 AM",
-    summary:
-      "Extracts normalized revenue, SDE, EBITDA, and owner dependency across 8 major broker listing platforms.",
-    deliverable: "Daily Deal Sheet with Multiple Comparisons & Red Flags",
-    bestPairedWith: "Deal Execution Copilot & Relationship CRM",
-    targetAudience: "Search funds and corporate buyers",
-  },
-  {
-    id: "briefing-ai-money-opportunity",
-    slug: "ai-money-opportunity-engine",
-    name: "AI Money Opportunity Radar",
-    roleTitle: "Applied AI Monetization Scout",
-    priceCadMonthly: 99,
-    priceDisplay: "CAD $99/mo",
-    cadence: "Weekly · Thursday 10:00 AM",
-    summary:
-      "Identifies validated operational friction points across 24 industries ready for high-ROI autonomous AI workflow solutions.",
-    deliverable: "Weekly Workflow Opportunity Spec with ROI Calculator",
-    bestPairedWith: "Build & Sell / Venture Experiments",
-    targetAudience: "SaaS founders and automation agency builders",
-  },
-] as const;
 
 // ============================================================================
 // 5. HELPER ACCESSORS & REPOSITORY FUNCTIONS

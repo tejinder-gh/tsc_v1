@@ -208,11 +208,12 @@ export function BriefingsCatalogView({ bundles, pairings, singleBriefings }: Pro
               </div>
               <div>
                 <span className="font-bold text-[var(--tsc-ink)] text-sm">
-                  100% Money-Back Guarantee &mdash; If Not Completely Satisfied
+                  30-Day Money-Back Guarantee
                 </span>
                 <p className="text-[11px] text-[var(--tsc-muted)] mt-0.5">
-                  Try any package or vertical OS for 30 days. If it does not save you hours and
-                  deliver verified commercial signal, request an immediate 100% refund.
+                  Try an eligible subscription package for 30 days. If you&apos;re not satisfied,
+                  request a 100% refund of the initial recurring subscription fee in accordance with
+                  our published refund terms.
                 </p>
               </div>
             </div>
@@ -225,7 +226,7 @@ export function BriefingsCatalogView({ bundles, pairings, singleBriefings }: Pro
                 <Check className="w-3.5 h-3.5" /> Full Refund
               </span>
               <span>&middot;</span>
-              <span>Zero Risk</span>
+              <span>30-Day Risk Reversal</span>
             </div>
           </div>
         </div>
@@ -266,7 +267,7 @@ export function BriefingsCatalogView({ bundles, pairings, singleBriefings }: Pro
                   : "bg-white text-[var(--tsc-muted)] border border-[var(--tsc-line)] hover:text-[var(--tsc-ink)]"
               }`}
             >
-              Vertical OS ($299–$499)
+              Vertical OS ($249–$499)
             </button>
             <button
               type="button"
@@ -319,7 +320,7 @@ export function BriefingsCatalogView({ bundles, pairings, singleBriefings }: Pro
                   : "bg-white text-[var(--tsc-muted)] border border-[var(--tsc-line)] hover:text-[var(--tsc-ink)]"
               }`}
             >
-              Single Briefings ($29–$149)
+              Single Briefings ($49–$99)
             </button>
           </div>
 
@@ -765,8 +766,9 @@ export function BriefingsCatalogView({ bundles, pairings, singleBriefings }: Pro
               <p className="text-sm text-[var(--tsc-muted)] leading-relaxed max-w-2xl">
                 We engineer sovereign data ingestion pipelines, private RAG harnesses, and
                 multi-tenant workflow engines for healthcare practices, legal partnerships, and
-                commercial logistics firms. All custom engagements begin with an engineering
-                constraint audit ($2,500–$5,000, credited 100% toward production deployment).
+                commercial logistics firms. Custom engagements begin with an engineering fit and
+                constraint review. Scope, milestones, pricing, and acceptance criteria are
+                documented in a written Statement of Work before implementation.
               </p>
             </div>
             <div className="lg:col-span-4 lg:text-right space-y-3">

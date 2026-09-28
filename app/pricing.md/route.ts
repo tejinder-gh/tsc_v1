@@ -84,7 +84,7 @@ ${rolesList}
 
   return `# Pricing & Commercial Architecture — ${site.name}
 
-> Commercial Hierarchy: **Single Automation ($29–149/mo) → Purpose-Built Bundle ($99–299/mo) → Vertical OS ($299–749/mo) → Complete Automation Stack ($749–2,999/mo) → Custom / Managed Infrastructure ($2,500–10,000+ setup + monthly)**
+> Commercial Hierarchy: **Single Automation (CAD $49–99/mo) → Purpose-Built Bundle (CAD $99–199/mo) → Vertical OS (CAD $249–499/mo) → Business OS (CAD $999/mo) → Complete Automation Stack (CAD $1,499–1,999/mo) → Custom / Managed Infrastructure (From CAD $2,500/mo + setup)**
 
 ---
 
@@ -108,7 +108,7 @@ ${topTierSections}
 
 ---
 
-## 4. Single Subscribable Briefings ($29–$149/mo)
+## 4. Single Subscribable Briefings ($49–$99/mo)
 
 Clients can subscribe to individual autonomous briefings and radars without committing to a full package:
 

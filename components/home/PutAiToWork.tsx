@@ -410,14 +410,13 @@ export function PutAiToWork() {
                   </span>
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-[var(--tsc-ink)] tracking-tight">
-                  Money-Back Guarantee &mdash; If Not Completely Satisfied
+                  30-Day Money-Back Guarantee
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed max-w-2xl">
-                  Deploy any automation package or vertical operating system for 30 days. If the
-                  system does not demonstrably return hours to your week and deliver verified
-                  commercial opportunities, email us for an immediate, unconditional 100% refund. No
-                  friction. No awkward questions. We only get paid when our AI workers genuinely
-                  perform.
+                  Try an eligible subscription package or vertical operating system for 30 days. If
+                  you are not satisfied, contact us for a 100% refund of the initial recurring
+                  subscription fee in accordance with our published terms. Normal trial telephony
+                  and API usage is absorbed by The Skill Corner.
                 </p>
               </div>
             </div>

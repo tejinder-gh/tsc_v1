@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { GET as getLlmsTxt } from "@/app/llms.txt/route";
 import { GET as getLlmsFullTxt } from "@/app/llms-full.txt/route";
@@ -10,6 +12,7 @@ import {
   getCommercialOfferBySlug,
 } from "@/lib/commercial/offers";
 import {
+  APPROVED_COMMERCIAL_POLICIES,
   CANONICAL_REFUND_POLICIES,
   getRefundPolicyById,
   OWNER_COMMERCIAL_DECISIONS_REQUIRED,
@@ -20,7 +23,15 @@ import {
   calculateSkuMarginAnalysis,
 } from "@/lib/commercial/sku-economics";
 import { commercialCatalogJsonLd, commercialOfferJsonLd } from "@/lib/structured-data";
-import { getBundleBySlug } from "../domain/bundles";
+import {
+  COMMERCIAL_TIERS,
+  type CommercialTier,
+  getAllBundles,
+  getBundleBySlug,
+  getTierPricingBounds,
+  getTierPricingRange,
+  SINGLE_BRIEFINGS,
+} from "../domain/bundles";
 
 describe("Commercial Consistency & Invariant Verification", () => {
   it("verifies canonical offers have unique SKUs and valid slugs", () => {
@@ -189,5 +200,170 @@ describe("Commercial Consistency & Invariant Verification", () => {
       expect(typeof analysis.grossMarginPercent).toBe("number");
       expect(analysis.totalDirectCostCents).toBeGreaterThan(0);
     }
+  });
+
+  describe("Commercial Consistency Regression Tests (Hotfix Enforcement)", () => {
+    it("proves SKU pricing: canonical offers remain the sole authority for individual prices", () => {
+      const allBundles = getAllBundles();
+      expect(allBundles.length).toBe(20);
+
+      for (const bundle of allBundles) {
+        const canonicalOffer = getCommercialOfferBySlug(bundle.slug);
+        expect(canonicalOffer, `Bundle ${bundle.slug} must map to a canonical offer`).toBeDefined();
+
+        if (canonicalOffer) {
+          const expectedCents =
+            canonicalOffer.pricing.recurringAmountCents ??
+            canonicalOffer.pricing.setupAmountCents ??
+            0;
+          expect(bundle.priceAmountCents).toBe(expectedCents);
+          expect(bundle.currency).toBe(canonicalOffer.pricing.currency);
+          expect(bundle.priceDisplay).toBe(canonicalOffer.pricing.displayPrice);
+          expect(bundle.cadMonthlyNumber).toBe(Math.round(expectedCents / 100));
+        }
+      }
+
+      // Single Subscribable Briefings
+      expect(SINGLE_BRIEFINGS.length).toBe(6);
+      for (const briefing of SINGLE_BRIEFINGS) {
+        expect(briefing.priceCadMonthly).toBeGreaterThan(0);
+        expect(briefing.priceDisplay).toContain(briefing.priceCadMonthly.toString());
+      }
+    });
+
+    it("proves tier range integrity: every recurring-price SKU falls strictly within its derived tier range", () => {
+      const recurringTiers: readonly CommercialTier[] = [
+        "single",
+        "bundle",
+        "vertical_os",
+        "business_os",
+        "complete_stack",
+      ];
+
+      for (const tier of recurringTiers) {
+        const bounds = getTierPricingBounds(tier);
+        expect(bounds.skuCount).toBeGreaterThan(0);
+        expect(bounds.minMonthlyCad).toBeGreaterThan(0);
+        expect(bounds.minMonthlyCad).toBeLessThanOrEqual(bounds.maxMonthlyCad);
+
+        const rangeStr = getTierPricingRange(tier);
+        expect(rangeStr).toContain("CAD $");
+
+        if (tier === "single") {
+          for (const briefing of SINGLE_BRIEFINGS) {
+            expect(briefing.priceCadMonthly).toBeGreaterThanOrEqual(bounds.minMonthlyCad);
+            expect(briefing.priceCadMonthly).toBeLessThanOrEqual(bounds.maxMonthlyCad);
+          }
+        } else {
+          const assignedOffers = CANONICAL_COMMERCIAL_OFFERS.filter((o) => o.tier === tier);
+          expect(assignedOffers.length).toBe(bounds.skuCount);
+
+          for (const offer of assignedOffers) {
+            const recurringCad = (offer.pricing.recurringAmountCents ?? 0) / 100;
+            expect(recurringCad).toBeGreaterThanOrEqual(bounds.minMonthlyCad);
+            expect(recurringCad).toBeLessThanOrEqual(bounds.maxMonthlyCad);
+          }
+        }
+      }
+
+      // Explicit verification: Business Buyer OS (CAD $249) is within vertical_os bounds
+      const verticalBounds = getTierPricingBounds("vertical_os");
+      const bizBuyer = getCommercialOfferBySlug("business-buyer-os");
+      expect(bizBuyer).toBeDefined();
+      expect(bizBuyer?.tier).toBe("vertical_os");
+      expect(bizBuyer?.pricing.recurringAmountCents).toBe(24900);
+      expect(verticalBounds.minMonthlyCad).toBe(249);
+      expect(verticalBounds.maxMonthlyCad).toBe(499);
+      expect(getTierPricingRange("vertical_os")).toBe("CAD $249–499/mo");
+
+      // Verify COMMERCIAL_TIERS reflects the derived range, not a conflicting hardcoded range
+      const verticalSpec = COMMERCIAL_TIERS.find((t) => t.tier === "vertical_os");
+      expect(verticalSpec).toBeDefined();
+      expect(verticalSpec?.indicativeCadRange).toBe("CAD $249–499/mo");
+      expect(verticalSpec?.targetPriceBand).toBe("CAD $299–749/mo");
+    });
+
+    it("proves refund copy guardrails: public marketing cannot reintroduce conflicting refund or guarantee language", () => {
+      const projectRoot = process.cwd();
+      const filesToCheck = [
+        path.join(projectRoot, "features/briefings/components/BriefingsCatalogView.tsx"),
+        path.join(projectRoot, "components/home/PutAiToWork.tsx"),
+        path.join(projectRoot, "app/(marketing)/legal/terms/page.tsx"),
+        path.join(projectRoot, "app/pricing.md/route.ts"),
+        path.join(projectRoot, "app/llms.txt/route.ts"),
+        path.join(projectRoot, "app/llms-full.txt/route.ts"),
+      ];
+
+      const forbiddenPhrases = [
+        "immediate 100% refund",
+        "immediate, unconditional 100% refund",
+        "immediate refund",
+        "save you hours and deliver verified commercial signal",
+        "deliver verified commercial signal",
+        "demonstrably return hours",
+        "Zero Risk", // Must use non-absolute risk reversal like "30-Day Risk Reversal"
+      ];
+
+      for (const filePath of filesToCheck) {
+        if (!fs.existsSync(filePath)) continue;
+        const content = fs.readFileSync(filePath, "utf-8");
+
+        for (const phrase of forbiddenPhrases) {
+          expect(
+            content.includes(phrase),
+            `File ${path.basename(filePath)} must not contain forbidden phrase "${phrase}"`,
+          ).toBe(false);
+        }
+      }
+    });
+
+    it("proves diagnostic credit absence: active public content cannot claim architecture/diagnostic credit unless approved", () => {
+      // Approved policies must NOT contain diagnostic credit (OD-004 is non-operative)
+      expect(APPROVED_COMMERCIAL_POLICIES).not.toHaveProperty("architectureDiagnosticCredit");
+
+      const projectRoot = process.cwd();
+      const filesToCheck = [
+        path.join(projectRoot, "features/briefings/components/BriefingsCatalogView.tsx"),
+        path.join(projectRoot, "features/catalog/domain/bundles.ts"),
+        path.join(projectRoot, "app/(marketing)/briefings/page.tsx"),
+        path.join(projectRoot, "app/pricing.md/route.ts"),
+        path.join(projectRoot, "lib/catalogue/public-routes.ts"),
+      ];
+
+      const forbiddenDiagnosticClaims = [
+        "credited 100%",
+        "credited toward production deployment",
+        "credited toward subsequent system deployment",
+        "constraint audit ($2,500–$5,000",
+        "engineering constraint audit ($2,500–$5,000",
+        "blueprint credit",
+      ];
+
+      for (const filePath of filesToCheck) {
+        if (!fs.existsSync(filePath)) continue;
+        const content = fs.readFileSync(filePath, "utf-8");
+
+        for (const claim of forbiddenDiagnosticClaims) {
+          expect(
+            content.includes(claim),
+            `File ${path.basename(filePath)} must not claim diagnostic credit "${claim}"`,
+          ).toBe(false);
+        }
+      }
+
+      // Verify bespoke infrastructure copy is implementation-bounded with SOW specification
+      const briefingsViewPath = path.join(
+        projectRoot,
+        "features/briefings/components/BriefingsCatalogView.tsx",
+      );
+      const briefingsViewContent = fs.readFileSync(briefingsViewPath, "utf-8");
+      expect(briefingsViewContent).toContain(
+        "Custom engagements begin with an engineering fit and",
+      );
+      expect(briefingsViewContent).toContain("constraint review.");
+      expect(briefingsViewContent).toContain(
+        "documented in a written Statement of Work before implementation.",
+      );
+    });
   });
 });

@@ -12,7 +12,7 @@ import { breadcrumbJsonLd, commercialCatalogJsonLd } from "@/lib/structured-data
 export const metadata: Metadata = {
   title: "The Briefings & Commercial Automation Catalog | The Skill Corner",
   description:
-    "Explore our commercial hierarchy of autonomous AI systems: Single Automations ($29–149/mo), Purpose-Built Bundles ($99–299/mo), Vertical OS ($299–749/mo), and Complete Operating Stacks ($749–2,999/mo). Every offer features explicit AI roles, unified deliverables, and expansion pairing synergy.",
+    "Explore our commercial hierarchy of autonomous AI systems: Single Automations ($49–99/mo), Purpose-Built Bundles ($99–199/mo), Vertical OS ($249–499/mo), and Complete Operating Stacks ($999–1,999/mo). Every offer features explicit AI roles, unified deliverables, and expansion pairing synergy.",
   alternates: { canonical: "/briefings" },
   openGraph: {
     title: "The Briefings & Commercial Automation Catalog | The Skill Corner",
