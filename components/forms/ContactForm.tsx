@@ -46,11 +46,17 @@ const budgetOptions = [
 
 const STEP_ONE_FIELDS = ["name", "business", "email", "businessType"] as const;
 
+import { getCommercialOfferBySlug } from "@/lib/commercial/offers";
+
 const fieldBaseClass =
   "mt-1 w-full rounded-[6px] border border-[var(--tsc-line-strong)] bg-white px-3.5 py-2.5 text-sm text-[var(--tsc-ink)] transition-colors focus:border-[var(--tsc-ink)] focus:outline-none focus:ring-1 focus:ring-[var(--tsc-ink)] font-geist";
 const fieldErrorClass = "border-red-500 focus:border-red-500 focus:ring-red-200";
 
-export function ContactForm() {
+export interface ContactFormProps {
+  initialPackageSlug?: string;
+}
+
+export function ContactForm({ initialPackageSlug }: ContactFormProps = {}) {
   const ids = {
     name: useId(),
     business: useId(),
@@ -62,6 +68,7 @@ export function ContactForm() {
   };
   const { setSegment } = useSegment();
   const { problemText } = useActiveJourneySummary();
+  const offer = initialPackageSlug ? getCommercialOfferBySlug(initialPackageSlug) : undefined;
   const [step, setStep] = useState<1 | 2>(1);
   const [sent, setSent] = useState(false);
   const [sendError, setSendError] = useState("");
@@ -70,26 +77,39 @@ export function ContactForm() {
   function handleInteraction() {
     if (!startedRef.current) {
       startedRef.current = true;
-      trackEvent("form_started", { form: "contact_form", location: "contact_page" });
-      trackEvent("contact_started", { location: "contact_page" });
+      trackEvent("form_started", {
+        form: "contact_form",
+        location: "contact_page",
+        ...(initialPackageSlug ? { package_id: initialPackageSlug } : {}),
+      });
+      trackEvent("contact_started", {
+        location: "contact_page",
+        ...(initialPackageSlug ? { package_id: initialPackageSlug } : {}),
+      });
     }
   }
+
+  const initialMessage = offer
+    ? `Evaluating ${offer.publicName} (${offer.pricing.displayPrice}). `
+    : (problemText ?? "");
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     mode: "onBlur",
     defaultValues: {
-      message: problemText ?? "",
+      message: initialMessage,
     },
   });
   const errors = form.formState.errors;
 
-  // Hydrate problem from journey context if visitor navigated with an active problem
+  // Hydrate problem from journey context or package if visitor navigated with an active problem
   useEffect(() => {
-    if (problemText && !form.getValues("message")) {
+    if (offer && !form.getValues("message")) {
+      form.setValue("message", `Evaluating ${offer.publicName} (${offer.pricing.displayPrice}). `);
+    } else if (problemText && !form.getValues("message")) {
       form.setValue("message", problemText);
     }
-  }, [problemText, form]);
+  }, [offer, problemText, form]);
 
   // Clears an error the moment the user starts fixing that field (brief §8.4). Submission
   // is gated by a manual trigger() below rather than RHF's handleSubmit, so RHF's own

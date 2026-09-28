@@ -1,26 +1,12 @@
 "use client";
 
-import {
-  ArrowRight,
-  ArrowUpRight,
-  BadgeCheck,
-  CheckCircle2,
-  Clock,
-  Layers,
-  Network,
-  ShieldAlert,
-  ShieldCheck,
-  Sparkles,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2, Clock, FileText, Network, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { SectionLabel } from "@/components/ui/editorial";
 import { CUSTOM_RADAR_FEATURES, PROVEN_PIPELINES } from "@/content/briefings";
-import {
-  getBundleBySlug,
-  type ServiceBundle,
-} from "@/features/catalog/domain/bundles";
+import { getBundleBySlug, type ServiceBundle } from "@/features/catalog/domain/bundles";
+import { trackEvent } from "@/lib/telemetry";
 
 const FEATURED_PACKAGE_SLUGS = [
   "business-buyer-os",
@@ -32,11 +18,40 @@ const FEATURED_PACKAGE_SLUGS = [
 
 type FeaturedSlug = (typeof FEATURED_PACKAGE_SLUGS)[number];
 
+const SAMPLE_DELIVERABLES: Record<FeaturedSlug, { type: string; sample: string }> = {
+  "business-buyer-os": {
+    type: "SYNTHETIC SAMPLE MEMO · MON 07:00 AM",
+    sample:
+      "ACQUISITION MEMO [07:00 AM] · 3 Off-Market Targets Ingested · Target #1: HVAC Mechanical Services (GTA) · Asking $1.4M · Normalized SDE $480k (2.9x) · Key-Person Dependency: LOW · Debt Service Coverage: 1.84x · Preliminary LOI Terms Generated.",
+  },
+  "deal-hunter": {
+    type: "SYNTHETIC SAMPLE ALERT · REAL-TIME DISPATCH",
+    sample:
+      "ASSET RADAR ALERT [14:22 PM] · 2023 Kubota SVL75-2 Compact Track Loader · Asking $42,500 (Market comp: $58,000) · 620 Hours · Calculated resale margin: +$11,200 · Recommended offer ceiling: $39,500.",
+  },
+  "founder-growth-os": {
+    type: "SYNTHETIC SAMPLE DOSSIER · MON 08:00 AM",
+    sample:
+      "PROSPECT DOSSIER [08:00 AM] · 28 Verified Accounts · Apex Logistics Inc. · Contact: VP of Dispatch · Tech: Samsara + QBO · Identified Gap: No automated after-hours driver check-in · Drafted Outreach Opener Ready.",
+  },
+  "small-business-coo": {
+    type: "SYNTHETIC SAMPLE DIGEST · DAILY 17:30 PM",
+    sample:
+      "COO RECONCILIATION [17:30 PM] · 18 Inbound Calls Answered (0 Missed) · 6 New Appointments Confirmed · 4 Overdue Invoices Paid via SMS Link ($3,200 collected) · Zero Manual Rescheduling Required.",
+  },
+  "ecommerce-intelligence": {
+    type: "SYNTHETIC SAMPLE MATRIX · DAILY 06:30 AM",
+    sample:
+      "SOURCING RADAR [06:30 AM] · 42 Distributor SKUs Released at Volume Tier-3 · Competitor Stockout Detected on 3 High-Volume ASINs · Recommended Reorder: 120 Units (Estimated Gross Margin: 34.2%).",
+  },
+};
+
 export function PutAiToWork() {
   const [selectedSlug, setSelectedSlug] = useState<FeaturedSlug>("business-buyer-os");
 
   const activeBundle: ServiceBundle =
     getBundleBySlug(selectedSlug) || (getBundleBySlug("business-buyer-os") as ServiceBundle);
+  const sampleSpecimen = SAMPLE_DELIVERABLES[selectedSlug];
 
   return (
     <section
@@ -54,12 +69,16 @@ export function PutAiToWork() {
               className="inline-block h-2 w-2 rounded-full bg-[var(--tsc-action)] ring-4 ring-[var(--tsc-action)]/20 animate-pulse"
               aria-hidden="true"
             />
-            <SectionLabel>04 / PUT AI TO WORK &middot; AUTOMATION WORKERS &amp; OPERATING SYSTEMS</SectionLabel>
+            <SectionLabel>
+              04 / PUT AI TO WORK &middot; AUTOMATION WORKERS &amp; OPERATING SYSTEMS
+            </SectionLabel>
           </div>
           <div className="flex items-center gap-3 font-mono text-xs text-[var(--tsc-muted)] tracking-wider uppercase">
             <span>Role-Based AI Workers</span>
             <span className="text-[var(--tsc-line)]">&middot;</span>
-            <span className="text-[var(--tsc-action)] font-semibold">100% Money-Back Guarantee</span>
+            <span className="text-[var(--tsc-action)] font-semibold">
+              100% Money-Back Guarantee
+            </span>
             <span className="text-[var(--tsc-line)]">&middot;</span>
             <span>Zero Lock-In</span>
           </div>
@@ -80,8 +99,12 @@ export function PutAiToWork() {
             </h2>
             <p className="text-base sm:text-lg text-[var(--tsc-muted)] leading-relaxed max-w-2xl">
               We do not sell vague chat prompts or generic AI assistants. We organize coordinated
-              autonomous workers into strict operational roles—<strong className="text-[var(--tsc-ink)] font-semibold">Scouts, Financial Analysts, Diligence Agents, CRMs, and Capital Controllers</strong>.
-              Bundles aren&apos;t just discounts: every worker feeds the next to produce one unified executive deliverable.
+              autonomous workers into strict operational roles—
+              <strong className="text-[var(--tsc-ink)] font-semibold">
+                Scouts, Financial Analysts, Diligence Agents, CRMs, and Capital Controllers
+              </strong>
+              . Bundles aren&apos;t just discounts: every worker feeds the next to produce one
+              unified executive deliverable.
             </p>
           </div>
 
@@ -112,11 +135,36 @@ export function PutAiToWork() {
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 border-b border-[var(--tsc-line)] bg-[var(--tsc-surface)]/60 divide-x divide-y md:divide-y-0 divide-[var(--tsc-line)]"
           >
             {[
-              { slug: "business-buyer-os" as const, title: "Business Buyer OS", price: "$249/mo", badge: "FLAGSHIP M&A" },
-              { slug: "deal-hunter" as const, title: "Deal Hunter Pack", price: "$149/mo", badge: "ASSET ARBITRAGE" },
-              { slug: "founder-growth-os" as const, title: "Founder Growth OS", price: "$299/mo", badge: "B2B PIPELINE" },
-              { slug: "small-business-coo" as const, title: "Small Business COO", price: "$499/mo", badge: "OPERATIONS" },
-              { slug: "ecommerce-intelligence" as const, title: "E-Commerce Launch", price: "$199/mo", badge: "SOURCING" },
+              {
+                slug: "business-buyer-os" as const,
+                title: "Business Buyer OS",
+                price: "$249/mo",
+                badge: "FLAGSHIP M&A",
+              },
+              {
+                slug: "deal-hunter" as const,
+                title: "Deal Hunter Pack",
+                price: "$149/mo",
+                badge: "ASSET ARBITRAGE",
+              },
+              {
+                slug: "founder-growth-os" as const,
+                title: "Founder Growth OS",
+                price: "$299/mo",
+                badge: "B2B PIPELINE",
+              },
+              {
+                slug: "small-business-coo" as const,
+                title: "Small Business COO",
+                price: "$499/mo",
+                badge: "OPERATIONS",
+              },
+              {
+                slug: "ecommerce-intelligence" as const,
+                title: "E-Commerce Launch",
+                price: "$199/mo",
+                badge: "SOURCING",
+              },
             ].map((tab) => {
               const isSelected = selectedSlug === tab.slug;
               return (
@@ -125,7 +173,10 @@ export function PutAiToWork() {
                   type="button"
                   role="tab"
                   aria-selected={isSelected}
-                  onClick={() => setSelectedSlug(tab.slug)}
+                  onClick={() => {
+                    setSelectedSlug(tab.slug);
+                    trackEvent("package_selected", { package_id: tab.slug, price: tab.price });
+                  }}
                   className={`p-4 text-left transition-all cursor-pointer relative ${
                     isSelected
                       ? "bg-white text-[var(--tsc-ink)] shadow-2xs"
@@ -136,7 +187,9 @@ export function PutAiToWork() {
                     <span className="absolute top-0 left-0 right-0 h-[3px] bg-[var(--tsc-action)]" />
                   )}
                   <div className="flex items-center justify-between text-[10px] font-mono mb-1">
-                    <span className="font-bold text-[var(--tsc-action)] uppercase">{tab.badge}</span>
+                    <span className="font-bold text-[var(--tsc-action)] uppercase">
+                      {tab.badge}
+                    </span>
                     <span className="font-bold text-[var(--tsc-ink)]">{tab.price}</span>
                   </div>
                   <div className="font-bold text-sm text-[var(--tsc-ink)] line-clamp-1">
@@ -192,12 +245,25 @@ export function PutAiToWork() {
                 <div className="flex items-center gap-2">
                   <Link
                     href={`/book?package=${activeBundle.slug}`}
+                    onClick={() => {
+                      trackEvent("cta_clicked", {
+                        cta: "deploy_this_stack",
+                        package_id: activeBundle.slug,
+                        destination: "/book",
+                      });
+                    }}
                     className="px-4 py-2 rounded-[4px] bg-[var(--tsc-action)] hover:bg-[var(--tsc-action)]/90 text-white font-mono text-xs font-semibold uppercase tracking-wider transition-all shadow-2xs"
                   >
                     Deploy This Stack
                   </Link>
                   <Link
                     href="/briefings"
+                    onClick={() => {
+                      trackEvent("cta_clicked", {
+                        cta: "view_all_packages",
+                        destination: "/briefings",
+                      });
+                    }}
                     className="px-3 py-2 rounded-[4px] bg-white border border-[var(--tsc-line)] text-xs font-mono font-medium text-[var(--tsc-ink)] hover:border-[var(--tsc-line-strong)] transition-all"
                   >
                     View All 20 &rarr;
@@ -225,7 +291,9 @@ export function PutAiToWork() {
                   >
                     <div>
                       <div className="flex items-center justify-between text-[10px] font-mono text-[var(--tsc-muted)] uppercase mb-1">
-                        <span className="text-[var(--tsc-action)] font-bold">[{role.roleTitle}]</span>
+                        <span className="text-[var(--tsc-action)] font-bold">
+                          [{role.roleTitle}]
+                        </span>
                         <span>AI WORKER</span>
                       </div>
                       <div className="font-bold text-sm text-[var(--tsc-ink)]">
@@ -268,6 +336,17 @@ export function PutAiToWork() {
                 <p className="text-xs text-[var(--tsc-muted)] leading-relaxed">
                   {activeBundle.deliverable.description}
                 </p>
+                {sampleSpecimen && (
+                  <div className="mt-3 pt-2.5 border-t border-[var(--tsc-line)]">
+                    <div className="flex items-center gap-1.5 text-[9px] font-mono text-[var(--tsc-muted)] uppercase tracking-wider mb-1">
+                      <FileText className="w-3 h-3 text-[var(--tsc-action)]" />
+                      <span>{sampleSpecimen.type}</span>
+                    </div>
+                    <div className="p-2.5 rounded-[4px] bg-[var(--tsc-surface)] border border-[var(--tsc-line)] font-mono text-[11px] text-[var(--tsc-ink)] leading-relaxed">
+                      {sampleSpecimen.sample}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Pairing Expansion Box */}
@@ -334,10 +413,11 @@ export function PutAiToWork() {
                   Money-Back Guarantee &mdash; If Not Completely Satisfied
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed max-w-2xl">
-                  Deploy any automation package or vertical operating system for 30 days. If the system does not
-                  demonstrably return hours to your week and deliver verified commercial opportunities, email us
-                  for an immediate, unconditional 100% refund. No friction. No awkward questions. We only get paid
-                  when our AI workers genuinely perform.
+                  Deploy any automation package or vertical operating system for 30 days. If the
+                  system does not demonstrably return hours to your week and deliver verified
+                  commercial opportunities, email us for an immediate, unconditional 100% refund. No
+                  friction. No awkward questions. We only get paid when our AI workers genuinely
+                  perform.
                 </p>
               </div>
             </div>
@@ -415,7 +495,7 @@ export function PutAiToWork() {
                 PROVEN CLIENT PIPELINE ARCHITECTURES
               </span>
               <span className="text-[var(--tsc-action)] font-semibold">
-                100% DETERMINISTIC EXECUTION
+                DETERMINISTIC SCHEMA GATE
               </span>
             </div>
 

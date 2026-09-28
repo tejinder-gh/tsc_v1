@@ -1,7 +1,7 @@
 /**
  * What: Quick query page - the contact form plus the faster-path booking card.
  * Why: Second rung of the conversion ladder for visitors with a question but no
- *      appetite for a call yet. Hydrates from visitor journey if active.
+ *      appetite for a call yet. Hydrates from visitor journey or selected package.
  * How: Editorial hero, ActiveJourneyBanner for carried context, ContactForm with
  *      sidebar offering the faster-path 30-min audit and checklist.
  * From Where: TheSkillCorner marketing site editorial redesign, 2026.
@@ -14,6 +14,15 @@ import { ActiveJourneyBanner } from "@/components/journey";
 import { EditorialHero } from "@/components/public/EditorialHero";
 import { site } from "@/content/site";
 
+export interface ContactPageProps {
+  searchParams?: Promise<{
+    package?: string;
+    offer_id?: string;
+    sku?: string;
+    problem?: string;
+  }>;
+}
+
 export const metadata: Metadata = {
   title: "Contact Us & Free Automation Consultation",
   description:
@@ -21,11 +30,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }: ContactPageProps) {
+  const params = searchParams ? await searchParams : {};
+  const packageSlug = params.package || params.sku || params.offer_id;
+  const bookHref = packageSlug ? `/book?package=${packageSlug}` : "/book";
+
   return (
     <>
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16 pt-6 font-geist">
-        <ActiveJourneyBanner className="mb-6" />
+        <ActiveJourneyBanner className="mb-6" packageSlug={packageSlug} />
       </div>
 
       <EditorialHero
@@ -34,7 +47,7 @@ export default function ContactPage() {
         supportingCopy="Two sentences is plenty. We reply within one business day with technical feasibility, estimated operational impact, and architecture scope."
       >
         <div className="flex items-center gap-2 text-xs font-mono text-[var(--tsc-muted)] uppercase tracking-wider">
-          <span>Guaranteed 1-business-day turnaround</span>
+          <span>We normally respond within one business day</span>
           <span>&bull;</span>
           <span>Direct engineer response</span>
         </div>
@@ -46,7 +59,7 @@ export default function ContactPage() {
             <h2 className="text-lg font-bold text-[var(--tsc-ink)] mb-4">
               Send an engineering query
             </h2>
-            <ContactForm />
+            <ContactForm initialPackageSlug={packageSlug} />
           </div>
 
           <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
@@ -61,7 +74,7 @@ export default function ContactPage() {
                 A 30-minute technical scoping call answers in one session what email takes a week to
                 cover &mdash; and you leave with an architecture roadmap either way.
               </p>
-              <CtaLink href="/book" location="contact_sidebar" variant="primary">
+              <CtaLink href={bookHref} location="contact_sidebar" variant="primary">
                 Schedule free audit &rarr;
               </CtaLink>
             </div>

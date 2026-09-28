@@ -18,26 +18,63 @@ import { booking, businessTypes, site } from "@/content/site";
 import { submitLead } from "@/lib/leads";
 import { trackEvent } from "@/lib/telemetry";
 
-export function BookingEmbed() {
+export interface BookingEmbedProps {
+  selectedPackageSlug?: string;
+  selectedPackageName?: string;
+  initialContext?: Record<string, string | undefined>;
+}
+
+export function BookingEmbed({
+  selectedPackageSlug,
+  selectedPackageName,
+  initialContext,
+}: BookingEmbedProps = {}) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const getInitialBusinessType = () => {
+    if (selectedPackageSlug === "business-buyer-os") return "other-practice";
+    if (selectedPackageSlug === "deal-hunter") return "other-local";
+    if (selectedPackageSlug === "founder-growth-os") return "other-practice";
+    if (selectedPackageSlug === "small-business-coo") return "medical-clinic";
+    return "other-practice";
+  };
+
+  const getInitialBottleneck = () => {
+    if (selectedPackageSlug === "business-buyer-os") {
+      return "Evaluating Business Buyer OS: Defining acquisition criteria, broker/listing coverage, normalized SDE multiple filters, and morning memo cadence.";
+    }
+    if (selectedPackageSlug === "deal-hunter") {
+      return "Evaluating Deal Hunter Pack: Configuring local classifieds monitoring, liquidation auction feeds, and margin-floor alert thresholds.";
+    }
+    if (selectedPackageSlug === "founder-growth-os") {
+      return "Evaluating Founder Growth OS: Setting ideal customer profile parameters, competitor radar domains, and outbound triggers.";
+    }
+    if (selectedPackageSlug === "small-business-coo") {
+      return "Evaluating Small Business COO: Automating 24/7 receptionist answering, mobile intake forms, and invoice follow-ups.";
+    }
+    return initialContext?.problem || "";
+  };
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     business: "",
-    businessType: "medical-clinic",
+    businessType: getInitialBusinessType(),
     timeframe: "this-week-morning",
     currentTools: "",
-    bottleneck: "",
+    bottleneck: getInitialBottleneck(),
     website: "", // honeypot
   });
 
   useEffect(() => {
     if (!booking.calLink) return;
 
-    trackEvent("booking_viewed", { location: "booking_embed" });
+    trackEvent("booking_viewed", {
+      location: "booking_embed",
+      ...(selectedPackageSlug ? { package_id: selectedPackageSlug } : {}),
+    });
 
     let unmounted = false;
     (async () => {
@@ -48,14 +85,20 @@ export function BookingEmbed() {
         cal("on", {
           action: "eventTypeSelected",
           callback: () => {
-            trackEvent("booking_started", { location: "booking_embed" });
+            trackEvent("booking_started", {
+              location: "booking_embed",
+              ...(selectedPackageSlug ? { package_id: selectedPackageSlug } : {}),
+            });
           },
         });
 
         cal("on", {
           action: "bookingSuccessful",
           callback: () => {
-            trackEvent("booking_completed", { location: "booking_embed" });
+            trackEvent("booking_completed", {
+              location: "booking_embed",
+              ...(selectedPackageSlug ? { package_id: selectedPackageSlug } : {}),
+            });
           },
         });
       } catch {
@@ -66,7 +109,7 @@ export function BookingEmbed() {
     return () => {
       unmounted = true;
     };
-  }, []);
+  }, [selectedPackageSlug]);
 
   const handlePreflightSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -165,11 +208,15 @@ export function BookingEmbed() {
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[var(--tsc-action)] animate-pulse" />
               <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[var(--tsc-action)]">
-                DIRECT TECHNICAL AUDIT SCHEDULER
+                {selectedPackageName
+                  ? `EVALUATION SESSION // ${selectedPackageName.toUpperCase()}`
+                  : "DIRECT TECHNICAL AUDIT SCHEDULER"}
               </span>
             </div>
             <h3 className="mt-1 text-xl sm:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]">
-              Reserve your 30-minute discovery consultation.
+              {selectedPackageName
+                ? `Schedule your ${selectedPackageName} scoping audit.`
+                : "Reserve your 30-minute discovery consultation."}
             </h3>
           </div>
           <div className="flex items-center gap-2 font-mono text-xs text-[var(--tsc-muted)] bg-[var(--tsc-surface)] px-3 py-1.5 rounded-[6px] border border-[var(--tsc-line)]">

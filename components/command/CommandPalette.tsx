@@ -193,7 +193,8 @@ export function CommandPalette() {
         id: "pub-briefings-catalog",
         category: "BRIEFING",
         title: "The Briefings & OS Catalog",
-        description: "20 packages across Single Automations, Bundles, Vertical OS, and Complete Stacks",
+        description:
+          "20 packages across Single Automations, Bundles, Vertical OS, and Complete Stacks",
         href: "/briefings",
         badge: "20 STACKS",
         icon: Layers,

@@ -70,10 +70,7 @@ export function Header() {
     }
   };
 
-  const handleMobileNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
+  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setOpen(false);
     if (href.startsWith("/#") && pathname === "/") {
       e.preventDefault();

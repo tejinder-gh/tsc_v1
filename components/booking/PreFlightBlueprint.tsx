@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowDown,
+  Briefcase,
   CheckCircle2,
   Cpu,
   Layers,
@@ -41,6 +42,136 @@ interface DomainOption {
 
 const DOMAINS: readonly DomainOption[] = [
   {
+    id: "acquisition",
+    name: "M&A & Search Funds",
+    icon: Briefcase,
+    subtext: "Business Buyer OS · Deal sourcing, normalized diligence, capital allocation",
+    bottlenecks: [
+      {
+        id: "deal-sourcing",
+        label: "Deal Sourcing & Normalized Diligence (Business Buyer OS)",
+        constraint:
+          "Sourcing off-market and listed businesses across disparate brokers with inconsistent SDE reporting and hidden owner dependencies.",
+        targetMetrics: [
+          "Multi-broker ingestion pipeline",
+          "Normalized SDE multiple analysis",
+          "Automated debt-service risk audit",
+        ],
+        systems: [
+          {
+            id: "acq-source-1",
+            phase: "TIER 01: BROKER & REGISTRY INGESTION",
+            title: "Multi-Broker Listing Ingest Daemon",
+            techStack:
+              "Puppeteer / Playwright &middot; Listing Normalizer &middot; Zod Schema Gate",
+            description:
+              "Monitors major business-for-sale portals and insolvency notices daily. Extracts asking price, revenue, SDE, and reported add-backs into structured JSON.",
+          },
+          {
+            id: "acq-source-2",
+            phase: "TIER 02: MULTIPLE & ADD-BACK NORMALIZATION",
+            title: "SDE Multiple & Cash Flow Verifier",
+            techStack: "Deterministic Rules Engine &middot; SDE Recalculation Matrix",
+            description:
+              "Normalizes reported earnings by removing non-recurring owner perks, verifying rent comps, and testing cash flow against commercial lending debt-service requirements.",
+          },
+          {
+            id: "acq-source-3",
+            phase: "TIER 03: EXECUTIVE MEMO & TELEGRAM DISPATCH",
+            title: "Daily Sourcing Brief & Real-Time Push",
+            techStack: "Unified Executive Memo &middot; Telegram Instant Push Relay",
+            description:
+              "Delivers a prioritized morning memo ranking newly discovered business listings with calculated all-in purchase thresholds and preliminary LOI terms.",
+          },
+        ],
+      },
+      {
+        id: "franchise-diligence",
+        label: "Franchise Resale & Territory Analysis",
+        constraint:
+          "Evaluating Franchise Disclosure Documents (FDDs) and unit economics manually across multiple territories slows down acquisition pace.",
+        targetMetrics: [
+          "Item 19 financial benchmark parser",
+          "Territory availability check",
+          "Royalty drag calculation",
+        ],
+        systems: [
+          {
+            id: "acq-fran-1",
+            phase: "TIER 01: FDD INGESTION & ITEM 19 PARSER",
+            title: "Franchise Disclosure Analyzer",
+            techStack: "PDF OCR &middot; Table Extraction &middot; Benchmark Comparator",
+            description:
+              "Parses Item 19 tables, historical average unit volumes (AUV), and territory transfer restrictions into clean comparison matrices.",
+          },
+          {
+            id: "acq-fran-2",
+            phase: "TIER 02: ROYALTY & OPERATING DRAG CALCULATOR",
+            title: "Unit Cash Flow Net Yield Modeler",
+            techStack: "Net Margin Calculator &middot; Ad-Fund Drag Modeler",
+            description:
+              "Models net cash yield after franchisor royalty fees, required capital expenditure upgrades, and territory renewal fees.",
+          },
+          {
+            id: "acq-fran-3",
+            phase: "TIER 03: COMPARATIVE SCORECARD DISPATCH",
+            title: "Franchise Opportunity Dossier",
+            techStack: "Automated Dossier Generator &middot; PDF & Notion Sync",
+            description:
+              "Generates a 2-page investment memorandum comparing target unit performance against system-wide medians.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "arbitrage",
+    name: "Asset Arbitrage & Deals",
+    icon: Layers,
+    subtext: "Deal Hunter Pack · Local mispricing, liquidation, equipment auctions",
+    bottlenecks: [
+      {
+        id: "classifieds",
+        label: "Local Marketplaces & Liquidation Auctions (Deal Hunter)",
+        constraint:
+          "Manual searching across local classifieds, liquidation auctions, and vehicle registries allows competitors to snatch mispriced inventory.",
+        targetMetrics: [
+          "Sub-5 min mispricing alert",
+          "Cross-source comp verification",
+          "Calculated resale margin floor",
+        ],
+        systems: [
+          {
+            id: "arb-scan-1",
+            phase: "TIER 01: REAL-TIME MARKETPLACE SCRAPER",
+            title: "Autonomous Classifieds Sentinel",
+            techStack:
+              "Headless Browser Ingest &middot; Geo-Radius Filter &middot; Category Watcher",
+            description:
+              "Monitors local marketplaces, liquidation inventories, and commercial asset registries on 5-minute cycles for underpriced listings.",
+          },
+          {
+            id: "arb-scan-2",
+            phase: "TIER 02: SOLD COMPS & VALUATION VERIFIER",
+            title: "Fair Market Value Arbitrage Calculator",
+            techStack:
+              "Historical Sold-Comps API &middot; Anomaly Detection &middot; Condition Validator",
+            description:
+              "Cross-references active listings against historical sold prices on eBay, Machinio, and auto registries to calculate true gross profit margins.",
+          },
+          {
+            id: "arb-scan-3",
+            phase: "TIER 03: INSTANT TELEGRAM / SMS BUY ALERT",
+            title: "One-Tap Offer Recommendation Alert",
+            techStack: "Telegram Bot &middot; Dynamic Negotiation Script Generator",
+            description:
+              "Sends instant notification with target purchase price, recommended offer ceiling, and pre-written message to secure the asset immediately.",
+          },
+        ],
+      },
+    ],
+  },
+  {
     id: "clinic",
     name: "Healthcare & Dental",
     icon: Stethoscope,
@@ -52,9 +183,9 @@ const DOMAINS: readonly DomainOption[] = [
         constraint:
           "Manual clipboard paperwork, slow transcription into EHR, missing consent signatures, and delayed check-ins.",
         targetMetrics: [
-          "8.5 min/patient saved at desk",
-          "Zero clipboard transcriptions",
-          "99.4% first-pass chart accuracy",
+          "~8.5 min/patient saved (Cohort benchmark)",
+          "Zero clipboard transcription",
+          "First-pass chart validation",
         ],
         systems: [
           {
@@ -89,9 +220,9 @@ const DOMAINS: readonly DomainOption[] = [
         constraint:
           "Front desk overwhelmed during morning rushes; patient voicemails pile up, causing delayed care and lost new inquiries.",
         targetMetrics: [
-          "< 2.2s call pickup latency",
-          "82% routine inquiries resolved",
-          "Zero lost new-patient inquiries",
+          "< 3s pickup target (Production gateway)",
+          "Routine inquiries automated",
+          "Urgent caller escalation",
         ],
         systems: [
           {
@@ -126,9 +257,9 @@ const DOMAINS: readonly DomainOption[] = [
         constraint:
           "Empty hygiene chairs from overdue check-ups and last-minute cancellations. Staff lacks hours to cold-call inactive rosters.",
         targetMetrics: [
-          "14+ extra hygiene chairs filled/mo",
-          "$5,600/mo recaptured hygiene revenue",
-          "Zero staff cold-calling",
+          "Automated overdue roster audit",
+          "2-way SMS reschedule link",
+          "Fast-fill cancellation standby",
         ],
         systems: [
           {
@@ -171,9 +302,9 @@ const DOMAINS: readonly DomainOption[] = [
         constraint:
           "Techs are in attics or on jobsites; missed inbound calls cost $500–$2,500 per lost urgent repair job.",
         targetMetrics: [
-          "100% emergency calls answered",
-          "< 60s technician notification",
-          "3.2x faster emergency dispatch",
+          "First-ring call answering",
+          "Geo-proximity tech dispatch",
+          "Automated work order creation",
         ],
         systems: [
           {
@@ -208,8 +339,8 @@ const DOMAINS: readonly DomainOption[] = [
         constraint:
           "Quotes emailed after site visits sit unopened; 40% of estimates languish because technicians hate chasing customers for signatures.",
         targetMetrics: [
-          "28% increase in quote close rate",
-          "Zero manual follow-up phone calls",
+          "Automated estimate open tracking",
+          "1-click mobile contract signing",
           "Instant credit card deposit lock",
         ],
         systems: [
@@ -245,9 +376,9 @@ const DOMAINS: readonly DomainOption[] = [
         constraint:
           "Invoices prepared days or weeks after job completion; paper notes lost, resulting in delayed payments and cash flow drag.",
         targetMetrics: [
-          "Payment collection cut from 18 days to 4 hours",
-          "Zero manual PDF drafting",
-          "Instant customer sign-off photos",
+          "Same-day payment link delivery",
+          "Automated PDF invoice generation",
+          "Direct QuickBooks / Xero reconcile",
         ],
         systems: [
           {
@@ -291,8 +422,8 @@ const DOMAINS: readonly DomainOption[] = [
           "Hosts can't answer ringing phones during dinner service; large party inquiries require endless email exchanges.",
         targetMetrics: [
           "Zero missed phone bookings during service",
-          "85% reduction in host desk phone time",
-          "Automated large party deposit holds",
+          "Automated kitchen cover caps",
+          "Group deposit hold automation",
         ],
         systems: [
           {
@@ -325,11 +456,11 @@ const DOMAINS: readonly DomainOption[] = [
         id: "catering",
         label: "Catering & Private Event Inquiries",
         constraint:
-          "Event managers spend 4 hours drafting each custom proposal; prospective corporate clients go cold waiting for responses.",
+          "Event managers spend hours drafting custom proposals; prospective corporate clients go cold waiting for responses.",
         targetMetrics: [
-          "Proposal created in 90s vs 4 hours",
-          "3.1x faster corporate contract close",
-          "Live equipment & food cost estimation",
+          "Rapid interactive proposal generator",
+          "Dynamic staff & food costing",
+          "Automated BEO & calendar hold",
         ],
         systems: [
           {
@@ -372,9 +503,9 @@ const DOMAINS: readonly DomainOption[] = [
         constraint:
           "Senior partners waste valuable billable hours on unqualified inquiries or discovering conflict-of-interest after the call.",
         targetMetrics: [
-          "4.5 billable partner hours saved/wk",
-          "100% pre-call conflict verification",
-          "Instant structured intake memo",
+          "Pre-call conflict verification",
+          "Automated matter classification",
+          "Pre-drafted consultation brief",
         ],
         systems: [
           {
@@ -409,9 +540,9 @@ const DOMAINS: readonly DomainOption[] = [
         constraint:
           "Engagements stall because clients trickle tax forms, corporate bylaws, and receipts across dozens of disorganized emails.",
         targetMetrics: [
-          "Turnaround time accelerated by 12 days",
-          "Zero manual email reminder chains",
-          "Automatic document classification",
+          "Magic-link client checklist portal",
+          "Automated OCR file classification",
+          "Cadence reminders that halt on upload",
         ],
         systems: [
           {
@@ -444,9 +575,28 @@ const DOMAINS: readonly DomainOption[] = [
   },
 ];
 
-export function PreFlightBlueprint() {
-  const [selectedDomainId, setSelectedDomainId] = useState<string>("clinic");
-  const [selectedBottleneckId, setSelectedBottleneckId] = useState<string>("intake");
+export interface PreFlightBlueprintProps {
+  initialPackageSlug?: string;
+}
+
+export function PreFlightBlueprint({ initialPackageSlug }: PreFlightBlueprintProps = {}) {
+  // Map package slug to initial domain
+  const getInitialDomain = () => {
+    if (initialPackageSlug === "business-buyer-os") return "acquisition";
+    if (initialPackageSlug === "deal-hunter") return "arbitrage";
+    if (initialPackageSlug === "founder-growth-os") return "professional";
+    if (initialPackageSlug === "ecommerce-intelligence") return "arbitrage";
+    if (initialPackageSlug === "small-business-coo") return "clinic";
+    return "acquisition"; // Default to Flagship acquisition when no package is specified
+  };
+
+  const initialDomainId = getInitialDomain();
+  const initialDomain = DOMAINS.find((d) => d.id === initialDomainId) ?? DOMAINS[0];
+
+  const [selectedDomainId, setSelectedDomainId] = useState<string>(initialDomainId);
+  const [selectedBottleneckId, setSelectedBottleneckId] = useState<string>(
+    initialDomain.bottlenecks[0]?.id ?? "deal-sourcing",
+  );
   const [pinned, setPinned] = useState<boolean>(false);
 
   const activeDomain = DOMAINS.find((d) => d.id === selectedDomainId) ?? DOMAINS[0];
@@ -506,12 +656,28 @@ export function PreFlightBlueprint() {
         </div>
       </div>
 
+      {initialPackageSlug && (
+        <div className="mb-8 p-4 rounded-[6px] border border-[var(--tsc-action)]/30 bg-[var(--tsc-action)]/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+          <div className="flex items-center gap-2.5 text-[var(--tsc-ink)]">
+            <span className="h-2 w-2 rounded-full bg-[var(--tsc-action)] animate-pulse" />
+            <span>
+              Evaluating Stack:{" "}
+              <strong className="text-[var(--tsc-action)] uppercase">{activeDomain.name}</strong>{" "}
+              &mdash; Pre-configured for your 30-minute scoping session.
+            </span>
+          </div>
+          <span className="text-[11px] text-[var(--tsc-muted)] hidden sm:inline">
+            30-day risk reversal included
+          </span>
+        </div>
+      )}
+
       {/* Step 1: Industry Vertical Selection */}
       <div className="space-y-3 mb-8">
         <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--tsc-muted)] font-semibold block">
           Step 1: Select Your Practice or Business Vertical
         </span>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-3">
           {DOMAINS.map((domain) => {
             const Icon = domain.icon;
             const isSelected = domain.id === selectedDomainId;
