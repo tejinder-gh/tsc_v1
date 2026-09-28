@@ -68,7 +68,7 @@ export const digitalServices: readonly DigitalService[] = [
     category: "engineering",
     categoryLabel: "SYSTEMS & SOFTWARE ENGINEERING",
     categoryIndex: "01",
-    primaryMetric: "< 250ms Voice Latency · Zero Hallucination Guardrail",
+    primaryMetric: "Voice Pipeline Telemetry · Schema-Enforced Guardrails",
     techStack: [
       "Twilio Media Streams",
       "Next.js 15 App Router",
@@ -92,7 +92,7 @@ export const digitalServices: readonly DigitalService[] = [
         description:
           "Retrieval-Augmented Generation (RAG) strictly binds agent responses to verified company SOPs and doctor/partner preferences.",
         nodeType: "processing",
-        latencyOrGuarantee: "0% hallucination SLA",
+        latencyOrGuarantee: "Schema validation & fail-closed execution",
       },
       {
         step: "03",
@@ -135,7 +135,7 @@ export const digitalServices: readonly DigitalService[] = [
       {
         title: "RAG & Custom Knowledge Graph Integration",
         description:
-          "We ground your AI agents on your proprietary manuals, pricing sheets, product catalogs, and policy documents using vector databases so answers are 100% accurate, hallucination-free, and brand-compliant.",
+          "We ground your AI agents on your proprietary manuals, pricing sheets, product catalogs, and policy documents using vector retrieval from approved source materials with validation and fail-closed execution guardrails.",
       },
       {
         title: "CRM & Software Tool Execution",
@@ -1025,7 +1025,7 @@ export const digitalServices: readonly DigitalService[] = [
     faq: [
       {
         q: "Why is professional documentation essential before implementing AI agents?",
-        a: "AI agents require structured, accurate, and unambiguous ground truth data. Documenting your processes into clear SOPs provides the foundation that prevents AI hallucinations and ensures high agent accuracy.",
+        a: "AI agents require structured, accurate, and unambiguous ground truth data. Documenting your processes into clear SOPs provides the foundation that minimizes speculative drift and ensures deterministic workflow execution.",
       },
       {
         q: "Where will our business documentation be stored?",

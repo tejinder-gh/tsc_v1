@@ -250,7 +250,7 @@ const ADMIN_AUTOMATION_CONFIG: DemonstrationConfig = {
           phase: "INTERPRETATION",
           title: "Deterministic Field Extraction",
           description:
-            "Extracts line items, tax IDs, subtotal, and payment terms without hallucination.",
+            "Extracts line items, tax IDs, subtotal, and payment terms with strict schema validation.",
           annotation: "Schema Validator v1.4",
           dataPayload: {
             line_item_count: 3,
@@ -1905,7 +1905,7 @@ const AI_PRODUCT_FEATURE_CONFIG: DemonstrationConfig = {
       id: "bounded-ai",
       name: "Architecture: Guardrailed Tool-Calling Engine",
       description:
-        "AI extracts unstructured user inputs into strict Zod schemas with zero hallucination.",
+        "AI extracts unstructured user inputs into strict Zod schemas with fail-closed validation.",
       isException: false,
       summaryOutcome: "AI bounded strictly to schema validation and structured tool calling.",
       steps: [
@@ -1967,7 +1967,7 @@ const AI_PRODUCT_FEATURE_CONFIG: DemonstrationConfig = {
           title: "Safe, Bounded AI Utility",
           description:
             "Technician avoids duplicate typing while the database boundary remains strict.",
-          annotation: "Zero hallucination risk",
+          annotation: "Schema-validated runtime",
           dataPayload: {
             integrity_guaranteed: true,
           },
@@ -2034,7 +2034,7 @@ const AI_PRODUCT_FEATURE_CONFIG: DemonstrationConfig = {
           id: "step-5",
           phase: "EXCEPTION",
           title: "Data Integrity Preserved",
-          description: "Database protected from speculative AI hallucinations.",
+          description: "Database protected by strict input schema validation.",
           annotation: "System correctness enforced",
           dataPayload: {
             database_corrupted: false,

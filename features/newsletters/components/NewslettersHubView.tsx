@@ -45,7 +45,7 @@ const CUSTOM_RADAR_SPECS: readonly CustomRadarSpec[] = [
     title: "Deterministic AI Entity Extraction",
     badge: "02 // EXTRACT",
     description:
-      "Strict schema enforcement converts raw text and scans into verified JSON. Guaranteed zero hallucination with rule-based fallback.",
+      "Strict schema enforcement validates raw text and scans into typed JSON. Schema-invalid payloads fail closed with rule-based fallback.",
     outputSpec: "Zod Schema Gate · Semantic De-duplication · Strict Input Allowlist",
   },
   {

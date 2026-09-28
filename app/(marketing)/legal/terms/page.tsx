@@ -18,6 +18,7 @@ export default function TermsPage() {
     { id: "liability", num: "04", title: "Limitation of Liability" },
     { id: "governing-law", num: "05", title: "Governing Law" },
     { id: "modifications", num: "06", title: "Modifications" },
+    { id: "refund-policy", num: "07", title: "30-Day Money-Back Guarantee & Refund Policy" },
   ];
 
   return (
@@ -77,6 +78,12 @@ export default function TermsPage() {
                 </span>
               </div>
               <ul className="space-y-2 text-[11px] text-[var(--tsc-ink)] leading-relaxed">
+                <li className="flex items-start gap-2">
+                  <span className="text-[var(--tsc-action)] font-bold select-none">&bull;</span>
+                  <span>
+                    <strong>30-Day 100% Money-Back Guarantee</strong> on all subscription packages
+                  </span>
+                </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[var(--tsc-action)] font-bold select-none">&bull;</span>
                   <span>Fixed scope &amp; fixed pricing approved in advance</span>
@@ -315,6 +322,85 @@ export default function TermsPage() {
                   Continued use of our systems following modifications constitutes agreement to the
                   updated terms.
                 </p>
+              </div>
+            </section>
+
+            {/* 07. 30-Day Money-Back Guarantee & Refund Policy */}
+            <section
+              id="refund-policy"
+              aria-labelledby="refund-heading"
+              className="scroll-mt-28 space-y-4 pt-8 border-t border-[var(--tsc-line)]"
+            >
+              <div className="space-y-1 border-b border-[var(--tsc-line)] pb-3">
+                <PageEyebrow>07 / RISK REVERSAL &amp; COMMERCIAL GUARANTEES</PageEyebrow>
+                <h2
+                  id="refund-heading"
+                  className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]"
+                >
+                  7. 30-Day Money-Back Guarantee &amp; Refund Policy
+                </h2>
+              </div>
+              <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
+                We believe engineering engagements must produce demonstrable commercial return. Our
+                refund and satisfaction policies operate under clear, objective standards:
+              </p>
+
+              <div className="space-y-4">
+                <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-2">
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-action)] uppercase tracking-wider block">
+                    1. Software Subscriptions &amp; Vertical Operating Systems (100% Refundable)
+                  </span>
+                  <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                    All recurring software subscription packages, purpose-built bundles, vertical
+                    operating systems, and single intelligence briefings (including Business Buyer
+                    OS, Deal Hunter Pack, Founder Growth OS, Small Business COO, and E-Commerce
+                    Launch) are backed by an unconditional{" "}
+                    <strong className="text-[var(--tsc-ink)]">30-day money-back guarantee</strong>.
+                    If you are not satisfied within thirty (30) calendar days of your initial
+                    subscription start date, contact us at{" "}
+                    <strong className="text-[var(--tsc-ink)]">{site.email}</strong>. We will issue a
+                    100% refund of recurring subscription fees paid for that initial 30-day period.
+                    Normal API and telephony usage incurred during the 30-day trial period is
+                    absorbed as operating cost by The Skill Corner. Only exceptional, separately
+                    customer-authorized metered expenditures disclosed prior to expenditure may be
+                    excluded from refunds. Subscriptions may be cancelled at any time before the
+                    next monthly renewal date with no advance notice requirement.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-2">
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] uppercase tracking-wider block">
+                    2. Custom Engineering &amp; Turnkey Deployments
+                  </span>
+                  <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                    Custom engineering engagements (such as Core System Deployments and Bespoke
+                    Practice Infrastructure) proceed under written Statements of Work with agreed
+                    milestone specifications and sign-off gates. Milestone payments compensate
+                    dedicated engineering hours and become non-refundable once milestone
+                    deliverables have been inspected and accepted in writing according to the SOW.
+                    Following milestone deployment, custom builds include a thirty (30) calendar day
+                    defect remediation period covering defects against agreed acceptance criteria.
+                    New requirements, enhancements, or scope changes are not covered under defect
+                    remediation and require separate scoping. Bespoke managed-operation contracts
+                    are governed by their individual Statement of Work (SOW) or Master Services
+                    Agreement (MSA).
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-2">
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] uppercase tracking-wider block">
+                    3. Refund Initiation &amp; Banking Settlement
+                  </span>
+                  <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                    Upon receiving and approving an eligible refund request under our guarantee, The
+                    Skill Corner's internal operational target is to initiate the refund via our
+                    payment processor within two (2) business days. External financial settlement
+                    and posting time to your original payment method are governed by your card
+                    issuer and payment network; third-party settlement schedules are not within our
+                    direct control. Upon refund processing, automated worker dispatches cease, while
+                    you retain ownership of deliverables produced during the evaluation period.
+                  </p>
+                </div>
               </div>
             </section>
           </main>

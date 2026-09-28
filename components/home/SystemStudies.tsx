@@ -324,7 +324,7 @@ export function SystemStudies() {
                                 <div className="flex items-center gap-1.5">
                                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--tsc-action)] animate-pulse" />
                                   <span className="uppercase tracking-wider font-semibold text-zinc-300">
-                                    {"EVENT TRACE // "}
+                                    {"ILLUSTRATIVE EXECUTION TRACE // "}
                                     {step.name}
                                   </span>
                                 </div>
@@ -357,6 +357,10 @@ export function SystemStudies() {
                               <pre className="text-[10px] leading-relaxed text-zinc-300 overflow-x-auto whitespace-pre font-mono p-2 rounded-[4px] bg-black/30">
                                 {JSON.stringify(step.telemetryPayload, null, 2)}
                               </pre>
+                              <div className="mt-1.5 text-[9px] text-zinc-400 font-mono flex items-center justify-between">
+                                <span>Architecture simulation model</span>
+                                <span>Payload structure matches production gateway</span>
+                              </div>
                             </div>
                           </motion.div>
                         )}

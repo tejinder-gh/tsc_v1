@@ -8,7 +8,6 @@ import {
   Clock,
   Loader2,
   Send,
-  Sparkles,
   Terminal,
 } from "lucide-react";
 import Link from "next/link";
@@ -17,10 +16,7 @@ import { SectionLabel } from "@/components/ui/editorial";
 import { DISCOVERY_VECTORS } from "@/content/briefings";
 import { CANONICAL_NEWSLETTERS } from "@/features/newsletters/data/newsletters";
 
-type ActiveTab =
-  | "tech-founder-briefing"
-  | "ontario-opportunity-monitor"
-  | "tender-brief";
+type ActiveTab = "tech-founder-briefing" | "ontario-opportunity-monitor" | "tender-brief";
 
 export function BriefingsSection() {
   const [activeTab, setActiveTab] = useState<ActiveTab>("tech-founder-briefing");

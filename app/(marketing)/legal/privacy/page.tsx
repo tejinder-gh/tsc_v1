@@ -16,7 +16,8 @@ export default function PrivacyPage() {
     { id: "data-handling", num: "02", title: "How We Handle Data" },
     { id: "pipeda-phipa", num: "03", title: "PIPEDA & PHIPA Compliance" },
     { id: "third-parties", num: "04", title: "Third-Party Service Providers" },
-    { id: "contact", num: "05", title: "Contact Representative" },
+    { id: "telemetry-analytics", num: "05", title: "Telemetry & Observability" },
+    { id: "contact", num: "06", title: "Contact Representative" },
   ];
 
   return (
@@ -302,19 +303,96 @@ export default function PrivacyPage() {
               </div>
             </section>
 
-            {/* 05. Contact Representative */}
+            {/* 05. Telemetry & Observability */}
+            <section
+              id="telemetry-analytics"
+              aria-labelledby="telemetry-heading"
+              className="scroll-mt-28 space-y-4 pt-8 border-t border-[var(--tsc-line)]"
+            >
+              <div className="space-y-1 border-b border-[var(--tsc-line)] pb-3">
+                <PageEyebrow>05 / TELEMETRY &amp; OBSERVABILITY</PageEyebrow>
+                <h2
+                  id="telemetry-heading"
+                  className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]"
+                >
+                  5. Website Telemetry, Analytics &amp; Observability Implementation
+                </h2>
+              </div>
+              <p className="text-sm sm:text-base text-[var(--tsc-muted)] leading-relaxed">
+                To diagnose broken user journeys, verify form delivery, and monitor system latency,
+                we run a strictly governed observability architecture. Telemetry providers are
+                <strong className="text-[var(--tsc-ink)]"> disabled by default</strong> and only
+                activate in production when explicit environment keys and endpoints are configured:
+              </p>
+              <div className="space-y-4 pt-2">
+                <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-2">
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] uppercase tracking-wider block">
+                    Privacy-Preserving Aggregate Analytics (Plausible CE / GA4)
+                  </span>
+                  <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                    When configured, high-level funnel milestones (page views, package selections,
+                    and form submissions) are recorded without cross-site tracking or user
+                    profiling. We do not collect persistent hardware fingerprints, payment
+                    credentials, or personal form text in analytics payloads.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-2">
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] uppercase tracking-wider block">
+                    Error Monitoring (GlitchTip / Sentry)
+                  </span>
+                  <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                    Uncaught client-side runtime errors and API failures are captured with sanitized
+                    contextual metadata (release version, route path). Form inputs, authorization
+                    tokens, and PII keys are scrubbed via automated regex redaction filters prior to
+                    transmission.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-2">
+                  <span className="font-mono text-xs font-semibold text-[var(--tsc-ink)] uppercase tracking-wider block">
+                    Session Replay Governance (OpenReplay)
+                  </span>
+                  <p className="text-xs sm:text-sm text-[var(--tsc-muted)] leading-relaxed">
+                    If session replay is explicitly enabled on public marketing routes, strict
+                    privacy masking is enforced client-side: all input fields use Hidden Mode
+                    (inputMode: 2), obscuring text, numbers, and emails before DOM transmission.
+                    Network payload capture is disabled (
+                    <code className="font-mono text-xs bg-[var(--tsc-surface)] px-1 py-0.5 rounded">
+                      capturePayload: false
+                    </code>
+                    ), meaning request and response bodies are never recorded, and authorization and
+                    cookie headers are excluded.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-[8px] border border-[var(--tsc-line)] bg-[var(--tsc-surface)]/50 space-y-2 font-mono text-xs">
+                  <span className="font-bold text-[var(--tsc-action)] uppercase tracking-wider block">
+                    Fail-Open Architecture &amp; Do Not Track
+                  </span>
+                  <p className="text-[var(--tsc-muted)] leading-relaxed font-sans text-xs">
+                    Our telemetry pipeline is architected to fail-open: if an analytics or telemetry
+                    endpoint is blocked by an ad-blocker or network failure, all marketing pages,
+                    booking calendars, and inquiry forms continue to function with zero disruption.
+                    The session recorder respects standard browser Do Not Track (DNT) headers.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* 06. Contact Representative */}
             <section
               id="contact"
               aria-labelledby="contact-rep-heading"
               className="scroll-mt-28 space-y-4 pt-8 border-t border-[var(--tsc-line)]"
             >
               <div className="space-y-1 border-b border-[var(--tsc-line)] pb-3">
-                <PageEyebrow>05 / INQUIRIES & COMPLIANCE</PageEyebrow>
+                <PageEyebrow>06 / INQUIRIES & COMPLIANCE</PageEyebrow>
                 <h2
                   id="contact-rep-heading"
                   className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--tsc-ink)]"
                 >
-                  5. Contact Representative
+                  6. Contact Representative &amp; Compliance Officer
                 </h2>
               </div>
               <div className="p-6 rounded-[8px] border border-[var(--tsc-line)] bg-white shadow-[var(--shadow-warm-xs)] space-y-3 text-sm">

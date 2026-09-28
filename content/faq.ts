@@ -31,7 +31,7 @@ export const homeFaq: readonly FaqItem[] = [
   },
   {
     q: "Why should we hire The Skill Corner for Business SOP Documentation?",
-    a: "Clear Standard Operating Procedures (SOPs) prevent operational bottlenecks, speed up employee onboarding, and provide the essential structured knowledge bases required for custom AI agents to operate with 100% accuracy and zero hallucinations.",
+    a: "Clear Standard Operating Procedures (SOPs) prevent operational bottlenecks, speed up employee onboarding, and provide the essential structured knowledge bases required for custom AI agents to operate deterministically against verified company procedures.",
   },
   {
     q: "How much does it cost?",
