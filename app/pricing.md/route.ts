@@ -17,6 +17,10 @@ import {
   PAIRING_MATRIX,
   SINGLE_BRIEFINGS,
 } from "@/features/catalog/domain/bundles";
+import {
+  CUSTOM_ENGINEERING_ENGAGEMENT_POLICY,
+  SUBSCRIPTION_30_DAY_GUARANTEE,
+} from "@/lib/commercial/refund-policy";
 
 export const dynamic = "force-static";
 
@@ -124,9 +128,15 @@ ${pairingsTable}
 
 ---
 
-## 6. Risk Reversal: 100% Money-Back Guarantee — If Not Satisfied
+## 6. Risk Reversal: ${SUBSCRIPTION_30_DAY_GUARANTEE.name}
 
-All subscription packages, purpose-built bundles, and vertical operating systems are backed by an unconditional 30-day money-back guarantee. If our coordinated AI workers and intelligence dispatches do not demonstrably return hours to your week and deliver verified commercial signal, request a 100% full refund within your first 30 days. Zero hassle. Zero friction.
+${SUBSCRIPTION_30_DAY_GUARANTEE.summary}
+
+- **Eligible Offers**: All monthly subscription packages, turnkey bundles, and autonomous operating systems.
+- **Guarantee Window**: ${SUBSCRIPTION_30_DAY_GUARANTEE.guaranteePeriodDays} calendar days from initial subscription start date.
+- **Refund Scope**: ${SUBSCRIPTION_30_DAY_GUARANTEE.refundPercentage}% full refund of recurring subscription fees paid for the initial 30-day evaluation period.
+- **Claim Process**: ${SUBSCRIPTION_30_DAY_GUARANTEE.claimMethod}
+- **Initiation & Settlement**: ${SUBSCRIPTION_30_DAY_GUARANTEE.businessInitiationTimeline}. ${SUBSCRIPTION_30_DAY_GUARANTEE.externalSettlementNote}
 
 ---
 
@@ -135,9 +145,9 @@ All subscription packages, purpose-built bundles, and vertical operating systems
 For enterprise organizations requiring bespoke agentic software development, sovereign RAG infrastructure, or custom workflows:
 
 ### Diagnostic & Technical Blueprint
-- **Investment**: $2,500 – $5,000 (Credited 100% toward subsequent system deployment)
-- **Scope**: Complete operational constraint audit, system architecture diagram, security/compliance evaluation, and 3 scoped technical execution options.
-- **Timeline**: 5 business days from intake.
+- **Investment**: $2,500 – $5,000 preliminary architecture discovery
+- **Scope**: Complete operational constraint audit, system architecture diagram, security/compliance evaluation, and scoped technical execution options.
+- **Milestone Policy**: ${CUSTOM_ENGINEERING_ENGAGEMENT_POLICY.summary}
 
 ### Core Operational Deployments
 - **Tier**: ${pricing.local.label}
@@ -158,12 +168,13 @@ For enterprise organizations requiring bespoke agentic software development, sov
 
 ---
 
-## 7. Booking & Scoping Consultation
+## 8. Booking & Scoping Consultation
 
 - **Engineering Discovery Audit**: ${booking.promise}
 - **Calendar Reservation**: ${site.url}/book
 - **Briefings Catalog**: ${site.url}/briefings
 - **Direct Technical Line**: ${site.email} | ${site.phone}
+- **Terms & Legal**: ${site.url}/legal/terms
 - **Website**: ${site.url}
 `;
 }

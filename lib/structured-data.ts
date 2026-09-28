@@ -16,6 +16,7 @@ import type { FaqItem } from "@/content/faq";
 import type { Industry } from "@/content/industries";
 import type { Service } from "@/content/services";
 import { site } from "@/content/site";
+import type { CommercialOffer } from "@/lib/commercial/types";
 
 /** Shared @id of the LocalBusiness node emitted in the root layout. */
 export const BUSINESS_ID = `${site.url}/#business`;
@@ -83,6 +84,58 @@ export function breadcrumbJsonLd(entries: readonly BreadcrumbEntry[]): Record<st
       position: index + 1,
       name: entry.name,
       item: `${site.url}${entry.path}`,
+    })),
+  };
+}
+
+export function commercialOfferJsonLd(offer: CommercialOffer): Record<string, unknown> {
+  const price = (offer.pricing.recurringAmountCents ?? offer.pricing.setupAmountCents ?? 0) / 100;
+  const offerUrl = `${site.url}/briefings/${offer.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: offer.publicName,
+    description: offer.deliverable.description,
+    sku: offer.sku,
+    url: offerUrl,
+    brand: {
+      "@type": "Brand",
+      name: site.name,
+    },
+    offers: {
+      "@type": "Offer",
+      url: offerUrl,
+      priceCurrency: offer.pricing.currency,
+      price: price.toString(),
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: price.toString(),
+        priceCurrency: offer.pricing.currency,
+        unitText: offer.pricing.billingPeriod ?? "one-time",
+      },
+      availability:
+        offer.availability === "public"
+          ? "https://schema.org/InStock"
+          : "https://schema.org/PreOrder",
+      seller: { "@id": BUSINESS_ID },
+    },
+  };
+}
+
+export function commercialCatalogJsonLd(
+  offers: readonly CommercialOffer[],
+): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "The Skill Corner Commercial Catalog",
+    description:
+      "Turnkey autonomous AI operating systems, multi-agent workflows, and custom engineering deployments.",
+    numberOfItems: offers.length,
+    itemListElement: offers.map((offer, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: commercialOfferJsonLd(offer),
     })),
   };
 }

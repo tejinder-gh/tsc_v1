@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import sitemap from "@/app/sitemap";
+import { site } from "@/content/site";
+import { getPublicEndpointsRegistry } from "@/lib/catalogue/public-routes";
 import {
   COMMERCIAL_TIERS,
   getAllBundles,
@@ -14,7 +16,6 @@ import {
   PAIRING_MATRIX,
   SINGLE_BRIEFINGS,
 } from "../domain/bundles";
-import { getPublicEndpointsRegistry } from "@/lib/catalogue/public-routes";
 
 describe("Commercial Hierarchy & Briefings Catalog Domain Integrity", () => {
   const allBundles = getAllBundles();
@@ -217,7 +218,7 @@ describe("Commercial Hierarchy & Briefings Catalog Domain Integrity", () => {
 
     const sitemapEntries = sitemap();
     const sitemapUrls = sitemapEntries.map((e) => e.url);
-    expect(sitemapUrls).toContain("https://www.theskillcorner.com/briefings");
+    expect(sitemapUrls).toContain(`${site.url}/briefings`);
   });
 
   it("verifies GET /pricing.md outputs markdown containing the commercial hierarchy and pairings", async () => {
@@ -240,12 +241,12 @@ describe("Commercial Hierarchy & Briefings Catalog Domain Integrity", () => {
   });
 
   it("verifies Header primary navigation and CommandPalette index include Put AI to Work", async () => {
-    const fs = await import("fs");
-    const path = await import("path");
+    const fs = await import("node:fs");
+    const path = await import("node:path");
 
     const headerContent = fs.readFileSync(
       path.resolve(process.cwd(), "components/Header.tsx"),
-      "utf-8"
+      "utf-8",
     );
     expect(headerContent).toContain('{ label: "Put AI to Work", href: "/#put-ai-to-work" }');
     expect(headerContent).toContain("handleNavClick");
@@ -253,11 +254,9 @@ describe("Commercial Hierarchy & Briefings Catalog Domain Integrity", () => {
 
     const commandContent = fs.readFileSync(
       path.resolve(process.cwd(), "components/command/CommandPalette.tsx"),
-      "utf-8"
+      "utf-8",
     );
     expect(commandContent).toContain('"act-put-ai-to-work"');
     expect(commandContent).toContain('"pub-briefings-catalog"');
   });
 });
-
-
